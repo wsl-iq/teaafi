@@ -213,6 +213,10 @@
                     <i class="fas fa-chart-line"></i>
                     <span>رحلة التعافي</span>
                 </a>
+                <a class="nav-link" data-page="policies" onclick="navigateTo('policies')">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>السياسات والقوانين</span>
+                </a>
                 <a class="nav-link" data-page="settings" onclick="navigateTo('settings')">
                     <i class="fas fa-cog"></i>
                     <span>الإعدادات</span>
@@ -254,6 +258,10 @@
                 <i class="fas fa-mosque"></i>
                 <span>إيماني</span>
             </button>
+            <button class="nav-item" data-page="policies" onclick="navigateTo('policies')">
+                <i class="fas fa-shield-alt"></i>
+                <span>السياسات</span>
+            </button>
             <button class="nav-item" data-page="settings" onclick="navigateTo('settings')">
                 <i class="fas fa-cog"></i>
                 <span>الإعدادات</span>
@@ -263,6 +271,13 @@
 
     <!-- Toast Container -->
     <div id="toast-container" class="toast-container"></div>
+
+    <style>
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.7; }
+        }
+    </style>
 
     <!-- Scripts -->
     <script src="js/storage.js"></script>
@@ -280,6 +295,7 @@
     <script src="pages/recovery.js"></script>
     <script src="pages/tasbih.js"></script>
     <script src="pages/settings.js"></script>
+    <script src="pages/policies.js"></script>
     <script src="js/app.js"></script>
 </body>
 </html>

@@ -109,6 +109,11 @@ function renderSettingsPage() {
                         <li>تقوية الجانب الإيماني والروحي</li>
                         <li>بناء مجتمع داعم للتعافي</li>
                     </ul>
+
+                    <div class="settings-item" onclick="navigateTo('policies')" style="cursor: pointer;">
+                        <span>السياسات والقوانين</span>
+                        <i class="fas fa-arrow-left" style="color: var(--text-tertiary);"></i>
+                    </div>
                 </div>
             </div>
             
@@ -129,6 +134,8 @@ function renderSettingsPage() {
                             <p style="font-size: 13px; color: var(--primary); font-weight: 500;">Software Developer</p>
                         </div>
                     </div>
+
+                    
                     
                     <!-- المهارات -->
                     <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px;">
@@ -207,6 +214,8 @@ function renderSettingsPage() {
                     يستخدمه وأن يجعله سبباً في الهداية والإصلاح والعون على ترك العادات الضارة.
                 </p>
             </div>
+
+
             
             <!-- ============ منطقة الخطر ============ -->
             <div class="settings-group" style="margin-top: 24px;">

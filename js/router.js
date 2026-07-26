@@ -5,6 +5,7 @@ class Router {
         habits: 'renderHabitsPage',
         spiritual: 'renderSpiritualPage',
         recovery: 'renderRecoveryPage',
+        policies: 'renderPoliciesPage',  // إضافة
         tasbih: 'renderTasbihPage',  // إضافة صفحة التسبيح
         settings: 'renderSettingsPage'
     };
@@ -57,5 +58,25 @@ class Router {
 }
 
 function navigateTo(page) {
-    Router.navigateTo(page);
+    // تنظيف العداد عند مغادرة صفحة التعافي
+    if (typeof cleanupCounter === 'function') {
+        cleanupCounter();
+    }
+    
+    document.querySelectorAll('.nav-item, .nav-link').forEach(item => {
+        item.classList.remove('active');
+        if (item.dataset.page === page) item.classList.add('active');
+    });
+    
+    switch(page) {
+        case 'home': renderHomePage(); break;
+        case 'habits': renderHabitsPage(); break;
+        case 'spiritual': renderSpiritualPage(); break;
+        case 'tasbih': renderTasbihPage(); break;
+        case 'recovery': renderRecoveryPage(); break;
+        case 'policies': renderPoliciesPage(); break;
+        case 'settings': renderSettingsPage(); break;
+    }
+    
+    document.getElementById('main-content').scrollTop = 0;
 }

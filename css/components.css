@@ -1402,3 +1402,205 @@ input:checked + .toggle-slider:before {
 .theme-dark a[href*="github"] .fa-arrow-left {
     color: rgba(255, 255, 255, 0.8) !important;
 }
+
+/* ==================== تصحيح أيقونات صفحة السياسات في المظهر الداكن ==================== */
+
+/* أيقونة سياسة الخصوصية */
+.theme-dark .card-icon[style*="background: #E3F2FD"] {
+    background: #1A2B3C !important;
+    color: #64B5F6 !important;
+}
+
+/* أيقونة شروط الاستخدام */
+.theme-dark .card-icon[style*="background: #FFF3E0"] {
+    background: #3E2E1A !important;
+    color: #FFB74D !important;
+}
+
+/* أيقونة الترخيص */
+.theme-dark .card-icon[style*="background: #E8F5E9"] {
+    background: #1B3A1B !important;
+    color: #66BB6A !important;
+}
+
+/* أيقونة قواعد السلوك */
+.theme-dark .card-icon[style*="background: #F3E5F5"] {
+    background: #2A1A3C !important;
+    color: #CE93D8 !important;
+}
+
+/* أيقونة المساهمة */
+.theme-dark .card-icon[style*="background: #E0F2F1"] {
+    background: #1A3A3C !important;
+    color: #4DB6AC !important;
+}
+
+/* أيقونة سياسة الأمان */
+.card-icon[style*="background: #FCE4EC"],
+.card-icon[style*="background:#FCE4EC"],
+.card-icon[style*="background-color: #FCE4EC"],
+.card-icon[style*="background-color:#FCE4EC"] {
+    color: #EF5350 !important;
+}
+
+.theme-dark .card-icon[style*="background: #FCE4EC"],
+.theme-dark .card-icon[style*="background:#FCE4EC"],
+.theme-dark .card-icon[style*="background-color: #FCE4EC"],
+.theme-dark .card-icon[style*="background-color:#FCE4EC"] {
+    background: #3D1F28 !important;
+    color: #EF5350 !important;
+}
+
+/* تصحيح عناوين الأقسام الفرعية في السياسات */
+.theme-dark #policy-privacy .subsection h3[style*="color: #1565C0"] {
+    color: #64B5F6 !important;
+}
+
+.theme-dark #policy-terms .subsection h3[style*="color: #E65100"] {
+    color: #FFB74D !important;
+}
+
+.theme-dark #policy-license .subsection h3[style*="color: #2E7D32"] {
+    color: #66BB6A !important;
+}
+
+.theme-dark #policy-conduct .subsection h3[style*="color: #6A1B9A"] {
+    color: #CE93D8 !important;
+}
+
+.theme-dark #policy-contributing .subsection h3[style*="color: #00695C"] {
+    color: #4DB6AC !important;
+}
+
+.theme-dark #policy-security .subsection h3[style*="color: #C62828"] {
+    color: #EF5350 !important;
+}
+
+/* تصحيح حدود الأقسام الفرعية */
+.theme-dark #policy-privacy .subsection {
+    border-right-color: #1A3C5C !important;
+}
+
+.theme-dark #policy-terms .subsection {
+    border-right-color: #3E2E1A !important;
+}
+
+.theme-dark #policy-license .subsection {
+    border-right-color: #1B3A1B !important;
+}
+
+.theme-dark #policy-conduct .subsection {
+    border-right-color: #2A1A3C !important;
+}
+
+.theme-dark #policy-contributing .subsection {
+    border-right-color: #1A3A3C !important;
+}
+
+.theme-dark #policy-security .subsection {
+    border-right-color: #3D1F28 !important;
+}
+
+/* تصحيح خلفية نص الترخيص */
+.theme-dark .subsection div[style*="background: var(--surface-variant)"] {
+    background: #2D2D2D !important;
+    border: 1px solid #3D3D3D !important;
+}
+
+/* تصحيح أيقونات القوائم داخل السياسات */
+.theme-dark .subsection .fa-check-circle {
+    color: #66BB6A !important;
+}
+
+.theme-dark .subsection .fa-times-circle {
+    color: #EF5350 !important;
+}
+
+.theme-dark .subsection .fa-star {
+    color: #FFD700 !important;
+}
+
+.theme-dark .subsection .fa-info-circle {
+    color: #64B5F6 !important;
+}
+
+.theme-dark .subsection .fa-exclamation-triangle {
+    color: #FFB74D !important;
+}
+
+.theme-dark .subsection .fa-shield-alt {
+    color: #66BB6A !important;
+}
+
+/* تصحيح عنوان الصفحة الرئيسي */
+.theme-dark .heading-underline .fa-shield-alt {
+    color: var(--primary) !important;
+}
+
+/* تصحيح الوصف في الأعلى */
+.theme-dark .text-secondary.mb-6 {
+    color: var(--text-secondary) !important;
+}
+
+/* تصحيح تأثير التمييز عند النقر */
+.theme-dark [style*="box-shadow: 0 0 0 4px var(--primary-light)"] {
+    box-shadow: 0 0 0 4px #1A3A3C !important;
+}
+
+/* ==================== تصحيح النصوص العربية ==================== */
+
+/* إزالة الميلان من جميع النصوص */
+* {
+    font-style: normal !important;
+}
+
+/* السماح بالميلان فقط للعناصر المخصصة */
+.fa,
+.fas,
+.far,
+.fab,
+.fal {
+    font-style: normal !important;
+}
+
+em,
+i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
+    font-style: normal !important;
+}
+
+/* تصحيح خاص للنصوص العربية */
+[lang="ar"],
+[dir="rtl"] {
+    font-style: normal !important;
+}
+
+/* تصحيح النصوص في البطاقات */
+.card p,
+.card-description,
+.subsection p,
+.settings-item span {
+    font-style: normal !important;
+}
+
+/* تصحيح النصوص القرآنية - إبقائها طبيعية بدون ميلان */
+.font-quran {
+    font-style: normal !important;
+    line-height: 2.2 !important;
+}
+
+/* تصحيح الرسائل التحفيزية */
+#motivational-message {
+    font-style: normal !important;
+    text-align: center !important;
+}
+
+/* تصحيح النصوص في المظهر الداكن */
+.theme-dark p,
+.theme-dark span,
+.theme-dark li,
+.theme-dark h1,
+.theme-dark h2,
+.theme-dark h3,
+.theme-dark h4 {
+    font-style: normal !important;
+}
