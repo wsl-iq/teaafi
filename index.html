@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#0D6B6E">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="تعافي">
+    <meta name="description" content="منصة تعافي - توعية وإرشاد ودعم نفسي للتخلص من العادات الضارة">
+    <meta name="application-name" content="تعافي">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    
+    <title>تعافي - منصة التوعية والإرشاد</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>">
+    <link rel="apple-touch-icon" href="assets/icons/icon-192.png">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@300;400;500;600;700;800&family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/typography.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/mobile.css">
+    <link rel="stylesheet" href="css/tablet.css">
+    <link rel="stylesheet" href="css/desktop.css">
+    <link rel="stylesheet" href="css/utilities.css">
+    
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+    <!-- Splash Screen -->
+    <div id="splash-screen" class="splash-screen">
+        <div class="splash-content">
+            <div class="splash-icon-wrapper">
+                <i class="fas fa-leaf splash-icon"></i>
+            </div>
+            <div class="splash-text">
+                <h1 class="splash-title">تعافي</h1>
+                <p class="splash-subtitle">رحلتك نحو حياة أفضل</p>
+            </div>
+            <div class="splash-loader">
+                <div class="loader-bar"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Permission Request Modal -->
+    <div id="permission-modal" class="modal-overlay hidden">
+        <div class="modal-container permission-modal">
+            <div class="modal-icon">
+                <i class="fas fa-bell"></i>
+            </div>
+            <h2 class="modal-title">تفعيل الإشعارات</h2>
+            <p class="modal-description">
+                يساعدنا تفعيل الإشعارات في إرسال تذكيرات يومية، أذكار، ورسائل تحفيزية لدعم رحلتك في التعافي.
+            </p>
+            <div class="modal-actions">
+                <button class="btn btn-outline" onclick="declinePermissions()">
+                    لاحقاً
+                </button>
+                <button class="btn btn-primary" onclick="requestPermissions()">
+                    <i class="fas fa-check"></i>
+                    تفعيل
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Welcome Screen -->
+    <div id="welcome-screen" class="welcome-screen hidden">
+        <div class="welcome-container">
+            <button class="welcome-back-btn hidden" onclick="goToHome()">
+                <i class="fas fa-times"></i>
+            </button>
+            
+            <div class="welcome-progress">
+                <div class="progress-step active" data-step="1"></div>
+                <div class="progress-step" data-step="2"></div>
+                <div class="progress-step" data-step="3"></div>
+            </div>
+            
+            <div class="welcome-slides">
+                <!-- Slide 1: Name -->
+                <div class="welcome-slide active" data-slide="1">
+                    <div class="slide-icon">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <h2 class="slide-title">ما اسمك؟</h2>
+                    <p class="slide-description">نود التعرف عليك لتقديم تجربة مخصصة</p>
+                    <div class="form-group">
+                        <div class="input-wrapper">
+                            <i class="fas fa-user input-icon"></i>
+                            <input 
+                                type="text" 
+                                id="user-name" 
+                                class="form-input" 
+                                placeholder="أدخل اسمك الكريم"
+                                autocomplete="name"
+                            >
+                        </div>
+                    </div>
+                    <button class="btn btn-primary btn-next" onclick="nextSlide(2)" disabled id="name-next-btn">
+                        التالي
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                </div>
+                
+                <!-- Slide 2: Age -->
+                <div class="welcome-slide" data-slide="2">
+                    <div class="slide-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <h2 class="slide-title">كم عمرك؟</h2>
+                    <p class="slide-description">يساعدنا ذلك في تخصيص المحتوى المناسب لك</p>
+                    <div class="form-group">
+                        <div class="input-wrapper">
+                            <i class="fas fa-calendar input-icon"></i>
+                            <input 
+                                type="number" 
+                                id="user-age" 
+                                class="form-input" 
+                                placeholder="العمر"
+                                min="10"
+                                max="100"
+                            >
+                        </div>
+                    </div>
+                    <div class="slide-buttons">
+                        <button class="btn btn-outline" onclick="prevSlide(1)">
+                            <i class="fas fa-arrow-right"></i>
+                            السابق
+                        </button>
+                        <button class="btn btn-primary" onclick="nextSlide(3)" disabled id="age-next-btn">
+                            التالي
+                            <i class="fas fa-arrow-left"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Slide 3: Gender -->
+                <div class="welcome-slide" data-slide="3">
+                    <div class="slide-icon">
+                        <i class="fas fa-venus-mars"></i>
+                    </div>
+                    <h2 class="slide-title">الجنس</h2>
+                    <p class="slide-description">اختيارك يساعد في تقديم محتوى مخصص</p>
+                    <div class="gender-selector">
+                        <div class="gender-option" data-gender="male" onclick="selectGender('male')">
+                            <i class="fas fa-male gender-icon"></i>
+                            <span class="gender-label">ذكر</span>
+                        </div>
+                        <div class="gender-option" data-gender="female" onclick="selectGender('female')">
+                            <i class="fas fa-female gender-icon"></i>
+                            <span class="gender-label">أنثى</span>
+                        </div>
+                    </div>
+                    <input type="hidden" id="user-gender">
+                    <div class="slide-buttons">
+                        <button class="btn btn-outline" onclick="prevSlide(2)">
+                            <i class="fas fa-arrow-right"></i>
+                            السابق
+                        </button>
+                        <button class="btn btn-primary" onclick="completeWelcome()" disabled id="start-btn">
+                            <i class="fas fa-play"></i>
+                            ابدأ الرحلة
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main App -->
+    <div id="app" class="app-container">
+        <!-- Desktop Sidebar -->
+        <aside id="sidebar" class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <i class="fas fa-leaf"></i>
+                    <h2>تعافي</h2>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a class="nav-link active" data-page="home" onclick="navigateTo('home')">
+                    <i class="fas fa-home"></i>
+                    <span>الرئيسية</span>
+                </a>
+                <a class="nav-link" data-page="habits" onclick="navigateTo('habits')">
+                    <i class="fas fa-hands"></i>
+                    <span>العادات</span>
+                </a>
+                <a class="nav-link" data-page="tasbih" onclick="navigateTo('tasbih')">
+                    <i class="fas fa-fingerprint"></i>
+                    <span>التسبيح</span>
+                </a>
+                <a class="nav-link" data-page="spiritual" onclick="navigateTo('spiritual')">
+                    <i class="fas fa-mosque"></i>
+                    <span>التحصين الإيماني</span>
+                </a>
+                <a class="nav-link" data-page="recovery" onclick="navigateTo('recovery')">
+                    <i class="fas fa-chart-line"></i>
+                    <span>رحلة التعافي</span>
+                </a>
+                <a class="nav-link" data-page="settings" onclick="navigateTo('settings')">
+                    <i class="fas fa-cog"></i>
+                    <span>الإعدادات</span>
+                </a>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <p>نسخة 1.0.0</p>
+                <p>.Copyright © 2026, lnc</p>
+                <P>.Mohammed Al-Baqer</p>
+                <p>.All rights reserved</p>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main id="main-content" class="main-content">
+            <!-- Dynamic Content -->
+        </main>
+
+        <!-- Bottom Navigation (Mobile) -->
+        <nav id="bottom-nav" class="bottom-nav">
+            <button class="nav-item active" data-page="home" onclick="navigateTo('home')">
+                <i class="fas fa-home"></i>
+                <span>الرئيسية</span>
+            </button>
+            <button class="nav-item" data-page="habits" onclick="navigateTo('habits')">
+                <i class="fas fa-hands"></i>
+                <span>العادات</span>
+            </button>
+            <button class="nav-item" data-page="recovery" onclick="navigateTo('recovery')">
+                <i class="fas fa-chart-line"></i>
+                <span>التعافي</span>
+            </button>
+            <button class="nav-item" data-page="tasbih" onclick="navigateTo('tasbih')">
+                <i class="fas fa-fingerprint"></i>
+                <span>التسبيح</span>
+            </button>
+            <button class="nav-item" data-page="spiritual" onclick="navigateTo('spiritual')">
+                <i class="fas fa-mosque"></i>
+                <span>إيماني</span>
+            </button>
+            <button class="nav-item" data-page="settings" onclick="navigateTo('settings')">
+                <i class="fas fa-cog"></i>
+                <span>الإعدادات</span>
+            </button>
+        </nav>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- Scripts -->
+    <script src="js/storage.js"></script>
+    <script src="js/permissions.js"></script>
+    <script src="js/notifications.js"></script>
+    <script src="js/counter.js"></script>
+    <script src="js/router.js"></script>
+    <script src="data/content.js"></script>
+    <script src="data/adhkar.js"></script>
+    <script src="pages/welcome.js"></script>
+    <script src="pages/home.js"></script>
+    <script src="pages/habits.js"></script>
+    <script src="pages/habit-detail.js"></script>
+    <script src="pages/spiritual.js"></script>
+    <script src="pages/recovery.js"></script>
+    <script src="pages/tasbih.js"></script>
+    <script src="pages/settings.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

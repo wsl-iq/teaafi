@@ -1,0 +1,66 @@
+.font-primary { font-family: var(--font-primary); }
+.font-heading { font-family: var(--font-heading); }
+
+.font-quran {
+    font-family: var(--font-quran);
+    line-height: 2.2;
+    font-size: var(--text-xl);
+}
+
+.text-xs { font-size: var(--text-xs); }
+.text-sm { font-size: var(--text-sm); }
+.text-base { font-size: var(--text-base); }
+.text-lg { font-size: var(--text-lg); }
+.text-xl { font-size: var(--text-xl); }
+.text-2xl { font-size: var(--text-2xl); }
+.text-3xl { font-size: var(--text-3xl); }
+.text-4xl { font-size: var(--text-4xl); }
+
+.font-light { font-weight: 300; }
+.font-normal { font-weight: 400; }
+.font-medium { font-weight: 500; }
+.font-semibold { font-weight: 600; }
+.font-bold { font-weight: 700; }
+.font-extrabold { font-weight: 800; }
+
+.text-primary { color: var(--text-primary); }
+.text-secondary { color: var(--text-secondary); }
+.text-tertiary { color: var(--text-tertiary); }
+.text-accent { color: var(--primary); }
+
+.text-right { text-align: right; }
+.text-left { text-align: left; }
+.text-center { text-align: center; }
+
+.leading-tight { line-height: 1.25; }
+.leading-normal { line-height: 1.6; }
+.leading-relaxed { line-height: 1.8; }
+.leading-loose { line-height: 2; }
+
+.heading-underline {
+    position: relative;
+    padding-bottom: var(--space-3);
+    margin-bottom: var(--space-6);
+}
+
+.heading-underline::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 60px;
+    height: 3px;
+    background: var(--primary-gradient);
+    border-radius: var(--radius-full);
+}
+
+.dhikr-text {
+    font-family: var(--font-quran);
+    font-size: var(--text-lg);
+    line-height: 2.2;
+    color: var(--primary-dark);
+    background: var(--primary-light);
+    padding: var(--space-4) var(--space-6);
+    border-radius: var(--radius-lg);
+    border-right: 4px solid var(--primary);
+}

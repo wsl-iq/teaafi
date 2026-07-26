@@ -1,0 +1,100 @@
+:root {
+    /* ============ Primary Colors ============ */
+    --primary: #0D6B6E;
+    --primary-dark: #094C4F;
+    --primary-light: #E0F2F1;
+    --primary-gradient: linear-gradient(135deg, #0D6B6E, #26A69A);
+    
+    /* ============ Secondary Colors ============ */
+    --secondary: #26A69A;
+    --secondary-dark: #1B7A71;
+    --secondary-light: #B2DFDB;
+    
+    /* ============ Accent Colors ============ */
+    --accent-green: #4CAF50;
+    --accent-blue: #2196F3;
+    --accent-orange: #FF9800;
+    --accent-red: #F44336;
+    --accent-purple: #9C27B0;
+    
+    /* ============ Surface Colors ============ */
+    --surface: #FFFFFF;
+    --surface-variant: #F5F7F8;
+    --background: #F0F2F5;
+    --background-dark: #E8EBEE;
+    
+    /* ============ Text Colors ============ */
+    --text-primary: #1A1C1E;
+    --text-secondary: #44474E;
+    --text-tertiary: #6B7280;
+    --text-disabled: #9CA3AF;
+    --text-on-primary: #FFFFFF;
+    
+    /* ============ Border Colors ============ */
+    --border: #D1D5DB;
+    --border-light: #E5E7EB;
+    --border-focus: #0D6B6E;
+    
+    /* ============ Shadows ============ */
+    --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
+    --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1), 0 10px 10px rgba(0, 0, 0, 0.04);
+    --shadow-2xl: 0 25px 50px rgba(0, 0, 0, 0.25);
+    
+    /* ============ Border Radius ============ */
+    --radius-xs: 4px;
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 20px;
+    --radius-2xl: 24px;
+    --radius-3xl: 32px;
+    --radius-full: 9999px;
+    
+    /* ============ Spacing ============ */
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-5: 20px;
+    --space-6: 24px;
+    --space-8: 32px;
+    --space-10: 40px;
+    --space-12: 48px;
+    
+    /* ============ Typography ============ */
+    --font-primary: 'Tajawal', 'Cairo', sans-serif;
+    --font-heading: 'Cairo', 'Tajawal', sans-serif;
+    --font-quran: 'Amiri', 'Traditional Arabic', serif;
+    --font-mono: 'Courier New', monospace;
+    
+    /* ============ Font Sizes ============ */
+    --text-xs: 0.75rem;
+    --text-sm: 0.875rem;
+    --text-base: 1rem;
+    --text-lg: 1.125rem;
+    --text-xl: 1.25rem;
+    --text-2xl: 1.5rem;
+    --text-3xl: 1.875rem;
+    --text-4xl: 2.25rem;
+    
+    /* ============ Transitions ============ */
+    --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* ============ Z-index ============ */
+    --z-sidebar: 40;
+    --z-bottom-nav: 50;
+    --z-modal: 60;
+    --z-toast: 70;
+    --z-splash: 80;
+    
+    /* ============ Safe Area ============ */
+    --safe-top: env(safe-area-inset-top, 0px);
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+    --safe-left: env(safe-area-inset-left, 0px);
+    --safe-right: env(safe-area-inset-right, 0px);
+}

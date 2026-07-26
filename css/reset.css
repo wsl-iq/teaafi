@@ -1,0 +1,649 @@
+/* ==========================================================================
+   Reset CSS - تعافي
+   نسخة مخصصة للتطبيق مع دعم كامل للغة العربية
+   ========================================================================== */
+
+/* Box sizing rules */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Remove default margin and padding */
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+main,
+menu,
+nav,
+section,
+summary {
+    display: block;
+}
+
+/* Set core root defaults */
+html {
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+/* Set core body defaults */
+body {
+    font-family: var(--font-primary, 'Tajawal', 'Cairo', sans-serif);
+    background-color: var(--background, #F0F2F5);
+    color: var(--text-primary, #1A1C1E);
+    line-height: 1.6;
+    min-height: 100vh;
+    min-height: 100dvh;
+    overflow-x: hidden;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    direction: rtl;
+}
+
+/* Allow text selection in inputs and textareas */
+input,
+textarea,
+[contenteditable] {
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+}
+
+/* Make images easier to work with */
+img,
+picture,
+svg {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    border-style: none;
+}
+
+/* Inherit fonts for inputs and buttons */
+input,
+button,
+textarea,
+select,
+optgroup {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    color: inherit;
+}
+
+/* Remove default button styles */
+button {
+    font-family: inherit;
+    cursor: pointer;
+    border: none;
+    background: none;
+    outline: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    -webkit-tap-highlight-color: transparent;
+    padding: 0;
+    margin: 0;
+    text-align: inherit;
+    color: inherit;
+}
+
+/* Remove list styles on ul, ol elements */
+ul,
+ol {
+    list-style: none;
+}
+
+/* Anchor elements that don't have a class get default styles */
+a {
+    text-decoration: none;
+    color: inherit;
+    background-color: transparent;
+    -webkit-text-decoration-skip: objects;
+}
+
+a:not([class]) {
+    text-decoration-skip-ink: auto;
+}
+
+/* Set default heading styles */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--font-heading, 'Cairo', 'Tajawal', sans-serif);
+    line-height: 1.3;
+    font-weight: 700;
+    color: var(--text-primary, #1A1C1E);
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+}
+
+/* Paragraph styles */
+p {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+}
+
+/* Strong and emphasis */
+strong,
+b {
+    font-weight: 700;
+}
+
+em,
+i {
+    font-style: italic;
+}
+
+/* Remove default fieldset styles */
+fieldset {
+    border: none;
+    margin: 0;
+    padding: 0;
+    min-width: 0;
+}
+
+/* Remove default legend styles */
+legend {
+    padding: 0;
+    display: table;
+}
+
+/* Remove default table spacing */
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+/* Reset table cell styles */
+td,
+th {
+    padding: 0;
+    text-align: right;
+}
+
+/* Remove spin buttons from number inputs */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+
+/* Remove search input decoration */
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration {
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+/* Remove default date input styles */
+input[type="date"]::-webkit-calendar-picker-indicator,
+input[type="time"]::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+}
+
+/* Remove default placeholder styles */
+::placeholder {
+    color: var(--text-disabled, #9CA3AF);
+    opacity: 1;
+}
+
+:-ms-input-placeholder {
+    color: var(--text-disabled, #9CA3AF);
+}
+
+::-ms-input-placeholder {
+    color: var(--text-disabled, #9CA3AF);
+}
+
+/* Text selection styles */
+::selection {
+    background-color: var(--primary-light, #E0F2F1);
+    color: var(--primary-dark, #094C4F);
+}
+
+::-moz-selection {
+    background-color: var(--primary-light, #E0F2F1);
+    color: var(--primary-dark, #094C4F);
+}
+
+/* Remove default details/summary styles */
+details summary {
+    cursor: pointer;
+}
+
+details summary > * {
+    display: inline;
+}
+
+/* Remove default hr styles */
+hr {
+    box-sizing: content-box;
+    height: 0;
+    overflow: visible;
+    border: none;
+    border-top: 1px solid var(--border-light, #E5E7EB);
+    margin: var(--space-4, 16px) 0;
+}
+
+/* Remove default pre and code styles */
+pre,
+code,
+kbd,
+samp {
+    font-family: var(--font-mono, 'Courier New', monospace);
+    font-size: 1em;
+}
+
+pre {
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Remove default audio and video styles */
+audio,
+video {
+    display: inline-block;
+}
+
+audio:not([controls]) {
+    display: none;
+    height: 0;
+}
+
+/* Remove default canvas styles */
+canvas {
+    display: inline-block;
+}
+
+/* Remove default template styles */
+template,
+[hidden] {
+    display: none;
+}
+
+/* Remove default iframe border */
+iframe {
+    border-style: none;
+}
+
+/* Remove default progress bar styles */
+progress {
+    vertical-align: baseline;
+}
+
+/* Focus visible styles for accessibility */
+:focus {
+    outline: none;
+}
+
+:focus-visible {
+    outline: 2px solid var(--primary, #0D6B6E);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm, 8px);
+}
+
+/* Remove focus styles for mouse users */
+:focus:not(:focus-visible) {
+    outline: none;
+}
+
+/* Form elements reset */
+input,
+select,
+textarea {
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    border-radius: 0;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+/* Textarea reset */
+textarea {
+    resize: vertical;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Select element reset */
+select {
+    cursor: pointer;
+}
+
+/* Remove default color input styles */
+input[type="color"] {
+    padding: 0;
+    border: none;
+}
+
+/* Remove default range input styles */
+input[type="range"] {
+    width: 100%;
+}
+
+/* Remove default meter styles */
+meter {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+/* Dialog reset */
+dialog {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    color: inherit;
+}
+
+dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Remove default quote styles */
+blockquote,
+q {
+    quotes: none;
+}
+
+blockquote::before,
+blockquote::after,
+q::before,
+q::after {
+    content: '';
+    content: none;
+}
+
+/* Abbreviation styles */
+abbr[title] {
+    border-bottom: none;
+    text-decoration: underline;
+    text-decoration: underline dotted;
+    cursor: help;
+}
+
+/* Address reset */
+address {
+    font-style: normal;
+}
+
+/* Small text */
+small {
+    font-size: 80%;
+}
+
+/* Sub and sup */
+sub,
+sup {
+    font-size: 75%;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+}
+
+sub {
+    bottom: -0.25em;
+}
+
+sup {
+    top: -0.5em;
+}
+
+/* Remove default mark styles */
+mark {
+    background-color: var(--accent-orange, #FF9800);
+    color: var(--text-primary, #1A1C1E);
+    padding: 0.1em 0.2em;
+}
+
+/* Media defaults */
+img,
+video {
+    height: auto;
+    max-width: 100%;
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+    
+    html {
+        scroll-behavior: auto;
+    }
+}
+
+/* Print styles */
+@media print {
+    *,
+    *::before,
+    *::after {
+        background: transparent !important;
+        color: #000 !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+    
+    a,
+    a:visited {
+        text-decoration: underline;
+    }
+    
+    a[href]::after {
+        content: " (" attr(href) ")";
+    }
+    
+    abbr[title]::after {
+        content: " (" attr(title) ")";
+    }
+    
+    pre,
+    blockquote {
+        border: 1px solid #999;
+        page-break-inside: avoid;
+    }
+    
+    thead {
+        display: table-header-group;
+    }
+    
+    tr,
+    img {
+        page-break-inside: avoid;
+    }
+    
+    p,
+    h2,
+    h3 {
+        orphans: 3;
+        widows: 3;
+    }
+    
+    h2,
+    h3 {
+        page-break-after: avoid;
+    }
+    
+    img {
+        max-width: 100% !important;
+    }
+}
+
+/* Smooth scrolling for the whole page */
+@media (prefers-reduced-motion: no-preference) {
+    :root {
+        scroll-behavior: smooth;
+    }
+}
+
+/* iOS specific fixes */
+@supports (-webkit-touch-callout: none) {
+    /* Prevent zoom on double-tap for iOS */
+    button,
+    a {
+        touch-action: manipulation;
+    }
+    
+    /* Fix for iOS input shadows */
+    input,
+    textarea {
+        -webkit-appearance: none;
+        appearance: none;
+    }
+    
+    /* Fix for iOS Safari 100vh issue */
+    body {
+        min-height: -webkit-fill-available;
+    }
+}
+
+/* Android specific fixes */
+@supports not (-webkit-touch-callout: none) {
+    /* Android specific styles */
+    input,
+    textarea {
+        -webkit-appearance: none;
+        appearance: none;
+    }
+}
+
+/* Remove tap highlight on mobile */
+@media (hover: none) and (pointer: coarse) {
+    * {
+        -webkit-tap-highlight-color: transparent;
+    }
+}

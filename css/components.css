@@ -1,0 +1,1365 @@
+/* ============ Buttons ============ */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-6);
+    border-radius: var(--radius-md);
+    font-size: var(--text-base);
+    font-weight: 600;
+    font-family: var(--font-primary);
+    transition: all var(--transition-fast);
+    cursor: pointer;
+    border: 2px solid transparent;
+    white-space: nowrap;
+    min-height: 48px;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn:active {
+    transform: scale(0.97);
+}
+
+.btn-primary {
+    background: var(--primary-gradient);
+    color: var(--text-on-primary);
+    box-shadow: var(--shadow-sm);
+}
+
+.btn-primary:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
+}
+
+.btn-outline {
+    background: transparent;
+    border: 2px solid var(--primary);
+    color: var(--primary);
+}
+
+.btn-outline:hover {
+    background: var(--primary-light);
+}
+
+.btn-danger {
+    background: var(--accent-red);
+    color: var(--text-on-primary);
+}
+
+.btn-success {
+    background: var(--accent-green);
+    color: var(--text-on-primary);
+}
+
+.btn-lg {
+    padding: var(--space-4) var(--space-8);
+    font-size: var(--text-lg);
+    border-radius: var(--radius-lg);
+}
+
+.btn-sm {
+    padding: var(--space-2) var(--space-4);
+    font-size: var(--text-sm);
+    border-radius: var(--radius-sm);
+    min-height: 36px;
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+/* ============ Cards ============ */
+.card {
+    background: var(--surface);
+    border-radius: var(--radius-xl);
+    padding: var(--space-6);
+    margin-bottom: var(--space-4);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-light);
+    transition: all var(--transition-base);
+    cursor: pointer;
+    position: relative;
+}
+
+.card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.card:active {
+    transform: scale(0.98);
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    margin-bottom: var(--space-4);
+}
+
+.card-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: var(--radius-lg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--text-xl);
+    flex-shrink: 0;
+}
+
+.card-title {
+    font-size: var(--text-lg);
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: var(--space-1);
+}
+
+.card-description {
+    color: var(--text-secondary);
+    font-size: var(--text-sm);
+    line-height: 1.7;
+}
+
+/* ============ Counter Card ============ */
+.counter-card {
+    background: var(--primary-gradient);
+    color: var(--text-on-primary);
+    border-radius: var(--radius-2xl);
+    padding: var(--space-8);
+    margin-bottom: var(--space-6);
+    text-align: center;
+    box-shadow: var(--shadow-lg);
+    position: relative;
+    overflow: hidden;
+}
+
+.counter-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+    animation: rotate 20s linear infinite;
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.counter-value {
+    font-size: 56px;
+    font-weight: 800;
+    margin: var(--space-4) 0;
+    position: relative;
+    z-index: 1;
+}
+
+.counter-stats {
+    display: flex;
+    justify-content: space-around;
+    margin-top: var(--space-6);
+    position: relative;
+    z-index: 1;
+}
+
+.stat-item {
+    text-align: center;
+}
+
+.stat-value {
+    font-size: var(--text-2xl);
+    font-weight: 700;
+}
+
+.stat-label {
+    font-size: var(--text-xs);
+    opacity: 0.9;
+    margin-top: var(--space-1);
+}
+
+/* ============ Input Fields ============ */
+.form-group {
+    margin-bottom: var(--space-5);
+}
+
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-icon {
+    position: absolute;
+    right: var(--space-4);
+    color: var(--text-tertiary);
+    font-size: var(--text-lg);
+    transition: color var(--transition-fast);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.form-input {
+    width: 100%;
+    padding: var(--space-4) var(--space-12) var(--space-4) var(--space-4);
+    border: 2px solid var(--border);
+    border-radius: var(--radius-lg);
+    font-size: var(--text-base);
+    font-family: var(--font-primary);
+    background: var(--surface);
+    color: var(--text-primary);
+    transition: all var(--transition-fast);
+    min-height: 56px;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--border-focus);
+    box-shadow: 0 0 0 4px rgba(13, 107, 110, 0.1);
+}
+
+.form-input::placeholder {
+    color: var(--text-disabled);
+}
+
+/* ============ Gender Selector ============ */
+.gender-selector {
+    display: flex;
+    gap: var(--space-4);
+}
+
+.gender-option {
+    flex: 1;
+    padding: var(--space-8) var(--space-4);
+    border: 2px solid var(--border);
+    border-radius: var(--radius-xl);
+    cursor: pointer;
+    transition: all var(--transition-base);
+    text-align: center;
+    background: var(--surface);
+}
+
+.gender-option:hover {
+    border-color: var(--primary);
+    background: var(--primary-light);
+}
+
+.gender-option.selected {
+    border-color: var(--primary);
+    background: var(--primary-light);
+    box-shadow: 0 0 0 4px rgba(13, 107, 110, 0.1);
+}
+
+.gender-icon {
+    font-size: 48px;
+    margin-bottom: var(--space-3);
+    display: block;
+    color: var(--text-tertiary);
+    transition: color var(--transition-fast);
+}
+
+.gender-option.selected .gender-icon {
+    color: var(--primary);
+}
+
+.gender-label {
+    font-size: var(--text-lg);
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+/* ============ Progress Steps ============ */
+.welcome-progress {
+    display: flex;
+    justify-content: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-10);
+}
+
+.progress-step {
+    width: 40px;
+    height: 4px;
+    border-radius: var(--radius-full);
+    background: var(--border-light);
+    transition: all var(--transition-base);
+}
+
+.progress-step.active {
+    background: var(--primary);
+    width: 60px;
+}
+
+.progress-step.completed {
+    background: var(--accent-green);
+}
+
+/* ============ Bottom Navigation ============ */
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    display: flex;
+    justify-content: space-around;
+    padding: var(--space-2) var(--space-1);
+    padding-bottom: calc(var(--space-2) + var(--safe-bottom));
+    box-shadow: 0 -1px 0 var(--border-light), var(--shadow-lg);
+    z-index: var(--z-bottom-nav);
+}
+
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-1);
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-lg);
+    transition: all var(--transition-base);
+    cursor: pointer;
+    color: var(--text-tertiary);
+    font-size: var(--text-xs);
+    font-weight: 500;
+    min-width: 60px;
+    position: relative;
+    background: none;
+    border: none;
+}
+
+.nav-item i {
+    font-size: 22px;
+    transition: all var(--transition-base);
+}
+
+.nav-item.active {
+    color: var(--primary);
+}
+
+.nav-item.active::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 24px;
+    height: 3px;
+    background: var(--primary);
+    border-radius: 0 0 var(--radius-full) var(--radius-full);
+}
+
+/* ============ Sidebar Navigation ============ */
+.sidebar {
+    display: none;
+    flex-direction: column;
+    width: 280px;
+    height: 100vh;
+    position: fixed;
+    right: 0;
+    top: 0;
+    background: var(--surface);
+    border-left: 1px solid var(--border-light);
+    box-shadow: var(--shadow-md);
+    z-index: var(--z-sidebar);
+    padding: var(--space-6);
+}
+
+.sidebar-header {
+    padding-bottom: var(--space-6);
+    border-bottom: 1px solid var(--border-light);
+    margin-bottom: var(--space-6);
+}
+
+.sidebar-logo {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    font-size: var(--text-xl);
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.sidebar-logo i {
+    font-size: 28px;
+}
+
+.sidebar-nav {
+    flex: 1;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--space-2);
+    transition: all var(--transition-fast);
+    color: var(--text-secondary);
+    font-weight: 500;
+    font-size: var(--text-base);
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.nav-link:hover {
+    background: var(--surface-variant);
+    color: var(--text-primary);
+}
+
+.nav-link.active {
+    background: var(--primary-light);
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.nav-link i {
+    width: 24px;
+    text-align: center;
+    font-size: var(--text-lg);
+}
+
+.sidebar-footer {
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--border-light);
+    font-size: var(--text-xs);
+    color: var(--text-tertiary);
+    text-align: center;
+}
+
+/* ============ Splash Screen ============ */
+.splash-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--primary-gradient);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: var(--z-splash);
+    transition: opacity 0.5s ease;
+}
+
+.splash-screen.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.splash-content {
+    text-align: center;
+}
+
+.splash-icon-wrapper {
+    margin-bottom: var(--space-6);
+}
+
+.splash-icon {
+    font-size: 80px;
+    color: white;
+    animation: splashPulse 2s infinite;
+}
+
+@keyframes splashPulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.1); opacity: 0.8; }
+}
+
+.splash-text {
+    color: white;
+    margin-bottom: var(--space-8);
+}
+
+.splash-title {
+    font-size: 40px;
+    font-weight: 800;
+    margin-bottom: var(--space-2);
+}
+
+.splash-subtitle {
+    font-size: var(--text-lg);
+    opacity: 0.9;
+}
+
+.splash-loader {
+    width: 200px;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: var(--radius-full);
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.loader-bar {
+    width: 40%;
+    height: 100%;
+    background: white;
+    border-radius: var(--radius-full);
+    animation: loaderSlide 1.5s infinite ease;
+}
+
+@keyframes loaderSlide {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(350%); }
+}
+
+/* ============ Welcome Screen ============ */
+.welcome-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--surface);
+    z-index: 70;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+.welcome-screen.hidden {
+    transform: translateX(-100%);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.welcome-container {
+    max-width: 450px;
+    width: 90%;
+    padding: var(--space-6);
+}
+
+.welcome-slides {
+    position: relative;
+}
+
+.welcome-slide {
+    display: none;
+    text-align: center;
+    animation: fadeSlideIn 0.4s ease;
+}
+
+.welcome-slide.active {
+    display: block;
+}
+
+@keyframes fadeSlideIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.slide-icon {
+    font-size: 64px;
+    color: var(--primary);
+    margin-bottom: var(--space-6);
+}
+
+.slide-title {
+    font-size: var(--text-2xl);
+    font-weight: 700;
+    margin-bottom: var(--space-3);
+    color: var(--text-primary);
+}
+
+.slide-description {
+    color: var(--text-secondary);
+    margin-bottom: var(--space-8);
+    line-height: 1.7;
+}
+
+.slide-buttons {
+    display: flex;
+    gap: var(--space-3);
+    margin-top: var(--space-8);
+}
+
+.slide-buttons .btn {
+    flex: 1;
+}
+
+/* ============ Modal ============ */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: var(--z-modal);
+    padding: var(--space-6);
+}
+
+.modal-container {
+    background: var(--surface);
+    border-radius: var(--radius-2xl);
+    padding: var(--space-8);
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+    animation: modalIn var(--transition-base) ease;
+}
+
+@keyframes modalIn {
+    from { opacity: 0; transform: scale(0.9) translateY(20px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.modal-icon {
+    font-size: 56px;
+    color: var(--primary);
+    margin-bottom: var(--space-4);
+}
+
+.modal-title {
+    font-size: var(--text-2xl);
+    font-weight: 700;
+    margin-bottom: var(--space-3);
+    color: var(--text-primary);
+}
+
+.modal-description {
+    color: var(--text-secondary);
+    line-height: 1.8;
+    margin-bottom: var(--space-6);
+}
+
+.modal-actions {
+    display: flex;
+    gap: var(--space-3);
+}
+
+.modal-actions .btn {
+    flex: 1;
+}
+
+/* ============ Content Sections ============ */
+.content-section {
+    margin-bottom: var(--space-8);
+}
+
+.section-title {
+    font-size: var(--text-xl);
+    font-weight: 700;
+    margin-bottom: var(--space-4);
+    color: var(--primary);
+    padding-bottom: var(--space-3);
+    border-bottom: 2px solid var(--primary-light);
+}
+
+.subsection {
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+    margin-bottom: var(--space-3);
+    border-right: 4px solid var(--primary);
+}
+
+/* ==================== Spiritual Cards ==================== */
+.spiritual-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: var(--radius-2xl);
+    padding: var(--space-6);
+    margin-bottom: var(--space-4);
+}
+
+.spiritual-card h2 { color: white; }
+
+.dhikr-text {
+    font-family: var(--font-quran);
+    font-size: var(--text-lg);
+    line-height: 2.2;
+    color: var(--primary-dark);
+    background: var(--primary-light);
+    padding: var(--space-4) var(--space-6);
+    border-radius: var(--radius-lg);
+    border-right: 4px solid var(--primary);
+}
+
+/* ============ Settings ============ */
+.settings-group {
+    background: var(--surface);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    margin-bottom: var(--space-4);
+}
+
+.settings-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-5) var(--space-6);
+    border-bottom: 1px solid var(--border-light);
+    transition: background var(--transition-fast);
+}
+
+.settings-item:last-child {
+    border-bottom: none;
+}
+
+.settings-item:active {
+    background: var(--surface-variant);
+}
+
+/* ============ Toggle Switch ============ */
+.toggle-switch {
+    position: relative;
+    width: 52px;
+    height: 28px;
+    flex-shrink: 0;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.toggle-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: var(--border);
+    transition: var(--transition-base);
+    border-radius: var(--radius-full);
+}
+
+.toggle-slider:before {
+    content: "";
+    position: absolute;
+    height: 24px;
+    width: 24px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    transition: var(--transition-base);
+    border-radius: 50%;
+    box-shadow: var(--shadow-sm);
+}
+
+input:checked + .toggle-slider {
+    background-color: var(--primary);
+}
+
+input:checked + .toggle-slider:before {
+    transform: translateX(24px);
+}
+
+/* ============ Toast ============ */
+.toast-container {
+    position: fixed;
+    bottom: calc(80px + var(--safe-bottom));
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: var(--z-toast);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    pointer-events: none;
+}
+
+.toast {
+    background: var(--text-primary);
+    color: white;
+    padding: var(--space-3) var(--space-6);
+    border-radius: var(--radius-lg);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    box-shadow: var(--shadow-lg);
+    animation: toastIn var(--transition-base) ease;
+    pointer-events: auto;
+    white-space: nowrap;
+}
+
+@keyframes toastIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ============ App Container ============ */
+.app-container {
+    display: none;
+    flex-direction: column;
+    min-height: 100vh;
+    min-height: 100dvh;
+}
+
+.app-container.visible {
+    display: flex;
+}
+
+.main-content {
+    flex: 1;
+    padding: var(--space-4);
+    padding-bottom: calc(80px + var(--safe-bottom));
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* ==================== Dark Theme Overrides ==================== */
+/* هذا الكود يطبق تلقائياً عندما يتم تغيير متغيرات CSS عن طريق JavaScript */
+
+/* تصحيح جميع البطاقات والعناصر في المظهر الداكن */
+.theme-dark .card,
+.theme-dark .settings-group,
+.theme-dark .subsection,
+.theme-dark .modal-container,
+.theme-dark .welcome-container,
+.theme-dark .adhkar-card,
+.theme-dark .dua-card,
+.theme-dark .tips-card {
+    background: var(--surface) !important;
+    border-color: var(--border) !important;
+}
+
+/* تصحيح النصوص في جميع العناصر */
+.theme-dark .card-title,
+.theme-dark .card-description,
+.theme-dark .section-title,
+.theme-dark .slide-title,
+.theme-dark .slide-description,
+.theme-dark .modal-title,
+.theme-dark .modal-description,
+.theme-dark .settings-item span,
+.theme-dark .gender-label,
+.theme-dark .nav-link span,
+.theme-dark .stat-label,
+.theme-dark .counter-card p,
+.theme-dark .counter-card h3 {
+    color: var(--text-primary) !important;
+}
+
+/* تصحيح النصوص الثانوية */
+.theme-dark .text-secondary,
+.theme-dark .card-description,
+.theme-dark .slide-description,
+.theme-dark .modal-description,
+.theme-dark .settings-item p,
+.theme-dark .adhkar-source,
+.theme-dark .dua-source,
+.theme-dark .verse-source {
+    color: var(--text-secondary) !important;
+}
+
+/* تصحيح النصوص الثلاثية */
+.theme-dark .text-tertiary,
+.theme-dark .settings-footer,
+.theme-dark .sidebar-footer p {
+    color: var(--text-tertiary) !important;
+}
+
+/* تصحيح البطاقات الخاصة */
+.theme-dark .spiritual-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+}
+
+.theme-dark .spiritual-card h2,
+.theme-dark .spiritual-card h3,
+.theme-dark .spiritual-card p,
+.theme-dark .spiritual-card small {
+    color: white !important;
+}
+
+/* تصحيح بطاقة الصدقة */
+.theme-dark .card[style*="background: #FFF8E1"] {
+    background: #3E2723 !important;
+    border-right-color: #FF9800 !important;
+}
+
+.theme-dark .card[style*="background: #FFF8E1"] p {
+    color: #E0E0E0 !important;
+}
+
+/* تصحيح بطاقة النصائح */
+.theme-dark .card[style*="background: #E8F5E9"] {
+    background: #1B3A1B !important;
+    border-color: #2E5C2E !important;
+}
+
+.theme-dark .card[style*="background: #E8F5E9"] h3 {
+    color: #66BB6A !important;
+}
+
+.theme-dark .card[style*="background: #E8F5E9"] li {
+    color: #E0E0E0 !important;
+}
+
+/* تصحيح أزرار التنقل السفلية */
+.theme-dark .bottom-nav {
+    background: rgba(30, 30, 30, 0.95) !important;
+    border-top-color: var(--border) !important;
+}
+
+.theme-dark .nav-item {
+    color: var(--text-tertiary) !important;
+}
+
+.theme-dark .nav-item.active {
+    color: var(--primary) !important;
+}
+
+/* تصحيح الشريط الجانبي */
+.theme-dark .sidebar {
+    background: var(--surface) !important;
+    border-left-color: var(--border) !important;
+}
+
+.theme-dark .sidebar-header {
+    border-bottom-color: var(--border) !important;
+}
+
+.theme-dark .sidebar-footer {
+    border-top-color: var(--border) !important;
+}
+
+.theme-dark .nav-link {
+    color: var(--text-secondary) !important;
+}
+
+.theme-dark .nav-link:hover {
+    background: var(--surface-variant) !important;
+    color: var(--text-primary) !important;
+}
+
+.theme-dark .nav-link.active {
+    background: var(--primary-light) !important;
+    color: var(--primary) !important;
+}
+
+/* تصحيح النوافذ المنبثقة */
+.theme-dark .modal-overlay {
+    background: rgba(0, 0, 0, 0.8) !important;
+}
+
+.theme-dark .modal-container {
+    background: var(--surface) !important;
+}
+
+/* تصحيح شاشة الترحيب */
+.theme-dark .welcome-screen {
+    background: var(--surface) !important;
+}
+
+.theme-dark .welcome-slide {
+    background: var(--surface) !important;
+}
+
+/* تصحيح حقول الإدخال */
+.theme-dark .form-input {
+    background: var(--surface-variant) !important;
+    border-color: var(--border) !important;
+    color: var(--text-primary) !important;
+}
+
+.theme-dark .form-input::placeholder {
+    color: var(--text-disabled) !important;
+}
+
+.theme-dark .form-input:focus {
+    border-color: var(--primary) !important;
+    box-shadow: 0 0 0 4px rgba(13, 107, 110, 0.2) !important;
+}
+
+.theme-dark .input-icon {
+    color: var(--text-tertiary) !important;
+}
+
+/* تصحيح أزرار الاختيار */
+.theme-dark .gender-option {
+    background: var(--surface-variant) !important;
+    border-color: var(--border) !important;
+}
+
+.theme-dark .gender-option .gender-icon {
+    color: var(--text-tertiary) !important;
+}
+
+.theme-dark .gender-option .gender-label {
+    color: var(--text-primary) !important;
+}
+
+.theme-dark .gender-option:hover {
+    background: var(--primary-light) !important;
+    border-color: var(--primary) !important;
+}
+
+.theme-dark .gender-option.selected {
+    background: var(--primary-light) !important;
+    border-color: var(--primary) !important;
+}
+
+.theme-dark .gender-option.selected .gender-icon {
+    color: var(--primary) !important;
+}
+
+/* تصحيح خطوات التقدم */
+.theme-dark .progress-step {
+    background: var(--border) !important;
+}
+
+.theme-dark .progress-step.active {
+    background: var(--primary) !important;
+}
+
+/* تصحيح الأقسام الفرعية */
+.theme-dark .subsection {
+    background: var(--surface) !important;
+    border-right-color: var(--primary) !important;
+}
+
+.theme-dark .subsection p {
+    color: var(--text-primary) !important;
+}
+
+.theme-dark .subsection h3 {
+    color: var(--text-primary) !important;
+}
+
+/* تصحيح عناوين الأقسام */
+.theme-dark .section-title {
+    color: var(--primary) !important;
+    border-bottom-color: var(--primary-light) !important;
+}
+
+/* تصحيح الخط التحتي للعناوين */
+.theme-dark .heading-underline::after {
+    background: var(--primary-gradient) !important;
+}
+
+/* تصحيح عناصر الإعدادات */
+.theme-dark .settings-item {
+    border-bottom-color: var(--border) !important;
+}
+
+.theme-dark .settings-item:hover {
+    background: var(--surface-variant) !important;
+}
+
+.theme-dark .settings-group h3 {
+    color: var(--text-primary) !important;
+    border-bottom-color: var(--border) !important;
+}
+
+.theme-dark .settings-group h3[style*="color: var(--accent-red)"] {
+    color: #EF5350 !important;
+    border-bottom-color: #3D2020 !important;
+}
+
+/* تصحيح منطقة الخطر */
+.theme-dark .settings-group[style*="margin-top: 24px"] {
+    border-color: #3D2020 !important;
+}
+
+.theme-dark .settings-group[style*="margin-top: 24px"] h3 {
+    border-bottom-color: #3D2020 !important;
+}
+
+/* تصحيح النصوص القرآنية والأدعية */
+.theme-dark .dhikr-text {
+    background: var(--surface-variant) !important;
+    color: var(--text-primary) !important;
+    border-right-color: var(--primary) !important;
+}
+
+.theme-dark .font-quran {
+    color: var(--text-primary) !important;
+}
+
+/* تصحيح بطاقة العداد */
+.theme-dark .counter-card {
+    color: white !important;
+}
+
+.theme-dark .counter-card h3,
+.theme-dark .counter-card p,
+.theme-dark .counter-card .stat-label {
+    color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.theme-dark .counter-card .stat-value {
+    color: white !important;
+}
+
+/* تصحيح الأزرار في بطاقة العداد */
+.theme-dark .counter-card .btn[style*="background: white"] {
+    background: rgba(255, 255, 255, 0.9) !important;
+    color: var(--primary-dark) !important;
+}
+
+.theme-dark .counter-card .btn[style*="background: rgba(255,255,255,0.2)"] {
+    background: rgba(255, 255, 255, 0.15) !important;
+    color: white !important;
+}
+
+/* تصحيح أيقونات البطاقات */
+.theme-dark .card-icon {
+    color: white !important;
+}
+
+/* تصحيح رسائل toast */
+.theme-dark .toast {
+    background: #333333 !important;
+    color: white !important;
+}
+
+/* تصحيح toggle switch */
+.theme-dark .toggle-slider {
+    background-color: var(--border) !important;
+}
+
+.theme-dark input:checked + .toggle-slider {
+    background-color: var(--primary) !important;
+}
+
+/* تصحيح روابط التنقل */
+.theme-dark .nav-item.active::before {
+    background: var(--primary) !important;
+}
+
+/* تصحيح أيقونات التحقق */
+.theme-dark .fa-check-circle {
+    color: var(--primary) !important;
+}
+
+/* تصحيح شريط التحميل */
+.theme-dark .splash-loader {
+    background: rgba(255, 255, 255, 0.2) !important;
+}
+
+/* تصحيح جميع العناصر التي تستخدم اللون الأبيض */
+.theme-dark h1,
+.theme-dark h2,
+.theme-dark h3,
+.theme-dark h4,
+.theme-dark h5,
+.theme-dark h6 {
+    color: var(--text-primary) !important;
+}
+
+.theme-dark p {
+    color: var(--text-primary) !important;
+}
+
+.theme-dark span {
+    color: inherit !important;
+}
+
+/* تصحيح خلفيات العناصر */
+.theme-dark body {
+    background-color: var(--background) !important;
+}
+
+.theme-dark .main-content {
+    background-color: var(--background) !important;
+}
+
+/* تصحيح أزرار outline */
+.theme-dark .btn-outline {
+    border-color: var(--primary) !important;
+    color: var(--primary) !important;
+}
+
+.theme-dark .btn-outline:hover {
+    background: var(--primary-light) !important;
+}
+
+/* تصحيح scrollbar */
+.theme-dark .main-content::-webkit-scrollbar-track {
+    background: var(--surface-variant) !important;
+}
+
+.theme-dark .main-content::-webkit-scrollbar-thumb {
+    background: var(--border) !important;
+}
+
+.theme-dark .main-content::-webkit-scrollbar-thumb:hover {
+    background: var(--text-tertiary) !important;
+}
+
+/* تصحيح أي عنصر inline style يحتاج تعديل */
+.theme-dark [style*="background: #FFF8E1"] {
+    background: #3E2723 !important;
+}
+
+.theme-dark [style*="background: #E8F5E9"] {
+    background: #1B3A1B !important;
+}
+
+.theme-dark [style*="border: 1px solid #C8E6C9"] {
+    border-color: #2E5C2E !important;
+}
+
+.theme-dark [style*="border-right: 4px solid #FF9800"] {
+    border-right-color: #FF9800 !important;
+}
+
+/* تصحيح لون placeholder في جميع الحقول */
+.theme-dark ::placeholder {
+    color: var(--text-disabled) !important;
+}
+
+.theme-dark :-ms-input-placeholder {
+    color: var(--text-disabled) !important;
+}
+
+.theme-dark ::-ms-input-placeholder {
+    color: var(--text-disabled) !important;
+}
+
+/* تصحيح لون النص المحدد */
+.theme-dark ::selection {
+    background: var(--primary) !important;
+    color: white !important;
+}
+
+/* تصحيح لون الخطوط العريضة */
+.theme-dark hr {
+    border-top-color: var(--border) !important;
+}
+
+/* تصحيح حالة التعطيل */
+.theme-dark .btn:disabled {
+    opacity: 0.4 !important;
+}
+
+/* تصحيح تأثيرات hover على البطاقات */
+.theme-dark .card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* تصحيح جميع النصوص الصغيرة */
+.theme-dark small {
+    color: var(--text-tertiary) !important;
+}
+
+.theme-dark .spiritual-card small {
+    color: rgba(255, 255, 255, 0.8) !important;
+}
+
+/* ==================== تصحيح أيقونات البطاقات في المظهر الداكن ==================== */
+
+/* أيقونة العادات في الصفحة الرئيسية */
+.theme-dark .card-icon[style*="background: #E0F2F1"] {
+    background: #1A3A3C !important;
+    color: #4DB6AC !important;
+}
+
+/* أيقونة التحصين الإيماني في الصفحة الرئيسية */
+.theme-dark .card-icon[style*="background: #E8F5E9"] {
+    background: #1B3A1B !important;
+    color: #66BB6A !important;
+}
+
+/* أيقونة متابعة التعافي في الصفحة الرئيسية */
+.theme-dark .card-icon[style*="background: #FCE4EC"] {
+    background: #3D1F28 !important;
+    color: #EF5350 !important;
+}
+
+/* أيقونة العادة السرية في صفحة العادات */
+.theme-dark .card-icon[style*="background: #E0F2F1"][style*="color: #0D6B6E"] {
+    background: #1A3A3C !important;
+    color: #4DB6AC !important;
+}
+
+/* أيقونة الأفلام الإباحية في صفحة العادات */
+.theme-dark .card-icon[style*="background: #FCE4EC"][style*="color: #F44336"] {
+    background: #3D1F28 !important;
+    color: #EF5350 !important;
+}
+
+/* أيقونة التدخين في صفحة العادات */
+.theme-dark .card-icon[style*="background: #FFF3E0"] {
+    background: #3E2E1A !important;
+    color: #FFB74D !important;
+}
+
+/* إذا كانت الأيقونة تستخدم لون محدد في inline style */
+.theme-dark .card-icon[style*="color: #0D6B6E"] {
+    color: #4DB6AC !important;
+}
+
+.theme-dark .card-icon[style*="color: #4CAF50"] {
+    color: #66BB6A !important;
+}
+
+.theme-dark .card-icon[style*="color: #F44336"] {
+    color: #EF5350 !important;
+}
+
+.theme-dark .card-icon[style*="color: #FF9800"] {
+    color: #FFB74D !important;
+}
+
+/* ==================== تصحيح قسم المطور في المظهر الداكن ==================== */
+
+.theme-dark .settings-group a[href*="instagram"] {
+    background: linear-gradient(45deg, #F09433, #E6683C, #DC2743, #CC2366, #BC1888) !important;
+    color: white !important;
+}
+
+.theme-dark .settings-group a[href*="t.me"] {
+    background: linear-gradient(45deg, #1DA1F2, #0088CC) !important;
+    color: white !important;
+}
+
+.theme-dark .settings-group a[href*="github"] {
+    background: linear-gradient(45deg, #555555, #222222) !important;
+    color: white !important;
+}
+
+.theme-dark .settings-group a[href*="instagram"] .fab,
+.theme-dark .settings-group a[href*="t.me"] .fab,
+.theme-dark .settings-group a[href*="github"] .fab {
+    color: inherit !important;
+}
+
+/* تصحيح ألوان الأوسمة */
+.theme-dark span[style*="background: #E0F2F1"] {
+    background: #1A3A3C !important;
+    color: #4DB6AC !important;
+}
+
+.theme-dark span[style*="background: #E8F5E9"] {
+    background: #1B3A1B !important;
+    color: #66BB6A !important;
+}
+
+.theme-dark span[style*="background: #FCE4EC"] {
+    background: #3D1F28 !important;
+    color: #EF5350 !important;
+}
+
+/* تأثير hover على روابط التواصل */
+.settings-group a[href*="instagram"]:hover {
+    transform: translateX(-4px);
+    box-shadow: 0 4px 16px rgba(225, 48, 108, 0.4) !important;
+}
+
+.settings-group a[href*="t.me"]:hover {
+    transform: translateX(-4px);
+    box-shadow: 0 4px 16px rgba(0, 136, 204, 0.4) !important;
+}
+
+.settings-group a[href*="github"]:hover {
+    transform: translateX(-4px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4) !important;
+}
