@@ -1363,3 +1363,42 @@ input:checked + .toggle-slider:before {
     transform: translateX(-4px);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4) !important;
 }
+
+/* ==================== تصحيح أيقونات التواصل الاجتماعي في المظهر الداكن ==================== */
+
+/* إعادة تعيين لون الأيقونات داخل أزرار التواصل الاجتماعي */
+.theme-dark a[href*="instagram"] .fab.fa-instagram {
+    color: #E1306C !important;
+}
+
+.theme-dark a[href*="t.me"] .fab.fa-telegram {
+    color: #0088CC !important;
+}
+
+.theme-dark a[href*="github"] .fab.fa-github {
+    color: #000000 !important;
+}
+
+/* تصحيح الخلفية البيضاء للأيقونة */
+.theme-dark a[href*="instagram"] div[style*="background: white"],
+.theme-dark a[href*="t.me"] div[style*="background: white"],
+.theme-dark a[href*="github"] div[style*="background: white"] {
+    background: white !important;
+}
+
+/* تصحيح النص داخل الأزرار */
+.theme-dark a[href*="instagram"] span,
+.theme-dark a[href*="instagram"] p,
+.theme-dark a[href*="t.me"] span,
+.theme-dark a[href*="t.me"] p,
+.theme-dark a[href*="github"] span,
+.theme-dark a[href*="github"] p {
+    color: white !important;
+}
+
+/* تصحيح سهم التنقل */
+.theme-dark a[href*="instagram"] .fa-arrow-left,
+.theme-dark a[href*="t.me"] .fa-arrow-left,
+.theme-dark a[href*="github"] .fa-arrow-left {
+    color: rgba(255, 255, 255, 0.8) !important;
+}
