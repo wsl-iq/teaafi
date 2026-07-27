@@ -551,8 +551,8 @@ function fallbackCopy(text) {
 
 function downloadApp(platform) {
     const links = {
-        android: 'https://github.com/wsl-iq/taeafi/releases/latest/download/taeafi.apk',
-        windows: 'https://github.com/wsl-iq/taeafi/releases/latest/download/taeafi-setup.exe'
+        android: 'https://github.com/wsl-iq/teaafi/releases/download/V1.0.0/Taeafi.apk',
+        windows: 'https://github.com/wsl-iq/teaafi/releases/download/V1.0.0/Taeafi.Setup.1.0.0.exe'
     };
     
     const names = {
