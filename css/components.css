@@ -1605,11 +1605,176 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     font-style: normal !important;
 }
 
-/* ==================== تصحيح قسم التحميل في المظهر الداكن ==================== */
+/* ==================== تصحيح النوافذ المنبثقة في المظهر الداكن ==================== */
+
+/* تصحيح خلفية النافذة المنبثقة */
+.theme-dark .modal-overlay {
+    background: rgba(0, 0, 0, 0.8) !important;
+}
+
+.theme-dark .modal-container {
+    background: #1E1E1E !important;
+    border: 1px solid #3D3D3D !important;
+}
+
+/* تصحيح عنوان النافذة */
+.theme-dark .modal-container h3 {
+    color: #E0E0E0 !important;
+}
+
+/* تصحيح نص النافذة */
+.theme-dark .modal-container p {
+    color: #B0B0B0 !important;
+}
+
+.theme-dark .modal-container strong {
+    color: #E0E0E0 !important;
+}
+
+/* تصحيح النص الثانوي */
+.theme-dark .modal-container p[style*="color: var(--text-secondary)"] {
+    color: #B0B0B0 !important;
+}
+
+.theme-dark .modal-container p[style*="color: var(--text-tertiary)"] {
+    color: #808080 !important;
+}
+
+/* تصحيح الرابط في النافذة */
+.theme-dark .modal-container p[style*="direction: ltr"] {
+    color: #64B5F6 !important;
+    background: #1A2B3C !important;
+    padding: 8px 12px !important;
+    border-radius: 8px !important;
+}
+
+/* ==================== تصحيح خلفيات التنبيهات في النوافذ ==================== */
+
+/* صندوق التنبيه البرتقالي */
+.theme-dark .modal-container div[style*="background: #FFF3E0"] {
+    background: #3E2E1A !important;
+    border: 1px solid #5D4037 !important;
+}
+
+.theme-dark .modal-container div[style*="background: #FFF3E0"] p {
+    color: #FFCC80 !important;
+}
+
+.theme-dark .modal-container div[style*="background: #FFF3E0"] strong {
+    color: #FFB74D !important;
+}
+
+/* صندوق التنبيه الأخضر */
+.theme-dark .modal-container div[style*="background: #E8F5E9"] {
+    background: #1B3A1B !important;
+    border: 1px solid #2E5C2E !important;
+}
+
+.theme-dark .modal-container div[style*="background: #E8F5E9"] p {
+    color: #A5D6A7 !important;
+}
+
+.theme-dark .modal-container div[style*="background: #E8F5E9"] strong {
+    color: #81C784 !important;
+}
+
+.theme-dark .modal-container div[style*="background: #E8F5E9"] li {
+    color: #A5D6A7 !important;
+}
+
+/* صندوق التنبيه الأزرق */
+.theme-dark .modal-container div[style*="background: #E3F2FD"] {
+    background: #1A2B3C !important;
+    border: 1px solid #2C4053 !important;
+}
+
+.theme-dark .modal-container div[style*="background: #E3F2FD"] p {
+    color: #90CAF9 !important;
+}
+
+.theme-dark .modal-container div[style*="background: #E3F2FD"] strong {
+    color: #64B5F6 !important;
+}
+
+/* ==================== تصحيح الدوائر الملونة في النوافذ ==================== */
+
+.theme-dark .modal-container div[style*="border-radius: 50%"] {
+    border: 2px solid #3D3D3D !important;
+}
+
+.theme-dark .modal-container div[style*="border-radius: 50%"][style*="background: #FFF3E0"] {
+    background: #3E2E1A !important;
+}
+
+.theme-dark .modal-container div[style*="border-radius: 50%"][style*="background: #E8F5E9"] {
+    background: #1B3A1B !important;
+}
+
+.theme-dark .modal-container div[style*="border-radius: 50%"][style*="background: #E3F2FD"] {
+    background: #1A2B3C !important;
+}
+
+/* ==================== تصحيح الأيقونات في النوافذ ==================== */
+
+.theme-dark .modal-container .fa-globe {
+    color: #FFB74D !important;
+}
+
+.theme-dark .modal-container .fa-android {
+    color: #81C784 !important;
+}
+
+.theme-dark .modal-container .fa-windows {
+    color: #64B5F6 !important;
+}
+
+.theme-dark .modal-container .fa-lightbulb {
+    color: #FFD54F !important;
+}
+
+.theme-dark .modal-container .fa-shield-alt {
+    color: #81C784 !important;
+}
+
+.theme-dark .modal-container .fa-info-circle {
+    color: #90CAF9 !important;
+}
+
+.theme-dark .modal-container .fa-link {
+    color: #64B5F6 !important;
+}
+
+/* ==================== تصحيح الأزرار في النوافذ ==================== */
+
+.theme-dark .modal-container .btn-outline {
+    border-color: #4DB6AC !important;
+    color: #4DB6AC !important;
+}
+
+.theme-dark .modal-container .btn-outline:hover {
+    background: #1A3A3C !important;
+}
+
+.theme-dark .modal-container .btn-primary {
+    background: linear-gradient(135deg, #0D6B6E, #26A69A) !important;
+    color: white !important;
+}
+
+/* ==================== تصحيح قسم التحميل في الإعدادات ==================== */
 
 /* خلفية أيقونة المتصفح */
-.theme-dark .settings-item div[style*="background: #FFF3E0"] {
+.theme-dark .settings-item div[style*="background: #FFF3E0"][style*="width: 48px"] {
     background: #3E2E1A !important;
+}
+
+/* خلفية أيقونة الاندرويد */
+.theme-dark .settings-item div[style*="background: #E8F5E9"][style*="width: 48px"] {
+    background: #1B3A1B !important;
+}
+
+/* خلفية أيقونة الويندوز */
+.theme-dark .settings-item div[style*="background: #E3F2FD"][style*="width: 48px"] {
+    background: #1A2B3C !important;
 }
 
 /* أيقونة المتصفح */
@@ -1617,19 +1782,9 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     color: #FFB74D !important;
 }
 
-/* خلفية أيقونة الاندرويد */
-.theme-dark .settings-item div[style*="background: #E8F5E9"] {
-    background: #1B3A1B !important;
-}
-
 /* أيقونة الاندرويد */
 .theme-dark .settings-item .fa-android {
-    color: #3DDC84 !important;
-}
-
-/* خلفية أيقونة الويندوز */
-.theme-dark .settings-item div[style*="background: #E3F2FD"] {
-    background: #1A2B3C !important;
+    color: #81C784 !important;
 }
 
 /* أيقونة الويندوز */
@@ -1637,55 +1792,60 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     color: #64B5F6 !important;
 }
 
-/* نص وسم المتصفح */
+/* أوسمة التحميل */
 .theme-dark .settings-item span[style*="color: #FF9800"] {
     color: #FFB74D !important;
     background: #3E2E1A !important;
+    border: 1px solid #5D4037 !important;
 }
 
-/* نص وسم التحميل للاندرويد */
 .theme-dark .settings-item span[style*="color: #4CAF50"] {
-    color: #66BB6A !important;
+    color: #81C784 !important;
     background: #1B3A1B !important;
+    border: 1px solid #2E5C2E !important;
 }
 
-/* نص وسم التحميل للويندوز */
 .theme-dark .settings-item span[style*="color: #0078D4"] {
     color: #64B5F6 !important;
     background: #1A2B3C !important;
+    border: 1px solid #2C4053 !important;
 }
 
-/* تصحيح نافذة التأكيد في المظهر الداكن */
-.theme-dark .modal-container {
-    background: var(--surface) !important;
+/* نص الوصف في قسم التحميل */
+.theme-dark .settings-item p[style*="color: var(--text-tertiary)"] {
+    color: #808080 !important;
 }
 
-/* تصحيح خلفية النصائح في النوافذ */
-.theme-dark div[style*="background: #E8F5E9"] {
-    background: #1B3A1B !important;
+/* سهم التنقل */
+.theme-dark .settings-item .fa-chevron-left {
+    color: #808080 !important;
 }
 
-.theme-dark div[style*="color: #2E7D32"] {
-    color: #66BB6A !important;
+/* ==================== تصحيح عام للنصوص في النوافذ ==================== */
+
+/* أي نص داخل modal */
+.theme-dark .modal-container * {
+    color-scheme: dark;
 }
 
-.theme-dark div[style*="background: #FFF3E0"] {
-    background: #3E2E1A !important;
+/* النصوص الصغيرة */
+.theme-dark .modal-container small,
+.theme-dark .modal-container p[style*="font-size: 11px"],
+.theme-dark .modal-container p[style*="font-size: 12px"],
+.theme-dark .modal-container p[style*="font-size: 13px"] {
+    color: #808080 !important;
 }
 
-.theme-dark div[style*="color: #E65100"] {
-    color: #FFB74D !important;
+/* القوائم */
+.theme-dark .modal-container ul {
+    color: #B0B0B0 !important;
 }
 
-/* تصحيح الدوائر في النوافذ المنبثقة */
-.theme-dark div[style*="border-radius: 50%; background: #FFF3E0"] {
-    background: #3E2E1A !important;
+.theme-dark .modal-container ul li {
+    color: #B0B0B0 !important;
 }
 
-.theme-dark div[style*="border-radius: 50%; background: #E8F5E9"] {
-    background: #1B3A1B !important;
-}
-
-.theme-dark div[style*="border-radius: 50%; background: #E3F2FD"] {
-    background: #1A2B3C !important;
+/* أيقونات القوائم */
+.theme-dark .modal-container ul li .fa-check {
+    color: #81C784 !important;
 }
