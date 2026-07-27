@@ -214,7 +214,75 @@ function renderSettingsPage() {
                     </div>
                 </div>
             </div>
-            
+
+            <!-- ============ تحميل التطبيق ============ -->
+            <div class="settings-group">
+                <h3 style="padding: 16px 24px; border-bottom: 1px solid var(--border-light);">
+                    <i class="fas fa-download" style="margin-left: 8px; color: #4CAF50;"></i>
+                    تحميل التطبيق
+                </h3>
+                
+                <!-- تحميل Android -->
+                <div class="settings-item" style="cursor: pointer;" onclick="downloadApp('android')">
+                    <div style="display: flex; align-items: center; gap: 14px;">
+                        <div style="width: 48px; height: 48px; border-radius: var(--radius-md); background: #E8F5E9; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                            <i class="fab fa-android" style="font-size: 26px; color: #3DDC84;"></i>
+                        </div>
+                        <div>
+                            <span style="font-weight: 600;">تحميل للاندرويد</span>
+                            <p style="font-size: 12px; color: var(--text-tertiary); margin-top: 2px;">تثبيت مباشر</p>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <span style="font-size: 11px; color: #4CAF50; background: #E8F5E9; padding: 4px 10px; border-radius: 20px; font-weight: 500;">
+                            <i class="fas fa-download" style="margin-left: 4px;"></i>
+                            تحميل
+                        </span>
+                        <i class="fas fa-chevron-left" style="color: var(--text-tertiary); font-size: 14px;"></i>
+                    </div>
+                </div>
+                
+                <!-- تحميل Windows -->
+                <div class="settings-item" style="cursor: pointer; border-bottom: none;" onclick="downloadApp('windows')">
+                    <div style="display: flex; align-items: center; gap: 14px;">
+                        <div style="width: 48px; height: 48px; border-radius: var(--radius-md); background: #E3F2FD; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                            <i class="fab fa-windows" style="font-size: 26px; color: #0078D4;"></i>
+                        </div>
+                        <div>
+                            <span style="font-weight: 600;">تحميل للويندوز</span>
+                            <p style="font-size: 12px; color: var(--text-tertiary); margin-top: 2px;">تثبيت على الحاسوب</p>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <span style="font-size: 11px; color: #0078D4; background: #E3F2FD; padding: 4px 10px; border-radius: 20px; font-weight: 500;">
+                            <i class="fas fa-download" style="margin-left: 4px;"></i>
+                            تحميل
+                        </span>
+                        <i class="fas fa-chevron-left" style="color: var(--text-tertiary); font-size: 14px;"></i>
+                    </div>
+                </div>
+
+                <!-- استخدام عبر المتصفح -->
+                <div class="settings-item" style="cursor: pointer;" onclick="openInBrowser()">
+                    <div style="display: flex; align-items: center; gap: 14px;">
+                        <div style="width: 48px; height: 48px; border-radius: var(--radius-md); background: #FFF3E0; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                            <i class="fas fa-globe" style="font-size: 26px; color: #FF9800;"></i>
+                        </div>
+                        <div>
+                            <span style="font-weight: 600;">استخدام عبر المتصفح</span>
+                            <p style="font-size: 12px; color: var(--text-tertiary); margin-top: 2px;">يعمل على جميع الأجهزة</p>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <span style="font-size: 11px; color: #FF9800; background: #FFF3E0; padding: 4px 10px; border-radius: 20px; font-weight: 500;">
+                            <i class="fas fa-external-link-alt" style="margin-left: 4px;"></i>
+                            فتح
+                        </span>
+                        <i class="fas fa-chevron-left" style="color: var(--text-tertiary); font-size: 14px;"></i>
+                    </div>
+                </div>
+            </div>
+
             <!-- ============ رسالة الصدقة ============ -->
             <div class="card" style="background: #FFF8E1; border-right: 4px solid var(--accent-orange); font-family: 'Cairo', sans-serif;">
                 <p style="line-height: 2.2; font-style: normal; color: var(--text-primary);">
@@ -378,6 +446,182 @@ function clearAllUserData() {
             }, 1000);
         }
     }
+}
+
+// ==================== دالة فتح المتصفح ====================
+
+function openInBrowser() {
+    const appUrl = 'https://wsl-iq.github.io/teaafi/';
+    
+    // عرض نافذة تأكيد
+    const modal = document.createElement('div');
+    modal.className = 'modal-overlay';
+    modal.style.zIndex = '200';
+    modal.innerHTML = `
+        <div class="modal-container" style="max-width: 400px; text-align: center;">
+            <div style="margin-bottom: 16px;">
+                <div style="width: 64px; height: 64px; border-radius: 50%; background: #FFF3E0; display: flex; align-items: center; justify-content: center; margin: 0 auto;">
+                    <i class="fas fa-globe" style="font-size: 32px; color: #FF9800;"></i>
+                </div>
+            </div>
+            <h3 style="margin-bottom: 12px; font-size: 18px;">استخدام عبر المتصفح</h3>
+            <p style="color: var(--text-secondary); margin-bottom: 8px; line-height: 1.8;">
+                تطبيق <strong>تعافي</strong> يعمل مباشرة من المتصفح
+            </p>
+            <p style="color: var(--text-tertiary); font-size: 13px; margin-bottom: 16px; direction: ltr;">
+                <i class="fas fa-link" style="margin-left: 4px;"></i>
+                wsl-iq.github.io/teaafi
+            </p>
+            
+            <div style="background: #E8F5E9; padding: 14px; border-radius: 8px; margin-bottom: 20px; text-align: right;">
+                <p style="font-size: 12px; color: #2E7D32; line-height: 1.6;">
+                    <i class="fas fa-lightbulb" style="margin-left: 4px;"></i>
+                    <strong>نصيحة:</strong> بعد فتح الرابط يمكنك تثبيت التطبيق للوصول السريع:
+                </p>
+                <ul style="font-size: 11px; color: #2E7D32; line-height: 1.8; padding-right: 16px; margin-top: 8px;">
+                    <li><strong>Chrome:</strong> اضغط على ⋮ ثم "تثبيت التطبيق"</li>
+                    <li><strong>Safari:</strong> اضغط على ↗ ثم "إلى الشاشة الرئيسية"</li>
+                    <li><strong>Firefox:</strong> اضغط على ⊕ في شريط العنوان</li>
+                    <li><strong>Edge:</strong> اضغط على ⋮ ثم "التطبيقات" ثم "تثبيت"</li>
+                </ul>
+            </div>
+            
+            <div style="display: flex; gap: 12px;">
+                <button class="btn btn-outline" onclick="this.closest('.modal-overlay').remove()" style="flex: 1;">
+                    <i class="fas fa-times"></i>
+                    إغلاق
+                </button>
+                <a href="${appUrl}" target="_blank" rel="noopener" class="btn btn-primary" style="flex: 1; text-decoration: none;" onclick="this.closest('.modal-overlay').remove()">
+                    <i class="fas fa-external-link-alt"></i>
+                    فتح التطبيق
+                </a>
+            </div>
+            
+            <div style="display: flex; gap: 12px; margin-top: 12px;">
+                <button class="btn btn-sm btn-outline" onclick="copyAppUrl('${appUrl}'); this.closest('.modal-overlay').remove();" style="flex: 1; font-size: 13px;">
+                    <i class="fas fa-copy"></i>
+                    نسخ الرابط
+                </button>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    // إغلاق النافذة عند النقر خارجها
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            modal.remove();
+        }
+    });
+}
+
+// ==================== دالة نسخ الرابط ====================
+
+function copyAppUrl(url) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(() => {
+            showToast('تم نسخ الرابط بنجاح');
+        }).catch(() => {
+            // fallback للنسخ اليدوي
+            fallbackCopy(url);
+        });
+    } else {
+        fallbackCopy(url);
+    }
+}
+
+function fallbackCopy(text) {
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.style.position = 'fixed';
+    textarea.style.opacity = '0';
+    document.body.appendChild(textarea);
+    textarea.select();
+    try {
+        document.execCommand('copy');
+        showToast('تم نسخ الرابط بنجاح');
+    } catch (err) {
+        showToast('الرابط: ' + text);
+    }
+    document.body.removeChild(textarea);
+}
+
+// ==================== دالة تحميل التطبيق ====================
+
+function downloadApp(platform) {
+    const links = {
+        android: 'https://github.com/wsl-iq/taeafi/releases/latest/download/taeafi.apk',
+        windows: 'https://github.com/wsl-iq/taeafi/releases/latest/download/taeafi-setup.exe'
+    };
+    
+    const names = {
+        android: 'للاندرويد (APK)',
+        windows: 'للوندوز (Installer)'
+    };
+    
+    const icons = {
+        android: '<div style="width: 64px; height: 64px; border-radius: 50%; background: #E8F5E9; display: flex; align-items: center; justify-content: center; margin: 0 auto;"><i class="fab fa-android" style="color: #3DDC84; font-size: 32px;"></i></div>',
+        windows: '<div style="width: 64px; height: 64px; border-radius: 50%; background: #E3F2FD; display: flex; align-items: center; justify-content: center; margin: 0 auto;"><i class="fab fa-windows" style="color: #0078D4; font-size: 32px;"></i></div>'
+    };
+    
+    const colors = {
+        android: { bg: '#E8F5E9', text: '#2E7D32' },
+        windows: { bg: '#E3F2FD', text: '#1565C0' }
+    };
+    
+    // عرض نافذة تأكيد
+    const modal = document.createElement('div');
+    modal.className = 'modal-overlay';
+    modal.style.zIndex = '200';
+    modal.innerHTML = `
+        <div class="modal-container" style="max-width: 380px; text-align: center;">
+            <div style="margin-bottom: 16px;">
+                ${icons[platform]}
+            </div>
+            <h3 style="margin-bottom: 12px; font-size: 18px;">تأكيد التحميل</h3>
+            <p style="color: var(--text-secondary); margin-bottom: 8px; line-height: 1.8;">
+                جاري تحميل تطبيق <strong>تعافي</strong>
+            </p>
+            <p style="color: var(--text-tertiary); font-size: 13px; margin-bottom: 20px;">
+                ${names[platform]}
+            </p>
+            
+            <div style="background: ${colors[platform].bg}; padding: 12px; border-radius: 8px; margin-bottom: 20px; text-align: right;">
+                <p style="font-size: 12px; color: ${colors[platform].text}; line-height: 1.6;">
+                    <i class="fas fa-shield-alt" style="margin-left: 4px;"></i>
+                    <strong>للتذكير:</strong> التطبيق يعمل كـ PWA مباشرة من المتصفح بدون تحميل. 
+                    التحميل اختياري لمن يفضل النسخة المنفصلة.
+                </p>
+            </div>
+            
+            <div style="display: flex; gap: 12px;">
+                <button class="btn btn-outline" onclick="this.closest('.modal-overlay').remove()" style="flex: 1;">
+                    <i class="fas fa-times"></i>
+                    إلغاء
+                </button>
+                <a href="${links[platform]}" target="_blank" rel="noopener" 
+                   class="btn btn-primary" style="flex: 1; text-decoration: none;" 
+                   onclick="this.closest('.modal-overlay').remove()">
+                    <i class="fas fa-download"></i>
+                    تحميل
+                </a>
+            </div>
+            
+            <p style="font-size: 11px; color: var(--text-tertiary); margin-top: 16px;">
+                <i class="fas fa-info-circle" style="margin-left: 4px;"></i>
+                يمكنك أيضاً تثبيت التطبيق مباشرة من المتصفح كـ PWA
+            </p>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+            modal.remove();
+        }
+    });
 }
 
 document.addEventListener('DOMContentLoaded', () => {

@@ -1604,3 +1604,88 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
 .theme-dark h4 {
     font-style: normal !important;
 }
+
+/* ==================== تصحيح قسم التحميل في المظهر الداكن ==================== */
+
+/* خلفية أيقونة المتصفح */
+.theme-dark .settings-item div[style*="background: #FFF3E0"] {
+    background: #3E2E1A !important;
+}
+
+/* أيقونة المتصفح */
+.theme-dark .settings-item .fa-globe {
+    color: #FFB74D !important;
+}
+
+/* خلفية أيقونة الاندرويد */
+.theme-dark .settings-item div[style*="background: #E8F5E9"] {
+    background: #1B3A1B !important;
+}
+
+/* أيقونة الاندرويد */
+.theme-dark .settings-item .fa-android {
+    color: #3DDC84 !important;
+}
+
+/* خلفية أيقونة الويندوز */
+.theme-dark .settings-item div[style*="background: #E3F2FD"] {
+    background: #1A2B3C !important;
+}
+
+/* أيقونة الويندوز */
+.theme-dark .settings-item .fa-windows {
+    color: #64B5F6 !important;
+}
+
+/* نص وسم المتصفح */
+.theme-dark .settings-item span[style*="color: #FF9800"] {
+    color: #FFB74D !important;
+    background: #3E2E1A !important;
+}
+
+/* نص وسم التحميل للاندرويد */
+.theme-dark .settings-item span[style*="color: #4CAF50"] {
+    color: #66BB6A !important;
+    background: #1B3A1B !important;
+}
+
+/* نص وسم التحميل للويندوز */
+.theme-dark .settings-item span[style*="color: #0078D4"] {
+    color: #64B5F6 !important;
+    background: #1A2B3C !important;
+}
+
+/* تصحيح نافذة التأكيد في المظهر الداكن */
+.theme-dark .modal-container {
+    background: var(--surface) !important;
+}
+
+/* تصحيح خلفية النصائح في النوافذ */
+.theme-dark div[style*="background: #E8F5E9"] {
+    background: #1B3A1B !important;
+}
+
+.theme-dark div[style*="color: #2E7D32"] {
+    color: #66BB6A !important;
+}
+
+.theme-dark div[style*="background: #FFF3E0"] {
+    background: #3E2E1A !important;
+}
+
+.theme-dark div[style*="color: #E65100"] {
+    color: #FFB74D !important;
+}
+
+/* تصحيح الدوائر في النوافذ المنبثقة */
+.theme-dark div[style*="border-radius: 50%; background: #FFF3E0"] {
+    background: #3E2E1A !important;
+}
+
+.theme-dark div[style*="border-radius: 50%; background: #E8F5E9"] {
+    background: #1B3A1B !important;
+}
+
+.theme-dark div[style*="border-radius: 50%; background: #E3F2FD"] {
+    background: #1A2B3C !important;
+}
