@@ -111,8 +111,19 @@ function renderSettingsPage() {
                     </ul>
 
                     <div class="settings-item" onclick="navigateTo('policies')" style="cursor: pointer;">
-                        <span>السياسات والقوانين</span>
-                        <i class="fas fa-arrow-left" style="color: var(--text-tertiary);"></i>
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <div style="width: 44px; height: 44px; border-radius: var(--radius-md); background: #E3F2FD; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-shield-alt" style="font-size: 20px; color: #1565C0;"></i>
+                            </div>
+                            <div>
+                                <span style="font-weight: 600;">السياسات والقوانين</span>
+                                <p style="font-size: 12px; color: var(--text-tertiary); margin-top: 2px;">سياسة الإستخدام والخصوصية ، الترخيص ، قواعد السلوك والمساهمة</p>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span style="font-size: 11px; color: var(--primary); background: var(--primary-light); padding: 4px 10px; border-radius: 20px; font-weight: 500;">تصفح</span>
+                            <i class="fas fa-chevron-left" style="color: var(--primary); font-size: 14px;"></i>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -131,12 +142,10 @@ function renderSettingsPage() {
                         </div>
                         <div>
                             <p style="font-size: 18px; font-weight: 700; color: var(--text-primary); margin-bottom: 2px;">محمد الباقر</p>
-                            <p style="font-size: 13px; color: var(--primary); font-weight: 500;">Software Developer</p>
+                            <p style="font-size: 13px; color: var(--primary); font-weight: 500;">مطور برمجيات مستقل، أعمل على تصميم وتطوير تطبيقات الويب وتطبيقات الهواتف الذكية وبرامج سطح المكتب تلبي احتياجات المستخدم بأسلوب احترافي مع اهتمام خاص بتقديم تجربة متكاملة تجمع بين البساطة والدقة وجودة التنفيذ.</p>
                         </div>
                     </div>
 
-                    
-                    
                     <!-- المهارات -->
                     <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px;">
                         <span style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; background: #E0F2F1; color: #0D6B6E; border-radius: 20px; font-size: 13px; font-weight: 500;">
@@ -214,8 +223,6 @@ function renderSettingsPage() {
                     يستخدمه وأن يجعله سبباً في الهداية والإصلاح والعون على ترك العادات الضارة.
                 </p>
             </div>
-
-
             
             <!-- ============ منطقة الخطر ============ -->
             <div class="settings-group" style="margin-top: 24px;">
@@ -373,7 +380,6 @@ function clearAllUserData() {
     }
 }
 
-// تطبيق المظهر المحفوظ عند تحميل الصفحة
 document.addEventListener('DOMContentLoaded', () => {
     const settings = StorageManager.getSettings();
     const theme = settings.theme || 'light';
