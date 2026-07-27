@@ -6,7 +6,9 @@ class StorageManager {
         RECOVERY_DATA: 'recovery_data',
         SETTINGS: 'settings',
         PROGRESS: 'progress',
-        LAST_VISIT: 'last_visit'
+        LAST_VISIT: 'last_visit',
+        APP_RATED: 'app_rated',                    // ✅ إضافة
+        APP_RATING_VALUE: 'app_rating_value'
     };
     
     static init() {
@@ -76,9 +78,15 @@ class StorageManager {
     }
     
     static clear() {
-        Object.values(this.#keys).forEach(key => {
-            this.remove(key);
-        });
+        // الاحتفاظ بالتقييم إذا رغبت
+        const rating = this.get('app_rated');
+        const ratingValue = this.get('app_rating_value');
+        
+        Object.values(this.#keys).forEach(key => this.remove(key));
+        
+        // استعادة التقييم (اختياري - علق السطرين التاليين إذا أردت حذف التقييم أيضاً)
+        // if (rating) this.set('app_rated', rating);
+        // if (ratingValue) this.set('app_rating_value', ratingValue);
     }
     
     static getUser() {

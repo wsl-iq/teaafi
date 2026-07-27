@@ -117,12 +117,114 @@ function renderSettingsPage() {
                             </div>
                             <div>
                                 <span style="font-weight: 600;">السياسات والقوانين</span>
-                                <p style="font-size: 12px; color: var(--text-tertiary); margin-top: 2px;">سياسة الإستخدام والخصوصية ، الترخيص ، قواعد السلوك والمساهمة</p>
+                                <p style="font-size: 12px; color: var(--text-tertiary); margin-top: 2px;">شروط الخدمة</p>
                             </div>
                         </div>
                         <div style="display: flex; align-items: center; gap: 8px;">
                             <span style="font-size: 11px; color: var(--primary); background: var(--primary-light); padding: 4px 10px; border-radius: 20px; font-weight: 500;">تصفح</span>
                             <i class="fas fa-chevron-left" style="color: var(--primary); font-size: 14px;"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============ تقييم التطبيق ============ -->
+            <div class="settings-group">
+                <h3 style="padding: 16px 24px; border-bottom: 1px solid var(--border-light);">
+                    <i class="fas fa-star" style="margin-left: 8px; color: #FFC107;"></i>
+                    تقييم التطبيق
+                </h3>
+                <div style="padding: 24px; text-align: center;">
+                    <p style="color: var(--text-secondary); margin-bottom: 20px; line-height: 1.8;">
+                        هل أعجبك تطبيق <strong>تعافي</strong>؟
+                        <br>تقييمك يساعدني على تحسين التطبيق وتقديم محتوى أفضل
+                    </p>
+                    
+                    <!-- اترك رسالة قبل التقييم - النجوم - RTL من اليسار لليمين -->
+                    <div style="margin: 0 auto 12px; max-width: 520px; text-align: center;">
+                        <textarea id="rating-message" placeholder="اترك رسالتك قبل التقييم..." style="width:100%; min-height:60px; padding:10px; border-radius:8px; border:1px solid var(--border-light); resize:vertical; font-size:14px; direction: rtl;"></textarea>
+                    </div>
+                    <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 10px;">
+                        يمكنك التقييم من اليسار إلى اليمين. النجمة اليمنى تمثل 5 نجوم.
+                    </p>
+                    <div id="rating-stars" style="display: flex; justify-content: center; gap: 8px; margin-bottom: 16px; direction: rtl; touch-action: pan-y;">
+                        <i class="far fa-star rating-star" data-rating="5" onclick="rateApp(5)" style="font-size: 40px; color: #D1D5DB; cursor: pointer; transition: all 0.2s ease;"></i>
+                        <i class="far fa-star rating-star" data-rating="4" onclick="rateApp(4)" style="font-size: 40px; color: #D1D5DB; cursor: pointer; transition: all 0.2s ease;"></i>
+                        <i class="far fa-star rating-star" data-rating="3" onclick="rateApp(3)" style="font-size: 40px; color: #D1D5DB; cursor: pointer; transition: all 0.2s ease;"></i>
+                        <i class="far fa-star rating-star" data-rating="2" onclick="rateApp(2)" style="font-size: 40px; color: #D1D5DB; cursor: pointer; transition: all 0.2s ease;"></i>
+                        <i class="far fa-star rating-star" data-rating="1" onclick="rateApp(1)" style="font-size: 40px; color: #D1D5DB; cursor: pointer; transition: all 0.2s ease;"></i>
+                    </div>
+                    
+                    <p id="rating-text" style="font-size: 14px; color: var(--text-tertiary); min-height: 20px;"></p>
+
+                    <script>
+                        // تمكين التمرير من اليسار لليمين لتحديد التقييم
+                        (function(){
+                            const stars = document.getElementById('rating-stars');
+                            let startX = null;
+                            stars.addEventListener('touchstart', function(e){ startX = e.touches[0].clientX; }, {passive:true});
+                            stars.addEventListener('touchend', function(e){
+                                if(startX === null) return;
+                                const endX = (e.changedTouches && e.changedTouches[0]) ? e.changedTouches[0].clientX : null;
+                                if(endX === null) return;
+                                const delta = endX - startX;
+                                // swipe left (RTL: from right to left) => negative delta
+                                if(delta < -30){
+                                    // تحديد التقييم الأعلى عند السحب الكامل
+                                    rateApp(5);
+                                } else if(delta > 30){
+                                    // سحب يمين يقلل التقييم
+                                    rateApp(1);
+                                }
+                                startX = null;
+                            }, {passive:true});
+
+                            // عند التقييم، احصل على الرسالة وأدرجها تحت النص
+                            window.rateApp = window.rateApp || function(r){
+                                try{
+                                    const msg = (document.getElementById('rating-message')||{}).value || '';
+                                    const text = document.getElementById('rating-text');
+                                    text.textContent = msg ? 'شكراً لتقييمك ' + r + '★ - "' + msg + '"' : 'شكراً لتقييمك ' + r + '★';
+                                    // عرض رسالة شكر بسيطة
+                                    document.getElementById('thank-you-message').style.display = 'block';
+                                    document.getElementById('reset-rating-container').style.display = 'block';
+                                    // تلوين النجوم
+                                    document.querySelectorAll('.rating-star').forEach(function(s){
+                                        const val = parseInt(s.getAttribute('data-rating'),10);
+                                        if(val <= r){ s.classList.remove('far'); s.classList.add('fas'); s.style.color = '#FFC107'; }
+                                        else { s.classList.remove('fas'); s.classList.add('far'); s.style.color = '#D1D5DB'; }
+                                    });
+                                }catch(e){console.error(e)}
+                            };
+
+                            window.resetRating = window.resetRating || function(){
+                                document.getElementById('rating-message').value = '';
+                                document.getElementById('rating-text').textContent = '';
+                                document.getElementById('thank-you-message').style.display = 'none';
+                                document.getElementById('reset-rating-container').style.display = 'none';
+                                document.querySelectorAll('.rating-star').forEach(function(s){ s.classList.remove('fas'); s.classList.add('far'); s.style.color = '#D1D5DB'; });
+                            };
+                        })();
+                    </script>
+                    
+                    <!-- زر إعادة تعيين التقييم -->
+                    <div id="reset-rating-container" style="display: none; margin-top: 8px;">
+                        <button class="btn btn-sm btn-outline" onclick="resetRating()" style="font-size: 12px; color: #F44336; border-color: #F44336;">
+                            <i class="fas fa-undo"></i> إعادة تعيين التقييم
+                        </button>
+                    </div>
+                    
+                    <!-- رسالة الشكر (مخفية افتراضياً) -->
+                    <div id="thank-you-message" style="display: none; margin-top: 16px; animation: fadeSlideIn 0.5s ease;">
+                        <div style="background: linear-gradient(135deg, #E8F5E9, #C8E6C9); padding: 20px; border-radius: var(--radius-lg); text-align: center;">
+                            <i class="fas fa-heart" style="font-size: 40px; color: #E91E63; margin-bottom: 12px; animation: pulse 1s infinite;"></i>
+                            <h3 style="color: #2E7D32; margin-bottom: 8px;">شكراً جزيلاً !</h3>
+                            <p style="color: #2E7D32; line-height: 1.8; font-size: 14px;">
+                                تقييمك يعني لي الكثير ويساعدني على الاستمرار في تطوير التطبيق
+                                <br>نسأل الله أن ينفع به الجميع
+                            </p>
+                            <div style="margin-top: 12px; font-size: 24px;">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -312,23 +414,24 @@ function renderSettingsPage() {
             
         </div>
     `;
+    setTimeout(() => loadPreviousRating(), 200);
 }
 
 // ==================== دوال المظهر ====================
 
 function switchTheme(theme) {
-    // حفظ الإعداد في التخزين المحلي
+    // 1. حفظ الإعداد
     const settings = StorageManager.getSettings();
     settings.theme = theme;
     StorageManager.saveSettings(settings);
     
-    // تطبيق المظهر
+    // 2. تطبيق المظهر أولاً (قبل إعادة تحميل الصفحة)
     applyTheme(theme);
     
-    // إعادة تحميل صفحة الإعدادات لتحديث العلامة
+    // 3. ثم إعادة تحميل صفحة الإعدادات
     renderSettingsPage();
     
-    // رسالة تأكيد
+    // 4. رسالة تأكيد
     const themeNames = {
         'light': 'تم تفعيل المظهر الفاتح',
         'dark': 'تم تفعيل المظهر الداكن',
@@ -508,7 +611,8 @@ function openInBrowser() {
     
     document.body.appendChild(modal);
     
-    // إغلاق النافذة عند النقر خارجها
+    // إغل
+    // // ويساعدنافذة عند النقر خارجها
     modal.addEventListener('click', function(e) {
         if (e.target === modal) {
             modal.remove();
@@ -624,8 +728,251 @@ function downloadApp(platform) {
     });
 }
 
+// ==================== نظام التقييم ====================
+
+let appRated = StorageManager.get('app_rated') || false;
+let currentRating = StorageManager.get('app_rating_value') || 0;
+
+function rateApp(rating) {
+    // السماح بتغيير التقييم دائماً
+    const isChanging = appRated && currentRating !== rating;
+    
+    // تحديث النجوم - تحويلها إلى ذهبية
+    const stars = document.querySelectorAll('.rating-star');
+    
+    stars.forEach((star) => {
+        const starRating = parseInt(star.getAttribute('data-rating'));
+        
+        if (starRating <= rating) {
+            // نجمة ذهبية ممتلئة
+            star.style.color = '#FFC107';
+            star.style.transform = 'scale(1.3)';
+            star.classList.remove('far');
+            star.classList.add('fas');
+        } else {
+            // نجمة رمادية فارغة
+            star.style.color = '#D1D5DB';
+            star.style.transform = 'scale(1)';
+            star.classList.remove('fas');
+            star.classList.add('far');
+        }
+        
+        // إعادة الحجم بعد التأثير
+        setTimeout(() => {
+            star.style.transform = 'scale(1)';
+        }, 300);
+    });
+    
+    // عرض نص التقييم المناسب
+    const ratingTexts = {
+        1: 'نأسف لذلك.. سنعمل على التحسين',
+        2: 'شكراً لك.. نعدك بالتطوير',
+        3: 'شكراً لتقييمك.. نقدر رأيك',
+        4: 'شكراً جزيلاً! سعداء برأيك',
+        5: 'رائع! شكراً من القلب'
+    };
+    
+    const ratingText = document.getElementById('rating-text');
+    if (ratingText) {
+        if (isChanging) {
+            ratingText.textContent = `تم تغيير تقييمك من ${currentRating} إلى ${rating} نجوم - شكراً لك!`;
+            ratingText.style.color = '#2196F3';
+        } else if (appRated) {
+            ratingText.textContent = `تقييمك الحالي: ${rating} نجوم - يمكنك تغييره بالنقر على النجوم`;
+            ratingText.style.color = '#4CAF50';
+        } else {
+            ratingText.textContent = ratingTexts[rating];
+            ratingText.style.color = '#FF9800';
+        }
+        ratingText.style.fontWeight = '600';
+    }
+    
+    // حفظ التقييم
+    const previousRating = currentRating;
+    appRated = true;
+    currentRating = rating;
+    StorageManager.set('app_rated', true);
+    StorageManager.set('app_rating_value', rating);
+    
+    // إظهار رسالة الشكر
+    setTimeout(() => {
+        const thankYouMessage = document.getElementById('thank-you-message');
+        if (thankYouMessage) {
+            // تحديث نص رسالة الشكر
+            const thankTitle = thankYouMessage.querySelector('h3');
+            const thankText = thankYouMessage.querySelector('p');
+            
+            if (isChanging) {
+                if (thankTitle) thankTitle.textContent = 'تم تحديث تقييمك!';
+                if (thankText) thankText.innerHTML = `شكراً لتحديث تقييمك من ${previousRating} إلى ${rating} نجوم<br>رأيك يهمني ويساعدني على التطوير`;
+            } else if (!appRated || previousRating === 0) {
+                if (thankTitle) thankTitle.textContent = 'شكراً جزيلاً !';
+                if (thankText) thankText.innerHTML = 'تقييمك يعني لي الكثير ويساعدني على الاستمرار في تطوير التطبيق<br>نسأل الله أن ينفع به الجميع';
+            }
+            
+            thankYouMessage.style.display = 'block';
+            thankYouMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        
+        // إظهار toast
+        const messages = {
+            1: 'شكراً لصراحتك.. سنعمل على تحسين التطبيق',
+            2: 'شكراً لك.. نعدك بتطوير أفضل',
+            3: 'شكراً لتقييمك.. أُقدر وقتك',
+            4: 'شكراً جزيلاً! تقييمك يساعدني',
+            5: 'ممتن جداً لتقييمك الرائع!'
+        };
+        
+        if (isChanging) {
+            showToast(`تم تغيير تقييمك إلى ${rating} نجوم - شكراً لك!`);
+        } else {
+            showToast(messages[rating]);
+        }
+
+        // إظهار زر إعادة التعيين
+        const resetContainer = document.getElementById('reset-rating-container');
+        if (resetContainer) {
+            resetContainer.style.display = 'block';
+            }
+        
+    }, 500);
+}
+
+function loadPreviousRating() {
+    const savedRated = StorageManager.get('app_rated');
+    const savedRating = StorageManager.get('app_rating_value');
+    
+    if (savedRated && savedRating) {
+        appRated = true;
+        currentRating = savedRating;
+        
+        setTimeout(() => {
+            const stars = document.querySelectorAll('.rating-star');
+            stars.forEach((star) => {
+                const starRating = parseInt(star.getAttribute('data-rating'));
+                if (starRating <= savedRating) {
+                    star.style.color = '#FFC107';
+                    star.classList.remove('far');
+                    star.classList.add('fas');
+                }
+                // النجوم تبقى قابلة للنقر لتغيير التقييم
+                star.style.cursor = 'pointer';
+                star.onclick = function() { rateApp(starRating); };
+            });
+            
+            const thankYouMessage = document.getElementById('thank-you-message');
+            if (thankYouMessage) {
+                thankYouMessage.style.display = 'block';
+                const thankTitle = thankYouMessage.querySelector('h3');
+                const thankText = thankYouMessage.querySelector('p');
+                if (thankTitle) thankTitle.textContent = 'تقييمك الحالي';
+                if (thankText) thankText.innerHTML = `قمت بتقييم التطبيق بـ <strong>${savedRating} نجوم</strong><br>يمكنك تغيير تقييمك في أي وقت بالنقر على النجوم أعلاه`;
+            }
+            
+            const ratingText = document.getElementById('rating-text');
+            if (ratingText) {
+                ratingText.textContent = `تقييمك: ${savedRating}/5 نجوم - اضغط لتغيير التقييم`;
+                ratingText.style.color = '#4CAF50';
+                ratingText.style.fontWeight = '600';
+            }
+        }, 100);
+
+        // إظهار زر إعادة التعيين
+        const resetContainer = document.getElementById('reset-rating-container');
+        if (resetContainer && savedRated) {
+            resetContainer.style.display = 'block';
+        }
+    }
+}
+
+// تأثير التحويم على النجوم (يعمل دائماً)
+document.addEventListener('mouseover', function(e) {
+    if (e.target.classList.contains('rating-star')) {
+        const rating = parseInt(e.target.getAttribute('data-rating'));
+        const stars = document.querySelectorAll('.rating-star');
+        
+        stars.forEach((star) => {
+            const starRating = parseInt(star.getAttribute('data-rating'));
+            if (starRating <= rating) {
+                star.style.color = '#FFC107';
+                star.style.transform = 'scale(1.15)';
+                star.classList.remove('far');
+                star.classList.add('fas');
+            }
+        });
+    }
+});
+
+document.addEventListener('mouseout', function(e) {
+    if (e.target.classList.contains('rating-star')) {
+        const stars = document.querySelectorAll('.rating-star');
+        
+        stars.forEach((star) => {
+            const starRating = parseInt(star.getAttribute('data-rating'));
+            if (currentRating > 0 && starRating <= currentRating) {
+                // إبقاء النجوم المقيمة ذهبية
+                star.style.color = '#FFC107';
+                star.classList.remove('far');
+                star.classList.add('fas');
+            } else {
+                // إعادة النجوم غير المقيمة إلى الرمادي
+                star.style.color = '#D1D5DB';
+                star.classList.remove('fas');
+                star.classList.add('far');
+            }
+            star.style.transform = 'scale(1)';
+        });
+        
+        const ratingText = document.getElementById('rating-text');
+        if (ratingText && currentRating > 0) {
+            ratingText.textContent = `تقييمك: ${currentRating}/5 نجوم - اضغط لتغيير التقييم`;
+            ratingText.style.color = '#4CAF50';
+        }
+    }
+});
+
+function resetRating() {
+    if (confirm('هل أنت متأكد من إعادة تعيين تقييمك؟')) {
+        appRated = false;
+        currentRating = 0;
+        StorageManager.set('app_rated', false);
+        StorageManager.set('app_rating_value', 0);
+        
+        // إعادة النجوم إلى الحالة الفارغة
+        const stars = document.querySelectorAll('.rating-star');
+        stars.forEach(star => {
+            star.style.color = '#D1D5DB';
+            star.style.transform = 'scale(1)';
+            star.classList.remove('fas');
+            star.classList.add('far');
+            star.style.cursor = 'pointer';
+            const starRating = parseInt(star.getAttribute('data-rating'));
+            star.onclick = function() { rateApp(starRating); };
+        });
+        
+        // إخفاء رسالة الشكر
+        const thankYouMessage = document.getElementById('thank-you-message');
+        if (thankYouMessage) thankYouMessage.style.display = 'none';
+        
+        // إخفاء زر إعادة التعيين
+        const resetContainer = document.getElementById('reset-rating-container');
+        if (resetContainer) resetContainer.style.display = 'none';
+        
+        // إعادة نص التقييم
+        const ratingText = document.getElementById('rating-text');
+        if (ratingText) {
+            ratingText.textContent = '';
+            ratingText.style.color = 'var(--text-tertiary)';
+        }
+        
+        showToast('تم إعادة تعيين التقييم - يمكنك التقييم مرة أخرى');
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     const settings = StorageManager.getSettings();
     const theme = settings.theme || 'light';
     applyTheme(theme);
 });
+
+// ويساعدني

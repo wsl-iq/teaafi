@@ -1849,3 +1849,82 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
 .theme-dark .modal-container ul li .fa-check {
     color: #81C784 !important;
 }
+
+/* ==================== نظام التقييم ==================== */
+
+/* تأثير النبض للقلب */
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
+
+@keyframes fadeSlideIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* تأثير التحويم على النجوم */
+.rating-star {
+    transition: all 0.2s ease !important;
+}
+
+.rating-star:hover {
+    transform: scale(1.3) !important;
+}
+
+/* المظهر الداكن */
+.theme-dark #thank-you-message div[style*="background: linear-gradient(135deg, #E8F5E9, #C8E6C9)"] {
+    background: linear-gradient(135deg, #1B3A1B, #2E5C2E) !important;
+}
+
+.theme-dark #thank-you-message h3 {
+    color: #81C784 !important;
+}
+
+.theme-dark #thank-you-message p {
+    color: #A5D6A7 !important;
+}
+
+.theme-dark #rating-text {
+    color: #B0B0B0 !important;
+}
+
+/* ==================== أنيميشن التقييم ==================== */
+
+@keyframes fadeSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
+
+/* تأثير التحويم على النجوم */
+.rating-star {
+    transition: all 0.2s ease !important;
+}
+
+.rating-star:hover {
+    transform: scale(1.3) !important;
+}
+
+/* المظهر الداكن لرسالة الشكر */
+.theme-dark #thank-you-message div[style*="background: linear-gradient(135deg, #E8F5E9, #C8E6C9)"] {
+    background: linear-gradient(135deg, #1B3A1B, #2E5C2E) !important;
+}
+
+.theme-dark #thank-you-message h3 {
+    color: #81C784 !important;
+}
+
+.theme-dark #thank-you-message p {
+    color: #A5D6A7 !important;
+}

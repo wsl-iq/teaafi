@@ -34,12 +34,12 @@ const App = {
         document.getElementById('app').classList.add('visible');
         navigateTo('home');
         
-        // Show permission modal after app loads
-        setTimeout(() => {
-            PermissionsManager.showPermissionModal();
-        }, 1500);
+        // ✅ Apply saved theme on app start
+        const settings = StorageManager.getSettings();
+        const theme = settings.theme || 'light';
+        applyTheme(theme);
         
-        // Start notification scheduler
+        setTimeout(() => PermissionsManager.showPermissionModal(), 1000);
         NotificationService.scheduleDailyReminder();
     },
     
@@ -106,3 +106,5 @@ if ('serviceWorker' in navigator) {
             });
     });
 }
+
+// showMainApp
