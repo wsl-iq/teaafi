@@ -1928,3 +1928,108 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
 .theme-dark #thank-you-message p {
     color: #A5D6A7 !important;
 }
+
+/* ==================== تصحيح أيقونات العادات الجديدة في المظهر الداكن ==================== */
+
+/* الكحول */
+.theme-dark .card-icon[style*="background: #FCE4EC"][style*="color: #C62828"] {
+    background: #3D1F28 !important;
+    color: #EF5350 !important;
+}
+
+/* المخدرات */
+.theme-dark .card-icon[style*="background: #F3E5F5"][style*="color: #6A1B9A"] {
+    background: #2A1A3C !important;
+    color: #CE93D8 !important;
+}
+
+/* سوء التغذية */
+.theme-dark .card-icon[style*="background: #FFF3E0"][style*="color: #E65100"] {
+    background: #3E2E1A !important;
+    color: #FFB74D !important;
+}
+
+/* الخمول */
+.theme-dark .card-icon[style*="background: #EFEBE9"][style*="color: #795548"] {
+    background: #3E2E2A !important;
+    color: #BCAAA4 !important;
+}
+
+/* اضطرابات النوم */
+.theme-dark .card-icon[style*="background: #E8EAF6"][style*="color: #5C6BC0"] {
+    background: #1A1C3C !important;
+    color: #9FA8DA !important;
+}
+
+/* الكافيين */
+.theme-dark .card-icon[style*="background: #ECEFF1"][style*="color: #546E7A"] {
+    background: #2A2D30 !important;
+    color: #90A4AE !important;
+}
+
+/* إدمان الألعاب */
+.theme-dark .card-icon[style*="background: #E8EAF6"][style*="color: #283593"] {
+    background: #1A1C3C !important;
+    color: #7986CB !important;
+}
+
+/* إدمان التواصل */
+.theme-dark .card-icon[style*="background: #E3F2FD"][style*="color: #1565C0"] {
+    background: #1A2B3C !important;
+    color: #64B5F6 !important;
+}
+
+/* إدمان الهاتف */
+.theme-dark .card-icon[style*="background: #E0F7FA"][style*="color: #00838F"] {
+    background: #1A2E30 !important;
+    color: #4DD0E1 !important;
+}
+
+/* التسويف */
+.theme-dark .card-icon[style*="background: #FFF8E1"][style*="color: #F57F17"] {
+    background: #3E3520 !important;
+    color: #FFD54F !important;
+}
+
+/* المقامرة */
+.theme-dark .card-icon[style*="background: #EFEBE9"][style*="color: #4E342E"] {
+    background: #3E2E2A !important;
+    color: #A1887F !important;
+}
+
+/* قضم الأظافر */
+.theme-dark .card-icon[style*="background: #FCE4EC"][style*="color: #880E4F"] {
+    background: #3D1F28 !important;
+    color: #F06292 !important;
+}
+
+/* الكذب */
+.theme-dark .card-icon[style*="background: #FCE4EC"][style*="color: #880E4F"] {
+    background: #3D1F28 !important;
+    color: #F06292 !important;
+}
+
+/* الغضب */
+.theme-dark .card-icon[style*="background: #FFEBEE"][style*="color: #B71C1C"] {
+    background: #3D1F20 !important;
+    color: #EF5350 !important;
+}
+
+/* التنمر */
+.theme-dark .card-icon[style*="background: #FFF3E0"][style*="color: #BF360C"] {
+    background: #3E2E1A !important;
+    color: #FF7043 !important;
+}
+
+/* الإسراف المالي - نفس لون سوء التغذية */
+/* العزلة الاجتماعية */
+.theme-dark .card-icon[style*="background: #ECEFF1"][style*="color: #546E7A"] {
+    background: #2A2D30 !important;
+    color: #90A4AE !important;
+}
+
+/* أيقونة الزنا والعلاقات غير الشرعية (18+) */
+.theme-dark .card-icon[style*="background: #FFEBEE"][style*="color: #B71C1C"] {
+    background: #3D1F20 !important;
+    color: #EF5350 !important;
+}

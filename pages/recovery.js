@@ -134,7 +134,26 @@ function renderRecoveryPage() {
                                 <p class="text-secondary">
                                     ${stats.habitType === 'masturbation' ? 'التعافي من العادة السرية' : 
                                       stats.habitType === 'pornography' ? 'التعافي من الأفلام الإباحية' : 
-                                      'الإقلاع عن التدخين'}
+                                      stats.habitType === 'smoking' ? 'الإقلاع عن التدخين' : 
+                                      stats.habitType === 'alcohol' ? 'التعافي من شرب الكحول' : 
+                                      stats.habitType === 'drugs' ? 'التعافي من المخدرات' : 
+                                      stats.habitType === 'gaming' ? 'التعافي من إدمان الألعاب' : 
+                                      stats.habitType === 'socialMedia' ? 'التعافي من إدمان التواصل الاجتماعي' : 
+                                      stats.habitType === 'smartphone' ? 'التعافي من إدمان الهاتف الذكي' : 
+                                      stats.habitType === 'gambling' ? 'التعافي من المقامرة' : 
+                                      stats.habitType === 'procrastination' ? 'التعافي من التسويف' : 
+                                      stats.habitType === 'lying' ? 'التعافي من الكذب' : 
+                                      stats.habitType === 'anger' ? 'التعافي من الغضب غير المنضبط' : 
+                                      stats.habitType === 'overspending' ? 'التعافي من الإسراف في الإنفاق' : 
+                                      stats.habitType === 'poorNutrition' ? 'التعافي من سوء التغذية' : 
+                                      stats.habitType === 'inactivity' ? 'التعافي من الخمول وقلة الحركة' : 
+                                      stats.habitType === 'sleepDisorder' ? 'التعافي من اضطرابات النوم' : 
+                                      stats.habitType === 'caffeine' ? 'التعافي من الإفراط في الكافيين' : 
+                                      stats.habitType === 'nailBiting' ? 'التعافي من قضم الأظافر' : 
+                                      stats.habitType === 'bullying' ? 'التعافي من التنمر' : 
+                                      stats.habitType === 'isolation' ? 'التعافي من العزلة الاجتماعية' : 
+                                      stats.habitType === 'adultery' ? 'التعافي من الزنا والعلاقات غير الشرعية' : 
+                                      'رحلة التعافي'}
                                 </p>
                             </div>
                         </div>
@@ -236,6 +255,33 @@ function handleResetRecovery() {
         showToast('تم إعادة تعيين العداد');
         renderRecoveryPage();
     }
+}
+
+function getHabitNameInArabic(habitType) {
+    const names = {
+        masturbation: 'التعافي من العادة السرية',
+        pornography: 'التعافي من الأفلام الإباحية',
+        smoking: 'الإقلاع عن التدخين',
+        alcohol: 'التعافي من شرب الكحول',
+        drugs: 'التعافي من المخدرات',
+        gaming: 'التعافي من إدمان الألعاب',
+        socialMedia: 'التعافي من إدمان التواصل الاجتماعي',
+        smartphone: 'التعافي من إدمان الهاتف الذكي',
+        gambling: 'التعافي من المقامرة',
+        procrastination: 'التعافي من التسويف',
+        lying: 'التعافي من الكذب',
+        anger: 'التعافي من الغضب غير المنضبط',
+        overspending: 'التعافي من الإسراف في الإنفاق',
+        poorNutrition: 'التعافي من سوء التغذية',
+        inactivity: 'التعافي من الخمول وقلة الحركة',
+        sleepDisorder: 'التعافي من اضطرابات النوم',
+        caffeine: 'التعافي من الإفراط في الكافيين',
+        nailBiting: 'التعافي من قضم الأظافر',
+        bullying: 'التعافي من التنمر',
+        isolation: 'التعافي من العزلة الاجتماعية',
+        adultery: 'التعافي من الزنا والعلاقات غير الشرعية'
+    };
+    return names[habitType] || 'رحلة التعافي';
 }
 
 // تنظيف العداد عند مغادرة الصفحة
