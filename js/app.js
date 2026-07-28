@@ -106,5 +106,3 @@ if ('serviceWorker' in navigator) {
             });
     });
 }
-
-// showMainApp

@@ -1663,5 +1663,3 @@ class RecoveryCounter {
         return milestones;
     }
 }
-
-// getMotivationalMessage
