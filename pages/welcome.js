@@ -1,112 +1,139 @@
 let selectedGender = null;
 
 function showWelcomeScreen() {
-    document.getElementById('welcome-screen').classList.remove('hidden');
-    document.getElementById('app').classList.remove('visible');
-    resetWelcomeSlides();
+    try {
+        var welcomeScreen = document.getElementById('welcome-screen');
+        var app = document.getElementById('app');
+        if (!welcomeScreen || !app) return;
+        welcomeScreen.classList.remove('hidden');
+        welcomeScreen.style.display = 'flex';
+        app.classList.remove('visible');
+        app.style.display = 'none';
+        resetWelcomeSlides();
+    } catch (e) { console.error('showWelcomeScreen:', e); }
 }
 
 function hideWelcomeScreen() {
-    document.getElementById('welcome-screen').classList.add('hidden');
+    try {
+        var welcomeScreen = document.getElementById('welcome-screen');
+        if (welcomeScreen) { welcomeScreen.classList.add('hidden'); welcomeScreen.style.display = 'none'; }
+    } catch (e) { console.error('hideWelcomeScreen:', e); }
 }
 
-function nextSlide(slideNumber) {
-    const currentSlide = document.querySelector('.welcome-slide.active');
-    const nextSlideElement = document.querySelector(`[data-slide="${slideNumber}"]`);
-    
-    if (!currentSlide || !nextSlideElement) return;
-    
-    currentSlide.classList.remove('active');
-    nextSlideElement.classList.add('active');
-    
-    updateProgressSteps(slideNumber);
+function nextSlide(n) {
+    try {
+        var cur = document.querySelector('.welcome-slide.active');
+        var next = document.querySelector('[data-slide="' + n + '"]');
+        if (!cur || !next) return;
+        cur.classList.remove('active');
+        next.classList.add('active');
+        updateProgressSteps(n);
+    } catch (e) { console.error('nextSlide:', e); }
 }
 
-function prevSlide(slideNumber) {
-    const currentSlide = document.querySelector('.welcome-slide.active');
-    const prevSlideElement = document.querySelector(`[data-slide="${slideNumber}"]`);
-    
-    if (!currentSlide || !prevSlideElement) return;
-    
-    currentSlide.classList.remove('active');
-    prevSlideElement.classList.add('active');
-    
-    updateProgressSteps(slideNumber);
-}
+function prevSlide(n) { nextSlide(n); }
 
 function updateProgressSteps(step) {
-    document.querySelectorAll('.progress-step').forEach(el => {
-        const stepNum = parseInt(el.dataset.step);
-        el.classList.remove('active', 'completed');
-        if (stepNum === step) el.classList.add('active');
-        if (stepNum < step) el.classList.add('completed');
-    });
+    try {
+        document.querySelectorAll('.progress-step').forEach(function(el) {
+            var s = parseInt(el.dataset.step);
+            el.classList.remove('active', 'completed');
+            if (s === step) el.classList.add('active');
+            if (s < step) el.classList.add('completed');
+        });
+    } catch (e) { console.error('updateProgressSteps:', e); }
 }
 
 function resetWelcomeSlides() {
-    document.querySelectorAll('.welcome-slide').forEach((slide, index) => {
-        slide.classList.remove('active');
-        if (index === 0) slide.classList.add('active');
-    });
-    updateProgressSteps(1);
-    selectedGender = null;
-    document.getElementById('user-gender').value = '';
-    document.querySelectorAll('.gender-option').forEach(opt => {
-        opt.classList.remove('selected');
-    });
-    
-    document.getElementById('user-name').value = '';
-    document.getElementById('user-age').value = '';
-    document.getElementById('name-next-btn').disabled = true;
-    document.getElementById('age-next-btn').disabled = true;
-    document.getElementById('start-btn').disabled = true;
+    try {
+        document.querySelectorAll('.welcome-slide').forEach(function(slide, i) {
+            slide.classList.remove('active');
+            if (i === 0) slide.classList.add('active');
+        });
+        updateProgressSteps(1);
+        selectedGender = null;
+        var gi = document.getElementById('user-gender'); if (gi) gi.value = '';
+        document.querySelectorAll('.gender-option').forEach(function(o) { o.classList.remove('selected'); });
+        var ni = document.getElementById('user-name'); if (ni) ni.value = '';
+        var ai = document.getElementById('user-age'); if (ai) ai.value = '';
+        var nb = document.getElementById('name-next-btn'); if (nb) nb.disabled = true;
+        var ab = document.getElementById('age-next-btn'); if (ab) ab.disabled = true;
+        var sb = document.getElementById('start-btn'); if (sb) sb.disabled = true;
+    } catch (e) { console.error('resetWelcomeSlides:', e); }
 }
 
 function selectGender(gender) {
-    selectedGender = gender;
-    document.getElementById('user-gender').value = gender;
-    
-    document.querySelectorAll('.gender-option').forEach(opt => {
-        opt.classList.remove('selected');
-        if (opt.dataset.gender === gender) {
-            opt.classList.add('selected');
-        }
-    });
-    
-    document.getElementById('start-btn').disabled = false;
+    try {
+        selectedGender = gender;
+        var gi = document.getElementById('user-gender'); if (gi) gi.value = gender;
+        document.querySelectorAll('.gender-option').forEach(function(o) {
+            o.classList.remove('selected');
+            if (o.dataset.gender === gender) o.classList.add('selected');
+        });
+        var sb = document.getElementById('start-btn'); if (sb) sb.disabled = false;
+    } catch (e) { console.error('selectGender:', e); }
 }
 
 // Event Listeners
-document.getElementById('user-name').addEventListener('input', function(e) {
-    document.getElementById('name-next-btn').disabled = !e.target.value.trim();
-});
+(function() {
+    var ni = document.getElementById('user-name');
+    var ai = document.getElementById('user-age');
+    if (ni) { ni.addEventListener('input', function(e) { var b = document.getElementById('name-next-btn'); if (b) b.disabled = !e.target.value.trim(); }); }
+    if (ai) { ai.addEventListener('input', function(e) { var a = parseInt(e.target.value); var b = document.getElementById('age-next-btn'); if (b) b.disabled = !a || a < 10 || a > 100; }); }
+})();
 
-document.getElementById('user-age').addEventListener('input', function(e) {
-    const age = parseInt(e.target.value);
-    document.getElementById('age-next-btn').disabled = !age || age < 10 || age > 100;
-});
-
+// function input information login
 function completeWelcome() {
-    const name = document.getElementById('user-name').value.trim();
-    const age = parseInt(document.getElementById('user-age').value);
-    const gender = document.getElementById('user-gender').value;
+    var nameEl = document.getElementById('user-name');
+    var ageEl = document.getElementById('user-age');
+    var genderEl = document.getElementById('user-gender');
+    var welcomeScreen = document.getElementById('welcome-screen');
+    var app = document.getElementById('app');
+    var startBtn = document.getElementById('start-btn');
     
-    if (!name || !age || !gender) return;
+    if (!nameEl || !ageEl || !genderEl || !welcomeScreen || !app) return;
     
-    const userData = {
-        name,
-        age,
-        gender,
-        createdAt: new Date().toISOString()
-    };
+    var name = nameEl.value.trim();
+    var age = parseInt(ageEl.value);
+    var gender = genderEl.value;
     
-    StorageManager.saveUser(userData);
-    hideWelcomeScreen();
-    initApp();
-    showToast(`مرحباً بك ${name}`);
+    if (!name || !age || !gender) { if (typeof showToast === 'function') showToast('يرجى إكمال جميع الحقول'); return; }
     
-    // Show permission modal after welcome
-    setTimeout(() => {
-        PermissionsManager.showPermissionModal();
-    }, 1000);
+    if (startBtn) { startBtn.disabled = true; startBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري التحميل...'; }
+    
+    // حفظ البيانات
+    localStorage.setItem('taafi_user_data', JSON.stringify({ value: { name: name, age: age, gender: gender, createdAt: new Date().toISOString() }, timestamp: Date.now() }));
+    
+    // إخفاء شاشة الترحيب
+    welcomeScreen.classList.add('hidden');
+    welcomeScreen.style.display = 'none';
+    
+    // إظهار التطبيق
+    app.classList.add('visible');
+    app.style.display = 'flex';
+    
+    // إعادة تهيئة StorageManager
+    if (typeof StorageManager !== 'undefined' && typeof StorageManager.init === 'function') StorageManager.init();
+    
+    // تحميل الصفحة الرئيسية
+    if (typeof navigateTo === 'function') { navigateTo('home'); }
+    else if (typeof renderHomePage === 'function') { renderHomePage(); }
+    
+    // تطبيق المظهر
+    try { var sd = localStorage.getItem('taafi_settings'); if (sd) { var s = JSON.parse(sd); var t = (s.value && s.value.theme) || 'light'; if (typeof applyTheme === 'function') applyTheme(t); } } catch (e) {}
+    
+    // تحديث التصميم
+    var w = window.innerWidth;
+    var sidebar = document.getElementById('sidebar');
+    var bottomNav = document.getElementById('bottom-nav');
+    if (w >= 1024) { if (sidebar) sidebar.style.display = 'flex'; if (bottomNav) bottomNav.style.display = 'none'; }
+    else { if (sidebar) sidebar.style.display = 'none'; if (bottomNav) bottomNav.style.display = 'flex'; }
+    
+    // رسالة ترحيب
+    if (typeof showToast === 'function') showToast('مرحباً بك ' + name + '! 🌿');
+    
+    // إشعارات
+    setTimeout(function() { if (typeof PermissionsManager !== 'undefined' && typeof PermissionsManager.showPermissionModal === 'function') PermissionsManager.showPermissionModal(); }, 2000);
+    
+    if (startBtn) startBtn.innerHTML = '<i class="fas fa-play"></i> ابدأ الرحلة';
 }

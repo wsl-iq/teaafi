@@ -1,108 +1,58 @@
-// Main Application Controller
-const App = {
-    init() {
-        StorageManager.init();
-        RecoveryCounter.init();
-        this.checkFirstRun();
-        this.handleSplashScreen();
-        this.setupEventListeners();
-        this.checkResponsive();
-    },
-    
-    checkFirstRun() {
-        const user = StorageManager.getUser();
-        if (user) {
-            this.showMainApp();
-        } else {
-            this.showWelcome();
-        }
-    },
-    
-    handleSplashScreen() {
-        setTimeout(() => {
-            document.getElementById('splash-screen').classList.add('hidden');
-        }, 2000);
-    },
-    
-    showWelcome() {
-        document.getElementById('welcome-screen').classList.remove('hidden');
-        document.getElementById('app').classList.remove('visible');
-    },
-    
-    showMainApp() {
-        document.getElementById('welcome-screen').classList.add('hidden');
-        document.getElementById('app').classList.add('visible');
-        navigateTo('home');
-        
-        // ✅ Apply saved theme on app start
-        const settings = StorageManager.getSettings();
-        const theme = settings.theme || 'light';
-        applyTheme(theme);
-        
-        setTimeout(() => PermissionsManager.showPermissionModal(), 1000);
-        NotificationService.scheduleDailyReminder();
-    },
-    
-    setupEventListeners() {
-        // Handle responsive changes
-        window.addEventListener('resize', () => this.checkResponsive());
-        
-        // Handle PWA install
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            window.deferredPrompt = e;
-        });
-        
-        // Handle online/offline
-        window.addEventListener('online', () => showToast('تم استعادة الاتصال بالإنترنت'));
-        window.addEventListener('offline', () => showToast('أنت غير متصل بالإنترنت حالياً'));
-    },
-    
-    checkResponsive() {
-        const width = window.innerWidth;
-        const sidebar = document.getElementById('sidebar');
-        const bottomNav = document.getElementById('bottom-nav');
-        
-        if (width >= 1024) {
-            sidebar.style.display = 'flex';
-            bottomNav.style.display = 'none';
-        } else {
-            sidebar.style.display = 'none';
-            bottomNav.style.display = 'flex';
-        }
-    }
-};
+var _appStarted = false;
 
-// Toast System
-function showToast(message, duration = 3000) {
-    const container = document.getElementById('toast-container');
-    const toast = document.createElement('div');
-    toast.className = 'toast';
-    toast.textContent = message;
+function initApp() {
+    if (_appStarted) return;
+    _appStarted = true;
     
-    container.appendChild(toast);
+    try {
+        if (typeof StorageManager !== 'undefined' && typeof StorageManager.init === 'function') StorageManager.init();
+        if (typeof RecoveryCounter !== 'undefined' && typeof RecoveryCounter.init === 'function') RecoveryCounter.init();
+    } catch (e) { console.error('init error:', e); }
     
-    setTimeout(() => {
-        toast.style.opacity = '0';
-        toast.style.transform = 'translateY(20px)';
-        setTimeout(() => toast.remove(), 300);
-    }, duration);
+    setTimeout(function() {
+        var splash = document.getElementById('splash-screen');
+        if (splash) { splash.classList.add('hidden'); splash.style.display = 'none'; }
+        
+        var user = null;
+        try { var d = localStorage.getItem('taafi_user_data'); if (d) user = JSON.parse(d).value; } catch (e) {}
+        
+        if (user) { showMainApp(); } else { showWelcome(); }
+    }, 2000);
+    
+    window.addEventListener('resize', checkResponsive);
 }
 
-// Initialize app when DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
-    App.init();
-});
+function showMainApp() {
+    var ws = document.getElementById('welcome-screen');
+    var app = document.getElementById('app');
+    if (ws) { ws.classList.add('hidden'); ws.style.display = 'none'; }
+    if (app) { app.classList.add('visible'); app.style.display = 'flex'; }
+    if (typeof navigateTo === 'function') navigateTo('home');
+    try { var sd = localStorage.getItem('taafi_settings'); if (sd) { var s = JSON.parse(sd); var t = (s.value && s.value.theme) || 'light'; if (typeof applyTheme === 'function') applyTheme(t); } } catch (e) {}
+    checkResponsive();
+    setTimeout(function() { if (typeof PermissionsManager !== 'undefined' && typeof PermissionsManager.showPermissionModal === 'function') PermissionsManager.showPermissionModal(); }, 2000);
+}
 
-// Service Worker Registration
+function showWelcome() {
+    var app = document.getElementById('app');
+    var ws = document.getElementById('welcome-screen');
+    if (app) { app.classList.remove('visible'); app.style.display = 'none'; }
+    if (ws) { ws.classList.remove('hidden'); ws.style.display = 'flex'; }
+    if (typeof resetWelcomeSlides === 'function') resetWelcomeSlides();
+}
+
+function checkResponsive() {
+    var w = window.innerWidth;
+    var s = document.getElementById('sidebar');
+    var b = document.getElementById('bottom-nav');
+    if (w >= 1024) { if (s) s.style.display = 'flex'; if (b) b.style.display = 'none'; }
+    else { if (s) s.style.display = 'none'; if (b) b.style.display = 'flex'; }
+}
+
+document.addEventListener('DOMContentLoaded', function() { setTimeout(initApp, 100); });
+
 if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
-            .then(registration => {
-                console.log('ServiceWorker registered successfully');
-            })
-            .catch(error => {
-                console.log('ServiceWorker registration failed:', error);
-            });
+    window.addEventListener('load', function() {
+        navigator.serviceWorker.register('/sw.js').then(function() { console.log('SW ok'); }).catch(function() {});
     });
 }
