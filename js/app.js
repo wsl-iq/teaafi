@@ -30,7 +30,13 @@ function showMainApp() {
     if (typeof navigateTo === 'function') navigateTo('home');
     try { var sd = localStorage.getItem('taafi_settings'); if (sd) { var s = JSON.parse(sd); var t = (s.value && s.value.theme) || 'light'; if (typeof applyTheme === 'function') applyTheme(t); } } catch (e) {}
     checkResponsive();
-    setTimeout(function() { if (typeof PermissionsManager !== 'undefined' && typeof PermissionsManager.showPermissionModal === 'function') PermissionsManager.showPermissionModal(); }, 2000);
+    
+    // ✅ طلب الإشعارات للمستخدمين القدامى (إذا لم يسبق لهم الموافقة)
+    setTimeout(function() {
+        if (typeof PermissionsManager !== 'undefined' && typeof PermissionsManager.showPermissionModal === 'function') {
+            PermissionsManager.showPermissionModal();
+        }
+    }, 3000);
 }
 
 function showWelcome() {

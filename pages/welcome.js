@@ -104,6 +104,18 @@ function completeWelcome() {
     // حفظ البيانات
     localStorage.setItem('taafi_user_data', JSON.stringify({ value: { name: name, age: age, gender: gender, createdAt: new Date().toISOString() }, timestamp: Date.now() }));
     
+    // ✅ إعادة تعيين إعدادات الإشعارات لمستخدم جديد
+    localStorage.setItem('taafi_settings', JSON.stringify({
+        value: {
+            notifications: false,
+            dailyReminder: true,
+            theme: 'light',
+            notificationPermissionAsked: false,
+            notificationPermissionGranted: false
+        },
+        timestamp: Date.now()
+    }));
+    
     // إخفاء شاشة الترحيب
     welcomeScreen.classList.add('hidden');
     welcomeScreen.style.display = 'none';
@@ -132,8 +144,14 @@ function completeWelcome() {
     // رسالة ترحيب
     if (typeof showToast === 'function') showToast('مرحباً بك ' + name + '! 🌿');
     
-    // إشعارات
-    setTimeout(function() { if (typeof PermissionsManager !== 'undefined' && typeof PermissionsManager.showPermissionModal === 'function') PermissionsManager.showPermissionModal(); }, 2000);
+    // ✅ طلب الإشعارات لمستخدم جديد
+    setTimeout(function() {
+        if (typeof PermissionsManager !== 'undefined' && typeof PermissionsManager.showPermissionModal === 'function') {
+            // إظهار النافذة مباشرة للمستخدم الجديد
+            var modal = document.getElementById('permission-modal');
+            if (modal) modal.classList.remove('hidden');
+        }
+    }, 3000);
     
     if (startBtn) startBtn.innerHTML = '<i class="fas fa-play"></i> ابدأ الرحلة';
 }
