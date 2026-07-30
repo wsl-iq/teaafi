@@ -12,13 +12,6 @@
 
 ---
 
-# Download
-
-[![Android](https://img.shields.io/badge/Android-3DDC84?logo=android&logoColor=white)](https://github.com/wsl-iq/teaafi/releases/download/V1.0.0/Taeafi.apk)
-[![Windows](https://custom-icon-badges.demolab.com/badge/Windows-0078D6?logo=windows11&logoColor=white)](https://github.com/wsl-iq/teaafi/releases/download/V1.0.0/Taeafi.Setup.1.0.0.exe)
-
----
-
 # *About*
 
 **Taeafi** (تعافي) — Arabic for **"Recovery"** — is a comprehensive Progressive Web Application (PWA) designed to help individuals overcome harmful habits and build a healthier, more fulfilling lifestyle.

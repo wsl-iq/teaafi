@@ -20,10 +20,10 @@ class NotificationService {
         if (Notification.permission !== 'granted') return;
         
         var defaultOptions = {
-            icon: '/assets/icons/icon-192.png',
-            badge: '/assets/icons/icon-72.png',
+            icon: '/assets/icons/icon-192.png', // قريباَ
+            badge: '/assets/icons/icon-72.png', // قريباً
             vibrate: [200, 100, 200],
-            tag: 'taafi-reminder',
+            tag: 'taafi-reminder', // قريباَ
             renotify: true,
             requireInteraction: false,
             silent: false

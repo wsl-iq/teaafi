@@ -2033,3 +2033,25 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     background: #3D1F20 !important;
     color: #EF5350 !important;
 }
+
+/* تصحيح قسم التحديثات في المظهر الداكن */
+.theme-dark #update-status span {
+    color: var(--text-secondary) !important;
+}
+
+.theme-dark #update-message span {
+    color: var(--text-primary) !important;
+}
+
+/* ==================== تصحيح قسم التبرع في المظهر الداكن ==================== */
+
+/* بطاقة الماستر كارد تبقى كما هي في كلا المظهرين */
+.theme-dark #card-number {
+    color: white !important;
+}
+
+/* زر النسخ */
+.theme-dark #copy-card-btn {
+    background: var(--primary-gradient) !important;
+    color: white !important;
+}

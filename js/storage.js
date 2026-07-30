@@ -114,6 +114,7 @@ class StorageManager {
             notifications: false,
             dailyReminder: true,
             theme: 'light',  // إضافة المظهر الافتراضي
+            autoUpdateCheck: true,  //  إضافة
             notificationPermissionAsked: false,
             notificationPermissionGranted: false,
             reminderTime: '08:00'

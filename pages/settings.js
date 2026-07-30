@@ -360,6 +360,127 @@ function renderSettingsPage() {
                     يستخدمه وأن يجعله سبباً في الهداية والإصلاح والعون على ترك العادات الضارة.
                 </p>
             </div>
+
+            <!-- ============ تحديثات التطبيق ============ -->
+            <div class="settings-group">
+                <h3 style="padding: 16px 24px; border-bottom: 1px solid var(--border-light);">
+                    <i class="fas fa-sync-alt" style="margin-left: 8px; color: #2196F3;"></i>
+                    تحديثات التطبيق
+                </h3>
+                
+                <!-- تفعيل/إلغاء التحقق التلقائي -->
+                <div class="settings-item">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <i class="fas fa-robot" style="color: var(--text-tertiary); font-size: 16px;"></i>
+                        <span>التحقق التلقائي من التحديثات</span>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" ${settings.autoUpdateCheck !== false ? 'checked' : ''} 
+                               onchange="toggleAutoUpdateCheck(this.checked)">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                
+                <!-- زر التحقق اليدوي -->
+                <div class="settings-item" style="border-bottom: none;">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <i class="fas fa-search" style="color: var(--text-tertiary); font-size: 16px;"></i>
+                        <span>التحقق اليدوي من التحديثات</span>
+                    </div>
+                    <button class="btn btn-primary btn-sm" onclick="checkForUpdates()" id="manual-check-btn">
+                        <i class="fas fa-sync-alt"></i> تحقق الآن
+                    </button>
+                </div>
+                
+                <!-- نتيجة التحقق -->
+                <div style="padding: 16px 24px; text-align: center; border-top: 1px solid var(--border-light);">
+                    <div id="update-status" style="margin-bottom: 8px;">
+                        <span style="color: var(--text-tertiary); font-size: 13px;">
+                            <i class="fas fa-info-circle"></i> اضغط على "تحقق الآن" للبحث عن تحديثات
+                        </span>
+                    </div>
+                    <div id="update-info" style="display: none;">
+                        <p id="update-message" style="margin-bottom: 12px; line-height: 1.8;"></p>
+                        <div id="update-actions" style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+                            <a id="update-download-btn" href="#" target="_blank" rel="noopener" class="btn btn-primary btn-sm" style="text-decoration: none;">
+                                <i class="fas fa-download"></i> تحميل التحديث
+                            </a>
+                            <a id="update-release-btn" href="${GITHUB_RELEASES_URL}" target="_blank" rel="noopener" class="btn btn-outline btn-sm" style="text-decoration: none;">
+                                <i class="fab fa-github"></i> صفحة الإصدارات
+                            </a>
+                        </div>
+                    </div>
+                    <p style="font-size: 11px; color: var(--text-tertiary); margin-top: 8px;">
+                        الإصدار الحالي: <strong id="current-version">${APP_VERSION}</strong>
+                    </p>
+                    <p id="last-check-time" style="font-size: 10px; color: var(--text-tertiary); margin-top: 4px;"></p>
+                </div>
+            </div>
+
+            <!-- ============ تبرع لدعم التطبيق ============ -->
+            <div class="settings-group">
+                <h3 style="padding: 16px 24px; border-bottom: 1px solid var(--border-light);">
+                    <i class="fas fa-hand-holding-heart" style="margin-left: 8px; color: #E91E63;"></i>
+                    تبرع لدعم التطبيق
+                </h3>
+                <div style="padding: 24px; text-align: center;">
+                    <p style="color: var(--text-secondary); margin-bottom: 16px; line-height: 1.8;">
+                        التطبيق <strong>مجاني بالكامل</strong> وهو صدقة جارية للجميع
+                        <br>لكن إن أردت المساهمة في دعم التطوير والاستمرارية
+                        <br>يمكنك التبرع بالمبلغ الذي تريده
+                    </p>
+                    
+                    <!-- بطاقة التبرع -->
+                    <div style="background: linear-gradient(135deg, #1A1A1A, #2D2D2D); padding: 20px; border-radius: var(--radius-xl); margin-bottom: 16px; max-width: 380px; margin-left: auto; margin-right: auto; box-shadow: 0 8px 24px rgba(0,0,0,0.2);">
+                        <!-- شعار Mastercard -->
+                        <div style="display: flex; justify-content: flex-end; margin-bottom: 16px;">
+                            <svg width="50" height="30" viewBox="0 0 50 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="20" cy="15" r="15" fill="#EB001B"/>
+                                <circle cx="30" cy="15" r="15" fill="#F79E1B" opacity="0.8"/>
+                                <text x="25" y="20" text-anchor="middle" fill="white" font-size="7" font-weight="bold" font-family="Arial">Mastercard</text>
+                            </svg>
+                        </div>
+                        
+                        <!-- رقم البطاقة -->
+                        <div style="margin-bottom: 12px;">
+                            <p style="color: #999; font-size: 10px; text-align: left; margin-bottom: 4px;">رقم البطاقة</p>
+                            <p style="color: white; font-size: 20px; letter-spacing: 3px; font-family: 'Courier New', monospace; text-align: left; direction: ltr;" id="card-number">4582 1499 61</p>
+                        </div>
+                        
+                        <!-- اسم الحامل -->
+                        <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+                            <div>
+                                <p style="color: #999; font-size: 10px; text-align: left; margin-bottom: 2px;">صاحب البطاقة</p>
+                                <p style="color: white; font-size: 13px; text-align: left;">MOHAMMED AL-BAQER</p>
+                            </div>
+                            <div>
+                                <p style="color: #999; font-size: 10px; text-align: right; margin-bottom: 2px;">صالحة حتى</p>
+                                <p style="color: white; font-size: 13px; text-align: right;">11/2029</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- أزرار النسخ والتبرع -->
+                    <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 12px;">
+                        <button class="btn btn-primary btn-sm" onclick="copyCardNumber('4582149961')" id="copy-card-btn">
+                            <i class="fas fa-copy"></i> نسخ رقم البطاقة
+                        </button>
+                    </div>
+                    
+                    <!-- رسالة نسخ -->
+                    <p id="copy-status" style="font-size: 12px; color: var(--text-tertiary); min-height: 18px;"></p>
+                    
+                    <!-- خط فاصل -->
+                    <div style="height: 1px; background: var(--border-light); margin: 16px 0;"></div>
+                    
+                    <!-- رسالة شكر -->
+                    <p style="color: var(--text-secondary); font-size: 13px; line-height: 1.8; font-style: italic;">
+                        <i class="fas fa-quote-right" style="color: #E91E63; margin-left: 4px; font-size: 16px;"></i>
+                        جزاك الله خيراً على دعمك وتبرعك
+                        <br>جعله الله في ميزان حسناتك
+                    </p>
+                </div>
+            </div>
             
             <!-- ============ منطقة الخطر ============ -->
             <div class="settings-group" style="margin-top: 24px;">
@@ -883,6 +1004,393 @@ document.addEventListener('mouseout', function(e) {
         });
     }
 });
+
+// ==================== نظام التحقق من التحديثات ====================
+
+// الإصدار الحالي للتطبيق
+const APP_VERSION = '1.0.0';
+
+// روابط GitHub
+const GITHUB_VERSION_URL = 'https://raw.githubusercontent.com/wsl-iq/teaafi/refs/heads/main/version.txt';
+const GITHUB_API_URL = 'https://api.github.com/repos/wsl-iq/teaafi/releases/latest';
+const GITHUB_RELEASES_URL = 'https://github.com/wsl-iq/teaafi/releases/latest';
+
+// متغير للتحكم في التحقق التلقائي
+let autoUpdateInterval = null;
+
+/**
+ * تفعيل/إلغاء التحقق التلقائي
+ */
+function toggleAutoUpdateCheck(enabled) {
+    updateSetting('autoUpdateCheck', enabled);
+    
+    if (enabled) {
+        startAutoUpdateCheck();
+        showToast('تم تفعيل التحقق التلقائي من التحديثات');
+    } else {
+        stopAutoUpdateCheck();
+        showToast('تم إلغاء التحقق التلقائي من التحديثات');
+    }
+}
+
+/**
+ * بدء التحقق التلقائي
+ */
+function startAutoUpdateCheck() {
+    stopAutoUpdateCheck(); // إيقاف أي مؤقت سابق
+    
+    // تحقق فوري عند التفعيل
+    checkForUpdates(true);
+    
+    // تحقق كل 24 ساعة
+    autoUpdateInterval = setInterval(function() {
+        checkForUpdates(true);
+    }, 24 * 60 * 60 * 1000);
+    
+    console.log('[Update] Auto check started (every 24h)');
+}
+
+/**
+ * إيقاف التحقق التلقائي
+ */
+function stopAutoUpdateCheck() {
+    if (autoUpdateInterval) {
+        clearInterval(autoUpdateInterval);
+        autoUpdateInterval = null;
+        console.log('[Update] Auto check stopped');
+    }
+}
+
+/**
+ * التحقق من وجود تحديثات
+ * @param {boolean} silent - إذا كان true لا يظهر رسائل Toast
+ */
+async function checkForUpdates(silent) {
+    const updateStatus = document.getElementById('update-status');
+    const updateInfo = document.getElementById('update-info');
+    const manualBtn = document.getElementById('manual-check-btn');
+    
+    // عرض حالة التحميل
+    if (updateStatus) {
+        updateStatus.innerHTML = `
+            <span style="color: var(--text-secondary);">
+                <i class="fas fa-spinner fa-spin"></i> جاري التحقق من التحديثات...
+            </span>
+        `;
+    }
+    if (updateInfo) updateInfo.style.display = 'none';
+    if (manualBtn) {
+        manualBtn.disabled = true;
+        manualBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري التحقق...';
+    }
+    
+    try {
+        let latestVersion = null;
+        let downloadUrl = GITHUB_RELEASES_URL;
+        
+        // المحاولة الأولى: version.txt
+        try {
+            const response = await fetch(GITHUB_VERSION_URL + '?t=' + Date.now(), {
+                cache: 'no-cache',
+                headers: { 'Accept': 'text/plain' }
+            });
+            
+            if (response.ok) {
+                latestVersion = (await response.text()).trim();
+                console.log('[Update] version.txt:', latestVersion);
+            }
+        } catch (e) {
+            console.warn('[Update] version.txt failed, trying API...');
+        }
+        
+        // المحاولة الثانية: GitHub API
+        if (!latestVersion) {
+            try {
+                const response = await fetch(GITHUB_API_URL, {
+                    cache: 'no-cache',
+                    headers: { 'Accept': 'application/vnd.github.v3+json' }
+                });
+                
+                if (response.ok) {
+                    const release = await response.json();
+                    latestVersion = release.tag_name ? release.tag_name.replace(/^v/, '') : null;
+                    if (release.html_url) downloadUrl = release.html_url;
+                    console.log('[Update] API:', latestVersion);
+                }
+            } catch (e) {
+                console.warn('[Update] API failed');
+            }
+        }
+        
+        // عرض النتيجة
+        if (latestVersion) {
+            if (compareVersions(latestVersion, APP_VERSION) > 0) {
+                showUpdateAvailable(latestVersion, downloadUrl, silent);
+            } else {
+                showNoUpdateAvailable(silent);
+            }
+        } else {
+            showUpdateCheckFailed(silent);
+        }
+        
+        // حفظ تاريخ آخر فحص
+        StorageManager.set('last_update_check', Date.now());
+        updateLastCheckTime();
+        
+    } catch (error) {
+        console.error('[Update] Error:', error);
+        showUpdateCheckFailed(silent);
+    } finally {
+        if (manualBtn) {
+            manualBtn.disabled = false;
+            manualBtn.innerHTML = '<i class="fas fa-sync-alt"></i> تحقق الآن';
+        }
+    }
+}
+
+/**
+ * عرض رسالة وجود تحديث
+ */
+function showUpdateAvailable(latestVersion, downloadUrl, silent) {
+    const updateStatus = document.getElementById('update-status');
+    const updateInfo = document.getElementById('update-info');
+    const updateMessage = document.getElementById('update-message');
+    const downloadBtn = document.getElementById('update-download-btn');
+    
+    if (updateStatus) {
+        updateStatus.innerHTML = `
+            <span style="color: #FF9800; font-weight: 600;">
+                <i class="fas fa-exclamation-circle"></i> يوجد تحديث جديد!
+            </span>
+        `;
+    }
+    
+    if (updateMessage) {
+        updateMessage.innerHTML = `
+            <div style="color: var(--text-primary); margin-bottom: 8px;">
+                📦 <strong style="color: #FF9800;">الإصدار v${latestVersion}</strong> متاح الآن
+            </div>
+            <div style="color: var(--text-secondary); font-size: 13px;">
+                أنت تستخدم الإصدار <strong>v${APP_VERSION}</strong>
+                <br>يوصى بالتحديث للحصول على أحدث الميزات والتحسينات
+            </div>
+        `;
+    }
+    
+    if (downloadBtn) {
+        downloadBtn.href = downloadUrl || GITHUB_RELEASES_URL;
+    }
+    
+    if (updateInfo) updateInfo.style.display = 'block';
+    
+    if (!silent && typeof showToast === 'function') {
+        showToast('📦 يوجد تحديث جديد! v' + latestVersion);
+    }
+    
+    StorageManager.set('update_available', { version: latestVersion, date: Date.now() });
+}
+
+/**
+ * عرض رسالة عدم وجود تحديث
+ */
+function showNoUpdateAvailable(silent) {
+    const updateStatus = document.getElementById('update-status');
+    const updateInfo = document.getElementById('update-info');
+    
+    if (updateStatus) {
+        updateStatus.innerHTML = `
+            <span style="color: #4CAF50; font-weight: 600;">
+                <i class="fas fa-check-circle"></i> التطبيق محدث إلى آخر إصدار v${APP_VERSION}
+            </span>
+        `;
+    }
+    
+    if (updateInfo) updateInfo.style.display = 'none';
+    
+    if (!silent && typeof showToast === 'function') {
+        showToast('✅ التطبيق محدث إلى آخر إصدار');
+    }
+    
+    StorageManager.remove('update_available');
+}
+
+/**
+ * عرض رسالة فشل التحقق
+ */
+function showUpdateCheckFailed(silent) {
+    const updateStatus = document.getElementById('update-status');
+    const updateInfo = document.getElementById('update-info');
+    
+    if (updateStatus) {
+        updateStatus.innerHTML = `
+            <span style="color: var(--text-tertiary);">
+                <i class="fas fa-exclamation-triangle"></i> تعذر التحقق من التحديثات
+            </span>
+            <br>
+            <span style="font-size: 11px; color: var(--text-tertiary);">
+                تحقق من اتصالك بالإنترنت وحاول مرة أخرى
+            </span>
+        `;
+    }
+    
+    if (updateInfo) updateInfo.style.display = 'none';
+    
+    if (!silent && typeof showToast === 'function') {
+        showToast('⚠️ تعذر التحقق من التحديثات');
+    }
+}
+
+/**
+ * مقارنة رقمين إصدار
+ */
+function compareVersions(v1, v2) {
+    if (!v1 || !v2) return 0;
+    
+    const parts1 = v1.toString().split('.').map(Number);
+    const parts2 = v2.toString().split('.').map(Number);
+    const maxLength = Math.max(parts1.length, parts2.length);
+    
+    for (let i = 0; i < maxLength; i++) {
+        const a = parts1[i] || 0;
+        const b = parts2[i] || 0;
+        if (a > b) return 1;
+        if (a < b) return -1;
+    }
+    return 0;
+}
+
+/**
+ * تحديث وقت آخر فحص
+ */
+function updateLastCheckTime() {
+    const lastCheck = StorageManager.get('last_update_check');
+    const el = document.getElementById('last-check-time');
+    
+    if (el && lastCheck) {
+        const date = new Date(lastCheck);
+        const now = new Date();
+        const diffMinutes = Math.floor((now - date) / 60000);
+        
+        if (diffMinutes < 1) {
+            el.textContent = 'آخر فحص: الآن';
+        } else if (diffMinutes < 60) {
+            el.textContent = 'آخر فحص: منذ ' + diffMinutes + ' دقيقة';
+        } else if (diffMinutes < 1440) {
+            el.textContent = 'آخر فحص: منذ ' + Math.floor(diffMinutes / 60) + ' ساعة';
+        } else {
+            el.textContent = 'آخر فحص: ' + date.toLocaleDateString('ar-SA');
+        }
+    } else if (el) {
+        el.textContent = 'لم يتم الفحص بعد';
+    }
+}
+
+/**
+ * تهيئة نظام التحديثات عند تحميل الصفحة
+ */
+function initUpdateSystem() {
+    // عرض الإصدار الحالي
+    const versionEl = document.getElementById('current-version');
+    if (versionEl) versionEl.textContent = APP_VERSION;
+    
+    // تحديث وقت آخر فحص
+    updateLastCheckTime();
+    
+    // التحقق من الإعدادات
+    const settings = StorageManager.getSettings();
+    
+    // بدء التحقق التلقائي إذا كان مفعلاً
+    if (settings.autoUpdateCheck !== false) {
+        startAutoUpdateCheck();
+    }
+}
+
+// استدعاء التهيئة
+document.addEventListener('DOMContentLoaded', function() {
+    setTimeout(initUpdateSystem, 500);
+});
+
+// ==================== نظام التبرع ====================
+
+/**
+ * نسخ رقم البطاقة إلى الحافظة
+ */
+function copyCardNumber(number) {
+    const formattedNumber = number.replace(/\s/g, '');
+    
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(formattedNumber).then(function() {
+            showCopySuccess();
+        }).catch(function() {
+            fallbackCopyCardNumber(formattedNumber);
+        });
+    } else {
+        fallbackCopyCardNumber(formattedNumber);
+    }
+}
+
+/**
+ * طريقة بديلة لنسخ النص
+ */
+function fallbackCopyCardNumber(text) {
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.style.position = 'fixed';
+    textarea.style.opacity = '0';
+    textarea.style.left = '-9999px';
+    document.body.appendChild(textarea);
+    textarea.select();
+    
+    try {
+        document.execCommand('copy');
+        showCopySuccess();
+    } catch (err) {
+        showCopyFailed(text);
+    }
+    
+    document.body.removeChild(textarea);
+}
+
+/**
+ * عرض رسالة نجاح النسخ
+ */
+function showCopySuccess() {
+    const statusEl = document.getElementById('copy-status');
+    const copyBtn = document.getElementById('copy-card-btn');
+    
+    if (statusEl) {
+        statusEl.innerHTML = '<span style="color: #4CAF50;"><i class="fas fa-check-circle"></i> تم نسخ رقم البطاقة بنجاح</span>';
+    }
+    
+    if (copyBtn) {
+        const originalText = copyBtn.innerHTML;
+        copyBtn.innerHTML = '<i class="fas fa-check"></i> تم النسخ';
+        copyBtn.style.background = '#4CAF50';
+        copyBtn.style.borderColor = '#4CAF50';
+        
+        setTimeout(function() {
+            copyBtn.innerHTML = originalText;
+            copyBtn.style.background = '';
+            copyBtn.style.borderColor = '';
+        }, 2000);
+    }
+    
+    if (typeof showToast === 'function') {
+        showToast('تم نسخ رقم البطاقة بنجاح');
+    }
+}
+
+function showCopyFailed(text) {
+    const statusEl = document.getElementById('copy-status');
+    
+    if (statusEl) {
+        statusEl.innerHTML = '<span style="color: #F44336;"><i class="fas fa-times-circle"></i> تعذر النسخ - رقم البطاقة: ' + text + '</span>';
+    }
+    
+    if (typeof showToast === 'function') {
+        showToast('تعذر النسخ التلقائي');
+    }
+}
 
 document.addEventListener('DOMContentLoaded', () => {
     const settings = StorageManager.getSettings();
