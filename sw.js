@@ -1,3 +1,12 @@
+/**
+ * Developer: Mohammed Al-Baqer
+ * Website: https://wsl-iq.github.io/teaafi/
+ * Copyright (c) 2026 Mohammed Al-Baqer
+ * Folder : Taafi
+ * File   : sw.js
+ * Type: JavaScript
+ */
+
 const CACHE_NAME = 'taafi-app-v1.0.0';
 const DYNAMIC_CACHE = 'taafi-dynamic-v1';
 
@@ -18,6 +27,9 @@ const STATIC_ASSETS = [
   '/js/notifications.js',
   '/js/permissions.js',
   '/js/counter.js',
+  '/js/adhkar.js',
+  '/js/stats.js',
+  '/js/tasbih.js',
   '/data/content.js',
   '/data/adhkar.js',
   '/pages/welcome.js',
@@ -27,6 +39,7 @@ const STATIC_ASSETS = [
   '/pages/spiritual.js',
   '/pages/recovery.js',
   '/pages/settings.js',
+  '/pages/tasbih.js',
   '/manifest.json'
 ];
 

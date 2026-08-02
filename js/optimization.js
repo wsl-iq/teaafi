@@ -1,6 +1,11 @@
-// Taeafi Optimization - Pure JavaScript
-// No WASM, No Emscripten, No External Libraries
-// Works everywhere: Browser, PWA, Android, Windows
+/**
+ * Developer: Mohammed Al-Baqer
+ * Website: https://wsl-iq.github.io/teaafi/
+ * Copyright (c) 2026 Mohammed Al-Baqer
+ * Folder : js
+ * File   : optimization.js
+ * Type: JavaScript
+ */
 
 var TaeafiWASM = (function() {
     'use strict';

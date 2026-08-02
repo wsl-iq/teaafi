@@ -1,4 +1,12 @@
-// متغير لتتبع حالة العداد
+/**
+ * Developer: Mohammed Al-Baqer
+ * Website: https://wsl-iq.github.io/teaafi/
+ * Copyright (c) 2026 Mohammed Al-Baqer
+ * Folder : Pages
+ * File   : recovery.js
+ * Type: JavaScript
+ */
+
 let counterIntervalId = null;
 
 function renderRecoveryPage() {

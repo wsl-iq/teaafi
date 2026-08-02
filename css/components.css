@@ -1,4 +1,12 @@
-/* ============ Buttons ============ */
+/* 
+Developer: Mohammed Al-Baqer
+ * Website: https://wsl-iq.github.io/teaafi/
+ * Copyright (c) 2026 Mohammed Al-Baqer
+    * Folder : CSS
+    * File   : components.css
+    * Type: CSS
+*/
+
 .btn {
     display: inline-flex;
     align-items: center;
@@ -72,7 +80,7 @@
     transform: none !important;
 }
 
-/* ============ Cards ============ */
+/*  Cards  */
 .card {
     background: var(--surface);
     border-radius: var(--radius-xl);
@@ -125,7 +133,7 @@
     line-height: 1.7;
 }
 
-/* ============ Counter Card ============ */
+/*  Counter Card  */
 .counter-card {
     background: var(--primary-gradient);
     color: var(--text-on-primary);
@@ -185,7 +193,7 @@
     margin-top: var(--space-1);
 }
 
-/* ============ Input Fields ============ */
+/*  Input Fields  */
 .form-group {
     margin-bottom: var(--space-5);
 }
@@ -229,7 +237,7 @@
     color: var(--text-disabled);
 }
 
-/* ============ Gender Selector ============ */
+/*  Gender Selector  */
 .gender-selector {
     display: flex;
     gap: var(--space-4);
@@ -275,7 +283,7 @@
     color: var(--text-primary);
 }
 
-/* ============ Progress Steps ============ */
+/*  Progress Steps  */
 .welcome-progress {
     display: flex;
     justify-content: center;
@@ -300,7 +308,7 @@
     background: var(--accent-green);
 }
 
-/* ============ Bottom Navigation ============ */
+/*  Bottom Navigation  */
 .bottom-nav {
     position: fixed;
     bottom: 0;
@@ -356,7 +364,7 @@
     border-radius: 0 0 var(--radius-full) var(--radius-full);
 }
 
-/* ============ Sidebar Navigation ============ */
+/*  Sidebar Navigation  */
 .sidebar {
     display: none;
     flex-direction: column;
@@ -435,7 +443,7 @@
     text-align: center;
 }
 
-/* ============ Splash Screen ============ */
+/*  Splash Screen  */
 .splash-screen {
     position: fixed;
     top: 0;
@@ -512,7 +520,7 @@
     100% { transform: translateX(350%); }
 }
 
-/* ============ Welcome Screen ============ */
+/*  Welcome Screen  */
 .welcome-screen {
     position: fixed;
     top: 0;
@@ -587,7 +595,7 @@
     flex: 1;
 }
 
-/* ============ Modal ============ */
+/*  Modal  */
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -647,7 +655,7 @@
     flex: 1;
 }
 
-/* ============ Content Sections ============ */
+/*  Content Sections  */
 .content-section {
     margin-bottom: var(--space-8);
 }
@@ -669,7 +677,7 @@
     border-right: 4px solid var(--primary);
 }
 
-/* ==================== Spiritual Cards ==================== */
+/*  Spiritual Cards  */
 .spiritual-card {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
@@ -691,7 +699,7 @@
     border-right: 4px solid var(--primary);
 }
 
-/* ============ Settings ============ */
+/*  Settings  */
 .settings-group {
     background: var(--surface);
     border-radius: var(--radius-xl);
@@ -716,7 +724,7 @@
     background: var(--surface-variant);
 }
 
-/* ============ Toggle Switch ============ */
+/*  Toggle Switch  */
 .toggle-switch {
     position: relative;
     width: 52px;
@@ -763,7 +771,7 @@ input:checked + .toggle-slider:before {
     transform: translateX(24px);
 }
 
-/* ============ Toast ============ */
+/*  Toast  */
 .toast-container {
     position: fixed;
     bottom: calc(80px + var(--safe-bottom));
@@ -794,7 +802,7 @@ input:checked + .toggle-slider:before {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* ============ App Container ============ */
+/*  App Container  */
 .app-container {
     display: none;
     flex-direction: column;
@@ -814,7 +822,7 @@ input:checked + .toggle-slider:before {
     -webkit-overflow-scrolling: touch;
 }
 
-/* ==================== Dark Theme Overrides ==================== */
+/*  Dark Theme Overrides  */
 /* هذا الكود يطبق تلقائياً عندما يتم تغيير متغيرات CSS عن طريق JavaScript */
 
 /* تصحيح جميع البطاقات والعناصر في المظهر الداكن */
@@ -1254,7 +1262,7 @@ input:checked + .toggle-slider:before {
     color: rgba(255, 255, 255, 0.8) !important;
 }
 
-/* ==================== تصحيح أيقونات البطاقات في المظهر الداكن ==================== */
+/*  تصحيح أيقونات البطاقات في المظهر الداكن  */
 
 /* أيقونة العادات في الصفحة الرئيسية */
 .theme-dark .card-icon[style*="background: #E0F2F1"] {
@@ -1309,7 +1317,7 @@ input:checked + .toggle-slider:before {
     color: #FFB74D !important;
 }
 
-/* ==================== تصحيح قسم المطور في المظهر الداكن ==================== */
+/*  تصحيح قسم المطور في المظهر الداكن  */
 
 .theme-dark .settings-group a[href*="instagram"] {
     background: linear-gradient(45deg, #F09433, #E6683C, #DC2743, #CC2366, #BC1888) !important;
@@ -1364,7 +1372,7 @@ input:checked + .toggle-slider:before {
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4) !important;
 }
 
-/* ==================== تصحيح أيقونات التواصل الاجتماعي في المظهر الداكن ==================== */
+/*  تصحيح أيقونات التواصل الاجتماعي في المظهر الداكن  */
 
 /* إعادة تعيين لون الأيقونات داخل أزرار التواصل الاجتماعي */
 .theme-dark a[href*="instagram"] .fab.fa-instagram {
@@ -1403,7 +1411,7 @@ input:checked + .toggle-slider:before {
     color: rgba(255, 255, 255, 0.8) !important;
 }
 
-/* ==================== تصحيح أيقونات صفحة السياسات في المظهر الداكن ==================== */
+/*  تصحيح أيقونات صفحة السياسات في المظهر الداكن  */
 
 /* أيقونة سياسة الخصوصية */
 .theme-dark .card-icon[style*="background: #E3F2FD"] {
@@ -1547,7 +1555,7 @@ input:checked + .toggle-slider:before {
     box-shadow: 0 0 0 4px #1A3A3C !important;
 }
 
-/* ==================== تصحيح النصوص العربية ==================== */
+/*  تصحيح النصوص العربية  */
 
 /* إزالة الميلان من جميع النصوص */
 * {
@@ -1605,7 +1613,7 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     font-style: normal !important;
 }
 
-/* ==================== تصحيح النوافذ المنبثقة في المظهر الداكن ==================== */
+/*  تصحيح النوافذ المنبثقة في المظهر الداكن  */
 
 /* تصحيح خلفية النافذة المنبثقة */
 .theme-dark .modal-overlay {
@@ -1648,7 +1656,7 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     border-radius: 8px !important;
 }
 
-/* ==================== تصحيح خلفيات التنبيهات في النوافذ ==================== */
+/*  تصحيح خلفيات التنبيهات في النوافذ  */
 
 /* صندوق التنبيه البرتقالي */
 .theme-dark .modal-container div[style*="background: #FFF3E0"] {
@@ -1696,7 +1704,7 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     color: #64B5F6 !important;
 }
 
-/* ==================== تصحيح الدوائر الملونة في النوافذ ==================== */
+/*  تصحيح الدوائر الملونة في النوافذ  */
 
 .theme-dark .modal-container div[style*="border-radius: 50%"] {
     border: 2px solid #3D3D3D !important;
@@ -1714,7 +1722,7 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     background: #1A2B3C !important;
 }
 
-/* ==================== تصحيح الأيقونات في النوافذ ==================== */
+/*  تصحيح الأيقونات في النوافذ  */
 
 .theme-dark .modal-container .fa-globe {
     color: #FFB74D !important;
@@ -1744,7 +1752,7 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     color: #64B5F6 !important;
 }
 
-/* ==================== تصحيح الأزرار في النوافذ ==================== */
+/*  تصحيح الأزرار في النوافذ  */
 
 .theme-dark .modal-container .btn-outline {
     border-color: #4DB6AC !important;
@@ -1760,7 +1768,7 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     color: white !important;
 }
 
-/* ==================== تصحيح قسم التحميل في الإعدادات ==================== */
+/*  تصحيح قسم التحميل في الإعدادات  */
 
 /* خلفية أيقونة المتصفح */
 .theme-dark .settings-item div[style*="background: #FFF3E0"][style*="width: 48px"] {
@@ -1821,7 +1829,7 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     color: #808080 !important;
 }
 
-/* ==================== تصحيح عام للنصوص في النوافذ ==================== */
+/*  تصحيح عام للنصوص في النوافذ  */
 
 /* أي نص داخل modal */
 .theme-dark .modal-container * {
@@ -1850,7 +1858,7 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     color: #81C784 !important;
 }
 
-/* ==================== نظام التقييم ==================== */
+/*  نظام التقييم  */
 
 /* تأثير النبض للقلب */
 @keyframes pulse {
@@ -1889,7 +1897,7 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     color: #B0B0B0 !important;
 }
 
-/* ==================== أنيميشن التقييم ==================== */
+/*  أنيميشن التقييم  */
 
 @keyframes fadeSlideIn {
     from {
@@ -1929,7 +1937,7 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     color: #A5D6A7 !important;
 }
 
-/* ==================== تصحيح أيقونات العادات الجديدة في المظهر الداكن ==================== */
+/*  تصحيح أيقونات العادات الجديدة في المظهر الداكن  */
 
 /* الكحول */
 .theme-dark .card-icon[style*="background: #FCE4EC"][style*="color: #C62828"] {
@@ -2043,7 +2051,7 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     color: var(--text-primary) !important;
 }
 
-/* ==================== تصحيح قسم التبرع في المظهر الداكن ==================== */
+/*  تصحيح قسم التبرع في المظهر الداكن  */
 
 /* بطاقة الماستر كارد تبقى كما هي في كلا المظهرين */
 .theme-dark #card-number {
@@ -2054,4 +2062,538 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
 .theme-dark #copy-card-btn {
     background: var(--primary-gradient) !important;
     color: white !important;
+}
+
+/*  الإصدار 1.1.0 - تصاميم جديدة  */
+
+/*  الإنجازات  */
+.achievement-popup {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    animation: achievementSlideDown 0.5s ease;
+    transition: opacity 0.5s ease;
+}
+
+.achievement-card {
+    background: var(--surface);
+    padding: 24px 32px;
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-2xl);
+    text-align: center;
+    min-width: 280px;
+    border-right: 4px solid var(--primary);
+}
+
+@keyframes achievementSlideDown {
+    from { top: -100px; opacity: 0; }
+    to { top: 20px; opacity: 1; }
+}
+
+.achievements-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 12px;
+}
+
+.achievement-item {
+    text-align: center;
+    padding: 16px 12px;
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    border: 1px solid var(--border-light);
+    transition: all 0.3s ease;
+}
+
+.achievement-item.locked {
+    opacity: 0.5;
+    filter: grayscale(100%);
+}
+
+.achievement-item.unlocked {
+    border-color: var(--primary);
+    box-shadow: var(--shadow-sm);
+}
+
+.achievement-item.unlocked:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.achievement-item i {
+    display: block;
+    font-size: 30px;
+    margin-bottom: 8px;
+}
+
+.achievement-item p {
+    font-weight: 600;
+    margin-top: 8px;
+    font-size: 13px;
+}
+
+.achievement-item small {
+    color: var(--text-tertiary);
+    font-size: 11px;
+}
+
+/*  الإحصائيات  */
+.stats-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.stat-card {
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    padding: 20px 16px;
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+    transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.stat-card i {
+    font-size: 28px;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.stat-number {
+    font-size: 28px;
+    font-weight: 700;
+    display: block;
+    color: var(--text-primary);
+}
+
+.stat-label {
+    font-size: 12px;
+    color: var(--text-tertiary);
+    margin-top: 4px;
+}
+
+.progress-bar-container {
+    background: var(--border-light);
+    border-radius: 10px;
+    height: 30px;
+    overflow: hidden;
+    position: relative;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+    font-size: 13px;
+    transition: width 0.8s ease;
+    min-width: 40px;
+    background: linear-gradient(90deg, #4CAF50, #8BC34A);
+}
+
+.mini-stats {
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+}
+
+.mini-stats div span {
+    display: block;
+    font-size: 12px;
+    color: var(--text-tertiary);
+}
+
+.mini-stats div strong {
+    display: block;
+    font-size: 22px;
+    color: var(--primary);
+}
+
+/*  البحث  */
+.search-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    padding-top: 80px;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+.search-container {
+    background: var(--surface);
+    border-radius: var(--radius-xl);
+    width: 90%;
+    max-width: 500px;
+    max-height: 70vh;
+    overflow-y: auto;
+    box-shadow: var(--shadow-2xl);
+    animation: searchIn 0.3s ease;
+}
+
+@keyframes searchIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.search-header {
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    border-bottom: 1px solid var(--border-light);
+    gap: 12px;
+}
+
+.search-header i {
+    color: var(--text-tertiary);
+    font-size: 18px;
+}
+
+.search-header input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    background: transparent;
+    color: var(--text-primary);
+    font-family: var(--font-primary);
+}
+
+.search-header input::placeholder {
+    color: var(--text-disabled);
+}
+
+.search-header button {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: var(--text-tertiary);
+    padding: 4px 8px;
+    border-radius: var(--radius-sm);
+    transition: all 0.2s;
+}
+
+.search-header button:hover {
+    background: var(--surface-variant);
+    color: var(--text-primary);
+}
+
+.search-result-item {
+    display: flex;
+    align-items: center;
+    padding: 14px 16px;
+    gap: 12px;
+    cursor: pointer;
+    transition: background 0.2s;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.search-result-item:last-child {
+    border-bottom: none;
+}
+
+.search-result-item:hover {
+    background: var(--surface-variant);
+}
+
+.search-result-item small {
+    color: var(--text-tertiary);
+    margin-right: auto;
+    font-size: 12px;
+}
+
+/*  اختبار التقييم  */
+#quiz-container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+#quiz-question {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.quiz-option {
+    text-align: right !important;
+    justify-content: flex-start !important;
+    width: 100%;
+    padding: 14px 16px !important;
+}
+
+.quiz-option:hover {
+    background: var(--primary-light) !important;
+    border-color: var(--primary) !important;
+}
+
+.quiz-option span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--primary-light);
+    color: var(--primary);
+    font-weight: 600;
+    font-size: 13px;
+    flex-shrink: 0;
+}
+
+/*  المظهر الداكن للإضافات الجديدة  */
+.theme-dark .achievement-card {
+    background: var(--surface);
+    border-color: var(--border);
+}
+
+.theme-dark .achievement-item {
+    background: var(--surface);
+    border-color: var(--border);
+}
+
+.theme-dark .achievement-item.unlocked {
+    border-color: var(--primary);
+}
+
+.theme-dark .stat-card {
+    background: var(--surface);
+}
+
+.theme-dark .search-container {
+    background: var(--surface);
+}
+
+.theme-dark .search-header {
+    border-bottom-color: var(--border);
+}
+
+.theme-dark .search-header input {
+    color: var(--text-primary);
+}
+
+.theme-dark .search-result-item {
+    border-bottom-color: var(--border);
+}
+
+.theme-dark .search-result-item:hover {
+    background: var(--surface-variant);
+}
+
+.theme-dark .quiz-option:hover {
+    background: var(--primary-light) !important;
+}
+
+.theme-dark .progress-bar-container {
+    background: var(--border);
+}
+
+/*  تجاوب مع الجوال  */
+@media (max-width: 767px) {
+    .stats-cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .achievements-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .stat-card {
+        padding: 14px 10px;
+    }
+    
+    .stat-number {
+        font-size: 22px;
+    }
+    
+    .stat-card i {
+        font-size: 22px;
+    }
+    
+    .search-overlay {
+        padding-top: 40px;
+    }
+    
+    .search-container {
+        width: 95%;
+        max-height: 80vh;
+    }
+    
+    .achievement-popup {
+        width: 90%;
+    }
+    
+    .achievement-card {
+        min-width: auto;
+        padding: 16px 20px;
+    }
+}
+
+@media (max-width: 400px) {
+    .stats-cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+    }
+    
+    .achievements-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+    }
+}
+
+/*  ما هو الجديد - المظهر الداكن  */
+.theme-dark .settings-group h3 .fa-gift {
+    color: #F06292 !important;
+}
+
+.theme-dark .settings-group [style*="background: #E8F5E9"] {
+    background: #1B3A1B !important;
+}
+
+.theme-dark .settings-group [style*="background: #E3F2FD"] {
+    background: #1A2B3C !important;
+}
+
+.theme-dark .settings-group [style*="background: #FCE4EC"] {
+    background: #3D1F28 !important;
+}
+
+.theme-dark .settings-group [style*="background: #FFF3E0"] {
+    background: #3E2E1A !important;
+}
+
+.theme-dark .settings-group [style*="background: #E8EAF6"] {
+    background: #1A1C3C !important;
+}
+
+.theme-dark .settings-group [style*="background: #E0F2F1"] {
+    background: #1A3A3C !important;
+}
+
+.theme-dark .settings-group [style*="background: #F3E5F5"] {
+    background: #2A1A3C !important;
+}
+
+.theme-dark .settings-group [style*="background: #FFEBEE"] {
+    background: #3D1F20 !important;
+}
+
+.theme-dark .settings-group [style*="background: #ECEFF1"] {
+    background: #2A2D30 !important;
+}
+
+.theme-dark .settings-group [style*="background: #FFF8E1"] {
+    background: #3E3520 !important;
+}
+
+/*  قائمة التحديثات القابلة للطي  */
+#changelog-content {
+    animation: changelogFadeIn 0.3s ease;
+}
+
+@keyframes changelogFadeIn {
+    from {
+        opacity: 0;
+        max-height: 0;
+    }
+    to {
+        opacity: 1;
+        max-height: 1000px;
+    }
+}
+
+#changelog-arrow {
+    transition: transform 0.3s ease;
+}
+
+/* المظهر الداكن */
+.theme-dark .settings-item [style*="background: #FCE4EC"] {
+    background: #3D1F28 !important;
+}
+
+.theme-dark .settings-item [style*="color: #E91E63"] {
+    color: #F06292 !important;
+}
+
+.theme-dark .settings-item span[style*="color: #E91E63"] {
+    color: #F06292 !important;
+    background: #3D1F28 !important;
+}
+
+/*  الأدعية والزيارات  */
+.dua-content {
+    background: var(--surface-variant);
+    padding: 24px;
+    border-radius: var(--radius-lg);
+    border-right: 4px solid var(--primary);
+    color: var(--text-primary);
+}
+
+.theme-dark .dua-content {
+    background: var(--surface-variant);
+    border-right-color: var(--primary);
+}
+
+.theme-dark .card[style*="background: #FFF8E1"] {
+    background: #3E3520 !important;
+    border-color: #5D4037 !important;
+}
+
+.theme-dark .card[style*="color: #F57F17"] {
+    color: #FFB74D !important;
+}
+
+.search-bar-container {
+    cursor: pointer;
+    margin-bottom: 8px;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    background: var(--surface);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: 14px 16px;
+    transition: all 0.3s ease;
+    gap: 8px;
+}
+
+.search-bar:hover {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(13, 107, 110, 0.1);
+}
+
+.search-bar kbd {
+    font-family: var(--font-mono);
+    font-size: 10px;
+}
+
+/* المظهر الداكن */
+.theme-dark .search-bar {
+    background: var(--surface);
+    border-color: var(--border);
+}
+
+.theme-dark .search-bar:hover {
+    border-color: var(--primary);
+}
+
+.theme-dark .search-bar kbd {
+    background: var(--surface-variant);
+    color: var(--text-tertiary);
 }

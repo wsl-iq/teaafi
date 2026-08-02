@@ -1,3 +1,12 @@
+/**
+ * Developer: Mohammed Al-Baqer
+ * Website: https://wsl-iq.github.io/teaafi/
+ * Copyright (c) 2026 Mohammed Al-Baqer
+ * Folder : Pages
+ * File   : home.js
+ * Type: JavaScript
+ */
+
 function renderHomePage() {
     const mainContent = document.getElementById('main-content');
     const user = StorageManager.getUser();
@@ -8,6 +17,14 @@ function renderHomePage() {
             <div class="mb-6">
                 <h1 class="font-bold">مرحباً ${user?.name || ''}</h1>
                 <p class="text-secondary mt-2">كل يوم هو فرصة جديدة للتغيير</p>
+            </div>
+        
+            <div class="search-bar-container" onclick="SearchEngine.showSearchUI()">
+                <div class="search-bar">
+                    <i class="fas fa-search" style="color: var(--text-tertiary); margin-left: 8px;"></i>
+                    <span style="color: var(--text-disabled);">ابحث عن عادة، دعاء، أو أي محتوى...</span>
+                    <kbd style="margin-right: auto; background: var(--surface-variant); padding: 2px 8px; border-radius: 4px; font-size: 11px; color: var(--text-tertiary);">Ctrl+K</kbd>
+                </div>
             </div>
             
             ${stats.isActive ? `
@@ -44,9 +61,7 @@ function renderHomePage() {
                             <p class="text-sm text-secondary">تعرف على العادات وتأثيرها</p>
                         </div>
                     </div>
-                    <p class="card-description">
-                        معلومات شاملة وموثقة عن العادة السرية، الأفلام الإباحية، والتدخين
-                    </p>
+                    <p class="card-description">معلومات شاملة وموثقة عن 22 عادة ضارة</p>
                 </div>
                 
                 <div class="card" onclick="navigateTo('spiritual')">
@@ -59,9 +74,7 @@ function renderHomePage() {
                             <p class="text-sm text-secondary">تقوية الجانب الروحي</p>
                         </div>
                     </div>
-                    <p class="card-description">
-                        أذكار، أدعية، آيات قرآنية، ونصائح لتقوية الإرادة والعزيمة
-                    </p>
+                    <p class="card-description">أذكار، أدعية، آيات قرآنية، ونصائح لتقوية الإرادة</p>
                 </div>
                 
                 <div class="card" onclick="navigateTo('recovery')">
@@ -74,10 +87,88 @@ function renderHomePage() {
                             <p class="text-sm text-secondary">تتبع رحلتك خطوة بخطوة</p>
                         </div>
                     </div>
-                    <p class="card-description">
-                        عداد أيام، مراحل التحسن، رسائل تحفيزية، ودعم مستمر
-                    </p>
+                    <p class="card-description">عداد أيام، مراحل التحسن، رسائل تحفيزية، ودعم مستمر</p>
                 </div>
+            </div>
+            
+            <h2 class="section-title" style="margin-top: 32px;">
+                <i class="fas fa-toolbox" style="margin-left: 8px;"></i>
+                أدوات مساعدة
+            </h2>
+            <div class="cards-grid">
+                <!-- الإحصائيات -->
+                <div class="card" onclick="navigateTo('stats')">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: #E3F2FD; color: #2196F3;">
+                            <i class="fas fa-chart-pie"></i>
+                        </div>
+                        <div>
+                            <h3 class="card-title">الإحصائيات</h3>
+                            <p class="text-sm text-secondary">تقدمك بالأرقام</p>
+                        </div>
+                    </div>
+                    <p class="card-description">رسوم بيانية، إنجازات، وإحصائيات رحلة التعافي</p>
+                </div>
+                
+                <div class="card" onclick="navigateTo('quiz')">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: #FFF3E0; color: #FF9800;">
+                            <i class="fas fa-clipboard-check"></i>
+                        </div>
+                        <div>
+                            <h3 class="card-title">تقييم ذاتي</h3>
+                            <p class="text-sm text-secondary">اعرف مستواك</p>
+                        </div>
+                    </div>
+                    <p class="card-description">اختبار سريع لتقييم حالتك الحالية وتحديد مستوى الخطر</p>
+                </div>
+                
+                <div class="card" onclick="handleBackup()">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: #E8F5E9; color: #4CAF50;">
+                            <i class="fas fa-cloud-arrow-up"></i>
+                        </div>
+                        <div>
+                            <h3 class="card-title">نسخ احتياطي</h3>
+                            <p class="text-sm text-secondary">حافظ على بياناتك</p>
+                        </div>
+                    </div>
+                    <p class="card-description">تصدير واستيراد جميع بياناتك بسهولة</p>
+                </div>
+
+            </div>
+
+            <h2 class="section-title" style="margin-top: 32px;">
+                <i class="fas fa-book-open" style="margin-left: 8px; color: #4A148C;"></i>
+                أدعية وزيارات
+            </h2>
+            <div class="cards-grid">
+                <div class="card" onclick="navigateTo('duas')">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: #F3E5F5; color: #4A148C;">
+                            <i class="fas fa-hands-praying"></i>
+                        </div>
+                        <div>
+                            <h3 class="card-title">الأدعية</h3>
+                            <p class="text-sm text-secondary">أدعية مأثورة</p>
+                        </div>
+                    </div>
+                    <p class="card-description">دعاء كميل، الندبة، الصباح، الجوشن، مكارم الأخلاق وغيرها</p>
+                </div>
+                
+                <div class="card" onclick="navigateTo('duas')">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: #E0F2F1; color: #0D6B6E;">
+                            <i class="fas fa-kaaba"></i>
+                        </div>
+                        <div>
+                            <h3 class="card-title">الزيارات</h3>
+                            <p class="text-sm text-secondary">زيارات مباركة</p>
+                        </div>
+                    </div>
+                    <p class="card-description">زيارة عاشوراء، الجامعة، آل ياسين، الأربعين وغيرها</p>
+                </div>
+            </div>
             </div>
         </div>
     `;
@@ -91,5 +182,31 @@ function renderHomePage() {
                 counterEl.textContent = currentStats.days;
             }
         }, 60000);
+    }
+}
+
+// Handle backup functionality
+
+function handleBackup() {
+    if (typeof BackupManager !== 'undefined' && typeof BackupManager.showExportDialog === 'function') {
+        BackupManager.showExportDialog();
+    } else {
+        // copy data from -> backup.js
+        if (confirm('هل تريد تصدير بياناتك؟\n\nسيتم حفظ جميع بياناتك في ملف JSON.')) {
+            const data = {
+                user: StorageManager.getUser(),
+                recovery: StorageManager.getRecoveryData(),
+                settings: StorageManager.getSettings(),
+                tasbih: StorageManager.get('tasbih_data')
+            };
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'taeafi-backup-' + new Date().toISOString().split('T')[0] + '.json';
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast(' تم تصدير البيانات بنجاح');
+        }
     }
 }

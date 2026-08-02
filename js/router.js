@@ -1,3 +1,12 @@
+/**
+ * Developer: Mohammed Al-Baqer
+ * Website: https://wsl-iq.github.io/teaafi/
+ * Copyright (c) 2026 Mohammed Al-Baqer
+ * Folder : js
+ * File   : router.js
+ * Type: JavaScript
+ */
+
 class Router {
     static #currentPage = 'home';
     static #pages = {
@@ -5,8 +14,10 @@ class Router {
         habits: 'renderHabitsPage',
         spiritual: 'renderSpiritualPage',
         recovery: 'renderRecoveryPage',
-        policies: 'renderPoliciesPage',  // إضافة
-        tasbih: 'renderTasbihPage',  // إضافة صفحة التسبيح
+        policies: 'renderPoliciesPage', 
+        tasbih: 'renderTasbihPage', 
+        stats: 'renderStatsPage',       
+        quiz: 'renderQuizPage',        
         settings: 'renderSettingsPage'
     };
     
@@ -58,7 +69,7 @@ class Router {
 }
 
 function navigateTo(page) {
-    // تنظيف العداد عند مغادرة صفحة التعافي
+    // clear Timer if Exit
     if (typeof cleanupCounter === 'function') {
         cleanupCounter();
     }
@@ -75,6 +86,9 @@ function navigateTo(page) {
         case 'tasbih': renderTasbihPage(); break;
         case 'recovery': renderRecoveryPage(); break;
         case 'policies': renderPoliciesPage(); break;
+        case 'stats': renderStatsPage(); break;    
+        case 'quiz': renderQuizPage(); break;       
+        case 'duas': renderDuasPage(); break;
         case 'settings': renderSettingsPage(); break;
     }
     

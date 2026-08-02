@@ -1,3 +1,12 @@
+/**
+ * Developer: Mohammed Al-Baqer
+ * Website: https://wsl-iq.github.io/teaafi/
+ * Copyright (c) 2026 Mohammed Al-Baqer
+ * Folder : Pages
+ * File   : habits.js
+ * Type: JavaScript
+ */
+
 function renderHabitsPage() {
     const mainContent = document.getElementById('main-content');
     const user = StorageManager.getUser();

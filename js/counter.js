@@ -1,3 +1,12 @@
+/**
+ * Developer: Mohammed Al-Baqer
+ * Website: https://wsl-iq.github.io/teaafi/
+ * Copyright (c) 2026 Mohammed Al-Baqer
+ * Folder : js
+ * File   : counter.js
+ * Type: JavaScript
+ */
+
 class RecoveryCounter {
     static #recoveryData = null;
     

@@ -1,4 +1,12 @@
-// ==================== عداد التسبيح ====================
+/**
+ * Developer: Mohammed Al-Baqer
+ * Website: https://wsl-iq.github.io/teaafi/
+ * Copyright (c) 2026 Mohammed Al-Baqer
+ * Folder : Pages
+ * File   : tasbih.js
+ * Type: JavaScript
+ */
+
 let tasbihCount = {
     allahuAkbar: 0,
     alhamdulillah: 0,

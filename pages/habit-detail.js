@@ -1,4 +1,12 @@
-// حالة العرض الحالية للمحتوى
+/**
+ * Developer: Mohammed Al-Baqer
+ * Website: https://wsl-iq.github.io/teaafi/
+ * Copyright (c) 2026 Mohammed Al-Baqer
+ * Folder : Pages
+ * File   : habit-detail.js
+ * Type: JavaScript
+ */
+
 let currentViewGender = StorageManager.getUser()?.gender || 'male';
 
 function renderHabitDetail(habitType) {

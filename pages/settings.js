@@ -1,3 +1,14 @@
+/**
+ * Developer: Mohammed Al-Baqer
+ * Website: https://wsl-iq.github.io/teaafi/
+ * Copyright (c) 2026 Mohammed Al-Baqer
+ * Folder : Pages
+ * File   : settings.js
+ * Type: JavaScript
+ */
+
+const APP_VERSION = '1.1.1';
+
 function renderSettingsPage() {
     const mainContent = document.getElementById('main-content');
     const settings = StorageManager.getSettings();
@@ -7,7 +18,7 @@ function renderSettingsPage() {
         <div class="animate-fade-in">
             <h1 class="heading-underline">الإعدادات</h1>
             
-            <!-- ============ قسم المظهر ============ -->
+            <!-- قسم المظهر -->
             <div class="settings-group">
                 <h3 style="padding: 16px 24px; border-bottom: 1px solid var(--border-light);">
                     <i class="fas fa-palette" style="margin-left: 8px; color: #9C27B0;"></i>
@@ -61,9 +72,26 @@ function renderSettingsPage() {
                         '<i class="fas fa-check-circle" style="color: #0D6B6E; font-size: 20px;"></i>' : 
                         '<i class="far fa-circle" style="color: #D1D5DB; font-size: 20px;"></i>'}
                 </div>
+
+                <!-- المؤقت الليلي التلقائي -->
+                <div class="settings-item">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <i class="fas fa-moon" style="color: #5C6BC0; font-size: 16px;"></i>
+                        <span>تفعيل الوضع الليلي تلقائياً</span>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" ${settings.nightModeSchedule ? 'checked' : ''} 
+                            onchange="toggleNightModeSchedule(this.checked)">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+                <div class="settings-item" id="night-mode-times" style="${settings.nightModeSchedule ? '' : 'display:none;'}">
+                    <span>من المغرب إلى الفجر</span>
+                    <span style="color: var(--text-tertiary); font-size: 13px;">تلقائي</span>
+                </div>
             </div>
             
-            <!-- ============ قسم الإشعارات ============ -->
+            <!-- قسم الإشعارات -->
             <div class="settings-group">
                 <h3 style="padding: 16px 24px; border-bottom: 1px solid var(--border-light);">
                     <i class="fas fa-bell" style="margin-left: 8px; color: var(--primary);"></i>
@@ -87,7 +115,7 @@ function renderSettingsPage() {
                 </div>
             </div>
             
-            <!-- ============ حول البرنامج ============ -->
+            <!-- حول البرنامج -->
             <div class="settings-group">
                 <h3 style="padding: 16px 24px; border-bottom: 1px solid var(--border-light);">
                     <i class="fas fa-info-circle" style="margin-left: 8px; color: var(--primary);"></i>
@@ -128,7 +156,7 @@ function renderSettingsPage() {
                 </div>
             </div>
 
-            <!-- ============ تقييم التطبيق ============ -->
+            <!-- تقييم التطبيق -->
             <div class="settings-group">
                 <h3 style="padding: 16px 24px; border-bottom: 1px solid var(--border-light);">
                     <i class="fas fa-star" style="margin-left: 8px; color: #FFC107;"></i>
@@ -197,7 +225,7 @@ function renderSettingsPage() {
                 </div>
             </div>
             
-            <!-- ============ حول المطور ============ -->
+            <!-- حول المطور -->
             <div class="settings-group">
                 <h3 style="padding: 16px 24px; border-bottom: 1px solid var(--border-light);">
                     <i class="fas fa-user-circle" style="margin-left: 8px; color: var(--primary);"></i>
@@ -284,7 +312,7 @@ function renderSettingsPage() {
                 </div>
             </div>
 
-            <!-- ============ تحميل التطبيق ============ -->
+            <!-- تحميل التطبيق -->
             <div class="settings-group">
                 <h3 style="padding: 16px 24px; border-bottom: 1px solid var(--border-light);">
                     <i class="fas fa-download" style="margin-left: 8px; color: #4CAF50;"></i>
@@ -352,7 +380,7 @@ function renderSettingsPage() {
                 </div>
             </div>
 
-            <!-- ============ رسالة الصدقة ============ -->
+            <!-- رسالة الصدقة -->
             <div class="card" style="background: #FFF8E1; border-right: 4px solid var(--accent-orange); font-family: 'Cairo', sans-serif;">
                 <p style="line-height: 2.2; font-style: normal; color: var(--text-primary);">
                     <i class="fas fa-quote-right" style="font-size: 24px; color: var(--accent-orange); margin-left: 8px;"></i>
@@ -361,7 +389,7 @@ function renderSettingsPage() {
                 </p>
             </div>
 
-            <!-- ============ تحديثات التطبيق ============ -->
+            <!-- تحديثات التطبيق -->
             <div class="settings-group">
                 <h3 style="padding: 16px 24px; border-bottom: 1px solid var(--border-light);">
                     <i class="fas fa-sync-alt" style="margin-left: 8px; color: #2196F3;"></i>
@@ -417,7 +445,138 @@ function renderSettingsPage() {
                 </div>
             </div>
 
-            <!-- ============ تبرع لدعم التطبيق ============ -->
+            <!-- ما هو الجديد؟ -->
+            <div class="settings-group">
+                <div class="settings-item" onclick="toggleChangelog()" style="cursor: pointer; border-bottom: none;">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div style="width: 44px; height: 44px; border-radius: var(--radius-md); background: #FCE4EC; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-gift" style="font-size: 20px; color: #E91E63;"></i>
+                        </div>
+                        <div>
+                            <span style="font-weight: 600;">ما هو الجديد؟ v${APP_VERSION}</span>
+                            <p style="font-size: 12px; color: var(--text-tertiary); margin-top: 2px;">اضغط لعرض الميزات الجديدة</p>
+                        </div>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <span style="font-size: 11px; color: #E91E63; background: #FCE4EC; padding: 4px 10px; border-radius: 20px; font-weight: 500;">10 ميزات</span>
+                        <i class="fas fa-chevron-down" id="changelog-arrow" style="color: var(--text-tertiary); font-size: 14px; transition: transform 0.3s ease;"></i>
+                    </div>
+                </div>
+                
+                <!-- قائمة الميزات (مخفية افتراضياً) -->
+                <div id="changelog-content" style="display: none; padding: 0 24px 16px 24px; border-top: 1px solid var(--border-light);">
+                    
+                    <!-- الميزة 1 -->
+                    <div style="display: flex; gap: 10px; margin-top: 16px; padding-bottom: 14px; border-bottom: 1px solid var(--border-light);">
+                        <span style="font-size: 20px; flex-shrink: 0;">🏆</span>
+                        <div>
+                            <strong style="color: var(--text-primary); font-size: 14px;">نظام الإنجازات والشارات</strong>
+                            <p style="font-size: 11px; color: var(--text-secondary); margin-top: 2px; line-height: 1.5;">احصل على 16 شارة عند تحقيق مراحل التعافي</p>
+                        </div>
+                    </div>
+                    
+                    <!-- الميزة 2 -->
+                    <div style="display: flex; gap: 10px; padding-bottom: 14px; border-bottom: 1px solid var(--border-light);">
+                        <span style="font-size: 20px; flex-shrink: 0;">📊</span>
+                        <div>
+                            <strong style="color: var(--text-primary); font-size: 14px;">الإحصائيات والرسوم البيانية</strong>
+                            <p style="font-size: 11px; color: var(--text-secondary); margin-top: 2px; line-height: 1.5;">تتبع تقدمك بالأرقام - أيام التعافي، الانتكاسات، التسبيح</p>
+                        </div>
+                    </div>
+                    
+                    <!-- الميزة 3 -->
+                    <div style="display: flex; gap: 10px; padding-bottom: 14px; border-bottom: 1px solid var(--border-light);">
+                        <span style="font-size: 20px; flex-shrink: 0;">📝</span>
+                        <div>
+                            <strong style="color: var(--text-primary); font-size: 14px;">اختبار تقييم ذاتي</strong>
+                            <p style="font-size: 11px; color: var(--text-secondary); margin-top: 2px; line-height: 1.5;">8 أسئلة لتقييم حالتك وتحديد مستوى الخطر</p>
+                        </div>
+                    </div>
+                    
+                    <!-- الميزة 4 -->
+                    <div style="display: flex; gap: 10px; padding-bottom: 14px; border-bottom: 1px solid var(--border-light);">
+                        <span style="font-size: 20px; flex-shrink: 0;">🌙</span>
+                        <div>
+                            <strong style="color: var(--text-primary); font-size: 14px;">الوضع الليلي التلقائي</strong>
+                            <p style="font-size: 11px; color: var(--text-secondary); margin-top: 2px; line-height: 1.5;">تفعيل الوضع الداكن تلقائياً من المغرب إلى الفجر</p>
+                        </div>
+                    </div>
+                    
+                    <!-- الميزة 5 -->
+                    <div style="display: flex; gap: 10px; padding-bottom: 14px; border-bottom: 1px solid var(--border-light);">
+                        <span style="font-size: 20px; flex-shrink: 0;">🔍</span>
+                        <div>
+                            <strong style="color: var(--text-primary); font-size: 14px;">بحث متقدم في المحتوى</strong>
+                            <p style="font-size: 11px; color: var(--text-secondary); margin-top: 2px; line-height: 1.5;">ابحث في جميع العادات والأذكار بسرعة</p>
+                        </div>
+                    </div>
+                    
+                    <!-- الميزة 6 -->
+                    <div style="display: flex; gap: 10px; padding-bottom: 14px; border-bottom: 1px solid var(--border-light);">
+                        <span style="font-size: 20px; flex-shrink: 0;">💾</span>
+                        <div>
+                            <strong style="color: var(--text-primary); font-size: 14px;">نسخ احتياطي وتصدير البيانات</strong>
+                            <p style="font-size: 11px; color: var(--text-secondary); margin-top: 2px; line-height: 1.5;">تصدير واستيراد جميع بياناتك بنقرة واحدة</p>
+                        </div>
+                    </div>
+                    
+                    <!-- الميزة 7 -->
+                    <div style="display: flex; gap: 10px; padding-bottom: 14px; border-bottom: 1px solid var(--border-light);">
+                        <span style="font-size: 20px; flex-shrink: 0;">🔔</span>
+                        <div>
+                            <strong style="color: var(--text-primary); font-size: 14px;">إشعارات ذكية</strong>
+                            <p style="font-size: 11px; color: var(--text-secondary); margin-top: 2px; line-height: 1.5;">تذكيرات في أفضل الأوقات - أذكار، تعافي، وتحفيز</p>
+                        </div>
+                    </div>
+                    
+                    <!-- الميزة 8 -->
+                    <div style="display: flex; gap: 10px; padding-bottom: 14px; border-bottom: 1px solid var(--border-light);">
+                        <span style="font-size: 20px; flex-shrink: 0;">⚠️</span>
+                        <div>
+                            <strong style="color: var(--text-primary); font-size: 14px;">عادة جديدة: الزنا والعلاقات غير الشرعية</strong>
+                            <p style="font-size: 11px; color: var(--text-secondary); margin-top: 2px; line-height: 1.5;">محتوى توعوي شامل عن الأضرار وطرق التوبة</p>
+                        </div>
+                    </div>
+                    
+                    <!-- الميزة 9 -->
+                    <div style="display: flex; gap: 10px; padding-bottom: 14px; border-bottom: 1px solid var(--border-light);">
+                        <span style="font-size: 20px; flex-shrink: 0;">🔄</span>
+                        <div>
+                            <strong style="color: var(--text-primary); font-size: 14px;">نظام التحقق من التحديثات</strong>
+                            <p style="font-size: 11px; color: var(--text-secondary); margin-top: 2px; line-height: 1.5;">تحقق تلقائي أو يدوي من وجود إصدارات جديدة</p>
+                        </div>
+                    </div>
+                    
+                    <!-- الميزة 10 -->
+                    <div style="display: flex; gap: 10px; padding-bottom: 8px;">
+                        <span style="font-size: 20px; flex-shrink: 0;">✨</span>
+                        <div>
+                            <strong style="color: var(--text-primary); font-size: 14px;">تحسينات عامة</strong>
+                            <p style="font-size: 11px; color: var(--text-secondary); margin-top: 2px; line-height: 1.5;">تحسينات الأداء | المظهر الداكن | إصلاحات | تجربة الجوال | قسم التبرع | تقييم محسن</p>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+
+            <script>
+                function toggleChangelog() {
+                    var content = document.getElementById('changelog-content');
+                    var arrow = document.getElementById('changelog-arrow');
+                    if (!content) return;
+                    var isHidden = getComputedStyle(content).display === 'none';
+                    content.style.display = isHidden ? 'block' : 'none';
+                    if (arrow) arrow.style.transform = isHidden ? 'rotate(180deg)' : 'rotate(0deg)';
+                }
+
+                // also allow clicking the entire item area
+                document.addEventListener('DOMContentLoaded', function(){
+                    var item = document.querySelector('.settings-item[onclick]');
+                    if (item) item.style.cursor = 'pointer';
+                });
+            </script>
+
+            <!-- تبرع لدعم التطبيق -->
             <div class="settings-group">
                 <h3 style="padding: 16px 24px; border-bottom: 1px solid var(--border-light);">
                     <i class="fas fa-hand-holding-heart" style="margin-left: 8px; color: #E91E63;"></i>
@@ -482,7 +641,7 @@ function renderSettingsPage() {
                 </div>
             </div>
             
-            <!-- ============ منطقة الخطر ============ -->
+            <!-- منطقة الخطر -->
             <div class="settings-group" style="margin-top: 24px;">
                 <h3 style="padding: 16px 24px; border-bottom: 1px solid var(--border-light); color: var(--accent-red);">
                     <i class="fas fa-exclamation-triangle" style="margin-left: 8px;"></i>
@@ -505,21 +664,20 @@ function renderSettingsPage() {
     setTimeout(() => loadPreviousRating(), 200);
 }
 
-// ==================== دوال المظهر ====================
+// function to switch theme and save the setting
+// This function is called when the user selects a theme option
+// It saves the selected theme in local storage, applies the theme, and reloads the settings page
+// It also shows a toast message confirming the theme change
+// The theme can be 'light', 'dark', or 'auto'
+// The 'auto' theme will follow the system preference for light or dark mode
+// The function also updates the CSS variables for the selected theme 
 
 function switchTheme(theme) {
-    // 1. حفظ الإعداد
     const settings = StorageManager.getSettings();
     settings.theme = theme;
     StorageManager.saveSettings(settings);
-    
-    // 2. تطبيق المظهر أولاً (قبل إعادة تحميل الصفحة)
     applyTheme(theme);
-    
-    // 3. ثم إعادة تحميل صفحة الإعدادات
     renderSettingsPage();
-    
-    // 4. رسالة تأكيد
     const themeNames = {
         'light': 'تم تفعيل المظهر الفاتح',
         'dark': 'تم تفعيل المظهر الداكن',
@@ -531,14 +689,12 @@ function switchTheme(theme) {
 function applyTheme(theme) {
     const root = document.documentElement;
     const body = document.body;
-    
-    // إزالة الكلاسات القديمة
     body.classList.remove('theme-light', 'theme-dark');
     
     if (theme === 'dark') {
         body.classList.add('theme-dark');
         
-        // ألوان المظهر الداكن
+        // Color for dark theme
         root.style.setProperty('--surface', '#1E1E1E');
         root.style.setProperty('--surface-variant', '#2D2D2D');
         root.style.setProperty('--background', '#121212');
@@ -557,7 +713,7 @@ function applyTheme(theme) {
     } else if (theme === 'light') {
         body.classList.add('theme-light');
         
-        // ألوان المظهر الفاتح
+        // Color for light theme
         root.style.setProperty('--surface', '#FFFFFF');
         root.style.setProperty('--surface-variant', '#F5F7F8');
         root.style.setProperty('--background', '#F0F2F5');
@@ -574,7 +730,7 @@ function applyTheme(theme) {
         root.style.setProperty('--primary-light', '#E0F2F1');
         
     } else if (theme === 'auto') {
-        // التحقق من إعدادات النظام
+        // change theme based on system preference.
         if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
             applyTheme('dark');
         } else {
@@ -583,7 +739,7 @@ function applyTheme(theme) {
     }
 }
 
-// الاستماع لتغيير إعدادات النظام في الوضع التلقائي
+
 if (window.matchMedia) {
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
         const settings = StorageManager.getSettings();
@@ -596,8 +752,6 @@ if (window.matchMedia) {
         }
     });
 }
-
-// ==================== دوال الإعدادات الأخرى ====================
 
 function toggleNotificationSetting(enabled) {
     if (enabled) {
@@ -639,12 +793,9 @@ function clearAllUserData() {
     }
 }
 
-// ==================== دالة فتح المتصفح ====================
 
 function openInBrowser() {
     const appUrl = 'https://wsl-iq.github.io/teaafi/';
-    
-    // عرض نافذة تأكيد
     const modal = document.createElement('div');
     modal.className = 'modal-overlay';
     modal.style.zIndex = '200';
@@ -698,9 +849,6 @@ function openInBrowser() {
     `;
     
     document.body.appendChild(modal);
-    
-    // إغل
-    // // ويساعدنافذة عند النقر خارجها
     modal.addEventListener('click', function(e) {
         if (e.target === modal) {
             modal.remove();
@@ -708,14 +856,11 @@ function openInBrowser() {
     });
 }
 
-// ==================== دالة نسخ الرابط ====================
-
 function copyAppUrl(url) {
     if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(url).then(() => {
             showToast('تم نسخ الرابط بنجاح');
         }).catch(() => {
-            // fallback للنسخ اليدوي
             fallbackCopy(url);
         });
     } else {
@@ -739,8 +884,6 @@ function fallbackCopy(text) {
     document.body.removeChild(textarea);
 }
 
-// ==================== دالة تحميل التطبيق ====================
-
 function downloadApp(platform) {
     const links = {
         android: 'https://github.com/wsl-iq/teaafi/releases/tag/V1.0.0',
@@ -762,7 +905,6 @@ function downloadApp(platform) {
         windows: { bg: '#E3F2FD', text: '#1565C0' }
     };
     
-    // عرض نافذة تأكيد
     const modal = document.createElement('div');
     modal.className = 'modal-overlay';
     modal.style.zIndex = '200';
@@ -816,8 +958,6 @@ function downloadApp(platform) {
     });
 }
 
-// ==================== نظام التقييم ====================
-
 const GOOGLE_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLScKIXQIP-qh2aZI54iVqX_u2gHknBkv6DyERqfBmbZ1HCSF0w/viewform';
 
 let appRated = StorageManager.get('app_rated') || false;
@@ -825,12 +965,8 @@ let currentRating = StorageManager.get('app_rating_value') || 0;
 
 function rateApp(rating) {
     const isChanging = appRated && currentRating !== rating;
-    
-    // جلب التعليق من حقل النص
     const messageEl = document.getElementById('rating-message');
     const userMessage = messageEl ? messageEl.value.trim() : '';
-    
-    // تحديث النجوم
     const stars = document.querySelectorAll('.rating-star');
     stars.forEach((star) => {
         const starRating = parseInt(star.getAttribute('data-rating'));
@@ -848,7 +984,6 @@ function rateApp(rating) {
         setTimeout(() => { star.style.transform = 'scale(1)'; }, 300);
     });
     
-    // عرض نص التقييم مع التعليق
     const ratingTexts = { 1: 'نأسف لذلك.. سنعمل على التحسين', 2: 'شكراً لك.. نعدك بالتطوير', 3: 'شكراً لتقييمك.. نقدر رأيك', 4: 'شكراً جزيلاً! سعداء برأيك', 5: 'رائع! شكراً من القلب' };
     
     const ratingText = document.getElementById('rating-text');
@@ -864,14 +999,12 @@ function rateApp(rating) {
         ratingText.style.fontWeight = '600';
     }
     
-    // حفظ التقييم والتعليق
     currentRating = rating;
     appRated = true;
     StorageManager.set('app_rated', true);
     StorageManager.set('app_rating_value', rating);
     if (userMessage) StorageManager.set('app_rating_message', userMessage);
     
-    // إظهار رسالة الشكر
     setTimeout(() => {
         const thankYouMessage = document.getElementById('thank-you-message');
         if (thankYouMessage) {
@@ -897,11 +1030,9 @@ function loadPreviousRating() {
         currentRating = savedRating;
         
         setTimeout(() => {
-            // استعادة التعليق
             const messageEl = document.getElementById('rating-message');
             if (messageEl && savedMessage) messageEl.value = savedMessage;
             
-            // استعادة النجوم
             const stars = document.querySelectorAll('.rating-star');
             stars.forEach((star) => {
                 const starRating = parseInt(star.getAttribute('data-rating'));
@@ -940,11 +1071,11 @@ function resetRating() {
         StorageManager.set('app_rating_value', 0);
         StorageManager.remove('app_rating_message');
         
-        // مسح حقل التعليق
+        // Delete the saved message from local storage
         const messageEl = document.getElementById('rating-message');
         if (messageEl) messageEl.value = '';
         
-        // إعادة النجوم
+        // Reset the stars to default state
         const stars = document.querySelectorAll('.rating-star');
         stars.forEach(star => {
             star.style.color = '#D1D5DB';
@@ -969,7 +1100,7 @@ function resetRating() {
     }
 }
 
-// تأثير التحويم على النجوم
+// Effects for star rating hover and click.
 document.addEventListener('mouseover', function(e) {
     if (e.target.classList.contains('rating-star')) {
         const rating = parseInt(e.target.getAttribute('data-rating'));
@@ -1005,17 +1136,13 @@ document.addEventListener('mouseout', function(e) {
     }
 });
 
-// ==================== نظام التحقق من التحديثات ====================
 
-// الإصدار الحالي للتطبيق
-const APP_VERSION = '1.0.0';
+/// const APP_VERSION = '0.0.0'; // up 
 
-// روابط GitHub
 const GITHUB_VERSION_URL = 'https://raw.githubusercontent.com/wsl-iq/teaafi/refs/heads/main/version.txt';
 const GITHUB_API_URL = 'https://api.github.com/repos/wsl-iq/teaafi/releases/latest';
 const GITHUB_RELEASES_URL = 'https://github.com/wsl-iq/teaafi/releases/latest';
 
-// متغير للتحكم في التحقق التلقائي
 let autoUpdateInterval = null;
 
 /**
@@ -1310,8 +1437,6 @@ document.addEventListener('DOMContentLoaded', function() {
     setTimeout(initUpdateSystem, 500);
 });
 
-// ==================== نظام التبرع ====================
-
 /**
  * نسخ رقم البطاقة إلى الحافظة
  */
@@ -1389,6 +1514,73 @@ function showCopyFailed(text) {
     
     if (typeof showToast === 'function') {
         showToast('تعذر النسخ التلقائي');
+    }
+}
+
+function toggleNightModeSchedule(enabled) {
+    updateSetting('nightModeSchedule', enabled);
+    
+    var timesEl = document.getElementById('night-mode-times');
+    if (timesEl) timesEl.style.display = enabled ? '' : 'none';
+    
+    if (enabled) {
+        startNightModeScheduler();
+        showToast('تم تفعيل الوضع الليلي التلقائي 🌙');
+    } else {
+        stopNightModeScheduler();
+        showToast('تم إلغاء الوضع الليلي التلقائي');
+    }
+}
+
+var nightModeInterval = null;
+
+function startNightModeScheduler() {
+    stopNightModeScheduler();
+    checkNightMode();
+    nightModeInterval = setInterval(checkNightMode, 60000); // كل دقيقة
+}
+
+function stopNightModeScheduler() {
+    if (nightModeInterval) {
+        clearInterval(nightModeInterval);
+        nightModeInterval = null;
+    }
+}
+
+function checkNightMode() {
+    var now = new Date();
+    var hours = now.getHours();
+    
+    // من 6 مساءً إلى 6 صباحاً = الوضع الداكن
+    var isNight = hours >= 18 || hours < 6;
+    var settings = StorageManager.getSettings();
+    
+    if (isNight && settings.theme !== 'dark') {
+        applyTheme('dark');
+        document.getElementById('app').classList.add('theme-dark');
+    } else if (!isNight && settings.theme === 'dark' && settings.nightModeSchedule) {
+        applyTheme('light');
+        document.getElementById('app').classList.remove('theme-dark');
+    }
+}
+
+var settings = StorageManager.getSettings();
+if (settings.nightModeSchedule) {
+    startNightModeScheduler();
+}
+
+function toggleChangelog() {
+    var content = document.getElementById('changelog-content');
+    var arrow = document.getElementById('changelog-arrow');
+    
+    if (content && arrow) {
+        if (content.style.display === 'none' || content.style.display === '') {
+            content.style.display = 'block';
+            arrow.style.transform = 'rotate(180deg)';
+        } else {
+            content.style.display = 'none';
+            arrow.style.transform = 'rotate(0deg)';
+        }
     }
 }
 

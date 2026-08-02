@@ -1,3 +1,12 @@
+/**
+ * Developer: Mohammed Al-Baqer
+ * Website: https://wsl-iq.github.io/teaafi/
+ * Copyright (c) 2026 Mohammed Al-Baqer
+ * Folder : data
+ * File   : content.js
+ * Type: JavaScript
+ */
+
 const HABIT_CONTENT = {
     masturbation: {
         title: 'العادة السرية',

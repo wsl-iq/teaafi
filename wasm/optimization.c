@@ -1,3 +1,9 @@
+/*
+ * Developer: Mohammed Al-Baqer
+ * Folder: wasm
+ * File: optimization.c
+ * Copyright (c) 2026, lnc. Mohammed Al-Baqer. All rights reserved.
+*/
 #include "optimization.h"
 #include <stdlib.h>
 #include <string.h>

@@ -1,3 +1,12 @@
+/**
+ * Developer: Mohammed Al-Baqer
+ * Website: https://wsl-iq.github.io/teaafi/
+ * Copyright (c) 2026 Mohammed Al-Baqer
+ * Folder : js
+ * File   : storage.js
+ * Type: JavaScript
+ */
+
 class StorageManager {
     static #PREFIX = 'taafi_';
     
@@ -7,7 +16,7 @@ class StorageManager {
         SETTINGS: 'settings',
         PROGRESS: 'progress',
         LAST_VISIT: 'last_visit',
-        APP_RATED: 'app_rated',                    // ✅ إضافة
+        APP_RATED: 'app_rated',               
         APP_RATING_VALUE: 'app_rating_value'
     };
     

@@ -1,3 +1,12 @@
+/* 
+Developer: Mohammed Al-Baqer
+ * Website: https://wsl-iq.github.io/teaafi/
+ * Copyright (c) 2026 Mohammed Al-Baqer
+    * Folder : CSS
+    * File   : tablet.css
+    * Type: CSS
+*/
+
 @media (min-width: 768px) and (max-width: 1023px) {
     .app-container {
         display: none;
