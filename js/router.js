@@ -18,7 +18,12 @@ class Router {
         tasbih: 'renderTasbihPage', 
         stats: 'renderStatsPage',       
         quiz: 'renderQuizPage',        
-        settings: 'renderSettingsPage'
+        settings: 'renderSettingsPage',
+        leaderboard: 'renderLeaderboardPage',
+        journal: 'renderJournalPage',
+        breath: 'renderBreathGamePage',
+        'prayer-box': 'renderPrayerBoxPage',
+        calendar: 'renderCalendarPage'
     };
     
     static navigateTo(page) {
@@ -90,6 +95,11 @@ function navigateTo(page) {
         case 'quiz': renderQuizPage(); break;       
         case 'duas': renderDuasPage(); break;
         case 'settings': renderSettingsPage(); break;
+        case 'leaderboard': renderLeaderboardPage(); break;
+        case 'journal': renderJournalPage(); break;
+        case 'breath': renderBreathGamePage(); break;
+        case 'prayer-box': renderPrayerBoxPage(); break;
+        case 'calendar': renderCalendarPage(); break;
     }
     
     document.getElementById('main-content').scrollTop = 0;

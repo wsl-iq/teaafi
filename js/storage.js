@@ -17,7 +17,10 @@ class StorageManager {
         PROGRESS: 'progress',
         LAST_VISIT: 'last_visit',
         APP_RATED: 'app_rated',               
-        APP_RATING_VALUE: 'app_rating_value'
+        APP_RATING_VALUE: 'app_rating_value',
+        APP_LOCK_ENABLED: 'app_lock_enabled',
+        APP_PIN: 'app_pin',
+        NIGHT_MODE_SCHEDULE: 'night_mode_schedule'
     };
     
     static init() {
@@ -26,7 +29,7 @@ class StorageManager {
             return false;
         }
         
-        // التأكد من وجود إعدادات افتراضية
+        // chaking if settings Defined
         const settings = this.getSettings();
         if (!settings || Object.keys(settings).length === 0) {
             this.saveSettings({
@@ -87,15 +90,17 @@ class StorageManager {
     }
     
     static clear() {
-        // الاحتفاظ بالتقييم إذا رغبت
         const rating = this.get('app_rated');
         const ratingValue = this.get('app_rating_value');
         
         Object.values(this.#keys).forEach(key => this.remove(key));
-        
-        // استعادة التقييم (اختياري - علق السطرين التاليين إذا أردت حذف التقييم أيضاً)
-        // if (rating) this.set('app_rated', rating);
-        // if (ratingValue) this.set('app_rating_value', ratingValue);
+        this.saveSettings({
+            notifications: false,
+            dailyReminder: true,
+            reminderTime: '08:00',
+            notificationPermissionAsked: false,
+            notificationPermissionGranted: false
+        });
     }
     
     static getUser() {
@@ -119,17 +124,25 @@ class StorageManager {
     }
     
     static getSettings() {
-        return this.get(this.#keys.SETTINGS, {
-            notifications: false,
-            dailyReminder: true,
-            theme: 'light',  // إضافة المظهر الافتراضي
-            autoUpdateCheck: true,  //  إضافة
-            notificationPermissionAsked: false,
-            notificationPermissionGranted: false,
-            reminderTime: '08:00'
-        });
-    }
-    
+    return this.get(this.#keys.SETTINGS, {
+        notifications: false,
+        dailyReminder: true,
+        theme: 'green',
+        darkMode: false,
+        darkModeAuto: false,
+        autoUpdateCheck: true,
+        appLockEnabled: false,
+        appPin: null,
+        nightModeSchedule: false,
+        notificationPermissionAsked: false,
+        notificationPermissionGranted: false,
+        reminderTime: '08:00',
+        lastVisit: null,
+        appRated: false,
+        appRatingValue: null
+    });
+}
+
     static saveSettings(settings) {
         return this.set(this.#keys.SETTINGS, settings);
     }

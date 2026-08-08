@@ -9,6 +9,7 @@
 
 function renderDuasPage() {
     var mainContent = document.getElementById('main-content');
+    var fontSize = StorageManager.get('dua_font_size') || 14;
     
     mainContent.innerHTML = `
         <div class="animate-fade-in">
@@ -16,7 +17,28 @@ function renderDuasPage() {
                 <i class="fas fa-book-open" style="margin-left: 8px;"></i>
                 الأدعية والزيارات
             </h1>
-            <p class="text-secondary mb-6">مجموعة من الأدعية المأثورة والزيارات المباركة</p>
+            <p class="text-secondary mb-4">مجموعة من الأدعية المأثورة والزيارات المباركة</p>
+            
+            <!-- ✅ شريط تحكم حجم الخط -->
+            <div class="card" style="margin-bottom: 20px; padding: 16px 20px;">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <i class="fas fa-font" style="color: var(--primary); font-size: 14px; flex-shrink: 0;"></i>
+                    <span style="font-size: 10px; color: var(--text-tertiary); flex-shrink: 0;">A</span>
+                    <input type="range" 
+                           id="font-size-slider" 
+                           min="10" 
+                           max="24" 
+                           value="${fontSize}" 
+                           step="1"
+                           oninput="changeDuaFontSize(this.value)"
+                           style="flex: 1; height: 6px; accent-color: var(--primary); cursor: pointer;">
+                    <span style="font-size: 18px; color: var(--text-tertiary); flex-shrink: 0;">A</span>
+                    <span id="font-size-value" style="font-weight: 600; color: var(--primary); min-width: 35px; text-align: center; font-size: 14px; flex-shrink: 0;">${fontSize}</span>
+                    <button class="btn btn-sm btn-outline" onclick="resetDuaFontSize()" style="font-size: 11px; padding: 4px 10px; flex-shrink: 0;" title="إعادة للحجم الافتراضي">
+                        <i class="fas fa-undo"></i>
+                    </button>
+                </div>
+            </div>
             
             <!-- ==================== الأدعية ==================== -->
             <h2 class="section-title" style="margin-top: 24px;">
@@ -79,6 +101,7 @@ function renderDuaDetail(category, id) {
     var mainContent = document.getElementById('main-content');
     var data = DUAS_DATA[category];
     var item = data.items.find(function(i) { return i.id === id; });
+    var fontSize = StorageManager.get('dua_font_size') || 14;
     
     if (!item) {
         mainContent.innerHTML = '<div class="card" style="text-align:center;padding:40px;"><p>المحتوى غير متوفر</p></div>';
@@ -93,6 +116,27 @@ function renderDuaDetail(category, id) {
                 <i class="fas fa-arrow-right"></i> رجوع للأدعية والزيارات
             </button>
             
+            <!-- ✅ شريط تحكم حجم الخط -->
+            <div class="card" style="margin-bottom: 16px; padding: 12px 16px;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-font" style="color: var(--primary); font-size: 13px; flex-shrink: 0;"></i>
+                    <span style="font-size: 9px; color: var(--text-tertiary); flex-shrink: 0;">A</span>
+                    <input type="range" 
+                           id="font-size-slider" 
+                           min="10" 
+                           max="24" 
+                           value="${fontSize}" 
+                           step="1"
+                           oninput="changeDuaFontSize(this.value)"
+                           style="flex: 1; height: 5px; accent-color: var(--primary); cursor: pointer;">
+                    <span style="font-size: 16px; color: var(--text-tertiary); flex-shrink: 0;">A</span>
+                    <span id="font-size-value" style="font-weight: 600; color: var(--primary); min-width: 30px; text-align: center; font-size: 13px; flex-shrink: 0;">${fontSize}</span>
+                    <button class="btn btn-sm btn-outline" onclick="resetDuaFontSize()" style="font-size: 10px; padding: 3px 8px; flex-shrink: 0;" title="إعادة للحجم الافتراضي">
+                        <i class="fas fa-undo"></i>
+                    </button>
+                </div>
+            </div>
+            
             <div class="card" style="border-right: 4px solid ${data.color};">
                 <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
                     <div class="card-icon" style="background: ${category === 'duas' ? '#F3E5F5' : '#E0F2F1'}; color: ${data.color};">
@@ -104,16 +148,16 @@ function renderDuaDetail(category, id) {
                     </div>
                 </div>
                 
-                <p style="color: var(--text-secondary); margin-bottom: 16px; line-height: 1.8;">${item.description}</p>
+                <p style="color: var(--text-secondary); margin-bottom: 16px; line-height: 1.8; font-size: ${fontSize}px;">${item.description}</p>
                 
                 <div style="background: var(--surface-variant); padding: 12px 16px; border-radius: var(--radius-md); margin-bottom: 20px;">
-                    <p style="font-size: 13px; color: var(--text-tertiary);">
+                    <p style="font-size: ${fontSize - 1}px; color: var(--text-tertiary);">
                         <i class="fas fa-clock" style="margin-left: 4px;"></i> ${item.time}
                     </p>
                 </div>
                 
                 ${hasContent ? `
-                    <div class="dua-content" style="line-height: 2.5; font-family: var(--font-quran); font-size: var(--text-lg); text-align: justify;">
+                    <div class="dua-content" style="line-height: 2.8; font-family: var(--font-quran); font-size: ${fontSize}px; text-align: justify;">
                         ${item.content.replace(/\n/g, '<br>')}
                     </div>
                 ` : `
@@ -128,4 +172,48 @@ function renderDuaDetail(category, id) {
             </div>
         </div>
     `;
+}
+
+// دوال التحكم بحجم الخط
+
+function changeDuaFontSize(size) {
+    // حفظ الحجم
+    StorageManager.set('dua_font_size', parseInt(size));
+    
+    // تحديث العرض الرقمي
+    var valueEl = document.getElementById('font-size-value');
+    if (valueEl) {
+        valueEl.textContent = size;
+    }
+    
+    // تحديث جميع النصوص في الصفحة الحالية
+    var duaContent = document.querySelector('.dua-content');
+    if (duaContent) {
+        duaContent.style.fontSize = size + 'px';
+    }
+    
+    // تحديث النصوص الأخرى
+    var allText = document.querySelectorAll('.card p, .card h2, .card h3');
+    allText.forEach(function(el) {
+        if (!el.closest('.card-header') && !el.closest('.cards-grid')) {
+            el.style.fontSize = (parseInt(size) - 2) + 'px';
+        }
+    });
+}
+
+function resetDuaFontSize() {
+    var defaultSize = 14;
+    StorageManager.set('dua_font_size', defaultSize);
+    
+    var slider = document.getElementById('font-size-slider');
+    var valueEl = document.getElementById('font-size-value');
+    
+    if (slider) slider.value = defaultSize;
+    if (valueEl) valueEl.textContent = defaultSize;
+    
+    changeDuaFontSize(defaultSize);
+    
+    if (typeof showToast === 'function') {
+        showToast('تم إعادة حجم الخط إلى الافتراضي');
+    }
 }

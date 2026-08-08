@@ -113,6 +113,13 @@ function completeWelcome() {
     // حفظ البيانات
     localStorage.setItem('taafi_user_data', JSON.stringify({ value: { name: name, age: age, gender: gender, createdAt: new Date().toISOString() }, timestamp: Date.now() }));
     
+    // حفظ البيانات في IndexedDB
+    if (typeof DBManager !== 'undefined' && typeof DBManager.saveUserData === 'function') {
+        DBManager.saveUserData({ name: name, age: age, gender: gender });
+        // console.log('User data saved to IndexedDB');
+    }
+    // DataBase.db
+
     // ✅ إعادة تعيين إعدادات الإشعارات لمستخدم جديد
     localStorage.setItem('taafi_settings', JSON.stringify({
         value: {

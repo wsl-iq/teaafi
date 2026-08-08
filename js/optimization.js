@@ -150,6 +150,15 @@ var TaeafiWASM = (function() {
     }
     
     // Public API
+    // Memory
+    // Recovery
+    // Compression
+    // Search
+    // Sort
+    // Math
+    // Hash
+    // Cache
+
     return {
         // Init
         init: function() { console.log('[Optimization] Ready (JavaScript)'); },
@@ -191,3 +200,71 @@ var TaeafiWASM = (function() {
 
 // Global export
 if (typeof window !== 'undefined') window.TaeafiWASM = TaeafiWASM;
+if (typeof global !== 'undefined') global.TaeafiWASM = TaeafiWASM;
+if (typeof self !== 'undefined') self.TaeafiWASM = TaeafiWASM;
+if (typeof module !== 'undefined' && module.exports) module.exports = TaeafiWASM;
+if (typeof define === 'function' && define.amd) define([], function() { return TaeafiWASM; });
+if (typeof exports !== 'undefined') exports.TaeafiWASM = TaeafiWASM;
+
+function renderChallengesList() {
+    var active = ChallengesManager.getActiveChallenges();
+    var completed = ChallengesManager.getCompletedChallenges();
+    var progress = ChallengesManager.getProgress();
+
+    function escapeHtml(text) {
+        return String(text)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
+    }
+
+    if (active.length === 0 && completed.length === 0) {
+        return '<p style="text-align:center;color:var(--text-tertiary);">لا توجد تحديات حالياً</p>';
+    }
+
+    var html = '';
+
+    if (active.length > 0) {
+        html += '<div class="challenge-section"><h3>التحديات النشطة</h3><ul>';
+        for (var i = 0; i < active.length; i++) {
+            var challenge = active[i] || {};
+            html += '<li class="challenge-item">';
+            html += '<div class="challenge-title">' + escapeHtml(challenge.title || challenge.name || 'تحدي') + '</div>';
+            if (challenge.days != null) {
+                html += '<div class="challenge-days">اليوم ' + escapeHtml(challenge.days) + '</div>';
+            }
+            if (challenge.progress != null) {
+                html += '<div class="challenge-progress">إتمام ' + escapeHtml(challenge.progress) + '%</div>';
+            }
+            if (challenge.description) {
+                html += '<div class="challenge-desc">' + escapeHtml(challenge.description) + '</div>';
+            }
+            html += '</li>';
+        }
+        html += '</ul></div>';
+    }
+
+    if (completed.length > 0) {
+        html += '<div class="challenge-section"><h3>التحديات المكتملة</h3><ul>';
+        for (var j = 0; j < completed.length; j++) {
+            var completedChallenge = completed[j] || {};
+            html += '<li class="challenge-item completed">';
+            html += '<div class="challenge-title">' + escapeHtml(completedChallenge.title || completedChallenge.name || 'تحدي') + '</div>';
+            if (completedChallenge.completedDate) {
+                html += '<div class="challenge-date">' + escapeHtml(completedChallenge.completedDate) + '</div>';
+            }
+            html += '</li>';
+        }
+        html += '</ul></div>';
+    }
+
+    if (typeof progress === 'number') {
+        html += '<div class="challenge-progress-summary">';
+        html += '<span>نسبة التقدم العامة: ' + escapeHtml(progress) + '%</span>';
+        html += '</div>';
+    }
+
+    return html;
+}

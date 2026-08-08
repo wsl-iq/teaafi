@@ -13,85 +13,161 @@ function renderSettingsPage() {
     const mainContent = document.getElementById('main-content');
     const settings = StorageManager.getSettings();
     const currentTheme = settings.theme || 'light';
+    const isAutoTheme = ThemesManager.isAuto();
+    const themeMode = isAutoTheme ? 'auto' : (ThemesManager.isDark() ? 'dark' : 'light');
     
     mainContent.innerHTML = `
         <div class="animate-fade-in">
             <h1 class="heading-underline">الإعدادات</h1>
-            
-            <!-- قسم المظهر -->
             <div class="settings-group">
                 <h3 style="padding: 16px 24px; border-bottom: 1px solid var(--border-light);">
                     <i class="fas fa-palette" style="margin-left: 8px; color: #9C27B0;"></i>
                     المظهر والسمات
                 </h3>
                 
-                <!-- المظهر الفاتح -->
-                <div class="settings-item" onclick="switchTheme('light')" style="cursor: pointer;">
+            <div class="settings-group">
+                <h3 style="padding: 16px 24px; border-bottom: 1px solid var(--border-light);">
+                    <i class="fas fa-palette" style="margin-left: 8px; color: #9C27B0;"></i>
+                    المظهر
+                </h3>
+                
+                <div class="settings-item" onclick="ThemesManager.setDark(false)" style="cursor: pointer;">
                     <div style="display: flex; align-items: center; gap: 12px;">
-                        <div style="width: 44px; height: 44px; border-radius: var(--radius-md); background: #FFF8E1; display: flex; align-items: center; justify-content: center; border: 2px solid ${currentTheme === 'light' ? '#0D6B6E' : '#E5E7EB'}; transition: all 0.3s ease;">
-                            <i class="fas fa-sun" style="font-size: 20px; color: #FF9800;"></i>
+                        <div style="width: 44px; height: 44px; border-radius: 12px; background: #FFF8E1; display: flex; align-items: center; justify-content: center; border: 2px solid ${!ThemesManager.isDark() && !ThemesManager.isAuto() && !StorageManager.get('night_mode_schedule') ? 'var(--primary)' : 'var(--border-light)'};">
+                            <i class="fas fa-sun" style="font-size: 18px; color: #FF9800;"></i>
                         </div>
                         <div>
                             <span style="font-weight: 600;">المظهر الفاتح</span>
-                            <p style="font-size: 12px; color: var(--text-tertiary); margin-top: 2px;">مظهر مريح للعين في الإضاءة الطبيعية</p>
+                            <p style="font-size: 11px; color: var(--text-tertiary);">مريح للعين في الإضاءة الطبيعية</p>
                         </div>
                     </div>
-                    ${currentTheme === 'light' ? 
-                        '<i class="fas fa-check-circle" style="color: #0D6B6E; font-size: 20px;"></i>' : 
-                        '<i class="far fa-circle" style="color: #D1D5DB; font-size: 20px;"></i>'}
+                    ${!ThemesManager.isDark() && !ThemesManager.isAuto() && !StorageManager.get('night_mode_schedule') ? '<i class="fas fa-check-circle" style="color: var(--primary);"></i>' : '<i class="far fa-circle" style="color: var(--text-disabled);"></i>'}
                 </div>
                 
-                <!-- المظهر الداكن -->
-                <div class="settings-item" onclick="switchTheme('dark')" style="cursor: pointer;">
+                <div class="settings-item" onclick="ThemesManager.setDark(true)" style="cursor: pointer;">
                     <div style="display: flex; align-items: center; gap: 12px;">
-                        <div style="width: 44px; height: 44px; border-radius: var(--radius-md); background: #263238; display: flex; align-items: center; justify-content: center; border: 2px solid ${currentTheme === 'dark' ? '#0D6B6E' : '#E5E7EB'}; transition: all 0.3s ease;">
-                            <i class="fas fa-moon" style="font-size: 20px; color: #FFD54F;"></i>
+                        <div style="width: 44px; height: 44px; border-radius: 12px; background: #263238; display: flex; align-items: center; justify-content: center; border: 2px solid ${ThemesManager.isDark() && !ThemesManager.isAuto() && !StorageManager.get('night_mode_schedule') ? 'var(--primary)' : 'var(--border-light)'};">
+                            <i class="fas fa-moon" style="font-size: 18px; color: #FFD54F;"></i>
                         </div>
                         <div>
                             <span style="font-weight: 600;">المظهر الداكن</span>
-                            <p style="font-size: 12px; color: var(--text-tertiary); margin-top: 2px;">مريح للعين في الإضاءة المنخفضة ويوفر البطارية</p>
+                            <p style="font-size: 11px; color: var(--text-tertiary);">مريح للعين ليلاً ويوفر البطارية</p>
                         </div>
                     </div>
-                    ${currentTheme === 'dark' ? 
-                        '<i class="fas fa-check-circle" style="color: #0D6B6E; font-size: 20px;"></i>' : 
-                        '<i class="far fa-circle" style="color: #D1D5DB; font-size: 20px;"></i>'}
+                    ${ThemesManager.isDark() && !ThemesManager.isAuto() && !StorageManager.get('night_mode_schedule') ? '<i class="fas fa-check-circle" style="color: var(--primary);"></i>' : '<i class="far fa-circle" style="color: var(--text-disabled);"></i>'}
                 </div>
                 
-                <!-- المظهر التلقائي -->
-                <div class="settings-item" onclick="switchTheme('auto')" style="cursor: pointer; border-bottom: none;">
+                <div class="settings-item" onclick="ThemesManager.setDarkAuto()" style="cursor: pointer;">
                     <div style="display: flex; align-items: center; gap: 12px;">
-                        <div style="width: 44px; height: 44px; border-radius: var(--radius-md); background: linear-gradient(135deg, #FFF8E1 50%, #263238 50%); display: flex; align-items: center; justify-content: center; border: 2px solid ${currentTheme === 'auto' ? '#0D6B6E' : '#E5E7EB'}; transition: all 0.3s ease;">
-                            <i class="fas fa-circle-half-stroke" style="font-size: 20px; color: #0D6B6E;"></i>
+                        <div style="width: 44px; height: 44px; border-radius: 12px; background: linear-gradient(135deg, #FFF8E1 50%, #263238 50%); display: flex; align-items: center; justify-content: center; border: 2px solid ${ThemesManager.isAuto() && !StorageManager.get('night_mode_schedule') ? 'var(--primary)' : 'var(--border-light)'};">
+                            <i class="fas fa-circle-half-stroke" style="font-size: 18px; color: #0D6B6E;"></i>
                         </div>
                         <div>
                             <span style="font-weight: 600;">تلقائي</span>
-                            <p style="font-size: 12px; color: var(--text-tertiary); margin-top: 2px;">يتغير تلقائياً حسب إعدادات النظام</p>
+                            <p style="font-size: 11px; color: var(--text-tertiary);">يتغير حسب إعدادات النظام</p>
                         </div>
                     </div>
-                    ${currentTheme === 'auto' ? 
-                        '<i class="fas fa-check-circle" style="color: #0D6B6E; font-size: 20px;"></i>' : 
-                        '<i class="far fa-circle" style="color: #D1D5DB; font-size: 20px;"></i>'}
+                    ${ThemesManager.isAuto() && !StorageManager.get('night_mode_schedule') ? '<i class="fas fa-check-circle" style="color: var(--primary);"></i>' : '<i class="far fa-circle" style="color: var(--text-disabled);"></i>'}
                 </div>
 
-                <!-- المؤقت الليلي التلقائي -->
-                <div class="settings-item">
-                    <div style="display: flex; align-items: center; gap: 8px;">
-                        <i class="fas fa-moon" style="color: #5C6BC0; font-size: 16px;"></i>
-                        <span>تفعيل الوضع الليلي تلقائياً</span>
+                <div class="settings-item" onclick="toggleNightModeSchedule()" style="cursor: pointer; border-bottom: none;">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div style="width: 44px; height: 44px; border-radius: 12px; background: linear-gradient(135deg, #263238 50%, #FFF8E1 50%); display: flex; align-items: center; justify-content: center; border: 2px solid ${StorageManager.get('night_mode_schedule') ? 'var(--primary)' : 'var(--border-light)'};">
+                            <i class="fas fa-moon" style="font-size: 18px; color: #FFD54F;"></i>
+                        </div>
+                        <div>
+                            <span style="font-weight: 600;">الوضع الليلي التلقائي</span>
+                            <p style="font-size: 11px; color: var(--text-tertiary);">من 7:00 مساءً إلى 6:00 صباحاً</p>
+                        </div>
                     </div>
-                    <label class="toggle-switch">
-                        <input type="checkbox" ${settings.nightModeSchedule ? 'checked' : ''} 
-                            onchange="toggleNightModeSchedule(this.checked)">
-                        <span class="toggle-slider"></span>
-                    </label>
-                </div>
-                <div class="settings-item" id="night-mode-times" style="${settings.nightModeSchedule ? '' : 'display:none;'}">
-                    <span>من المغرب إلى الفجر</span>
-                    <span style="color: var(--text-tertiary); font-size: 13px;">تلقائي</span>
+                    ${StorageManager.get('night_mode_schedule') ? '<i class="fas fa-check-circle" style="color: var(--primary);"></i>' : '<i class="far fa-circle" style="color: var(--text-disabled);"></i>'}
                 </div>
             </div>
             
-            <!-- قسم الإشعارات -->
+            <div class="settings-group">
+                <h3 style="padding: 16px 24px; border-bottom: 1px solid var(--border-light);">
+                    <i class="fas fa-swatchbook" style="margin-left: 8px; color: #E91E63;"></i>
+                    الثيمات
+                </h3>
+                
+                <div class="settings-item" onclick="ThemesManager.setTheme('green')" style="cursor: pointer;">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div style="width: 44px; height: 44px; border-radius: 12px; background: linear-gradient(135deg, #0D6B6E, #26A69A); display: flex; align-items: center; justify-content: center; border: 2px solid ${ThemesManager.getCurrent() === 'green' ? 'var(--primary)' : 'var(--border-light)'};">
+                            <i class="fas fa-leaf" style="color: white; font-size: 18px;"></i>
+                        </div>
+                        <div>
+                            <span style="font-weight: 600;">الأخضر</span>
+                            <p style="font-size: 11px; color: var(--text-tertiary);">افتراضي - مظهر طبيعي ومريح</p>
+                        </div>
+                    </div>
+                    ${ThemesManager.getCurrent() === 'green' ? '<i class="fas fa-check-circle" style="color: var(--primary);"></i>' : '<i class="far fa-circle" style="color: var(--text-disabled);"></i>'}
+                </div>
+                
+                <div class="settings-item" onclick="ThemesManager.setTheme('pink')" style="cursor: pointer;">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div style="width: 44px; height: 44px; border-radius: 12px; background: linear-gradient(135deg, #E91E63, #F06292); display: flex; align-items: center; justify-content: center; border: 2px solid ${ThemesManager.getCurrent() === 'pink' ? 'var(--primary)' : 'var(--border-light)'};">
+                            <i class="fas fa-heart" style="color: white; font-size: 18px;"></i>
+                        </div>
+                        <div>
+                            <span style="font-weight: 600;">الوردي</span>
+                            <p style="font-size: 11px; color: var(--text-tertiary);">دافئ ومريح - مخصص للإناث</p>
+                        </div>
+                    </div>
+                    ${ThemesManager.getCurrent() === 'pink' ? '<i class="fas fa-check-circle" style="color: var(--primary);"></i>' : '<i class="far fa-circle" style="color: var(--text-disabled);"></i>'}
+                </div>
+                
+                <div class="settings-item" onclick="ThemesManager.setTheme('desert')" style="cursor: pointer;">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div style="width: 44px; height: 44px; border-radius: 12px; background: linear-gradient(135deg, #BF360C, #FF7043); display: flex; align-items: center; justify-content: center; border: 2px solid ${ThemesManager.getCurrent() === 'desert' ? 'var(--primary)' : 'var(--border-light)'};">
+                            <i class="fas fa-sun" style="color: white; font-size: 18px;"></i>
+                        </div>
+                        <div>
+                            <span style="font-weight: 600;">الصحراوي</span>
+                            <p style="font-size: 11px; color: var(--text-tertiary);">ألوان دافئة - مخصص للذكور</p>
+                        </div>
+                    </div>
+                    ${ThemesManager.getCurrent() === 'desert' ? '<i class="fas fa-check-circle" style="color: var(--primary);"></i>' : '<i class="far fa-circle" style="color: var(--text-disabled);"></i>'}
+                </div>
+                
+                <div class="settings-item" onclick="ThemesManager.setTheme('ocean')" style="cursor: pointer;">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div style="width: 44px; height: 44px; border-radius: 12px; background: linear-gradient(135deg, #01579B, #03A9F4); display: flex; align-items: center; justify-content: center; border: 2px solid ${ThemesManager.getCurrent() === 'ocean' ? 'var(--primary)' : 'var(--border-light)'};">
+                            <i class="fas fa-water" style="color: white; font-size: 18px;"></i>
+                        </div>
+                        <div>
+                            <span style="font-weight: 600;">المحيط</span>
+                            <p style="font-size: 11px; color: var(--text-tertiary);">هدوء وعمق - مناسب للجميع</p>
+                        </div>
+                    </div>
+                    ${ThemesManager.getCurrent() === 'ocean' ? '<i class="fas fa-check-circle" style="color: var(--primary);"></i>' : '<i class="far fa-circle" style="color: var(--text-disabled);"></i>'}
+                </div>
+                
+                <div class="settings-item" onclick="ThemesManager.setTheme('ramadan')" style="cursor: pointer; border-bottom: none;">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div style="width: 44px; height: 44px; border-radius: 12px; background: linear-gradient(135deg, #4A148C, #FFD700); display: flex; align-items: center; justify-content: center; border: 2px solid ${ThemesManager.getCurrent() === 'ramadan' ? 'var(--primary)' : 'var(--border-light)'};">
+                            <i class="fas fa-star-and-crescent" style="color: white; font-size: 18px;"></i>
+                        </div>
+                        <div>
+                            <span style="font-weight: 600;">الرمضاني</span>
+                            <p style="font-size: 11px; color: var(--text-tertiary);">أجواء روحانية - لشهر رمضان</p>
+                        </div>
+                    </div>
+                    ${ThemesManager.getCurrent() === 'ramadan' ? '<i class="fas fa-check-circle" style="color: var(--primary);"></i>' : '<i class="far fa-circle" style="color: var(--text-disabled);"></i>'}
+                </div>
+            </div>
+
+                <div class="settings-item">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <i class="fas fa-lock" style="color: var(--text-tertiary);"></i>
+                        <span>قفل التطبيق برمز سري</span>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" ${settings.appLockEnabled ? 'checked' : ''} onchange="toggleAppLock(this.checked)">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+            
             <div class="settings-group">
                 <h3 style="padding: 16px 24px; border-bottom: 1px solid var(--border-light);">
                     <i class="fas fa-bell" style="margin-left: 8px; color: var(--primary);"></i>
@@ -115,7 +191,6 @@ function renderSettingsPage() {
                 </div>
             </div>
             
-            <!-- حول البرنامج -->
             <div class="settings-group">
                 <h3 style="padding: 16px 24px; border-bottom: 1px solid var(--border-light);">
                     <i class="fas fa-info-circle" style="margin-left: 8px; color: var(--primary);"></i>
@@ -156,7 +231,6 @@ function renderSettingsPage() {
                 </div>
             </div>
 
-            <!-- تقييم التطبيق -->
             <div class="settings-group">
                 <h3 style="padding: 16px 24px; border-bottom: 1px solid var(--border-light);">
                     <i class="fas fa-star" style="margin-left: 8px; color: #FFC107;"></i>
@@ -188,14 +262,12 @@ function renderSettingsPage() {
                     
                     <p id="rating-text" style="font-size: 14px; color: var(--text-tertiary); min-height: 20px;"></p>
                     
-                    <!-- زر إعادة تعيين التقييم -->
                     <div id="reset-rating-container" style="display: none; margin-top: 8px;">
                         <button class="btn btn-sm btn-outline" onclick="resetRating()" style="font-size: 12px; color: #F44336; border-color: #F44336;">
                             <i class="fas fa-undo"></i> إعادة تعيين التقييم
                         </button>
                     </div>
                     
-                    <!-- رسالة الشكر (مخفية افتراضياً) -->
                     <div id="thank-you-message" style="display: none; margin-top: 16px; animation: fadeSlideIn 0.5s ease;">
                         <div style="background: linear-gradient(135deg, #E8F5E9, #C8E6C9); padding: 20px; border-radius: var(--radius-lg); text-align: center;">
                             <i class="fas fa-heart" style="font-size: 40px; color: #E91E63; margin-bottom: 12px; animation: pulse 1s infinite;"></i>
@@ -232,7 +304,6 @@ function renderSettingsPage() {
                     حول المطور
                 </h3>
                 <div style="padding: 24px; line-height: 2;">
-                    <!-- بطاقة المطور -->
                     <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 20px; padding: 16px; background: var(--surface-variant); border-radius: var(--radius-lg);">
                         <div style="width: 60px; height: 60px; border-radius: 50%; background: var(--primary-gradient); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
                             <i class="fas fa-code" style="font-size: 26px; color: white;"></i>
@@ -243,7 +314,6 @@ function renderSettingsPage() {
                         </div>
                     </div>
 
-                    <!-- المهارات -->
                     <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px;">
                         <span style="display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; background: #E0F2F1; color: #0D6B6E; border-radius: 20px; font-size: 13px; font-weight: 500;">
                             <i class="fas fa-desktop" style="font-size: 12px;"></i>
@@ -259,16 +329,13 @@ function renderSettingsPage() {
                         </span>
                     </div>
                     
-                    <!-- الوصف -->
                     <p style="color: var(--text-secondary); font-size: 14px; line-height: 1.8; margin-bottom: 20px; text-align: justify;">
                         تم تطوير هذا التطبيق بهدف تقديم محتوى توعوي نافع ومفيد، 
                         مع التركيز على الجودة والاحترافية في التصميم والمحتوى.
                     </p>
                     
-                    <!-- خط فاصل -->
                     <div style="height: 1px; background: var(--border-light); margin-bottom: 20px;"></div>
                     
-                    <!-- وسائل التواصل الاجتماعي -->
                     <div style="display: flex; flex-direction: column; gap: 8px;">
                         <!-- Instagram -->
                         <a href="https://www.instagram.com/g6xs0r/" target="_blank" rel="noopener noreferrer" 
@@ -283,7 +350,6 @@ function renderSettingsPage() {
                             <i class="fas fa-arrow-left" style="font-size: 14px; opacity: 0.8;"></i>
                         </a>
                         
-                        <!-- Telegram -->
                         <a href="https://t.me/wsl_iq" target="_blank" rel="noopener noreferrer" 
                            style="display: flex; align-items: center; gap: 14px; padding: 14px 18px; border-radius: var(--radius-lg); background: linear-gradient(45deg, #1DA1F2, #0088CC); color: white; text-decoration: none; transition: all 0.3s ease; box-shadow: 0 2px 8px rgba(0, 136, 204, 0.2);">
                             <div style="width: 40px; height: 40px; border-radius: 12px; background: white; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
@@ -296,7 +362,6 @@ function renderSettingsPage() {
                             <i class="fas fa-arrow-left" style="font-size: 14px; opacity: 0.8;"></i>
                         </a>
                         
-                        <!-- GitHub -->
                         <a href="https://github.com/wsl-iq" target="_blank" rel="noopener noreferrer" 
                            style="display: flex; align-items: center; gap: 14px; padding: 14px 18px; border-radius: var(--radius-lg); background: linear-gradient(45deg, #333333, #000000); color: white; text-decoration: none; transition: all 0.3s ease; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);">
                             <div style="width: 40px; height: 40px; border-radius: 12px; background: white; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
@@ -312,14 +377,12 @@ function renderSettingsPage() {
                 </div>
             </div>
 
-            <!-- تحميل التطبيق -->
             <div class="settings-group">
                 <h3 style="padding: 16px 24px; border-bottom: 1px solid var(--border-light);">
                     <i class="fas fa-download" style="margin-left: 8px; color: #4CAF50;"></i>
                     تحميل التطبيق
                 </h3>
                 
-                <!-- تحميل Android -->
                 <div class="settings-item" style="cursor: pointer;" onclick="downloadApp('android')">
                     <div style="display: flex; align-items: center; gap: 14px;">
                         <div style="width: 48px; height: 48px; border-radius: var(--radius-md); background: #E8F5E9; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
@@ -339,7 +402,6 @@ function renderSettingsPage() {
                     </div>
                 </div>
                 
-                <!-- تحميل Windows -->
                 <div class="settings-item" style="cursor: pointer; border-bottom: none;" onclick="downloadApp('windows')">
                     <div style="display: flex; align-items: center; gap: 14px;">
                         <div style="width: 48px; height: 48px; border-radius: var(--radius-md); background: #E3F2FD; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
@@ -359,7 +421,6 @@ function renderSettingsPage() {
                     </div>
                 </div>
 
-                <!-- استخدام عبر المتصفح -->
                 <div class="settings-item" style="cursor: pointer;" onclick="openInBrowser()">
                     <div style="display: flex; align-items: center; gap: 14px;">
                         <div style="width: 48px; height: 48px; border-radius: var(--radius-md); background: #FFF3E0; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
@@ -380,7 +441,6 @@ function renderSettingsPage() {
                 </div>
             </div>
 
-            <!-- رسالة الصدقة -->
             <div class="card" style="background: #FFF8E1; border-right: 4px solid var(--accent-orange); font-family: 'Cairo', sans-serif;">
                 <p style="line-height: 2.2; font-style: normal; color: var(--text-primary);">
                     <i class="fas fa-quote-right" style="font-size: 24px; color: var(--accent-orange); margin-left: 8px;"></i>
@@ -389,14 +449,12 @@ function renderSettingsPage() {
                 </p>
             </div>
 
-            <!-- تحديثات التطبيق -->
             <div class="settings-group">
                 <h3 style="padding: 16px 24px; border-bottom: 1px solid var(--border-light);">
                     <i class="fas fa-sync-alt" style="margin-left: 8px; color: #2196F3;"></i>
                     تحديثات التطبيق
                 </h3>
                 
-                <!-- تفعيل/إلغاء التحقق التلقائي -->
                 <div class="settings-item">
                     <div style="display: flex; align-items: center; gap: 8px;">
                         <i class="fas fa-robot" style="color: var(--text-tertiary); font-size: 16px;"></i>
@@ -409,7 +467,6 @@ function renderSettingsPage() {
                     </label>
                 </div>
                 
-                <!-- زر التحقق اليدوي -->
                 <div class="settings-item" style="border-bottom: none;">
                     <div style="display: flex; align-items: center; gap: 8px;">
                         <i class="fas fa-search" style="color: var(--text-tertiary); font-size: 16px;"></i>
@@ -420,7 +477,6 @@ function renderSettingsPage() {
                     </button>
                 </div>
                 
-                <!-- نتيجة التحقق -->
                 <div style="padding: 16px 24px; text-align: center; border-top: 1px solid var(--border-light);">
                     <div id="update-status" style="margin-bottom: 8px;">
                         <span style="color: var(--text-tertiary); font-size: 13px;">
@@ -445,11 +501,11 @@ function renderSettingsPage() {
                 </div>
             </div>
 
-            <!-- ما هو الجديد؟ -->
+                        <!-- ============ ما هو الجديد؟ ============ -->
             <div class="settings-group">
                 <div class="settings-item" onclick="toggleChangelog()" style="cursor: pointer; border-bottom: none;">
                     <div style="display: flex; align-items: center; gap: 12px;">
-                        <div style="width: 44px; height: 44px; border-radius: var(--radius-md); background: #FCE4EC; display: flex; align-items: center; justify-content: center;">
+                        <div style="width: 44px; height: 44px; border-radius: 12px; background: #FCE4EC; display: flex; align-items: center; justify-content: center;">
                             <i class="fas fa-gift" style="font-size: 20px; color: #E91E63;"></i>
                         </div>
                         <div>
@@ -458,104 +514,32 @@ function renderSettingsPage() {
                         </div>
                     </div>
                     <div style="display: flex; align-items: center; gap: 8px;">
-                        <span style="font-size: 11px; color: #E91E63; background: #FCE4EC; padding: 4px 10px; border-radius: 20px; font-weight: 500;">10 ميزات</span>
+                        <span style="font-size: 11px; color: #E91E63; background: #FCE4EC; padding: 4px 10px; border-radius: 20px; font-weight: 500;">18 مميزات</span>
                         <i class="fas fa-chevron-down" id="changelog-arrow" style="color: var(--text-tertiary); font-size: 14px; transition: transform 0.3s ease;"></i>
                     </div>
                 </div>
                 
-                <!-- قائمة الميزات (مخفية افتراضياً) -->
-                <div id="changelog-content" style="display: none; padding: 0 24px 16px 24px; border-top: 1px solid var(--border-light);">
-                    
-                    <!-- الميزة 1 -->
-                    <div style="display: flex; gap: 10px; margin-top: 16px; padding-bottom: 14px; border-bottom: 1px solid var(--border-light);">
-                        <span style="font-size: 20px; flex-shrink: 0;">🏆</span>
-                        <div>
-                            <strong style="color: var(--text-primary); font-size: 14px;">نظام الإنجازات والشارات</strong>
-                            <p style="font-size: 11px; color: var(--text-secondary); margin-top: 2px; line-height: 1.5;">احصل على 16 شارة عند تحقيق مراحل التعافي</p>
-                        </div>
-                    </div>
-                    
-                    <!-- الميزة 2 -->
-                    <div style="display: flex; gap: 10px; padding-bottom: 14px; border-bottom: 1px solid var(--border-light);">
-                        <span style="font-size: 20px; flex-shrink: 0;">📊</span>
-                        <div>
-                            <strong style="color: var(--text-primary); font-size: 14px;">الإحصائيات والرسوم البيانية</strong>
-                            <p style="font-size: 11px; color: var(--text-secondary); margin-top: 2px; line-height: 1.5;">تتبع تقدمك بالأرقام - أيام التعافي، الانتكاسات، التسبيح</p>
-                        </div>
-                    </div>
-                    
-                    <!-- الميزة 3 -->
-                    <div style="display: flex; gap: 10px; padding-bottom: 14px; border-bottom: 1px solid var(--border-light);">
-                        <span style="font-size: 20px; flex-shrink: 0;">📝</span>
-                        <div>
-                            <strong style="color: var(--text-primary); font-size: 14px;">اختبار تقييم ذاتي</strong>
-                            <p style="font-size: 11px; color: var(--text-secondary); margin-top: 2px; line-height: 1.5;">8 أسئلة لتقييم حالتك وتحديد مستوى الخطر</p>
-                        </div>
-                    </div>
-                    
-                    <!-- الميزة 4 -->
-                    <div style="display: flex; gap: 10px; padding-bottom: 14px; border-bottom: 1px solid var(--border-light);">
-                        <span style="font-size: 20px; flex-shrink: 0;">🌙</span>
-                        <div>
-                            <strong style="color: var(--text-primary); font-size: 14px;">الوضع الليلي التلقائي</strong>
-                            <p style="font-size: 11px; color: var(--text-secondary); margin-top: 2px; line-height: 1.5;">تفعيل الوضع الداكن تلقائياً من المغرب إلى الفجر</p>
-                        </div>
-                    </div>
-                    
-                    <!-- الميزة 5 -->
-                    <div style="display: flex; gap: 10px; padding-bottom: 14px; border-bottom: 1px solid var(--border-light);">
-                        <span style="font-size: 20px; flex-shrink: 0;">🔍</span>
-                        <div>
-                            <strong style="color: var(--text-primary); font-size: 14px;">بحث متقدم في المحتوى</strong>
-                            <p style="font-size: 11px; color: var(--text-secondary); margin-top: 2px; line-height: 1.5;">ابحث في جميع العادات والأذكار بسرعة</p>
-                        </div>
-                    </div>
-                    
-                    <!-- الميزة 6 -->
-                    <div style="display: flex; gap: 10px; padding-bottom: 14px; border-bottom: 1px solid var(--border-light);">
-                        <span style="font-size: 20px; flex-shrink: 0;">💾</span>
-                        <div>
-                            <strong style="color: var(--text-primary); font-size: 14px;">نسخ احتياطي وتصدير البيانات</strong>
-                            <p style="font-size: 11px; color: var(--text-secondary); margin-top: 2px; line-height: 1.5;">تصدير واستيراد جميع بياناتك بنقرة واحدة</p>
-                        </div>
-                    </div>
-                    
-                    <!-- الميزة 7 -->
-                    <div style="display: flex; gap: 10px; padding-bottom: 14px; border-bottom: 1px solid var(--border-light);">
-                        <span style="font-size: 20px; flex-shrink: 0;">🔔</span>
-                        <div>
-                            <strong style="color: var(--text-primary); font-size: 14px;">إشعارات ذكية</strong>
-                            <p style="font-size: 11px; color: var(--text-secondary); margin-top: 2px; line-height: 1.5;">تذكيرات في أفضل الأوقات - أذكار، تعافي، وتحفيز</p>
-                        </div>
-                    </div>
-                    
-                    <!-- الميزة 8 -->
-                    <div style="display: flex; gap: 10px; padding-bottom: 14px; border-bottom: 1px solid var(--border-light);">
-                        <span style="font-size: 20px; flex-shrink: 0;">⚠️</span>
-                        <div>
-                            <strong style="color: var(--text-primary); font-size: 14px;">عادة جديدة: الزنا والعلاقات غير الشرعية</strong>
-                            <p style="font-size: 11px; color: var(--text-secondary); margin-top: 2px; line-height: 1.5;">محتوى توعوي شامل عن الأضرار وطرق التوبة</p>
-                        </div>
-                    </div>
-                    
-                    <!-- الميزة 9 -->
-                    <div style="display: flex; gap: 10px; padding-bottom: 14px; border-bottom: 1px solid var(--border-light);">
-                        <span style="font-size: 20px; flex-shrink: 0;">🔄</span>
-                        <div>
-                            <strong style="color: var(--text-primary); font-size: 14px;">نظام التحقق من التحديثات</strong>
-                            <p style="font-size: 11px; color: var(--text-secondary); margin-top: 2px; line-height: 1.5;">تحقق تلقائي أو يدوي من وجود إصدارات جديدة</p>
-                        </div>
-                    </div>
-                    
-                    <!-- الميزة 10 -->
-                    <div style="display: flex; gap: 10px; padding-bottom: 8px;">
-                        <span style="font-size: 20px; flex-shrink: 0;">✨</span>
-                        <div>
-                            <strong style="color: var(--text-primary); font-size: 14px;">تحسينات عامة</strong>
-                            <p style="font-size: 11px; color: var(--text-secondary); margin-top: 2px; line-height: 1.5;">تحسينات الأداء | المظهر الداكن | إصلاحات | تجربة الجوال | قسم التبرع | تقييم محسن</p>
-                        </div>
-                    </div>
-                    
+                <div id="changelog-content" style="display: none; padding: 16px 24px; border-top: 1px solid var(--border-light);">
+                    <ul style="line-height: 2.2; padding-right: 20px; color: var(--text-secondary); font-size: 14px; list-style: none;">
+                        <li>1- نظام الإنجازات والشارات - 16 شارة تحفيزية</li>
+                        <li>2- الإحصائيات والرسوم البيانية - تتبع تقدمك</li>
+                        <li>3- اختبار تقييم ذاتي - 8 أسئلة لتقييم حالتك</li>
+                        <li>4- الوضع الليلي التلقائي - داكن من المغرب للفجر</li>
+                        <li>5- بحث متقدم في المحتوى - ابحث في كل شيء</li>
+                        <li>6- نسخ احتياطي وتصدير البيانات - حافظ على تقدمك</li>
+                        <li>7- إشعارات ذكية - تذكيرات في أفضل الأوقات</li>
+                        <li>8- عادة جديدة: الزنا والعلاقات غير الشرعية</li>
+                        <li>9- نظام التحقق من التحديثات - تلقائي ويدوي</li>
+                        <li>10- تحسينات عامة - أداء | داكن | جوال | تبرع | تقييم</li>
+                        <li>11- قفل التطبيق برمز سري - حماية خصوصيتك</li>
+                        <li>12- 5 ثيمات جديدة - وردي | صحراوي | محيط | رمضاني</li>
+                        <li>13- مذكرات يومية - عبّر عن مشاعرك</li>
+                        <li>14- لوحة المتصدرين - تحديات أسبوعية ونقاط</li>
+                        <li>15- لعبة تحدي النفس - تمرين تنفس تفاعلي</li>
+                        <li>16- الأدعية والزيارات - دعاء كميل، الندبة، عاشوراء...</li>
+                        <li>17- البحث الشامل - عادات، أذكار، أدعية، زيارات</li>
+                        <li>18- شريط تحكم بالخط - صفحة الأدعية والزيارات الرئيسية - صفحة تفاصيل الدعاء/الزيارة</li>
+                    </ul>
                 </div>
             </div>
 
@@ -569,14 +553,12 @@ function renderSettingsPage() {
                     if (arrow) arrow.style.transform = isHidden ? 'rotate(180deg)' : 'rotate(0deg)';
                 }
 
-                // also allow clicking the entire item area
                 document.addEventListener('DOMContentLoaded', function(){
                     var item = document.querySelector('.settings-item[onclick]');
                     if (item) item.style.cursor = 'pointer';
                 });
             </script>
 
-            <!-- تبرع لدعم التطبيق -->
             <div class="settings-group">
                 <h3 style="padding: 16px 24px; border-bottom: 1px solid var(--border-light);">
                     <i class="fas fa-hand-holding-heart" style="margin-left: 8px; color: #E91E63;"></i>
@@ -589,7 +571,6 @@ function renderSettingsPage() {
                         <br>يمكنك التبرع بالمبلغ الذي تريده
                     </p>
                     
-                    <!-- بطاقة التبرع -->
                     <div style="background: linear-gradient(135deg, #1A1A1A, #2D2D2D); padding: 20px; border-radius: var(--radius-xl); margin-bottom: 16px; max-width: 380px; margin-left: auto; margin-right: auto; box-shadow: 0 8px 24px rgba(0,0,0,0.2);">
                         <!-- شعار Mastercard -->
                         <div style="display: flex; justify-content: flex-end; margin-bottom: 16px;">
@@ -600,13 +581,11 @@ function renderSettingsPage() {
                             </svg>
                         </div>
                         
-                        <!-- رقم البطاقة -->
                         <div style="margin-bottom: 12px;">
                             <p style="color: #999; font-size: 10px; text-align: left; margin-bottom: 4px;">رقم البطاقة</p>
                             <p style="color: white; font-size: 20px; letter-spacing: 3px; font-family: 'Courier New', monospace; text-align: left; direction: ltr;" id="card-number">4582 1499 61</p>
                         </div>
                         
-                        <!-- اسم الحامل -->
                         <div style="display: flex; justify-content: space-between; align-items: flex-end;">
                             <div>
                                 <p style="color: #999; font-size: 10px; text-align: left; margin-bottom: 2px;">صاحب البطاقة</p>
@@ -619,20 +598,16 @@ function renderSettingsPage() {
                         </div>
                     </div>
                     
-                    <!-- أزرار النسخ والتبرع -->
                     <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-bottom: 12px;">
                         <button class="btn btn-primary btn-sm" onclick="copyCardNumber('4582149961')" id="copy-card-btn">
                             <i class="fas fa-copy"></i> نسخ رقم البطاقة
                         </button>
                     </div>
                     
-                    <!-- رسالة نسخ -->
                     <p id="copy-status" style="font-size: 12px; color: var(--text-tertiary); min-height: 18px;"></p>
                     
-                    <!-- خط فاصل -->
                     <div style="height: 1px; background: var(--border-light); margin: 16px 0;"></div>
                     
-                    <!-- رسالة شكر -->
                     <p style="color: var(--text-secondary); font-size: 13px; line-height: 1.8; font-style: italic;">
                         <i class="fas fa-quote-right" style="color: #E91E63; margin-left: 4px; font-size: 16px;"></i>
                         جزاك الله خيراً على دعمك وتبرعك
@@ -641,7 +616,6 @@ function renderSettingsPage() {
                 </div>
             </div>
             
-            <!-- منطقة الخطر -->
             <div class="settings-group" style="margin-top: 24px;">
                 <h3 style="padding: 16px 24px; border-bottom: 1px solid var(--border-light); color: var(--accent-red);">
                     <i class="fas fa-exclamation-triangle" style="margin-left: 8px;"></i>
@@ -662,95 +636,6 @@ function renderSettingsPage() {
         </div>
     `;
     setTimeout(() => loadPreviousRating(), 200);
-}
-
-// function to switch theme and save the setting
-// This function is called when the user selects a theme option
-// It saves the selected theme in local storage, applies the theme, and reloads the settings page
-// It also shows a toast message confirming the theme change
-// The theme can be 'light', 'dark', or 'auto'
-// The 'auto' theme will follow the system preference for light or dark mode
-// The function also updates the CSS variables for the selected theme 
-
-function switchTheme(theme) {
-    const settings = StorageManager.getSettings();
-    settings.theme = theme;
-    StorageManager.saveSettings(settings);
-    applyTheme(theme);
-    renderSettingsPage();
-    const themeNames = {
-        'light': 'تم تفعيل المظهر الفاتح',
-        'dark': 'تم تفعيل المظهر الداكن',
-        'auto': 'تم تفعيل المظهر التلقائي'
-    };
-    showToast(themeNames[theme]);
-}
-
-function applyTheme(theme) {
-    const root = document.documentElement;
-    const body = document.body;
-    body.classList.remove('theme-light', 'theme-dark');
-    
-    if (theme === 'dark') {
-        body.classList.add('theme-dark');
-        
-        // Color for dark theme
-        root.style.setProperty('--surface', '#1E1E1E');
-        root.style.setProperty('--surface-variant', '#2D2D2D');
-        root.style.setProperty('--background', '#121212');
-        root.style.setProperty('--background-dark', '#0A0A0A');
-        root.style.setProperty('--text-primary', '#E0E0E0');
-        root.style.setProperty('--text-secondary', '#B0B0B0');
-        root.style.setProperty('--text-tertiary', '#808080');
-        root.style.setProperty('--text-disabled', '#606060');
-        root.style.setProperty('--border', '#3D3D3D');
-        root.style.setProperty('--border-light', '#2D2D2D');
-        root.style.setProperty('--shadow-sm', '0 1px 3px rgba(0, 0, 0, 0.4)');
-        root.style.setProperty('--shadow-md', '0 4px 6px rgba(0, 0, 0, 0.5)');
-        root.style.setProperty('--shadow-lg', '0 10px 15px rgba(0, 0, 0, 0.6)');
-        root.style.setProperty('--primary-light', '#1A3A3C');
-        
-    } else if (theme === 'light') {
-        body.classList.add('theme-light');
-        
-        // Color for light theme
-        root.style.setProperty('--surface', '#FFFFFF');
-        root.style.setProperty('--surface-variant', '#F5F7F8');
-        root.style.setProperty('--background', '#F0F2F5');
-        root.style.setProperty('--background-dark', '#E8EBEE');
-        root.style.setProperty('--text-primary', '#1A1C1E');
-        root.style.setProperty('--text-secondary', '#44474E');
-        root.style.setProperty('--text-tertiary', '#6B7280');
-        root.style.setProperty('--text-disabled', '#9CA3AF');
-        root.style.setProperty('--border', '#D1D5DB');
-        root.style.setProperty('--border-light', '#E5E7EB');
-        root.style.setProperty('--shadow-sm', '0 1px 3px rgba(0, 0, 0, 0.1)');
-        root.style.setProperty('--shadow-md', '0 4px 6px rgba(0, 0, 0, 0.1)');
-        root.style.setProperty('--shadow-lg', '0 10px 15px rgba(0, 0, 0, 0.1)');
-        root.style.setProperty('--primary-light', '#E0F2F1');
-        
-    } else if (theme === 'auto') {
-        // change theme based on system preference.
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            applyTheme('dark');
-        } else {
-            applyTheme('light');
-        }
-    }
-}
-
-
-if (window.matchMedia) {
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-        const settings = StorageManager.getSettings();
-        if (settings.theme === 'auto') {
-            if (e.matches) {
-                applyTheme('dark');
-            } else {
-                applyTheme('light');
-            }
-        }
-    });
 }
 
 function toggleNotificationSetting(enabled) {
@@ -792,7 +677,6 @@ function clearAllUserData() {
         }
     }
 }
-
 
 function openInBrowser() {
     const appUrl = 'https://wsl-iq.github.io/teaafi/';
@@ -1136,9 +1020,6 @@ document.addEventListener('mouseout', function(e) {
     }
 });
 
-
-/// const APP_VERSION = '0.0.0'; // up 
-
 const GITHUB_VERSION_URL = 'https://raw.githubusercontent.com/wsl-iq/teaafi/refs/heads/main/version.txt';
 const GITHUB_API_URL = 'https://api.github.com/repos/wsl-iq/teaafi/releases/latest';
 const GITHUB_RELEASES_URL = 'https://github.com/wsl-iq/teaafi/releases/latest';
@@ -1197,7 +1078,7 @@ async function checkForUpdates(silent) {
     const updateInfo = document.getElementById('update-info');
     const manualBtn = document.getElementById('manual-check-btn');
     
-    // عرض حالة التحميل
+    // show loading status
     if (updateStatus) {
         updateStatus.innerHTML = `
             <span style="color: var(--text-secondary);">
@@ -1215,7 +1096,7 @@ async function checkForUpdates(silent) {
         let latestVersion = null;
         let downloadUrl = GITHUB_RELEASES_URL;
         
-        // المحاولة الأولى: version.txt
+        // version.txt
         try {
             const response = await fetch(GITHUB_VERSION_URL + '?t=' + Date.now(), {
                 cache: 'no-cache',
@@ -1230,7 +1111,7 @@ async function checkForUpdates(silent) {
             console.warn('[Update] version.txt failed, trying API...');
         }
         
-        // المحاولة الثانية: GitHub API
+        // GitHub API
         if (!latestVersion) {
             try {
                 const response = await fetch(GITHUB_API_URL, {
@@ -1249,7 +1130,7 @@ async function checkForUpdates(silent) {
             }
         }
         
-        // عرض النتيجة
+        // show update status
         if (latestVersion) {
             if (compareVersions(latestVersion, APP_VERSION) > 0) {
                 showUpdateAvailable(latestVersion, downloadUrl, silent);
@@ -1260,7 +1141,7 @@ async function checkForUpdates(silent) {
             showUpdateCheckFailed(silent);
         }
         
-        // حفظ تاريخ آخر فحص
+        // update datetime of last check
         StorageManager.set('last_update_check', Date.now());
         updateLastCheckTime();
         
@@ -1335,7 +1216,7 @@ function showNoUpdateAvailable(silent) {
     if (updateInfo) updateInfo.style.display = 'none';
     
     if (!silent && typeof showToast === 'function') {
-        showToast('✅ التطبيق محدث إلى آخر إصدار');
+        showToast('التطبيق محدث إلى آخر إصدار');
     }
     
     StorageManager.remove('update_available');
@@ -1363,7 +1244,7 @@ function showUpdateCheckFailed(silent) {
     if (updateInfo) updateInfo.style.display = 'none';
     
     if (!silent && typeof showToast === 'function') {
-        showToast('⚠️ تعذر التحقق من التحديثات');
+        showToast(' تعذر التحقق من التحديثات');
     }
 }
 
@@ -1416,26 +1297,42 @@ function updateLastCheckTime() {
  * تهيئة نظام التحديثات عند تحميل الصفحة
  */
 function initUpdateSystem() {
-    // عرض الإصدار الحالي
     const versionEl = document.getElementById('current-version');
     if (versionEl) versionEl.textContent = APP_VERSION;
-    
-    // تحديث وقت آخر فحص
     updateLastCheckTime();
-    
-    // التحقق من الإعدادات
     const settings = StorageManager.getSettings();
     
-    // بدء التحقق التلقائي إذا كان مفعلاً
     if (settings.autoUpdateCheck !== false) {
         startAutoUpdateCheck();
     }
+    
+    // check if there's a saved update notification
+    var saved = StorageManager.get('update_available');
+    if (saved && saved.version && typeof compareVersions === 'function') {
+        if (compareVersions(saved.version, APP_VERSION) > 0) {
+            // highlight the update notification in the settings page
+            // var updateNotification = document.getElementById('update-notification');
+            // if (updateNotification) {
+            //     updateNotification.style.backgroundColor = 'var(--surface-variant)';
+            //     updateNotification.style.border = '1px solid var(--accent-yellow)';
+            // }
+            var dismissed = StorageManager.get('update_notification_dismissed');
+            if (dismissed) {
+                // If the notification was dismissed more than 3 days ago, remove it
+                // 3 days = 3 * 24 * 60 * 60 * 1000 = 259200000 ms
+                // Check if the dismissed timestamp is older than 3 days
+                // If so, remove the dismissed flag to show the notification again
+                // This ensures that users who dismissed the notification will see it again after 3 days
+                // We use Date.now() to get the current timestamp in milliseconds
+                // Compare the current timestamp with the dismissed timestamp
+                // If the difference is greater than 3 days, remove the dismissed flag
+                if (Date.now() - dismissed > 3 * 86400000) {
+                    StorageManager.remove('update_notification_dismissed');
+                }
+            }
+        }
+    }
 }
-
-// استدعاء التهيئة
-document.addEventListener('DOMContentLoaded', function() {
-    setTimeout(initUpdateSystem, 500);
-});
 
 /**
  * نسخ رقم البطاقة إلى الحافظة
@@ -1517,58 +1414,6 @@ function showCopyFailed(text) {
     }
 }
 
-function toggleNightModeSchedule(enabled) {
-    updateSetting('nightModeSchedule', enabled);
-    
-    var timesEl = document.getElementById('night-mode-times');
-    if (timesEl) timesEl.style.display = enabled ? '' : 'none';
-    
-    if (enabled) {
-        startNightModeScheduler();
-        showToast('تم تفعيل الوضع الليلي التلقائي 🌙');
-    } else {
-        stopNightModeScheduler();
-        showToast('تم إلغاء الوضع الليلي التلقائي');
-    }
-}
-
-var nightModeInterval = null;
-
-function startNightModeScheduler() {
-    stopNightModeScheduler();
-    checkNightMode();
-    nightModeInterval = setInterval(checkNightMode, 60000); // كل دقيقة
-}
-
-function stopNightModeScheduler() {
-    if (nightModeInterval) {
-        clearInterval(nightModeInterval);
-        nightModeInterval = null;
-    }
-}
-
-function checkNightMode() {
-    var now = new Date();
-    var hours = now.getHours();
-    
-    // من 6 مساءً إلى 6 صباحاً = الوضع الداكن
-    var isNight = hours >= 18 || hours < 6;
-    var settings = StorageManager.getSettings();
-    
-    if (isNight && settings.theme !== 'dark') {
-        applyTheme('dark');
-        document.getElementById('app').classList.add('theme-dark');
-    } else if (!isNight && settings.theme === 'dark' && settings.nightModeSchedule) {
-        applyTheme('light');
-        document.getElementById('app').classList.remove('theme-dark');
-    }
-}
-
-var settings = StorageManager.getSettings();
-if (settings.nightModeSchedule) {
-    startNightModeScheduler();
-}
-
 function toggleChangelog() {
     var content = document.getElementById('changelog-content');
     var arrow = document.getElementById('changelog-arrow');
@@ -1584,8 +1429,176 @@ function toggleChangelog() {
     }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    const settings = StorageManager.getSettings();
-    const theme = settings.theme || 'light';
-    applyTheme(theme);
-});
+function toggleAppLock(enabled) {
+    if (enabled) {
+        showPinSetupDialog();
+    } else {
+        showPinDisableDialog();
+    }
+}
+
+function showPinSetupDialog() {
+    var modal = document.createElement('div');
+    modal.className = 'modal-overlay';
+    modal.style.zIndex = '200';
+    
+    var setupPin = '';
+    window._setupPin = '';
+    
+    modal.innerHTML = `
+        <div class="modal-container" style="max-width: 380px; text-align: center; animation: scaleIn 0.3s ease;">
+            <div style="font-size: 50px; margin-bottom: 8px;"></div>
+            <h3 style="margin-bottom: 2px;">تعيين رمز سري</h3>
+            <p style="color: var(--text-secondary); font-size: 12px; margin-bottom: 4px;">أدخل 6 أرقام لحماية التطبيق</p>
+            <p style="color: var(--text-tertiary); font-size: 10px; margin-bottom: 16px;">الحد الأقصى 6 أرقام</p>
+            
+            <div style="display:flex;gap:8px;justify-content:center;margin-bottom:16px;" id="setup-display">
+                <div class="pin-digit" id="sd-0"></div>
+                <div class="pin-digit" id="sd-1"></div>
+                <div class="pin-digit" id="sd-2"></div>
+                <div class="pin-digit" id="sd-3"></div>
+                <div class="pin-digit" id="sd-4"></div>
+                <div class="pin-digit" id="sd-5"></div>
+            </div>
+            
+            <p id="setup-error" style="color:#F44336;font-size:11px;min-height:18px;margin-bottom:12px;"></p>
+            
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:250px;margin:0 auto 16px;" id="setup-pad">
+                <button class="pin-key setup-key">1</button>
+                <button class="pin-key setup-key">2</button>
+                <button class="pin-key setup-key">3</button>
+                <button class="pin-key setup-key">4</button>
+                <button class="pin-key setup-key">5</button>
+                <button class="pin-key setup-key">6</button>
+                <button class="pin-key setup-key">7</button>
+                <button class="pin-key setup-key">8</button>
+                <button class="pin-key setup-key">9</button>
+                <div class="pin-empty"></div>
+                <button class="pin-key setup-key">0</button>
+                <button class="pin-key setup-key pin-delete"><i class="fas fa-delete-left"></i></button>
+            </div>
+            
+            <button class="btn btn-primary w-full" onclick="saveSetupPin()" id="save-pin-btn" disabled style="width:100%;">
+                <i class="fas fa-save"></i> حفظ الرمز
+            </button>
+            <button class="btn btn-outline w-full mt-2" onclick="this.closest('.modal-overlay').remove(); renderSettingsPage();" style="width:100%;">
+                إلغاء
+            </button>
+            
+            <div style="background:var(--surface-variant);padding:10px;border-radius:8px;margin-top:12px;">
+                <p style="font-size:10px;color:var(--text-tertiary);">
+                    <i class="fas fa-info-circle"></i> في حال نسيان الرمز، استخدم رمز الاسترداد:
+                </p>
+                <p style="font-size:13px;font-weight:700;font-family:monospace;direction:ltr;color:var(--primary);">Taeafi0x10000</p>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+    
+    // setup pin input handling
+    var errorEl = document.getElementById('setup-error');
+    var saveBtn = document.getElementById('save-pin-btn');
+    
+    document.querySelectorAll('#setup-pad .setup-key').forEach(function(key) {
+        key.addEventListener('click', function() {
+            var val = this.textContent.trim();
+            
+            if (this.classList.contains('pin-delete')) {
+                setupPin = setupPin.slice(0, -1);
+            } else if (/^\d$/.test(val)) {
+                if (setupPin.length >= 6) {
+                    if (errorEl) {
+                        errorEl.textContent = 'الحد الأقصى 6 أرقام فقط';
+                        setTimeout(function() { errorEl.textContent = ''; }, 1500);
+                    }
+                    return;
+                }
+                setupPin += val;
+                this.style.transform = 'scale(0.85)';
+                setTimeout(function() { key.style.transform = ''; }, 120);
+            }
+            
+            // Refresh display
+            for (var i = 0; i < 6; i++) {
+                var digitEl = document.getElementById('sd-' + i);
+                if (digitEl) {
+                    if (i < setupPin.length) {
+                        digitEl.textContent = setupPin[i];
+                        digitEl.classList.add('filled');
+                    } else {
+                        digitEl.textContent = '';
+                        digitEl.classList.remove('filled');
+                    }
+                }
+            }
+            
+            saveBtn.disabled = setupPin.length !== 6;
+            window._setupPin = setupPin;
+        });
+    });
+}
+
+function saveSetupPin() {
+    var pin = window._setupPin || '';
+    if (pin.length !== 6) return;
+    
+    if (typeof AppLock !== 'undefined' && AppLock.setPin(pin)) {
+        document.querySelector('.modal-overlay').remove();
+        updateSetting('appLockEnabled', true);
+        updateSetting('appPin', pin);
+        showToast('تم تفعيل قفل التطبيق');
+        renderSettingsPage();
+    }
+}
+
+function showPinDisableDialog() {
+    var modal = document.createElement('div');
+    modal.className = 'modal-overlay';
+    modal.style.zIndex = '200';
+    modal.innerHTML = `
+        <div class="modal-container" style="max-width:380px;text-align:center;animation:scaleIn 0.3s ease;">
+            <div style="font-size:50px;margin-bottom:8px;"></div>
+            <h3 style="margin-bottom:4px;">إلغاء قفل التطبيق</h3>
+            <p style="color:var(--text-secondary);font-size:12px;margin-bottom:4px;">أدخل الرمز الحالي أو رمز الاسترداد</p>
+            <p style="color:var(--text-tertiary);font-size:10px;margin-bottom:14px;">رمز الاسترداد: <strong>Taeafi0x10000</strong></p>
+            
+            <input type="text" id="disable-pin-input" placeholder="أدخل الرمز أو رمز الاسترداد" 
+                   style="width:100%;padding:14px;border-radius:12px;border:2px solid var(--border);text-align:center;font-size:15px;font-family:monospace;direction:ltr;margin-bottom:12px;background:var(--input-bg);color:var(--text-primary);">
+            
+            <p id="disable-error" style="color:#F44336;font-size:12px;min-height:18px;margin-bottom:8px;"></p>
+            
+            <button class="btn btn-danger w-full" onclick="disableAppLock()" style="width:100%;">
+                <i class="fas fa-unlock"></i> إلغاء القفل
+            </button>
+            <button class="btn btn-outline w-full mt-2" onclick="this.closest('.modal-overlay').remove(); renderSettingsPage();" style="width:100%;">
+                إلغاء
+            </button>
+        </div>
+    `;
+    document.body.appendChild(modal);
+}
+
+function disableAppLock() {
+    var input = document.getElementById('disable-pin-input');
+    var errorEl = document.getElementById('disable-error');
+    if (!input) return;
+    
+    var code = input.value.trim();
+    if (typeof AppLock !== 'undefined' && AppLock.disableLock(code)) {
+        document.querySelector('.modal-overlay').remove();
+        updateSetting('appLockEnabled', false);
+        updateSetting('appPin', null);
+        showToast('تم إلغاء قفل التطبيق');
+        renderSettingsPage();
+    } else {
+        if (errorEl) {
+            errorEl.textContent = 'رمز خاطئ - حاول مرة أخرى';
+            errorEl.style.animation = 'none';
+            errorEl.offsetHeight;
+            errorEl.style.animation = 'shake 0.4s ease';
+        }
+    }
+}
+
+
+// initUpdateSystem

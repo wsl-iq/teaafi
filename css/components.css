@@ -2597,3 +2597,175 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     background: var(--surface-variant);
     color: var(--text-tertiary);
 }
+
+/* ==================== أيقونة تحدي النفس في الوضع الداكن ==================== */
+.theme-dark .card-icon[style*="background: #E0F7FA"] {
+    background: #1A2E30 !important;
+    color: #4DD0E1 !important;
+}
+
+/* ==================== قائمة التحديثات ==================== */
+#changelog-content ul {
+    list-style: none;
+    padding: 0;
+}
+
+#changelog-content ul li {
+    padding: 6px 0;
+    border-bottom: 1px solid var(--border-light);
+    font-size: 14px;
+    color: var(--text-secondary);
+    transition: all 0.2s;
+}
+
+#changelog-content ul li:last-child {
+    border-bottom: none;
+}
+
+#changelog-content ul li:hover {
+    color: var(--text-primary);
+}
+
+/* المظهر الداكن */
+.theme-dark #changelog-content ul li {
+    color: var(--text-secondary);
+    border-bottom-color: var(--border);
+}
+
+.theme-dark #changelog-content ul li:hover {
+    color: var(--text-primary);
+}
+
+/* ==================== الروزنامة ==================== */
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+}
+
+.calendar-header div {
+    padding: 8px 4px;
+    font-weight: 600;
+    font-size: 12px;
+    color: var(--text-tertiary);
+}
+
+.calendar-day {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: default;
+    transition: all 0.2s;
+}
+
+.calendar-day.empty {
+    background: transparent;
+}
+
+.calendar-day:hover {
+    transform: scale(1.1);
+}
+
+.prayer-card {
+    border-right: 3px solid #4A148C;
+    transition: all 0.3s;
+}
+
+.prayer-card:hover {
+    border-right-color: #7B1FA2;
+    box-shadow: var(--shadow-md);
+}
+
+/* ==================== شريط إشعار التحديث ==================== */
+.update-notification-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #FFF8E1;
+    border: 1px solid #FFC107;
+    border-radius: 14px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    animation: slideDownIn 0.4s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.update-notification-bar:hover {
+    background: #FFF3C4;
+    box-shadow: 0 2px 8px rgba(255, 193, 7, 0.2);
+    transform: translateY(-1px);
+}
+
+.update-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #FF9800;
+    flex-shrink: 0;
+    animation: updatePulse 2s infinite;
+}
+
+.update-text {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 14px;
+    font-weight: 600;
+    color: #E65100;
+}
+
+.update-close-btn {
+    background: none;
+    border: none;
+    color: #BF360C;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 4px 8px;
+    border-radius: 50%;
+    transition: all 0.2s;
+    flex-shrink: 0;
+}
+
+.update-close-btn:hover {
+    background: rgba(191, 54, 12, 0.1);
+}
+
+@keyframes slideDownIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUpOut {
+    from { opacity: 1; transform: translateY(0); }
+    to { opacity: 0; transform: translateY(-20px); }
+}
+
+@keyframes updatePulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.5); }
+}
+
+/* المظهر الداكن */
+.theme-dark .update-notification-bar {
+    background: #3E2E1A;
+    border-color: #FF9800;
+}
+
+.theme-dark .update-notification-bar:hover {
+    background: #4E3E2A;
+}
+
+.theme-dark .update-text {
+    color: #FFB74D;
+}
+
+.theme-dark .update-close-btn {
+    color: #FFB74D;
+}

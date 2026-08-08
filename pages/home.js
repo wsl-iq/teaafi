@@ -9,17 +9,47 @@
 
 function renderHomePage() {
     const mainContent = document.getElementById('main-content');
-    const user = StorageManager.getUser();
-    const stats = RecoveryCounter.getRecoveryStats();
+    if (!mainContent) {
+        return;
+    }
+
+    const user = typeof StorageManager !== 'undefined' && typeof StorageManager.getUser === 'function'
+        ? StorageManager.getUser()
+        : null;
+    const stats = typeof RecoveryCounter !== 'undefined' && typeof RecoveryCounter.getRecoveryStats === 'function'
+        ? RecoveryCounter.getRecoveryStats()
+        : null;
+    const recoveryStats = stats || { isActive: false, days: 0, weeks: 0, months: 0, years: 0 };
+
+    const updateAvailable = typeof StorageManager !== 'undefined' && typeof StorageManager.get === 'function'
+        ? StorageManager.get('update_available')
+        : null;
+    const hasUpdate = updateAvailable && updateAvailable.version &&
+        typeof compareVersions === 'function' &&
+        typeof APP_VERSION !== 'undefined' &&
+        compareVersions(updateAvailable.version, APP_VERSION) > 0;
     
     mainContent.innerHTML = `
         <div class="animate-fade-in">
+            ${hasUpdate ? `
+                <div class="update-notification-bar" onclick="navigateTo('settings'); setTimeout(function() { var el = document.getElementById('update-status'); if (el) el.scrollIntoView({ behavior: 'smooth' }); }, 500);">
+                    <div class="update-dot"></div>
+                    <div class="update-text">
+                        <span>يوجد تحديث جديد v${updateAvailable.version}</span>
+                        <i class="fas fa-arrow-left" style="font-size: 12px;"></i>
+                    </div>
+                    <button class="update-close-btn" onclick="event.stopPropagation(); dismissUpdateNotification();">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            ` : ''}
+
             <div class="mb-6">
                 <h1 class="font-bold">مرحباً ${user?.name || ''}</h1>
                 <p class="text-secondary mt-2">كل يوم هو فرصة جديدة للتغيير</p>
             </div>
         
-            <div class="search-bar-container" onclick="SearchEngine.showSearchUI()">
+            <div class="search-bar-container" onclick="(window.SearchEngine && SearchEngine.showSearchUI) ? SearchEngine.showSearchUI() : null">
                 <div class="search-bar">
                     <i class="fas fa-search" style="color: var(--text-tertiary); margin-left: 8px;"></i>
                     <span style="color: var(--text-disabled);">ابحث عن عادة، دعاء، أو أي محتوى...</span>
@@ -27,23 +57,23 @@ function renderHomePage() {
                 </div>
             </div>
             
-            ${stats.isActive ? `
+            ${recoveryStats.isActive ? `
                 <div class="counter-card" onclick="navigateTo('recovery')">
                     <i class="fas fa-calendar-check" style="font-size: 32px; margin-bottom: 12px;"></i>
                     <h3>رحلة التعافي مستمرة</h3>
-                    <div class="counter-value" id="home-counter">${stats.days}</div>
+                    <div class="counter-value" id="home-counter">${recoveryStats.days}</div>
                     <p>يوم منذ بداية رحلتك</p>
                     <div class="counter-stats">
                         <div class="stat-item">
-                            <div class="stat-value">${stats.weeks}</div>
+                            <div class="stat-value">${recoveryStats.weeks}</div>
                             <div class="stat-label">أسبوع</div>
                         </div>
                         <div class="stat-item">
-                            <div class="stat-value">${stats.months}</div>
+                            <div class="stat-value">${recoveryStats.months}</div>
                             <div class="stat-label">شهر</div>
                         </div>
                         <div class="stat-item">
-                            <div class="stat-value">${stats.years}</div>
+                            <div class="stat-value">${recoveryStats.years}</div>
                             <div class="stat-label">سنة</div>
                         </div>
                     </div>
@@ -135,7 +165,39 @@ function renderHomePage() {
                     </div>
                     <p class="card-description">تصدير واستيراد جميع بياناتك بسهولة</p>
                 </div>
+            </div>
 
+            <!-- بعد قسم الأدعية والزيارات -->
+            <h2 class="section-title" style="margin-top: 32px;">
+                <i class="fas fa-star" style="margin-left: 8px; color: #FFD700;"></i>
+                المزيد
+            </h2>
+            <div class="cards-grid">
+                <div class="card" onclick="navigateTo('prayer-box')">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: #F3E5F5; color: #4A148C;">
+                            <i class="fas fa-hands-praying"></i>
+                        </div>
+                        <div>
+                            <h3 class="card-title">صندوق دعائي</h3>
+                            <p class="text-sm text-secondary">أدعيتك الخاصة</p>
+                        </div>
+                    </div>
+                    <p class="card-description">احفظ أدعيتك المفضلة وعد إليها كلما أردت</p>
+                </div>
+                
+                <div class="card" onclick="navigateTo('calendar')">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: #E8F5E9; color: #4CAF50;">
+                            <i class="fas fa-calendar-check"></i>
+                        </div>
+                        <div>
+                            <h3 class="card-title">روزنامة التعافي</h3>
+                            <p class="text-sm text-secondary">تقويم بصري</p>
+                        </div>
+                    </div>
+                    <p class="card-description">شاهد أيام تعافيك باللون الأخضر والانتكاسات بالأحمر</p>
+                </div>
             </div>
 
             <h2 class="section-title" style="margin-top: 32px;">
@@ -169,19 +231,77 @@ function renderHomePage() {
                     <p class="card-description">زيارة عاشوراء، الجامعة، آل ياسين، الأربعين وغيرها</p>
                 </div>
             </div>
+
+            <!-- قسم جديد: أدوات تفاعلية -->
+            <h2 class="section-title" style="margin-top: 32px;">
+                <i class="fas fa-puzzle-piece" style="margin-left: 8px; color: #E91E63;"></i>
+                أدوات تفاعلية
+            </h2>
+            <div class="cards-grid">
+                <div class="card" onclick="navigateTo('leaderboard')">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: #FFF8E1; color: #FFD700;">
+                            <i class="fas fa-crown"></i>
+                        </div>
+                        <div>
+                            <h3 class="card-title">لوحة المتصدرين</h3>
+                            <p class="text-sm text-secondary">سجلاتك وإنجازاتك</p>
+                        </div>
+                    </div>
+                    <p class="card-description">نقاط، مستويات، تحديات أسبوعية، وسجلات شخصية</p>
+                </div>
+                
+                <div class="card" onclick="navigateTo('journal')">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: #FCE4EC; color: #E91E63;">
+                            <i class="fas fa-pen-fancy"></i>
+                        </div>
+                        <div>
+                            <h3 class="card-title">مذكراتي اليومية</h3>
+                            <p class="text-sm text-secondary">عبّر عن مشاعرك</p>
+                        </div>
+                    </div>
+                    <p class="card-description">مساحة شخصية لكتابة الأفكار والمشاعر يومياً</p>
+                </div>
+                
+                <div class="card" onclick="navigateTo('breath')">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: #E0F7FA; color: #00BCD4;">
+                            <i class="fas fa-wind"></i>
+                        </div>
+                        <div>
+                            <h3 class="card-title">تحدي النفس</h3>
+                            <p class="text-sm text-secondary">استرخِ وتحدَّ نفسك</p>
+                        </div>
+                    </div>
+                    <p class="card-description">تمرين تنفس تفاعلي للاسترخاء وكسب نقاط الإرادة</p>
+                </div>
+            </div>
             </div>
         </div>
     `;
     
     // Update counter every minute
-    if (stats.isActive) {
+    if (recoveryStats.isActive) {
         setInterval(() => {
             const counterEl = document.getElementById('home-counter');
-            if (counterEl) {
+            if (counterEl && typeof RecoveryCounter !== 'undefined' && typeof RecoveryCounter.getRecoveryStats === 'function') {
                 const currentStats = RecoveryCounter.getRecoveryStats();
                 counterEl.textContent = currentStats.days;
             }
         }, 60000);
+    }
+}
+
+// ✅ دالة إخفاء إشعار التحديث
+function dismissUpdateNotification() {
+    var bar = document.querySelector('.update-notification-bar');
+    if (bar) {
+        bar.style.animation = 'slideUpOut 0.3s ease forwards';
+        setTimeout(function() { bar.remove(); }, 300);
+    }
+    if (typeof StorageManager !== 'undefined' && typeof StorageManager.set === 'function') {
+        StorageManager.set('update_notification_dismissed', Date.now());
     }
 }
 
