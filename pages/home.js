@@ -200,6 +200,51 @@ function renderHomePage() {
                 </div>
             </div>
 
+            <h2 class="section-title" style="margin-top:32px;">
+                <i class="fas fa-heartbeat" style="margin-left:8px;color:#4CAF50;"></i>
+                الصحة والرياضة
+            </h2>
+            <div class="cards-grid">
+                <div class="card" onclick="navigateTo('nutrition')">
+                    <div class="card-header">
+                        <div class="card-icon" style="background:#FFF3E0;color:#FF9800;">
+                            <i class="fas fa-utensils"></i>
+                        </div>
+                        <div>
+                            <h3 class="card-title">التغذية الصحية</h3>
+                            <p class="text-sm text-secondary">وجبات يومية متكاملة</p>
+                        </div>
+                    </div>
+                    <p class="card-description">365 يوم من الوجبات الصحية مع بدائل ورياضة مصاحبة</p>
+                </div>
+                
+                <div class="card" onclick="navigateTo('exercises')">
+                    <div class="card-header">
+                        <div class="card-icon" style="background:#E8F5E9;color:#4CAF50;">
+                            <i class="fas fa-dumbbell"></i>
+                        </div>
+                        <div>
+                            <h3 class="card-title">الرياضة اليومية</h3>
+                            <p class="text-sm text-secondary">تمارين مخصصة</p>
+                        </div>
+                    </div>
+                    <p class="card-description">خطة أسبوعية للرجال والنساء مع مراعاة الدورة الشهرية</p>
+                </div>
+                
+                <div class="card" onclick="navigateTo('food-conflicts')">
+                    <div class="card-header">
+                        <div class="card-icon" style="background:#FCE4EC;color:#F44336;">
+                            <i class="fas fa-skull-crossbones"></i>
+                        </div>
+                        <div>
+                            <h3 class="card-title">تعارضات الطعام</h3>
+                            <p class="text-sm text-secondary">تجنب مشاكل المعدة</p>
+                        </div>
+                    </div>
+                    <p class="card-description">قائمة الأطعمة التي يجب تجنب تناولها معاً</p>
+                </div>
+            </div>
+
             <h2 class="section-title" style="margin-top: 32px;">
                 <i class="fas fa-book-open" style="margin-left: 8px; color: #4A148C;"></i>
                 أدعية وزيارات

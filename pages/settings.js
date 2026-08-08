@@ -7,7 +7,7 @@
  * Type: JavaScript
  */
 
-let APP_VERSION = './version.txt';
+let ApplicationVersion = './version.txt';
 (function loadAppVersionFromFile() {
     try {
         fetch('./version.txt')
@@ -17,15 +17,13 @@ let APP_VERSION = './version.txt';
             })
             .then(text => {
                 const v = text.trim();
-                if (v) APP_VERSION = v;
+                if (v) ApplicationVersion = v;
             })
             .catch(_ => {
             });
     } catch (e) {
     }
 })();
-
-
 
 function renderSettingsPage() {
     const mainContent = document.getElementById('main-content');
@@ -513,7 +511,7 @@ function renderSettingsPage() {
                         </div>
                     </div>
                     <p style="font-size: 11px; color: var(--text-tertiary); margin-top: 8px;">
-                        الإصدار الحالي: <strong id="current-version">${APP_VERSION}</strong>
+                        الإصدار الحالي: <strong id="current-version">${ApplicationVersion}</strong>
                     </p>
                     <p id="last-check-time" style="font-size: 10px; color: var(--text-tertiary); margin-top: 4px;"></p>
                 </div>
@@ -527,12 +525,12 @@ function renderSettingsPage() {
                             <i class="fas fa-gift" style="font-size: 20px; color: #E91E63;"></i>
                         </div>
                         <div>
-                            <span style="font-weight: 600;">ما هو الجديد؟ v${APP_VERSION}</span>
+                            <span style="font-weight: 600;">ما هو الجديد؟ v${ApplicationVersion}</span>
                             <p style="font-size: 12px; color: var(--text-tertiary); margin-top: 2px;">اضغط لعرض الميزات الجديدة</p>
                         </div>
                     </div>
                     <div style="display: flex; align-items: center; gap: 8px;">
-                        <span style="font-size: 11px; color: #E91E63; background: #FCE4EC; padding: 4px 10px; border-radius: 20px; font-weight: 500;">18 مميزات</span>
+                        <span style="font-size: 11px; color: #E91E63; background: #FCE4EC; padding: 4px 10px; border-radius: 20px; font-weight: 500;">20 مميزات</span>
                         <i class="fas fa-chevron-down" id="changelog-arrow" style="color: var(--text-tertiary); font-size: 14px; transition: transform 0.3s ease;"></i>
                     </div>
                 </div>
@@ -557,6 +555,8 @@ function renderSettingsPage() {
                         <li>16- الأدعية والزيارات - دعاء كميل، الندبة، عاشوراء...</li>
                         <li>17- البحث الشامل - عادات، أذكار، أدعية، زيارات</li>
                         <li>18- شريط تحكم بالخط - صفحة الأدعية والزيارات الرئيسية - صفحة تفاصيل الدعاء/الزيارة</li>
+                        <li>19- الصحة والرياضة - التغذية الصحية والرياضة اليوميةوتجنب تعارضات الطعام</li>
+                        <li>20- تصحيح الأخطاء الواجهة الرئيسية</li>
                     </ul>
                 </div>
             </div>
@@ -1150,7 +1150,7 @@ async function checkForUpdates(silent) {
         
         // show update status
         if (latestVersion) {
-            if (compareVersions(latestVersion, APP_VERSION) > 0) {
+            if (compareVersions(latestVersion, ApplicationVersion) > 0) {
                 showUpdateAvailable(latestVersion, downloadUrl, silent);
             } else {
                 showNoUpdateAvailable(silent);
@@ -1197,7 +1197,7 @@ function showUpdateAvailable(latestVersion, downloadUrl, silent) {
                 📦 <strong style="color: #FF9800;">الإصدار v${latestVersion}</strong> متاح الآن
             </div>
             <div style="color: var(--text-secondary); font-size: 13px;">
-                أنت تستخدم الإصدار <strong>v${APP_VERSION}</strong>
+                أنت تستخدم الإصدار <strong>v${ApplicationVersion}</strong>
                 <br>يوصى بالتحديث للحصول على أحدث الميزات والتحسينات
             </div>
         `;
@@ -1226,7 +1226,7 @@ function showNoUpdateAvailable(silent) {
     if (updateStatus) {
         updateStatus.innerHTML = `
             <span style="color: #4CAF50; font-weight: 600;">
-                <i class="fas fa-check-circle"></i> التطبيق محدث إلى آخر إصدار v${APP_VERSION}
+                <i class="fas fa-check-circle"></i> التطبيق محدث إلى آخر إصدار v${ApplicationVersion}
             </span>
         `;
     }
@@ -1316,7 +1316,7 @@ function updateLastCheckTime() {
  */
 function initUpdateSystem() {
     const versionEl = document.getElementById('current-version');
-    if (versionEl) versionEl.textContent = APP_VERSION;
+    if (versionEl) versionEl.textContent = ApplicationVersion;
     updateLastCheckTime();
     const settings = StorageManager.getSettings();
     
@@ -1327,7 +1327,7 @@ function initUpdateSystem() {
     // check if there's a saved update notification
     var saved = StorageManager.get('update_available');
     if (saved && saved.version && typeof compareVersions === 'function') {
-        if (compareVersions(saved.version, APP_VERSION) > 0) {
+        if (compareVersions(saved.version, ApplicationVersion) > 0) {
             // highlight the update notification in the settings page
             // var updateNotification = document.getElementById('update-notification');
             // if (updateNotification) {
@@ -1617,5 +1617,3 @@ function disableAppLock() {
         }
     }
 }
-
-// ما هو 

@@ -100,6 +100,9 @@ function navigateTo(page) {
         case 'breath': renderBreathGamePage(); break;
         case 'prayer-box': renderPrayerBoxPage(); break;
         case 'calendar': renderCalendarPage(); break;
+        case 'nutrition': renderNutritionPage(); break;
+        case 'exercises': renderExercisesPage(); break;
+        case 'food-conflicts': renderFoodConflictsPage(); break;
     }
     
     document.getElementById('main-content').scrollTop = 0;

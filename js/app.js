@@ -34,13 +34,44 @@ function initApp() {
 function showMainApp() {
     var ws = document.getElementById('welcome-screen');
     var app = document.getElementById('app');
+    
     if (ws) { ws.classList.add('hidden'); ws.style.display = 'none'; }
     if (app) { app.classList.add('visible'); app.style.display = 'flex'; }
-    if (typeof navigateTo === 'function') navigateTo('home');
-    try { var sd = localStorage.getItem('taafi_settings'); if (sd) { var s = JSON.parse(sd); var t = (s.value && s.value.theme) || 'light'; if (typeof applyTheme === 'function') applyTheme(t); } } catch (e) {}
+    
+    // ✅ استدعاء renderHomePage مباشرة بدون navigateTo
+    if (typeof renderHomePage === 'function') {
+        renderHomePage();
+    }
+    
+    // ✅ تحديث شريط التنقل السفلي يدوياً
+    document.querySelectorAll('.nav-item').forEach(function(item) {
+        item.classList.remove('active');
+        if (item.dataset.page === 'home') {
+            item.classList.add('active');
+        }
+    });
+    
+    // ✅ تحديث الشريط الجانبي يدوياً
+    document.querySelectorAll('.nav-link').forEach(function(link) {
+        link.classList.remove('active');
+        if (link.dataset.page === 'home') {
+            link.classList.add('active');
+        }
+    });
+    
+    try { 
+        var sd = localStorage.getItem('taafi_settings'); 
+        if (sd) { 
+            var s = JSON.parse(sd); 
+            var t = (s.value && s.value.theme) || 'light'; 
+            if (typeof ThemesManager !== 'undefined' && typeof ThemesManager.apply === 'function') {
+                ThemesManager.apply(t);
+            }
+        } 
+    } catch (e) {}
+    
     checkResponsive();
     
-    // ✅ طلب الإشعارات للمستخدمين القدامى (إذا لم يسبق لهم الموافقة)
     setTimeout(function() {
         if (typeof PermissionsManager !== 'undefined' && typeof PermissionsManager.showPermissionModal === 'function') {
             PermissionsManager.showPermissionModal();

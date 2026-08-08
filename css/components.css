@@ -2769,3 +2769,335 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
 .theme-dark .update-close-btn {
     color: #FFB74D;
 }
+
+/* ==================== Nutrition & Exercise ==================== */
+.nutrition-meal-card {
+    border-right: 4px solid var(--primary);
+    margin-bottom: 16px;
+    transition: all 0.3s ease;
+}
+
+.nutrition-meal-card:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+}
+
+.food-conflict-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    border-radius: 12px;
+    margin-bottom: 8px;
+}
+
+.food-conflict-severity {
+    padding: 2px 10px;
+    border-radius: 10px;
+    font-size: 10px;
+    color: white;
+    font-weight: 600;
+}
+
+.exercise-today-card {
+    border: 2px solid #4CAF50 !important;
+    background: #E8F5E9 !important;
+}
+
+.theme-dark .exercise-today-card {
+    background: #1B3A1B !important;
+    border-color: #4CAF50 !important;
+}
+
+/* ممنوعات الطعام */
+.forbidden-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    margin: 4px;
+}
+
+/* المظهر الداكن */
+.theme-dark .nutrition-meal-card {
+    background: var(--surface);
+}
+
+/* ==================== أيقونات الصحة والرياضة - الوضع الداكن ==================== */
+
+/* أيقونة التغذية الصحية */
+.theme-dark .card-icon[style*="background:#FFF3E0"][style*="color:#FF9800"] {
+    background: #3E2E1A !important;
+    color: #FFB74D !important;
+}
+
+/* أيقونة الرياضة اليومية */
+.theme-dark .card-icon[style*="background:#E8F5E9"][style*="color:#4CAF50"] {
+    background: #1B3A1B !important;
+    color: #66BB6A !important;
+}
+
+/* أيقونة تعارضات الطعام */
+.theme-dark .card-icon[style*="background:#FCE4EC"][style*="color:#F44336"] {
+    background: #3D1F28 !important;
+    color: #EF5350 !important;
+}
+
+/* ==================== فحص الوجبة - دعم الوضع الداكن ==================== */
+
+/* نتيجة الفحص - لا تعارض */
+.theme-dark #meal-check-result div[style*="background:#E8F5E9"] {
+    background: #1B3A1B !important;
+}
+
+.theme-dark #meal-check-result div[style*="background:#E8F5E9"] p {
+    color: #81C784 !important;
+}
+
+/* نتيجة الفحص - تعارض عالي */
+.theme-dark #meal-check-result div[style*="background:#FCE4EC"] {
+    background: #3D1F28 !important;
+}
+
+.theme-dark #meal-check-result div[style*="background:#FCE4EC"] strong,
+.theme-dark #meal-check-result div[style*="background:#FCE4EC"] p {
+    color: #EF9A9A !important;
+}
+
+/* نتيجة الفحص - تعارض متوسط */
+.theme-dark #meal-check-result div[style*="background:#FFF3E0"] {
+    background: #3E2E1A !important;
+}
+
+.theme-dark #meal-check-result div[style*="background:#FFF3E0"] strong,
+.theme-dark #meal-check-result div[style*="background:#FFF3E0"] p {
+    color: #FFCC80 !important;
+}
+
+/* نتيجة الفحص - تعارض منخفض */
+.theme-dark #meal-check-result div[style*="background:#FFF8E1"] {
+    background: #3E3520 !important;
+}
+
+.theme-dark #meal-check-result div[style*="background:#FFF8E1"] strong,
+.theme-dark #meal-check-result div[style*="background:#FFF8E1"] p {
+    color: #FFE082 !important;
+}
+
+/* أيقونات النتائج */
+.theme-dark #meal-check-result .fa-check-circle {
+    color: #66BB6A !important;
+}
+
+.theme-dark #meal-check-result .fa-exclamation-triangle {
+    color: #EF9A9A !important;
+}
+
+/* ==================== صفحة التغذية - إصلاح كامل للوضع الداكن ==================== */
+
+/* بطاقات الوجبات */
+.theme-dark .nutrition-meal-card {
+    background: var(--surface) !important;
+    border-color: var(--border) !important;
+}
+
+.theme-dark .nutrition-meal-card h3 {
+    color: var(--text-primary) !important;
+}
+
+.theme-dark .nutrition-meal-card p {
+    color: var(--text-primary) !important;
+}
+
+.theme-dark .nutrition-meal-card span {
+    color: var(--text-secondary) !important;
+}
+
+/* شريط السعرات والبروتين */
+.theme-dark .nutrition-meal-card div[style*="font-size:12px;color:var(--text-tertiary)"] span {
+    color: var(--text-tertiary) !important;
+}
+
+/* تنبيه التعارضات داخل الوجبة */
+.theme-dark .nutrition-meal-card div[style*="background:#FFF3E0"] {
+    background: #3E2E1A !important;
+    border: 1px solid #5D4037 !important;
+}
+
+.theme-dark .nutrition-meal-card div[style*="background:#FFF3E0"] p {
+    color: #FFCC80 !important;
+}
+
+/* رسالة الرياضة بعد الوجبة */
+.theme-dark .nutrition-meal-card p[style*="font-size:11px;color:var(--primary)"] {
+    color: var(--primary) !important;
+}
+
+/* أزرار التبديل بين الجنسين */
+.theme-dark .btn.btn-sm[style*="background:transparent"] {
+    color: var(--text-secondary) !important;
+}
+
+/* قائمة الممنوعات */
+.theme-dark .forbidden-tag[style*="background:#FCE4EC"] {
+    background: #3D1F28 !important;
+    color: #EF9A9A !important;
+    border: 1px solid #5D3A3A !important;
+}
+
+/* بطاقة أيام الدورة */
+.theme-dark div[style*="background:#FCE4EC"][style*="border-right:4px solid #E91E63"] {
+    background: #3D1F28 !important;
+    border-right-color: #F06292 !important;
+}
+
+.theme-dark div[style*="background:#FCE4EC"][style*="border-right:4px solid #E91E63"] h3 {
+    color: #F06292 !important;
+}
+
+.theme-dark div[style*="background:#FCE4EC"][style*="border-right:4px solid #E91E63"] p {
+    color: #EF9A9A !important;
+}
+
+/* العنوان الرئيسي */
+.theme-dark .heading-underline {
+    color: var(--text-primary) !important;
+}
+
+/* النص التوضيحي */
+.theme-dark p[style*="color:var(--text-secondary)"] {
+    color: var(--text-secondary) !important;
+}
+
+/* أيقونات الوجبات */
+.theme-dark .nutrition-meal-card .fa-sun {
+    color: #FFB74D !important;
+}
+
+.theme-dark .nutrition-meal-card .fa-moon {
+    color: #9FA8DA !important;
+}
+
+.theme-dark .nutrition-meal-card .fa-fire {
+    color: #EF9A9A !important;
+}
+
+.theme-dark .nutrition-meal-card .fa-dumbbell {
+    color: #81C784 !important;
+}
+
+.theme-dark .nutrition-meal-card .fa-wallet {
+    color: #FFCC80 !important;
+}
+
+.theme-dark .nutrition-meal-card .fa-running {
+    color: #81C784 !important;
+}
+
+.theme-dark .nutrition-meal-card .fa-exchange-alt {
+    color: var(--primary) !important;
+}
+
+/* ==================== إصلاح تعارضات النص في نتيجة التحليل - الوضع الداكن ==================== */
+
+/* نتيجة التحليل - خلفية التعارضات */
+.theme-dark #analysis-result div[style*="background:#FCE4EC"] {
+    background: #3D1F28 !important;
+    border-color: #5D3A3A !important;
+}
+
+/* نتيجة التحليل - نص التعارضات */
+.theme-dark #analysis-result div[style*="background:#FCE4EC"] strong {
+    color: #EF9A9A !important;
+}
+
+.theme-dark #analysis-result div[style*="background:#FCE4EC"] p {
+    color: #EF9A9A !important;
+}
+
+.theme-dark #analysis-result div[style*="background:#FCE4EC"] span {
+    color: white !important;
+    background: #F44336 !important;
+}
+
+/* نتيجة التحليل - خلفية الآمن */
+.theme-dark #analysis-result div[style*="background:#E8F5E9"] {
+    background: #1B3A1B !important;
+    border-color: #2E5C2E !important;
+}
+
+/* نتيجة التحليل - نص الآمن */
+.theme-dark #analysis-result div[style*="background:#E8F5E9"] strong {
+    color: #A5D6A7 !important;
+}
+
+.theme-dark #analysis-result div[style*="background:#E8F5E9"] p {
+    color: #A5D6A7 !important;
+}
+
+.theme-dark #analysis-result div[style*="background:#E8F5E9"] span {
+    color: white !important;
+    background: #4CAF50 !important;
+}
+
+/* ملخص التحليل */
+.theme-dark #analysis-result div[style*="flex:1"] {
+    border: 1px solid var(--border) !important;
+}
+
+.theme-dark #analysis-result div[style*="background:#E3F2FD"] {
+    background: #1A2B3C !important;
+}
+
+.theme-dark #analysis-result div[style*="background:#E3F2FD"] div,
+.theme-dark #analysis-result div[style*="background:#E3F2FD"] span {
+    color: #90CAF9 !important;
+}
+
+/* الحكم النهائي */
+.theme-dark #analysis-result div[style*="text-align:center;padding:16px;border-radius:12px"] {
+    border: 1px solid var(--border) !important;
+}
+
+/* المكونات المحللة */
+.theme-dark #analysis-result .ingredient-tag {
+    background: var(--primary-light) !important;
+    color: var(--primary) !important;
+}
+
+/* أيقونات النتيجة */
+.theme-dark #analysis-result .fa-check-circle {
+    color: #66BB6A !important;
+}
+
+.theme-dark #analysis-result .fa-exclamation-triangle {
+    color: #EF9A9A !important;
+}
+
+/* عناوين الأقسام في النتيجة */
+.theme-dark #analysis-result h4 {
+    color: var(--text-primary) !important;
+}
+
+/* قاعدة البيانات */
+.theme-dark .conflict-db-item[style*="background:#FCE4EC"] strong,
+.theme-dark .conflict-db-item[style*="background:#FCE4EC"] p {
+    color: #EF9A9A !important;
+}
+
+.theme-dark .conflict-db-item[style*="background:#FFF3E0"] strong,
+.theme-dark .conflict-db-item[style*="background:#FFF3E0"] p {
+    color: #FFCC80 !important;
+}
+
+.theme-dark .conflict-db-item[style*="background:#FFF8E1"] strong,
+.theme-dark .conflict-db-item[style*="background:#FFF8E1"] p {
+    color: #FFE082 !important;
+}
+
+.theme-dark .conflict-db-item[style*="background:#E8F5E9"] strong,
+.theme-dark .conflict-db-item[style*="background:#E8F5E9"] p {
+    color: #A5D6A7 !important;
+}

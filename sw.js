@@ -14,48 +14,51 @@ const STATIC_ASSETS = [
   '/',
 
   // HTML
-  '/index.html', // T
+  '/index.html',
 
   // CSS
-  '/css/variables.css', // T
-  '/css/reset.css', // T
-  '/css/typography.css', // T
-  '/css/components.css', // T
-  '/css/mobile.css', // T
-  '/css/tablet.css', // T
-  '/css/desktop.css', // T
-  '/css/utilities.css', // T
-  '/css/themes.css', // T
+  '/css/variables.css',
+  '/css/reset.css',
+  '/css/typography.css',
+  '/css/components.css',
+  '/css/mobile.css',
+  '/css/tablet.css',
+  '/css/desktop.css',
+  '/css/utilities.css',
+  '/css/themes.css',
 
   // JavaScript
-  '/js/app.js', // T
-  '/js/storage.js', // T
-  '/js/router.js', // T
-  '/js/notifications.js', // T
-  '/js/permissions.js', // T
-  '/js/counter.js', // T
-  '/js/app-lock.js', // T
-  '/js/backup.js', // T
-  '/js/optimization.js', // T
-  '/js/search.js', // T
-  '/js/smart-notifications.js', // T
-  '/js/themes.js', // T
+  '/js/app.js',
+  '/js/storage.js',
+  '/js/router.js',
+  '/js/notifications.js',
+  '/js/permissions.js',
+  '/js/counter.js',
+  '/js/app-lock.js',
+  '/js/backup.js',
+  '/js/optimization.js',
+  '/js/search.js',
+  '/js/smart-notifications.js',
+  '/js/themes.js',
   '/js/xp-system.js',
 
-  '/data/content.js', // T
-  '/data/adhkar.js', // T
-  '/data/achievements.js', // T
-  '/data/challenges.js', // T
-  '/data/duas.js', // T
+  '/data/content.js',
+  '/data/adhkar.js',
+  '/data/achievements.js',
+  '/data/challenges.js',
+  '/data/duas.js',
+  '/data/food-conflicts.js',
+  '/data/nutrition.js',
+  '/data/exercises.js',
 
-  '/pages/welcome.js', // T
-  '/pages/home.js', // T
-  '/pages/habits.js', // T
-  '/pages/habit-detail.js', // T
-  '/pages/spiritual.js', // T
-  '/pages/recovery.js', // T
-  '/pages/settings.js', // T
-  '/pages/tasbih.js', // T
+  '/pages/welcome.js',
+  '/pages/home.js',
+  '/pages/habits.js',
+  '/pages/habit-detail.js',
+  '/pages/spiritual.js',
+  '/pages/recovery.js',
+  '/pages/settings.js',
+  '/pages/tasbih.js',
   '/pages/journal.js',
   '/pages/leaderboard.js',
   '/pages/quiz.js',
@@ -65,9 +68,12 @@ const STATIC_ASSETS = [
   '/pages/policies.js',
   '/pages/prayer-box.js',
   '/pages/calendar.js',
+  '/data/food-conflicts.js',
+  '/data/nutrition.js',
+  '/data/exercises.js',
 
   // json
-  '/manifest.json', // T
+  '/manifest.json',
 
   // python
   '/Application.py',
