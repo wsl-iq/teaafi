@@ -7,7 +7,25 @@
  * Type: JavaScript
  */
 
-const APP_VERSION = '1.1.1';
+let APP_VERSION = './version.txt';
+(function loadAppVersionFromFile() {
+    try {
+        fetch('./version.txt')
+            .then(response => {
+                if (!response.ok) throw new Error('version.txt not found');
+                return response.text();
+            })
+            .then(text => {
+                const v = text.trim();
+                if (v) APP_VERSION = v;
+            })
+            .catch(_ => {
+            });
+    } catch (e) {
+    }
+})();
+
+
 
 function renderSettingsPage() {
     const mainContent = document.getElementById('main-content');
@@ -1600,5 +1618,4 @@ function disableAppLock() {
     }
 }
 
-
-// initUpdateSystem
+// ما هو 
