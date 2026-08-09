@@ -1,3 +1,10 @@
+/*
+ * Developer: Mohammed Al-Baqer
+ * Folder: wasm
+ * File: optimization.ا
+ * Copyright (c) 2026, lnc. Mohammed Al-Baqer. All rights reserved.
+*/
+
 #ifndef TAEFI_OPTIMIZATION_H
 #define TAEFI_OPTIMIZATION_H
 
