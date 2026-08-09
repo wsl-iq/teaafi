@@ -1,4 +1,11 @@
-// Taeafi Weekly Challenges v1.1.2
+/**
+ * Developer: Mohammed Al-Baqer
+ * Website: https://wsl-iq.github.io/teaafi/
+ * Copyright (c) 2026 Mohammed Al-Baqer
+ * Folder : data
+ * File   : challenges.js
+ * Type: JavaScript
+ */
 
 var WEEKLY_CHALLENGES = [
     {

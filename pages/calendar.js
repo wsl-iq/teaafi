@@ -1,4 +1,11 @@
-// Taeafi Recovery Calendar v1.0
+/**
+ * Developer: Mohammed Al-Baqer
+ * Website: https://wsl-iq.github.io/teaafi/
+ * Copyright (c) 2026 Mohammed Al-Baqer
+ * Folder : pages
+ * File   : calendar.js
+ * Type: JavaScript
+ */
 
 function renderCalendarPage() {
     var mainContent = document.getElementById('main-content');
@@ -6,7 +13,7 @@ function renderCalendarPage() {
     var year = now.getFullYear();
     var month = now.getMonth(); // 0-11
     
-    // جلب بيانات التعافي
+    // Retrieve recovery data
     var recoveryData = StorageManager.getRecoveryData();
     var recoveryDays = {};
     
@@ -14,7 +21,7 @@ function renderCalendarPage() {
         var start = new Date(recoveryData.startDate);
         var today = new Date();
         
-        // حساب أيام التعافي
+        // Calculating recovery days
         for (var d = new Date(start); d <= today; d.setDate(d.getDate() + 1)) {
             var dateKey = d.getFullYear() + '-' + 
                          String(d.getMonth() + 1).padStart(2, '0') + '-' + 
@@ -22,7 +29,7 @@ function renderCalendarPage() {
             recoveryDays[dateKey] = 'clean';
         }
         
-        // إضافة الانتكاسات
+        // Adding relapses
         if (recoveryData.relapses) {
             recoveryData.relapses.forEach(function(r) {
                 var rd = new Date(r.date);
@@ -45,7 +52,6 @@ function renderCalendarPage() {
                 روزنامة التعافي
             </h1>
             
-            <!-- الشهر الحالي -->
             <div class="card" style="text-align:center;">
                 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
                     <button class="btn btn-sm btn-outline" onclick="changeCalendarMonth(-1)"><i class="fas fa-chevron-right"></i></button>
@@ -53,17 +59,14 @@ function renderCalendarPage() {
                     <button class="btn btn-sm btn-outline" onclick="changeCalendarMonth(1)"><i class="fas fa-chevron-left"></i></button>
                 </div>
                 
-                <!-- أيام الأسبوع -->
                 <div class="calendar-grid calendar-header">
                     <div>أحد</div><div>اثنين</div><div>ثلاثاء</div><div>أربعاء</div><div>خميس</div><div>جمعة</div><div>سبت</div>
                 </div>
                 
-                <!-- أيام الشهر -->
                 <div class="calendar-grid" id="calendar-days">
                     ${generateCalendarDays(year, month, recoveryDays, todayKey)}
                 </div>
                 
-                <!-- مفتاح الألوان -->
                 <div style="display:flex;justify-content:center;gap:16px;margin-top:16px;font-size:12px;">
                     <span><span style="display:inline-block;width:12px;height:12px;border-radius:3px;background:#4CAF50;margin-left:4px;"></span> يوم نظيف</span>
                     <span><span style="display:inline-block;width:12px;height:12px;border-radius:3px;background:#F44336;margin-left:4px;"></span> انتكاسة</span>
@@ -72,7 +75,6 @@ function renderCalendarPage() {
                 </div>
             </div>
             
-            <!-- إحصائيات الشهر -->
             <div class="card" style="margin-top:16px;">
                 <h3 style="margin-bottom:12px;">إحصائيات الشهر</h3>
                 <div class="stats-cards-grid" style="grid-template-columns: repeat(3, 1fr);">
@@ -99,12 +101,12 @@ function generateCalendarDays(year, month, recoveryDays, todayKey) {
     var daysInMonth = new Date(year, month + 1, 0).getDate();
     var html = '';
     
-    // خلايا فارغة قبل أول يوم
+    // Empty cells before the first day
     for (var i = 0; i < firstDay; i++) {
         html += '<div class="calendar-day empty"></div>';
     }
     
-    // أيام الشهر
+    // Days of the month
     for (var day = 1; day <= daysInMonth; day++) {
         var dateKey = year + '-' + String(month + 1).padStart(2, '0') + '-' + String(day).padStart(2, '0');
         var status = recoveryDays[dateKey] || 'normal';

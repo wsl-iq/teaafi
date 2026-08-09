@@ -8,7 +8,7 @@
  */
 
 const ACHIEVEMENTS = {
-    // ========== إنجازات التعافي ==========
+    // Recovery achievements or Trophys
     first_step: {
         id: 'first_step',
         title: 'الخطوة الأولى',
@@ -100,7 +100,7 @@ const ACHIEVEMENTS = {
         condition: function(stats) { return stats.totalDays >= 365; }
     },
     
-    // ========== إنجازات التسبيح ==========
+    // Achievements of praise
     tasbih_100: {
         id: 'tasbih_100',
         title: 'مُسبِّح جديد',
@@ -138,7 +138,7 @@ const ACHIEVEMENTS = {
         }
     },
     
-    // ========== إنجازات عامة ==========
+    // General achievements
     multi_habit: {
         id: 'multi_habit',
         title: 'محارب متعدد',
@@ -186,7 +186,7 @@ const ACHIEVEMENTS = {
     }
 };
 
-// ========== مدير الإنجازات ==========
+//  Achievements Manager
 var AchievementsManager = {
     unlocked: [],
     
@@ -280,7 +280,7 @@ function showAchievementNotification(achievement) {
     }
 }
 
-// CSS للإنجازات
+// Achievements CSS 
 var achievementStyles = document.createElement('style');
 achievementStyles.textContent = `
     .achievement-popup {

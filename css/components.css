@@ -823,9 +823,7 @@ input:checked + .toggle-slider:before {
 }
 
 /*  Dark Theme Overrides  */
-/* هذا الكود يطبق تلقائياً عندما يتم تغيير متغيرات CSS عن طريق JavaScript */
 
-/* تصحيح جميع البطاقات والعناصر في المظهر الداكن */
 .theme-dark .card,
 .theme-dark .settings-group,
 .theme-dark .subsection,
@@ -838,7 +836,6 @@ input:checked + .toggle-slider:before {
     border-color: var(--border) !important;
 }
 
-/* تصحيح النصوص في جميع العناصر */
 .theme-dark .card-title,
 .theme-dark .card-description,
 .theme-dark .section-title,
@@ -855,7 +852,6 @@ input:checked + .toggle-slider:before {
     color: var(--text-primary) !important;
 }
 
-/* تصحيح النصوص الثانوية */
 .theme-dark .text-secondary,
 .theme-dark .card-description,
 .theme-dark .slide-description,
@@ -867,14 +863,12 @@ input:checked + .toggle-slider:before {
     color: var(--text-secondary) !important;
 }
 
-/* تصحيح النصوص الثلاثية */
 .theme-dark .text-tertiary,
 .theme-dark .settings-footer,
 .theme-dark .sidebar-footer p {
     color: var(--text-tertiary) !important;
 }
 
-/* تصحيح البطاقات الخاصة */
 .theme-dark .spiritual-card {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
 }
@@ -886,7 +880,6 @@ input:checked + .toggle-slider:before {
     color: white !important;
 }
 
-/* تصحيح بطاقة الصدقة */
 .theme-dark .card[style*="background: #FFF8E1"] {
     background: #3E2723 !important;
     border-right-color: #FF9800 !important;
@@ -896,7 +889,6 @@ input:checked + .toggle-slider:before {
     color: #E0E0E0 !important;
 }
 
-/* تصحيح بطاقة النصائح */
 .theme-dark .card[style*="background: #E8F5E9"] {
     background: #1B3A1B !important;
     border-color: #2E5C2E !important;
@@ -910,7 +902,6 @@ input:checked + .toggle-slider:before {
     color: #E0E0E0 !important;
 }
 
-/* تصحيح أزرار التنقل السفلية */
 .theme-dark .bottom-nav {
     background: rgba(30, 30, 30, 0.95) !important;
     border-top-color: var(--border) !important;
@@ -924,7 +915,6 @@ input:checked + .toggle-slider:before {
     color: var(--primary) !important;
 }
 
-/* تصحيح الشريط الجانبي */
 .theme-dark .sidebar {
     background: var(--surface) !important;
     border-left-color: var(--border) !important;
@@ -952,7 +942,6 @@ input:checked + .toggle-slider:before {
     color: var(--primary) !important;
 }
 
-/* تصحيح النوافذ المنبثقة */
 .theme-dark .modal-overlay {
     background: rgba(0, 0, 0, 0.8) !important;
 }
@@ -961,7 +950,6 @@ input:checked + .toggle-slider:before {
     background: var(--surface) !important;
 }
 
-/* تصحيح شاشة الترحيب */
 .theme-dark .welcome-screen {
     background: var(--surface) !important;
 }
@@ -970,7 +958,6 @@ input:checked + .toggle-slider:before {
     background: var(--surface) !important;
 }
 
-/* تصحيح حقول الإدخال */
 .theme-dark .form-input {
     background: var(--surface-variant) !important;
     border-color: var(--border) !important;
@@ -990,7 +977,6 @@ input:checked + .toggle-slider:before {
     color: var(--text-tertiary) !important;
 }
 
-/* تصحيح أزرار الاختيار */
 .theme-dark .gender-option {
     background: var(--surface-variant) !important;
     border-color: var(--border) !important;
@@ -1018,7 +1004,6 @@ input:checked + .toggle-slider:before {
     color: var(--primary) !important;
 }
 
-/* تصحيح خطوات التقدم */
 .theme-dark .progress-step {
     background: var(--border) !important;
 }
@@ -1027,7 +1012,6 @@ input:checked + .toggle-slider:before {
     background: var(--primary) !important;
 }
 
-/* تصحيح الأقسام الفرعية */
 .theme-dark .subsection {
     background: var(--surface) !important;
     border-right-color: var(--primary) !important;
@@ -1041,18 +1025,15 @@ input:checked + .toggle-slider:before {
     color: var(--text-primary) !important;
 }
 
-/* تصحيح عناوين الأقسام */
 .theme-dark .section-title {
     color: var(--primary) !important;
     border-bottom-color: var(--primary-light) !important;
 }
 
-/* تصحيح الخط التحتي للعناوين */
 .theme-dark .heading-underline::after {
     background: var(--primary-gradient) !important;
 }
 
-/* تصحيح عناصر الإعدادات */
 .theme-dark .settings-item {
     border-bottom-color: var(--border) !important;
 }
@@ -1071,7 +1052,6 @@ input:checked + .toggle-slider:before {
     border-bottom-color: #3D2020 !important;
 }
 
-/* تصحيح منطقة الخطر */
 .theme-dark .settings-group[style*="margin-top: 24px"] {
     border-color: #3D2020 !important;
 }
@@ -1080,7 +1060,6 @@ input:checked + .toggle-slider:before {
     border-bottom-color: #3D2020 !important;
 }
 
-/* تصحيح النصوص القرآنية والأدعية */
 .theme-dark .dhikr-text {
     background: var(--surface-variant) !important;
     color: var(--text-primary) !important;
@@ -1091,7 +1070,6 @@ input:checked + .toggle-slider:before {
     color: var(--text-primary) !important;
 }
 
-/* تصحيح بطاقة العداد */
 .theme-dark .counter-card {
     color: white !important;
 }
@@ -1106,7 +1084,6 @@ input:checked + .toggle-slider:before {
     color: white !important;
 }
 
-/* تصحيح الأزرار في بطاقة العداد */
 .theme-dark .counter-card .btn[style*="background: white"] {
     background: rgba(255, 255, 255, 0.9) !important;
     color: var(--primary-dark) !important;
@@ -1117,18 +1094,18 @@ input:checked + .toggle-slider:before {
     color: white !important;
 }
 
-/* تصحيح أيقونات البطاقات */
+/*Fixing bugs Icons Card*/
 .theme-dark .card-icon {
     color: white !important;
 }
 
-/* تصحيح رسائل toast */
+/* Fixing bugs toast */
 .theme-dark .toast {
     background: #333333 !important;
     color: white !important;
 }
 
-/* تصحيح toggle switch */
+/* Fixing Bugs toggle switch */
 .theme-dark .toggle-slider {
     background-color: var(--border) !important;
 }
@@ -1137,22 +1114,21 @@ input:checked + .toggle-slider:before {
     background-color: var(--primary) !important;
 }
 
-/* تصحيح روابط التنقل */
+/* Fixing Bugs URL Link Move*/
 .theme-dark .nav-item.active::before {
     background: var(--primary) !important;
 }
 
-/* تصحيح أيقونات التحقق */
+/* Fixing Bugs Icons chacking*/
 .theme-dark .fa-check-circle {
     color: var(--primary) !important;
 }
 
-/* تصحيح شريط التحميل */
+/* Fixing Bugs Loading bar*/
 .theme-dark .splash-loader {
     background: rgba(255, 255, 255, 0.2) !important;
 }
 
-/* تصحيح جميع العناصر التي تستخدم اللون الأبيض */
 .theme-dark h1,
 .theme-dark h2,
 .theme-dark h3,
@@ -1170,7 +1146,6 @@ input:checked + .toggle-slider:before {
     color: inherit !important;
 }
 
-/* تصحيح خلفيات العناصر */
 .theme-dark body {
     background-color: var(--background) !important;
 }
@@ -1179,7 +1154,7 @@ input:checked + .toggle-slider:before {
     background-color: var(--background) !important;
 }
 
-/* تصحيح أزرار outline */
+/* Fixing Bugs outline */
 .theme-dark .btn-outline {
     border-color: var(--primary) !important;
     color: var(--primary) !important;
@@ -1189,7 +1164,7 @@ input:checked + .toggle-slider:before {
     background: var(--primary-light) !important;
 }
 
-/* تصحيح scrollbar */
+/* Fixing Bugs scrollbar */
 .theme-dark .main-content::-webkit-scrollbar-track {
     background: var(--surface-variant) !important;
 }
@@ -1202,7 +1177,7 @@ input:checked + .toggle-slider:before {
     background: var(--text-tertiary) !important;
 }
 
-/* تصحيح أي عنصر inline style يحتاج تعديل */
+/* Fixing Bugs inline style */
 .theme-dark [style*="background: #FFF8E1"] {
     background: #3E2723 !important;
 }
@@ -1219,7 +1194,7 @@ input:checked + .toggle-slider:before {
     border-right-color: #FF9800 !important;
 }
 
-/* تصحيح لون placeholder في جميع الحقول */
+/* Fixing Bugs color placeholder */
 .theme-dark ::placeholder {
     color: var(--text-disabled) !important;
 }
@@ -1232,28 +1207,26 @@ input:checked + .toggle-slider:before {
     color: var(--text-disabled) !important;
 }
 
-/* تصحيح لون النص المحدد */
 .theme-dark ::selection {
     background: var(--primary) !important;
     color: white !important;
 }
 
-/* تصحيح لون الخطوط العريضة */
+/* Fixing Bugs Bold fonts*/
 .theme-dark hr {
     border-top-color: var(--border) !important;
 }
 
-/* تصحيح حالة التعطيل */
 .theme-dark .btn:disabled {
     opacity: 0.4 !important;
 }
 
-/* تصحيح تأثيرات hover على البطاقات */
+/*Fixing Bugs hover of cards*/
 .theme-dark .card:hover {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4) !important;
 }
 
-/* تصحيح جميع النصوص الصغيرة */
+/* Fixing Bugs text smaill*/
 .theme-dark small {
     color: var(--text-tertiary) !important;
 }
@@ -1262,45 +1235,38 @@ input:checked + .toggle-slider:before {
     color: rgba(255, 255, 255, 0.8) !important;
 }
 
-/*  تصحيح أيقونات البطاقات في المظهر الداكن  */
+/*  Fixing Bugs Icond Dark */
 
-/* أيقونة العادات في الصفحة الرئيسية */
 .theme-dark .card-icon[style*="background: #E0F2F1"] {
     background: #1A3A3C !important;
     color: #4DB6AC !important;
 }
 
-/* أيقونة التحصين الإيماني في الصفحة الرئيسية */
 .theme-dark .card-icon[style*="background: #E8F5E9"] {
     background: #1B3A1B !important;
     color: #66BB6A !important;
 }
 
-/* أيقونة متابعة التعافي في الصفحة الرئيسية */
 .theme-dark .card-icon[style*="background: #FCE4EC"] {
     background: #3D1F28 !important;
     color: #EF5350 !important;
 }
 
-/* أيقونة العادة السرية في صفحة العادات */
 .theme-dark .card-icon[style*="background: #E0F2F1"][style*="color: #0D6B6E"] {
     background: #1A3A3C !important;
     color: #4DB6AC !important;
 }
 
-/* أيقونة الأفلام الإباحية في صفحة العادات */
 .theme-dark .card-icon[style*="background: #FCE4EC"][style*="color: #F44336"] {
     background: #3D1F28 !important;
     color: #EF5350 !important;
 }
 
-/* أيقونة التدخين في صفحة العادات */
 .theme-dark .card-icon[style*="background: #FFF3E0"] {
     background: #3E2E1A !important;
     color: #FFB74D !important;
 }
 
-/* إذا كانت الأيقونة تستخدم لون محدد في inline style */
 .theme-dark .card-icon[style*="color: #0D6B6E"] {
     color: #4DB6AC !important;
 }
@@ -1317,7 +1283,6 @@ input:checked + .toggle-slider:before {
     color: #FFB74D !important;
 }
 
-/*  تصحيح قسم المطور في المظهر الداكن  */
 
 .theme-dark .settings-group a[href*="instagram"] {
     background: linear-gradient(45deg, #F09433, #E6683C, #DC2743, #CC2366, #BC1888) !important;
@@ -1340,7 +1305,6 @@ input:checked + .toggle-slider:before {
     color: inherit !important;
 }
 
-/* تصحيح ألوان الأوسمة */
 .theme-dark span[style*="background: #E0F2F1"] {
     background: #1A3A3C !important;
     color: #4DB6AC !important;
@@ -1356,7 +1320,6 @@ input:checked + .toggle-slider:before {
     color: #EF5350 !important;
 }
 
-/* تأثير hover على روابط التواصل */
 .settings-group a[href*="instagram"]:hover {
     transform: translateX(-4px);
     box-shadow: 0 4px 16px rgba(225, 48, 108, 0.4) !important;
@@ -1372,9 +1335,6 @@ input:checked + .toggle-slider:before {
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4) !important;
 }
 
-/*  تصحيح أيقونات التواصل الاجتماعي في المظهر الداكن  */
-
-/* إعادة تعيين لون الأيقونات داخل أزرار التواصل الاجتماعي */
 .theme-dark a[href*="instagram"] .fab.fa-instagram {
     color: #E1306C !important;
 }
@@ -1387,14 +1347,12 @@ input:checked + .toggle-slider:before {
     color: #000000 !important;
 }
 
-/* تصحيح الخلفية البيضاء للأيقونة */
 .theme-dark a[href*="instagram"] div[style*="background: white"],
 .theme-dark a[href*="t.me"] div[style*="background: white"],
 .theme-dark a[href*="github"] div[style*="background: white"] {
     background: white !important;
 }
 
-/* تصحيح النص داخل الأزرار */
 .theme-dark a[href*="instagram"] span,
 .theme-dark a[href*="instagram"] p,
 .theme-dark a[href*="t.me"] span,
@@ -1404,46 +1362,37 @@ input:checked + .toggle-slider:before {
     color: white !important;
 }
 
-/* تصحيح سهم التنقل */
 .theme-dark a[href*="instagram"] .fa-arrow-left,
 .theme-dark a[href*="t.me"] .fa-arrow-left,
 .theme-dark a[href*="github"] .fa-arrow-left {
     color: rgba(255, 255, 255, 0.8) !important;
 }
 
-/*  تصحيح أيقونات صفحة السياسات في المظهر الداكن  */
-
-/* أيقونة سياسة الخصوصية */
 .theme-dark .card-icon[style*="background: #E3F2FD"] {
     background: #1A2B3C !important;
     color: #64B5F6 !important;
 }
 
-/* أيقونة شروط الاستخدام */
 .theme-dark .card-icon[style*="background: #FFF3E0"] {
     background: #3E2E1A !important;
     color: #FFB74D !important;
 }
 
-/* أيقونة الترخيص */
 .theme-dark .card-icon[style*="background: #E8F5E9"] {
     background: #1B3A1B !important;
     color: #66BB6A !important;
 }
 
-/* أيقونة قواعد السلوك */
 .theme-dark .card-icon[style*="background: #F3E5F5"] {
     background: #2A1A3C !important;
     color: #CE93D8 !important;
 }
 
-/* أيقونة المساهمة */
 .theme-dark .card-icon[style*="background: #E0F2F1"] {
     background: #1A3A3C !important;
     color: #4DB6AC !important;
 }
 
-/* أيقونة سياسة الأمان */
 .card-icon[style*="background: #FCE4EC"],
 .card-icon[style*="background:#FCE4EC"],
 .card-icon[style*="background-color: #FCE4EC"],
@@ -1459,7 +1408,6 @@ input:checked + .toggle-slider:before {
     color: #EF5350 !important;
 }
 
-/* تصحيح عناوين الأقسام الفرعية في السياسات */
 .theme-dark #policy-privacy .subsection h3[style*="color: #1565C0"] {
     color: #64B5F6 !important;
 }
@@ -1484,7 +1432,6 @@ input:checked + .toggle-slider:before {
     color: #EF5350 !important;
 }
 
-/* تصحيح حدود الأقسام الفرعية */
 .theme-dark #policy-privacy .subsection {
     border-right-color: #1A3C5C !important;
 }
@@ -1509,13 +1456,11 @@ input:checked + .toggle-slider:before {
     border-right-color: #3D1F28 !important;
 }
 
-/* تصحيح خلفية نص الترخيص */
 .theme-dark .subsection div[style*="background: var(--surface-variant)"] {
     background: #2D2D2D !important;
     border: 1px solid #3D3D3D !important;
 }
 
-/* تصحيح أيقونات القوائم داخل السياسات */
 .theme-dark .subsection .fa-check-circle {
     color: #66BB6A !important;
 }
@@ -1540,24 +1485,19 @@ input:checked + .toggle-slider:before {
     color: #66BB6A !important;
 }
 
-/* تصحيح عنوان الصفحة الرئيسي */
 .theme-dark .heading-underline .fa-shield-alt {
     color: var(--primary) !important;
 }
 
-/* تصحيح الوصف في الأعلى */
 .theme-dark .text-secondary.mb-6 {
     color: var(--text-secondary) !important;
 }
 
-/* تصحيح تأثير التمييز عند النقر */
 .theme-dark [style*="box-shadow: 0 0 0 4px var(--primary-light)"] {
     box-shadow: 0 0 0 4px #1A3A3C !important;
 }
 
-/*  تصحيح النصوص العربية  */
 
-/* إزالة الميلان من جميع النصوص */
 * {
     font-style: normal !important;
 }
@@ -1576,13 +1516,11 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     font-style: normal !important;
 }
 
-/* تصحيح خاص للنصوص العربية */
 [lang="ar"],
 [dir="rtl"] {
     font-style: normal !important;
 }
 
-/* تصحيح النصوص في البطاقات */
 .card p,
 .card-description,
 .subsection p,
@@ -1590,19 +1528,16 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     font-style: normal !important;
 }
 
-/* تصحيح النصوص القرآنية - إبقائها طبيعية بدون ميلان */
 .font-quran {
     font-style: normal !important;
     line-height: 2.2 !important;
 }
 
-/* تصحيح الرسائل التحفيزية */
 #motivational-message {
     font-style: normal !important;
     text-align: center !important;
 }
 
-/* تصحيح النصوص في المظهر الداكن */
 .theme-dark p,
 .theme-dark span,
 .theme-dark li,
@@ -1613,9 +1548,6 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     font-style: normal !important;
 }
 
-/*  تصحيح النوافذ المنبثقة في المظهر الداكن  */
-
-/* تصحيح خلفية النافذة المنبثقة */
 .theme-dark .modal-overlay {
     background: rgba(0, 0, 0, 0.8) !important;
 }
@@ -1625,12 +1557,10 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     border: 1px solid #3D3D3D !important;
 }
 
-/* تصحيح عنوان النافذة */
 .theme-dark .modal-container h3 {
     color: #E0E0E0 !important;
 }
 
-/* تصحيح نص النافذة */
 .theme-dark .modal-container p {
     color: #B0B0B0 !important;
 }
@@ -1639,7 +1569,6 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     color: #E0E0E0 !important;
 }
 
-/* تصحيح النص الثانوي */
 .theme-dark .modal-container p[style*="color: var(--text-secondary)"] {
     color: #B0B0B0 !important;
 }
@@ -1648,7 +1577,6 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     color: #808080 !important;
 }
 
-/* تصحيح الرابط في النافذة */
 .theme-dark .modal-container p[style*="direction: ltr"] {
     color: #64B5F6 !important;
     background: #1A2B3C !important;
@@ -1656,9 +1584,6 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     border-radius: 8px !important;
 }
 
-/*  تصحيح خلفيات التنبيهات في النوافذ  */
-
-/* صندوق التنبيه البرتقالي */
 .theme-dark .modal-container div[style*="background: #FFF3E0"] {
     background: #3E2E1A !important;
     border: 1px solid #5D4037 !important;
@@ -1672,7 +1597,6 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     color: #FFB74D !important;
 }
 
-/* صندوق التنبيه الأخضر */
 .theme-dark .modal-container div[style*="background: #E8F5E9"] {
     background: #1B3A1B !important;
     border: 1px solid #2E5C2E !important;
@@ -1690,7 +1614,6 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     color: #A5D6A7 !important;
 }
 
-/* صندوق التنبيه الأزرق */
 .theme-dark .modal-container div[style*="background: #E3F2FD"] {
     background: #1A2B3C !important;
     border: 1px solid #2C4053 !important;
@@ -1703,8 +1626,6 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
 .theme-dark .modal-container div[style*="background: #E3F2FD"] strong {
     color: #64B5F6 !important;
 }
-
-/*  تصحيح الدوائر الملونة في النوافذ  */
 
 .theme-dark .modal-container div[style*="border-radius: 50%"] {
     border: 2px solid #3D3D3D !important;
@@ -1721,8 +1642,6 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
 .theme-dark .modal-container div[style*="border-radius: 50%"][style*="background: #E3F2FD"] {
     background: #1A2B3C !important;
 }
-
-/*  تصحيح الأيقونات في النوافذ  */
 
 .theme-dark .modal-container .fa-globe {
     color: #FFB74D !important;
@@ -1752,8 +1671,6 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     color: #64B5F6 !important;
 }
 
-/*  تصحيح الأزرار في النوافذ  */
-
 .theme-dark .modal-container .btn-outline {
     border-color: #4DB6AC !important;
     color: #4DB6AC !important;
@@ -1768,39 +1685,30 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     color: white !important;
 }
 
-/*  تصحيح قسم التحميل في الإعدادات  */
-
-/* خلفية أيقونة المتصفح */
 .theme-dark .settings-item div[style*="background: #FFF3E0"][style*="width: 48px"] {
     background: #3E2E1A !important;
 }
 
-/* خلفية أيقونة الاندرويد */
 .theme-dark .settings-item div[style*="background: #E8F5E9"][style*="width: 48px"] {
     background: #1B3A1B !important;
 }
 
-/* خلفية أيقونة الويندوز */
 .theme-dark .settings-item div[style*="background: #E3F2FD"][style*="width: 48px"] {
     background: #1A2B3C !important;
 }
 
-/* أيقونة المتصفح */
 .theme-dark .settings-item .fa-globe {
     color: #FFB74D !important;
 }
 
-/* أيقونة الاندرويد */
 .theme-dark .settings-item .fa-android {
     color: #81C784 !important;
 }
 
-/* أيقونة الويندوز */
 .theme-dark .settings-item .fa-windows {
     color: #64B5F6 !important;
 }
 
-/* أوسمة التحميل */
 .theme-dark .settings-item span[style*="color: #FF9800"] {
     color: #FFB74D !important;
     background: #3E2E1A !important;
@@ -1819,24 +1727,19 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     border: 1px solid #2C4053 !important;
 }
 
-/* نص الوصف في قسم التحميل */
 .theme-dark .settings-item p[style*="color: var(--text-tertiary)"] {
     color: #808080 !important;
 }
 
-/* سهم التنقل */
 .theme-dark .settings-item .fa-chevron-left {
     color: #808080 !important;
 }
 
-/*  تصحيح عام للنصوص في النوافذ  */
 
-/* أي نص داخل modal */
 .theme-dark .modal-container * {
     color-scheme: dark;
 }
 
-/* النصوص الصغيرة */
 .theme-dark .modal-container small,
 .theme-dark .modal-container p[style*="font-size: 11px"],
 .theme-dark .modal-container p[style*="font-size: 12px"],
@@ -1844,7 +1747,6 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     color: #808080 !important;
 }
 
-/* القوائم */
 .theme-dark .modal-container ul {
     color: #B0B0B0 !important;
 }
@@ -1853,14 +1755,11 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     color: #B0B0B0 !important;
 }
 
-/* أيقونات القوائم */
 .theme-dark .modal-container ul li .fa-check {
     color: #81C784 !important;
 }
 
-/*  نظام التقييم  */
 
-/* تأثير النبض للقلب */
 @keyframes pulse {
     0%, 100% { transform: scale(1); }
     50% { transform: scale(1.2); }
@@ -1871,7 +1770,6 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* تأثير التحويم على النجوم */
 .rating-star {
     transition: all 0.2s ease !important;
 }
@@ -1880,7 +1778,6 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     transform: scale(1.3) !important;
 }
 
-/* المظهر الداكن */
 .theme-dark #thank-you-message div[style*="background: linear-gradient(135deg, #E8F5E9, #C8E6C9)"] {
     background: linear-gradient(135deg, #1B3A1B, #2E5C2E) !important;
 }
@@ -1896,8 +1793,6 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
 .theme-dark #rating-text {
     color: #B0B0B0 !important;
 }
-
-/*  أنيميشن التقييم  */
 
 @keyframes fadeSlideIn {
     from {
@@ -1915,7 +1810,6 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     50% { transform: scale(1.2); }
 }
 
-/* تأثير التحويم على النجوم */
 .rating-star {
     transition: all 0.2s ease !important;
 }
@@ -1924,7 +1818,6 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     transform: scale(1.3) !important;
 }
 
-/* المظهر الداكن لرسالة الشكر */
 .theme-dark #thank-you-message div[style*="background: linear-gradient(135deg, #E8F5E9, #C8E6C9)"] {
     background: linear-gradient(135deg, #1B3A1B, #2E5C2E) !important;
 }
@@ -1937,75 +1830,62 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     color: #A5D6A7 !important;
 }
 
-/*  تصحيح أيقونات العادات الجديدة في المظهر الداكن  */
 
-/* الكحول */
 .theme-dark .card-icon[style*="background: #FCE4EC"][style*="color: #C62828"] {
     background: #3D1F28 !important;
     color: #EF5350 !important;
 }
 
-/* المخدرات */
 .theme-dark .card-icon[style*="background: #F3E5F5"][style*="color: #6A1B9A"] {
     background: #2A1A3C !important;
     color: #CE93D8 !important;
 }
 
-/* سوء التغذية */
 .theme-dark .card-icon[style*="background: #FFF3E0"][style*="color: #E65100"] {
     background: #3E2E1A !important;
     color: #FFB74D !important;
 }
 
-/* الخمول */
 .theme-dark .card-icon[style*="background: #EFEBE9"][style*="color: #795548"] {
     background: #3E2E2A !important;
     color: #BCAAA4 !important;
 }
 
-/* اضطرابات النوم */
 .theme-dark .card-icon[style*="background: #E8EAF6"][style*="color: #5C6BC0"] {
     background: #1A1C3C !important;
     color: #9FA8DA !important;
 }
 
-/* الكافيين */
 .theme-dark .card-icon[style*="background: #ECEFF1"][style*="color: #546E7A"] {
     background: #2A2D30 !important;
     color: #90A4AE !important;
 }
 
-/* إدمان الألعاب */
 .theme-dark .card-icon[style*="background: #E8EAF6"][style*="color: #283593"] {
     background: #1A1C3C !important;
     color: #7986CB !important;
 }
 
-/* إدمان التواصل */
 .theme-dark .card-icon[style*="background: #E3F2FD"][style*="color: #1565C0"] {
     background: #1A2B3C !important;
     color: #64B5F6 !important;
 }
 
-/* إدمان الهاتف */
 .theme-dark .card-icon[style*="background: #E0F7FA"][style*="color: #00838F"] {
     background: #1A2E30 !important;
     color: #4DD0E1 !important;
 }
 
-/* التسويف */
 .theme-dark .card-icon[style*="background: #FFF8E1"][style*="color: #F57F17"] {
     background: #3E3520 !important;
     color: #FFD54F !important;
 }
 
-/* المقامرة */
 .theme-dark .card-icon[style*="background: #EFEBE9"][style*="color: #4E342E"] {
     background: #3E2E2A !important;
     color: #A1887F !important;
 }
 
-/* قضم الأظافر */
 .theme-dark .card-icon[style*="background: #FCE4EC"][style*="color: #880E4F"] {
     background: #3D1F28 !important;
     color: #F06292 !important;
@@ -2017,32 +1897,26 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     color: #F06292 !important;
 }
 
-/* الغضب */
 .theme-dark .card-icon[style*="background: #FFEBEE"][style*="color: #B71C1C"] {
     background: #3D1F20 !important;
     color: #EF5350 !important;
 }
 
-/* التنمر */
 .theme-dark .card-icon[style*="background: #FFF3E0"][style*="color: #BF360C"] {
     background: #3E2E1A !important;
     color: #FF7043 !important;
 }
 
-/* الإسراف المالي - نفس لون سوء التغذية */
-/* العزلة الاجتماعية */
 .theme-dark .card-icon[style*="background: #ECEFF1"][style*="color: #546E7A"] {
     background: #2A2D30 !important;
     color: #90A4AE !important;
 }
 
-/* أيقونة الزنا والعلاقات غير الشرعية (18+) */
 .theme-dark .card-icon[style*="background: #FFEBEE"][style*="color: #B71C1C"] {
     background: #3D1F20 !important;
     color: #EF5350 !important;
 }
 
-/* تصحيح قسم التحديثات في المظهر الداكن */
 .theme-dark #update-status span {
     color: var(--text-secondary) !important;
 }
@@ -2051,22 +1925,17 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     color: var(--text-primary) !important;
 }
 
-/*  تصحيح قسم التبرع في المظهر الداكن  */
 
-/* بطاقة الماستر كارد تبقى كما هي في كلا المظهرين */
 .theme-dark #card-number {
     color: white !important;
 }
 
-/* زر النسخ */
 .theme-dark #copy-card-btn {
     background: var(--primary-gradient) !important;
     color: white !important;
 }
 
-/*  الإصدار 1.1.0 - تصاميم جديدة  */
 
-/*  الإنجازات  */
 .achievement-popup {
     position: fixed;
     top: 20px;
@@ -2139,7 +2008,6 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     font-size: 11px;
 }
 
-/*  الإحصائيات  */
 .stats-cards-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -2220,7 +2088,6 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     color: var(--primary);
 }
 
-/*  البحث  */
 .search-overlay {
     position: fixed;
     top: 0;
@@ -2319,7 +2186,6 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     font-size: 12px;
 }
 
-/*  اختبار التقييم  */
 #quiz-container {
     max-width: 600px;
     margin: 0 auto;
@@ -2355,7 +2221,6 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     flex-shrink: 0;
 }
 
-/*  المظهر الداكن للإضافات الجديدة  */
 .theme-dark .achievement-card {
     background: var(--surface);
     border-color: var(--border);
@@ -2402,7 +2267,6 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     background: var(--border);
 }
 
-/*  تجاوب مع الجوال  */
 @media (max-width: 767px) {
     .stats-cards-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -2455,7 +2319,6 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     }
 }
 
-/*  ما هو الجديد - المظهر الداكن  */
 .theme-dark .settings-group h3 .fa-gift {
     color: #F06292 !important;
 }
@@ -2500,7 +2363,6 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     background: #3E3520 !important;
 }
 
-/*  قائمة التحديثات القابلة للطي  */
 #changelog-content {
     animation: changelogFadeIn 0.3s ease;
 }
@@ -2520,7 +2382,6 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     transition: transform 0.3s ease;
 }
 
-/* المظهر الداكن */
 .theme-dark .settings-item [style*="background: #FCE4EC"] {
     background: #3D1F28 !important;
 }
@@ -2534,7 +2395,6 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     background: #3D1F28 !important;
 }
 
-/*  الأدعية والزيارات  */
 .dua-content {
     background: var(--surface-variant);
     padding: 24px;
@@ -2598,13 +2458,11 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     color: var(--text-tertiary);
 }
 
-/* ==================== أيقونة تحدي النفس في الوضع الداكن ==================== */
 .theme-dark .card-icon[style*="background: #E0F7FA"] {
     background: #1A2E30 !important;
     color: #4DD0E1 !important;
 }
 
-/* ==================== قائمة التحديثات ==================== */
 #changelog-content ul {
     list-style: none;
     padding: 0;
@@ -2626,7 +2484,6 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     color: var(--text-primary);
 }
 
-/* المظهر الداكن */
 .theme-dark #changelog-content ul li {
     color: var(--text-secondary);
     border-bottom-color: var(--border);
@@ -2636,7 +2493,6 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     color: var(--text-primary);
 }
 
-/* ==================== الروزنامة ==================== */
 .calendar-grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
@@ -2679,7 +2535,6 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     box-shadow: var(--shadow-md);
 }
 
-/* ==================== شريط إشعار التحديث ==================== */
 .update-notification-bar {
     display: flex;
     align-items: center;
@@ -2752,7 +2607,6 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     50% { opacity: 0.5; transform: scale(1.5); }
 }
 
-/* المظهر الداكن */
 .theme-dark .update-notification-bar {
     background: #3E2E1A;
     border-color: #FF9800;
@@ -2770,7 +2624,7 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     color: #FFB74D;
 }
 
-/* ==================== Nutrition & Exercise ==================== */
+/* Nutrition & Exercise */
 .nutrition-meal-card {
     border-right: 4px solid var(--primary);
     margin-bottom: 16px;
@@ -2809,7 +2663,6 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     border-color: #4CAF50 !important;
 }
 
-/* ممنوعات الطعام */
 .forbidden-tag {
     display: inline-flex;
     align-items: center;
@@ -2820,34 +2673,27 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     margin: 4px;
 }
 
-/* المظهر الداكن */
 .theme-dark .nutrition-meal-card {
     background: var(--surface);
 }
 
-/* ==================== أيقونات الصحة والرياضة - الوضع الداكن ==================== */
 
-/* أيقونة التغذية الصحية */
 .theme-dark .card-icon[style*="background:#FFF3E0"][style*="color:#FF9800"] {
     background: #3E2E1A !important;
     color: #FFB74D !important;
 }
 
-/* أيقونة الرياضة اليومية */
 .theme-dark .card-icon[style*="background:#E8F5E9"][style*="color:#4CAF50"] {
     background: #1B3A1B !important;
     color: #66BB6A !important;
 }
 
-/* أيقونة تعارضات الطعام */
 .theme-dark .card-icon[style*="background:#FCE4EC"][style*="color:#F44336"] {
     background: #3D1F28 !important;
     color: #EF5350 !important;
 }
 
-/* ==================== فحص الوجبة - دعم الوضع الداكن ==================== */
 
-/* نتيجة الفحص - لا تعارض */
 .theme-dark #meal-check-result div[style*="background:#E8F5E9"] {
     background: #1B3A1B !important;
 }
@@ -2856,7 +2702,6 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     color: #81C784 !important;
 }
 
-/* نتيجة الفحص - تعارض عالي */
 .theme-dark #meal-check-result div[style*="background:#FCE4EC"] {
     background: #3D1F28 !important;
 }
@@ -2866,7 +2711,6 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     color: #EF9A9A !important;
 }
 
-/* نتيجة الفحص - تعارض متوسط */
 .theme-dark #meal-check-result div[style*="background:#FFF3E0"] {
     background: #3E2E1A !important;
 }
@@ -2876,7 +2720,6 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     color: #FFCC80 !important;
 }
 
-/* نتيجة الفحص - تعارض منخفض */
 .theme-dark #meal-check-result div[style*="background:#FFF8E1"] {
     background: #3E3520 !important;
 }
@@ -2886,7 +2729,6 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     color: #FFE082 !important;
 }
 
-/* أيقونات النتائج */
 .theme-dark #meal-check-result .fa-check-circle {
     color: #66BB6A !important;
 }
@@ -2895,9 +2737,6 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     color: #EF9A9A !important;
 }
 
-/* ==================== صفحة التغذية - إصلاح كامل للوضع الداكن ==================== */
-
-/* بطاقات الوجبات */
 .theme-dark .nutrition-meal-card {
     background: var(--surface) !important;
     border-color: var(--border) !important;
@@ -2915,12 +2754,10 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     color: var(--text-secondary) !important;
 }
 
-/* شريط السعرات والبروتين */
 .theme-dark .nutrition-meal-card div[style*="font-size:12px;color:var(--text-tertiary)"] span {
     color: var(--text-tertiary) !important;
 }
 
-/* تنبيه التعارضات داخل الوجبة */
 .theme-dark .nutrition-meal-card div[style*="background:#FFF3E0"] {
     background: #3E2E1A !important;
     border: 1px solid #5D4037 !important;
@@ -2930,24 +2767,20 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     color: #FFCC80 !important;
 }
 
-/* رسالة الرياضة بعد الوجبة */
 .theme-dark .nutrition-meal-card p[style*="font-size:11px;color:var(--primary)"] {
     color: var(--primary) !important;
 }
 
-/* أزرار التبديل بين الجنسين */
 .theme-dark .btn.btn-sm[style*="background:transparent"] {
     color: var(--text-secondary) !important;
 }
 
-/* قائمة الممنوعات */
 .theme-dark .forbidden-tag[style*="background:#FCE4EC"] {
     background: #3D1F28 !important;
     color: #EF9A9A !important;
     border: 1px solid #5D3A3A !important;
 }
 
-/* بطاقة أيام الدورة */
 .theme-dark div[style*="background:#FCE4EC"][style*="border-right:4px solid #E91E63"] {
     background: #3D1F28 !important;
     border-right-color: #F06292 !important;
@@ -2961,17 +2794,14 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     color: #EF9A9A !important;
 }
 
-/* العنوان الرئيسي */
 .theme-dark .heading-underline {
     color: var(--text-primary) !important;
 }
 
-/* النص التوضيحي */
 .theme-dark p[style*="color:var(--text-secondary)"] {
     color: var(--text-secondary) !important;
 }
 
-/* أيقونات الوجبات */
 .theme-dark .nutrition-meal-card .fa-sun {
     color: #FFB74D !important;
 }
@@ -3000,15 +2830,11 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     color: var(--primary) !important;
 }
 
-/* ==================== إصلاح تعارضات النص في نتيجة التحليل - الوضع الداكن ==================== */
-
-/* نتيجة التحليل - خلفية التعارضات */
 .theme-dark #analysis-result div[style*="background:#FCE4EC"] {
     background: #3D1F28 !important;
     border-color: #5D3A3A !important;
 }
 
-/* نتيجة التحليل - نص التعارضات */
 .theme-dark #analysis-result div[style*="background:#FCE4EC"] strong {
     color: #EF9A9A !important;
 }
@@ -3022,13 +2848,11 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     background: #F44336 !important;
 }
 
-/* نتيجة التحليل - خلفية الآمن */
 .theme-dark #analysis-result div[style*="background:#E8F5E9"] {
     background: #1B3A1B !important;
     border-color: #2E5C2E !important;
 }
 
-/* نتيجة التحليل - نص الآمن */
 .theme-dark #analysis-result div[style*="background:#E8F5E9"] strong {
     color: #A5D6A7 !important;
 }
@@ -3042,7 +2866,6 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     background: #4CAF50 !important;
 }
 
-/* ملخص التحليل */
 .theme-dark #analysis-result div[style*="flex:1"] {
     border: 1px solid var(--border) !important;
 }
@@ -3056,18 +2879,15 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     color: #90CAF9 !important;
 }
 
-/* الحكم النهائي */
 .theme-dark #analysis-result div[style*="text-align:center;padding:16px;border-radius:12px"] {
     border: 1px solid var(--border) !important;
 }
 
-/* المكونات المحللة */
 .theme-dark #analysis-result .ingredient-tag {
     background: var(--primary-light) !important;
     color: var(--primary) !important;
 }
 
-/* أيقونات النتيجة */
 .theme-dark #analysis-result .fa-check-circle {
     color: #66BB6A !important;
 }
@@ -3076,12 +2896,10 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     color: #EF9A9A !important;
 }
 
-/* عناوين الأقسام في النتيجة */
 .theme-dark #analysis-result h4 {
     color: var(--text-primary) !important;
 }
 
-/* قاعدة البيانات */
 .theme-dark .conflict-db-item[style*="background:#FCE4EC"] strong,
 .theme-dark .conflict-db-item[style*="background:#FCE4EC"] p {
     color: #EF9A9A !important;

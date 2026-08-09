@@ -41,11 +41,9 @@ var SearchEngine = {
         return '';
     },
     
-    //  Building the search index from HABIT_CONTENT, ADHKAR_DATA, and DUAS_DATA
     buildIndex: function() {
         var self = this;
         
-        // 1. فهرسة العادات (HABIT_CONTENT)
         if (typeof HABIT_CONTENT !== 'undefined') {
             for (var key in HABIT_CONTENT) {
                 if (HABIT_CONTENT.hasOwnProperty(key)) {
@@ -62,7 +60,6 @@ var SearchEngine = {
             }
         }
         
-        // 2. فهرسة الأذكار والتحصين الإيماني (ADHKAR_DATA)
         if (typeof ADHKAR_DATA !== 'undefined') {
             this.index['adhkar_all'] = {
                 title: 'الأذكار والتحصين الإيماني',
@@ -72,7 +69,6 @@ var SearchEngine = {
                 keywords: this.collectText(ADHKAR_DATA)
             };
             
-            // فهرسة كل قسم على حدة
             for (var category in ADHKAR_DATA) {
                 if (ADHKAR_DATA.hasOwnProperty(category) && Array.isArray(ADHKAR_DATA[category])) {
                     var categoryItems = ADHKAR_DATA[category];
@@ -89,13 +85,11 @@ var SearchEngine = {
             }
         }
         
-        // 3. فهرسة الأدعية والزيارات (DUAS_DATA)
         if (typeof DUAS_DATA !== 'undefined') {
             for (var section in DUAS_DATA) {
                 if (DUAS_DATA.hasOwnProperty(section)) {
                     var sectionData = DUAS_DATA[section];
                     
-                    // فهرسة القسم كاملاً
                     this.index['duas_' + section] = {
                         title: sectionData.title,
                         icon: sectionData.icon || 'fa-book-open',
@@ -104,7 +98,6 @@ var SearchEngine = {
                         keywords: this.collectText(sectionData)
                     };
                     
-                    // فهرسة كل دعاء/زيارة على حدة
                     if (sectionData.items && Array.isArray(sectionData.items)) {
                         sectionData.items.forEach(function(item) {
                             self.index['dua_item_' + item.id] = {
@@ -125,7 +118,6 @@ var SearchEngine = {
         console.log('[Search] Index built with ' + Object.keys(this.index).length + ' entries');
     },
     
-    //  أسماء وأيقونات الأذكار 
     getAdhkarCategoryName: function(category) {
         var names = {
             morning: 'أذكار الصباح',
@@ -435,5 +427,4 @@ searchStyles.textContent = `
 `;
 
 document.head.appendChild(searchStyles);
-
 console.log('[Search] Engine ready - Ctrl+K to search');

@@ -1,5 +1,11 @@
-// Taeafi App Lock System v1.1.2 - Complete Final
-// Developer: Mohammed Al-Baqer
+/**
+ * Developer: Mohammed Al-Baqer
+ * Website: https://wsl-iq.github.io/teaafi/
+ * Copyright (c) 2026 Mohammed Al-Baqer
+ * Folder : js
+ * File   : app-lock.js
+ * Type: JavaScript
+ */
 
 var AppLock = {
     isLocked: false,
@@ -496,7 +502,6 @@ var AppLock = {
     }
 };
 
-// تهيئة القفل
 document.addEventListener('DOMContentLoaded', function() {
     setTimeout(function() { AppLock.init(); }, 3000);
 });

@@ -167,7 +167,6 @@ function renderHomePage() {
                 </div>
             </div>
 
-            <!-- بعد قسم الأدعية والزيارات -->
             <h2 class="section-title" style="margin-top: 32px;">
                 <i class="fas fa-star" style="margin-left: 8px; color: #FFD700;"></i>
                 المزيد
@@ -277,7 +276,6 @@ function renderHomePage() {
                 </div>
             </div>
 
-            <!-- قسم جديد: أدوات تفاعلية -->
             <h2 class="section-title" style="margin-top: 32px;">
                 <i class="fas fa-puzzle-piece" style="margin-left: 8px; color: #E91E63;"></i>
                 أدوات تفاعلية
@@ -338,7 +336,7 @@ function renderHomePage() {
     }
 }
 
-// ✅ دالة إخفاء إشعار التحديث
+// Function to hide update notification
 function dismissUpdateNotification() {
     var bar = document.querySelector('.update-notification-bar');
     if (bar) {

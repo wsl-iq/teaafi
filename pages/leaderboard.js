@@ -1,4 +1,11 @@
-// Taeafi Personal Leaderboard v1.1.2 - No Emoji
+/**
+ * Developer: Mohammed Al-Baqer
+ * Website: https://wsl-iq.github.io/teaafi/
+ * Copyright (c) 2026 Mohammed Al-Baqer
+ * Folder : pages
+ * File   : leaderboard.js
+ * Type: JavaScript
+ */
 
 function renderLeaderboardPage() {
     var mainContent = document.getElementById('main-content');
@@ -7,7 +14,6 @@ function renderLeaderboardPage() {
     var achievements = typeof AchievementsManager !== 'undefined' ? AchievementsManager.getUnlocked() : [];
     var journal = StorageManager.get('journal_entries') || [];
     var tasbih = StorageManager.get('tasbih_data') || {};
-    
     var records = StorageManager.get('personal_records') || {
         longestStreak: stats.totalDays,
         mostTasbih: tasbih.totalCount || 0,

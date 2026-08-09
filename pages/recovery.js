@@ -10,7 +10,7 @@
 let counterIntervalId = null;
 
 function renderRecoveryPage() {
-    // إيقاف أي عداد سابق قبل إنشاء عداد جديد
+    // Stop any previous counter before creating a new one.
     if (counterIntervalId) {
         clearInterval(counterIntervalId);
         counterIntervalId = null;
@@ -81,7 +81,6 @@ function renderRecoveryPage() {
                     </div>
                 </div>
                 
-                <!-- رسالة تحفيزية -->
                 <div class="card" style="background: linear-gradient(135deg, #E8F5E9, #C8E6C9); border: none; text-align: center; padding: 24px;">
                     <i class="fas fa-quote-right" style="font-size: 32px; color: #4CAF50; margin-bottom: 12px;"></i>
                     <p style="font-size: 18px; font-weight: 600; color: #2E7D32; line-height: 1.8; font-style: italic;" id="motivational-message">
@@ -92,7 +91,6 @@ function renderRecoveryPage() {
                     </button>
                 </div>
                 
-                <!-- مراحل التعافي -->
                 <h2 class="section-title">
                     <i class="fas fa-road" style="margin-left: 8px;"></i>
                     مراحل التعافي والتحسن المتوقع
@@ -185,27 +183,37 @@ function renderRecoveryPage() {
         </div>
     `;
     
-    // بدء العداد الحي إذا كانت هناك رحلة تعافي نشطة
+    // Start the live counter if there is an active recovery journey.
     if (stats.isActive) {
         startLiveCounter();
     }
 }
 
-// بدء العداد الحي
+// Start live counter
 function startLiveCounter() {
-    // إيقاف أي عداد سابق
+    // Stop any previous counter
     if (counterIntervalId) {
         clearInterval(counterIntervalId);
     }
     
-    // تحديث فوري
+    // Instant update
     updateLiveCounter();
     
-    // تحديث كل ثانية
+    // Update every second
     counterIntervalId = setInterval(updateLiveCounter, 1000);
 }
 
-// تحديث العداد الحي
+// Live counter update
+
+/**
+ * second
+ * minutes
+ * hours
+ * days
+ * weeks
+ * months
+ * years
+ */
 function updateLiveCounter() {
     const stats = RecoveryCounter.getRecoveryStats();
     
@@ -228,7 +236,7 @@ function updateLiveCounter() {
     if (totalHoursEl) totalHoursEl.textContent = stats.totalHours.toLocaleString('ar-SA');
 }
 
-// تحديث الرسالة التحفيزية
+// Update the motivational message
 function refreshMotivationalMessage() {
     const message = RecoveryCounter.getMotivationalMessage();
     const messageEl = document.getElementById('motivational-message');
@@ -254,7 +262,7 @@ function handleRelapse() {
 
 function handleResetRecovery() {
     if (confirm('هل أنت متأكد من إعادة تعيين عداد التعافي؟ سيتم حذف جميع بيانات التقدم.')) {
-        // إيقاف العداد قبل إعادة التعيين
+        // Stop the counter before resetting
         if (counterIntervalId) {
             clearInterval(counterIntervalId);
             counterIntervalId = null;
@@ -292,7 +300,7 @@ function getHabitNameInArabic(habitType) {
     return names[habitType] || 'رحلة التعافي';
 }
 
-// تنظيف العداد عند مغادرة الصفحة
+// Clear the counter when leaving the page
 function cleanupCounter() {
     if (counterIntervalId) {
         clearInterval(counterIntervalId);

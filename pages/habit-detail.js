@@ -19,7 +19,7 @@ function renderHabitDetail(habitType) {
     }
     
     const user = StorageManager.getUser();
-    // استخدام الجنس الحالي أو جنس المستخدم
+    // Use current gender or user gender
     if (!currentViewGender) {
         currentViewGender = user?.gender || 'male';
     }
@@ -37,7 +37,6 @@ function renderHabitDetail(habitType) {
                 <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px; margin-bottom: 24px;">
                     <h1 class="heading-underline" style="margin-bottom: 0; border-bottom: none; padding-bottom: 0;">${content.title}</h1>
                     
-                    <!-- أزرار التبديل بين الجنسين -->
                     <div style="display: flex; gap: 4px; background: var(--surface-variant); padding: 4px; border-radius: var(--radius-lg); flex-shrink: 0;">
                         <button 
                             class="btn btn-sm gender-toggle-btn" 
@@ -71,7 +70,6 @@ function renderHabitDetail(habitType) {
                 </button>
             </div>
             
-            <!-- المحتوى المشترك -->
             ${content.common ? content.common.map(section => `
                 <div class="content-section">
                     <h2 class="section-title">
@@ -99,7 +97,6 @@ function renderHabitDetail(habitType) {
                 </div>
             `).join('') : ''}
             
-            <!-- محتوى خاص بالجنس المحدد -->
             ${content[currentViewGender] && content[currentViewGender].length > 0 ? `
                 <div class="content-section">
                     <h2 class="section-title" style="color: ${content.color};">
@@ -119,7 +116,6 @@ function renderHabitDetail(habitType) {
                 </div>
             ` : ''}
             
-            <!-- إذا لم يكن هناك محتوى خاص، عرض رسالة -->
             ${!content[currentViewGender] || content[currentViewGender].length === 0 ? `
                 <div class="card" style="text-align: center; padding: 40px 20px;">
                     <i class="fas fa-info-circle" style="font-size: 48px; color: var(--primary); margin-bottom: 16px;"></i>
@@ -133,11 +129,10 @@ function renderHabitDetail(habitType) {
         </div>
     `;
     
-    // تمرير إلى الأعلى
     document.getElementById('main-content').scrollTop = 0;
 }
 
-// دوال التبديل بين الجنسين
+// Gender switching functions
 function switchToMaleView(habitType) {
     currentViewGender = 'male';
     renderHabitDetail(habitType);
@@ -150,7 +145,6 @@ function switchToFemaleView(habitType) {
     showToast('تم التبديل إلى محتوى النساء');
 }
 
-// الدالة القديمة للتوافق
 function switchGenderView(gender, habitType) {
     currentViewGender = gender;
     renderHabitDetail(habitType);

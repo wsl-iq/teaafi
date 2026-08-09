@@ -1,8 +1,11 @@
-// Taeafi Nutrition Database v1.0
-// 365 يوم من الوجبات الصحية للرجال والنساء
-
-// Taeafi Nutrition Database v1.0 - Complete 365 Days
-// Developer: Mohammed Al-Baqer
+/**
+ * Developer: Mohammed Al-Baqer
+ * Website: https://wsl-iq.github.io/teaafi/
+ * Copyright (c) 2026 Mohammed Al-Baqer
+ * Folder : data
+ * File   : nutrition.js
+ * Type: JavaScript
+ */
 
 var NUTRITION_DATA = {
     breakfast: {

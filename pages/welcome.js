@@ -110,17 +110,17 @@ function completeWelcome() {
     
     if (startBtn) { startBtn.disabled = true; startBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري التحميل...'; }
     
-    // حفظ البيانات
+    // Save data
     localStorage.setItem('taafi_user_data', JSON.stringify({ value: { name: name, age: age, gender: gender, createdAt: new Date().toISOString() }, timestamp: Date.now() }));
     
-    // حفظ البيانات في IndexedDB
+    // Save data in IndexedDB
     if (typeof DBManager !== 'undefined' && typeof DBManager.saveUserData === 'function') {
         DBManager.saveUserData({ name: name, age: age, gender: gender });
         // console.log('User data saved to IndexedDB');
     }
     // DataBase.db
 
-    // ✅ إعادة تعيين إعدادات الإشعارات لمستخدم جديد
+    // Reset notification settings for a new user
     localStorage.setItem('taafi_settings', JSON.stringify({
         value: {
             notifications: false,
@@ -132,38 +132,38 @@ function completeWelcome() {
         timestamp: Date.now()
     }));
     
-    // إخفاء شاشة الترحيب
+    // Hide welcome screen
     welcomeScreen.classList.add('hidden');
     welcomeScreen.style.display = 'none';
     
-    // إظهار التطبيق
+    // Show application
     app.classList.add('visible');
     app.style.display = 'flex';
     
-    // إعادة تهيئة StorageManager
+    // Reset StorageManager
     if (typeof StorageManager !== 'undefined' && typeof StorageManager.init === 'function') StorageManager.init();
     
-    // تحميل الصفحة الرئيسية
+    // Loading homepage
     if (typeof navigateTo === 'function') { navigateTo('home'); }
     else if (typeof renderHomePage === 'function') { renderHomePage(); }
     
-    // تطبيق المظهر
+    // Application appearance
     try { var sd = localStorage.getItem('taafi_settings'); if (sd) { var s = JSON.parse(sd); var t = (s.value && s.value.theme) || 'light'; if (typeof applyTheme === 'function') applyTheme(t); } } catch (e) {}
     
-    // تحديث التصميم
+    // Design update
     var w = window.innerWidth;
     var sidebar = document.getElementById('sidebar');
     var bottomNav = document.getElementById('bottom-nav');
     if (w >= 1024) { if (sidebar) sidebar.style.display = 'flex'; if (bottomNav) bottomNav.style.display = 'none'; }
     else { if (sidebar) sidebar.style.display = 'none'; if (bottomNav) bottomNav.style.display = 'flex'; }
     
-    // رسالة ترحيب
+    // Welcome message
     if (typeof showToast === 'function') showToast('مرحباً بك ' + name + '! 🌿');
     
-    // ✅ طلب الإشعارات لمستخدم جديد
+    // Request notifications for a new user
     setTimeout(function() {
         if (typeof PermissionsManager !== 'undefined' && typeof PermissionsManager.showPermissionModal === 'function') {
-            // إظهار النافذة مباشرة للمستخدم الجديد
+            // Show window directly to new user
             var modal = document.getElementById('permission-modal');
             if (modal) modal.classList.remove('hidden');
         }

@@ -26,7 +26,7 @@ let tasbihHistory = [];
 function renderTasbihPage() {
     const mainContent = document.getElementById('main-content');
     
-    // استعادة العداد من التخزين المحلي إذا وجد
+    // Retrieve the counter from local storage if available.
     const savedTasbih = StorageManager.get('tasbih_data');
     if (savedTasbih) {
         tasbihCount = savedTasbih.counts || tasbihCount;
@@ -44,7 +44,6 @@ function renderTasbihPage() {
                 التسبيح
             </h1>
             
-            <!-- معلومات عن تسبيح الزهراء (عليها السلام) -->
             <div class="card" style="background: linear-gradient(135deg, #E8F5E9, #C8E6C9); border: none; margin-bottom: 20px;">
                 <div style="text-align: center; margin-bottom: 16px;">
                     <i class="fas fa-star-and-crescent" style="font-size: 40px; color: #2E7D32;"></i>
@@ -56,7 +55,6 @@ function renderTasbihPage() {
                 </p>
             </div>
             
-            <!-- عداد التسبيح الرئيسي -->
             <div class="counter-card" style="background: linear-gradient(135deg, #1B5E20, #4CAF50); cursor: pointer;" onclick="incrementTasbih()" id="tasbih-counter">
                 <div style="margin-bottom: 12px;">
                     <i class="fas fa-fingerprint" style="font-size: 24px; opacity: 0.8;"></i>
@@ -75,13 +73,11 @@ function renderTasbihPage() {
                     <span id="current-target">الهدف: ${getCurrentTarget()}</span>
                 </div>
                 
-                <!-- شريط التقدم -->
                 <div style="margin-top: 20px; background: rgba(255,255,255,0.2); border-radius: 10px; height: 8px; overflow: hidden;">
                     <div id="tasbih-progress-bar" style="height: 100%; background: white; border-radius: 10px; transition: width 0.3s ease; width: ${getCurrentProgress()}%;"></div>
                 </div>
             </div>
             
-            <!-- ملخص التسبيحات الثلاث -->
             <div class="cards-grid" style="margin-bottom: 16px;">
                 <div class="card" style="text-align: center; ${currentTasbih === 'allahuAkbar' ? 'border: 2px solid #4CAF50;' : ''}" onclick="switchTasbih('allahuAkbar')">
                     <div style="font-size: 14px; color: var(--text-secondary); margin-bottom: 4px;">الله أكبر</div>
@@ -105,7 +101,6 @@ function renderTasbihPage() {
                 </div>
             </div>
             
-            <!-- أزرار التحكم -->
             <div style="display: flex; gap: 12px; margin-bottom: 20px;">
                 <button class="btn btn-primary" onclick="incrementTasbih()" style="flex: 1;">
                     <i class="fas fa-plus-circle"></i>
@@ -128,7 +123,6 @@ function renderTasbihPage() {
                 </button>
             </div>
             
-            <!-- معلومات عن التسبيح -->
             <div class="card" style="background: var(--surface);">
                 <h3 style="margin-bottom: 12px; color: #1B5E20;">
                     <i class="fas fa-info-circle" style="margin-left: 8px;"></i>
@@ -178,7 +172,6 @@ function renderTasbihPage() {
                 </div>
             </div>
             
-            <!-- سجل التسبيح -->
             ${tasbihHistory.length > 0 ? `
                 <div class="card" style="margin-top: 20px;">
                     <h3 style="margin-bottom: 12px;">
@@ -200,7 +193,7 @@ function renderTasbihPage() {
     `;
 }
 
-// ==================== دوال التسبيح ====================
+// glorification functions
 
 function getCurrentDhikrLabel() {
     const labels = {
@@ -235,35 +228,35 @@ function getCurrentProgress() {
 }
 
 function incrementTasbih() {
-    // التحقق من اكتمال العدد
+    // Checking that the number is complete
     if (tasbihCount[currentTasbih] >= tasbihTarget[currentTasbih]) {
-        // الانتقال للتسبيح التالي تلقائياً
+        // Automatic transition to the next tasbih
         switchToNextTasbih();
         return;
     }
     
-    // زيادة العداد
+    /** Increase the counter
+     * Slight vibration when counting
+     * Display update
+     * Save data
+     */
+
     tasbihCount[currentTasbih]++;
     tasbihTotalCount++;
-    
-    // اهتزاز خفيف عند العد
+
     vibrateDevice();
-    
-    // تحديث العرض
     updateTasbihDisplay();
-    
-    // حفظ البيانات
     saveTasbihData();
     
-    // التحقق من اكتمال التسبيح الحالي
+    // Checking the completion of the current tasbih
     if (tasbihCount[currentTasbih] >= tasbihTarget[currentTasbih]) {
         showToast(`أكملت ${getCurrentDhikrLabel()} - ${getCurrentTarget()} مرة`);
         
-        // التحقق من اكتمال جميع التسبيحات
+        // Checking that all praises have been completed
         if (isAllTasbihComplete()) {
             completeAllTasbih();
         } else {
-            // انتقال تلقائي للتسبيح التالي بعد ثانية
+            // Automatic transition to the next tasbih after one second
             setTimeout(() => {
                 switchToNextTasbih();
             }, 1000);
@@ -310,7 +303,7 @@ function resetCurrentTasbih() {
 
 function resetAllTasbih() {
     if (confirm('هل أنت متأكد من تصفير جميع العدادات؟')) {
-        // حفظ السجل قبل التصفير
+        // Save the record before resetting
         if (tasbihTotalCount >= 100) {
             tasbihHistory.push({
                 date: new Date().toLocaleDateString('ar-SA', { 
@@ -323,7 +316,7 @@ function resetAllTasbih() {
                 total: tasbihTotalCount
             });
             
-            // الاحتفاظ بآخر 10 تسجيلات فقط
+            // Keep only the last 10 recordings
             if (tasbihHistory.length > 10) {
                 tasbihHistory = tasbihHistory.slice(-10);
             }
@@ -345,14 +338,14 @@ function isAllTasbihComplete() {
 }
 
 function completeAllTasbih() {
-    // اهتزاز أطول للإشارة للاكتمال
+    // A longer vibration indicates completion.
     if (navigator.vibrate) {
         navigator.vibrate([100, 50, 100, 50, 200]);
     }
     
     showToast('أكملت تسبيح الزهراء (عليها السلام) - 100 ذكر - تقبل الله منك');
     
-    // حفظ في السجل
+    // Saved in the record
     tasbihHistory.push({
         date: new Date().toLocaleDateString('ar-SA', { 
             year: 'numeric', 
@@ -372,7 +365,7 @@ function completeAllTasbih() {
 }
 
 function updateTasbihDisplay() {
-    // تحديث العداد الرئيسي
+    // Main counter update
     const currentCountEl = document.getElementById('current-count');
     const currentLabelEl = document.getElementById('current-dhikr-label');
     const currentTargetEl = document.getElementById('current-target');
@@ -398,7 +391,7 @@ function updateTasbihDisplay() {
         progressBar.style.width = getCurrentProgress() + '%';
     }
     
-    // تحديث لون بطاقة العداد حسب التسبيح الحالي
+    // Update the counter card color according to the current tasbih (prayer beads).
     const counterCard = document.getElementById('tasbih-counter');
     if (counterCard) {
         const colors = {
@@ -425,7 +418,7 @@ function saveTasbihData() {
     });
 }
 
-// دعم اللمس المتعدد لمنع التكبير/التصغير على عداد التسبيح
+// Multi-touch support to prevent zooming in/out on the tasbih counter
 document.addEventListener('DOMContentLoaded', () => {
     const counterCard = document.getElementById('tasbih-counter');
     if (counterCard) {

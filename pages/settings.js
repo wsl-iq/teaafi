@@ -313,7 +313,6 @@ function renderSettingsPage() {
                 </div>
             </div>
             
-            <!-- حول المطور -->
             <div class="settings-group">
                 <h3 style="padding: 16px 24px; border-bottom: 1px solid var(--border-light);">
                     <i class="fas fa-user-circle" style="margin-left: 8px; color: var(--primary);"></i>
@@ -517,7 +516,6 @@ function renderSettingsPage() {
                 </div>
             </div>
 
-                        <!-- ============ ما هو الجديد؟ ============ -->
             <div class="settings-group">
                 <div class="settings-item" onclick="toggleChangelog()" style="cursor: pointer; border-bottom: none;">
                     <div style="display: flex; align-items: center; gap: 12px;">
@@ -788,8 +786,8 @@ function fallbackCopy(text) {
 
 function downloadApp(platform) {
     const links = {
-        android: 'https://github.com/wsl-iq/teaafi/releases/tag/V1.0.0',
-        windows: 'https://github.com/wsl-iq/teaafi/releases/tag/V1.0.0'
+        android: 'https://github.com/wsl-iq/teaafi/releases/tag/V1.1.2',
+        windows: 'https://github.com/wsl-iq/teaafi/releases/tag/V1.1.2'
     };
     
     const names = {
@@ -1045,7 +1043,7 @@ const GITHUB_RELEASES_URL = 'https://github.com/wsl-iq/teaafi/releases/latest';
 let autoUpdateInterval = null;
 
 /**
- * تفعيل/إلغاء التحقق التلقائي
+ * Enable/Disable Automatic Verification
  */
 function toggleAutoUpdateCheck(enabled) {
     updateSetting('autoUpdateCheck', enabled);
@@ -1060,15 +1058,15 @@ function toggleAutoUpdateCheck(enabled) {
 }
 
 /**
- * بدء التحقق التلقائي
+ * Start automatic verification
  */
 function startAutoUpdateCheck() {
-    stopAutoUpdateCheck(); // إيقاف أي مؤقت سابق
+    stopAutoUpdateCheck(); // Stop any previous timer
     
-    // تحقق فوري عند التفعيل
+    // Instant verification upon activation
     checkForUpdates(true);
     
-    // تحقق كل 24 ساعة
+    // Check every 24 hours
     autoUpdateInterval = setInterval(function() {
         checkForUpdates(true);
     }, 24 * 60 * 60 * 1000);
@@ -1077,7 +1075,7 @@ function startAutoUpdateCheck() {
 }
 
 /**
- * إيقاف التحقق التلقائي
+ * Turn off automatic verification
  */
 function stopAutoUpdateCheck() {
     if (autoUpdateInterval) {
@@ -1088,8 +1086,8 @@ function stopAutoUpdateCheck() {
 }
 
 /**
- * التحقق من وجود تحديثات
- * @param {boolean} silent - إذا كان true لا يظهر رسائل Toast
+ * Check for updates
+ * @param {boolean} silent - If true, Toast messages will not appear.
  */
 async function checkForUpdates(silent) {
     const updateStatus = document.getElementById('update-status');
@@ -1175,7 +1173,7 @@ async function checkForUpdates(silent) {
 }
 
 /**
- * عرض رسالة وجود تحديث
+ * Display message indicating an update
  */
 function showUpdateAvailable(latestVersion, downloadUrl, silent) {
     const updateStatus = document.getElementById('update-status');
@@ -1217,7 +1215,7 @@ function showUpdateAvailable(latestVersion, downloadUrl, silent) {
 }
 
 /**
- * عرض رسالة عدم وجود تحديث
+ * Displays "No update" message
  */
 function showNoUpdateAvailable(silent) {
     const updateStatus = document.getElementById('update-status');
@@ -1232,7 +1230,6 @@ function showNoUpdateAvailable(silent) {
     }
     
     if (updateInfo) updateInfo.style.display = 'none';
-    
     if (!silent && typeof showToast === 'function') {
         showToast('التطبيق محدث إلى آخر إصدار');
     }
@@ -1241,7 +1238,7 @@ function showNoUpdateAvailable(silent) {
 }
 
 /**
- * عرض رسالة فشل التحقق
+ * Verification failed message displayed
  */
 function showUpdateCheckFailed(silent) {
     const updateStatus = document.getElementById('update-status');
@@ -1267,7 +1264,7 @@ function showUpdateCheckFailed(silent) {
 }
 
 /**
- * مقارنة رقمين إصدار
+ * Comparing two version numbers
  */
 function compareVersions(v1, v2) {
     if (!v1 || !v2) return 0;
@@ -1286,7 +1283,7 @@ function compareVersions(v1, v2) {
 }
 
 /**
- * تحديث وقت آخر فحص
+ * Last scan time update
  */
 function updateLastCheckTime() {
     const lastCheck = StorageManager.get('last_update_check');
@@ -1312,7 +1309,7 @@ function updateLastCheckTime() {
 }
 
 /**
- * تهيئة نظام التحديثات عند تحميل الصفحة
+ * Configure the page load update system
  */
 function initUpdateSystem() {
     const versionEl = document.getElementById('current-version');
@@ -1328,22 +1325,29 @@ function initUpdateSystem() {
     var saved = StorageManager.get('update_available');
     if (saved && saved.version && typeof compareVersions === 'function') {
         if (compareVersions(saved.version, ApplicationVersion) > 0) {
-            // highlight the update notification in the settings page
-            // var updateNotification = document.getElementById('update-notification');
-            // if (updateNotification) {
-            //     updateNotification.style.backgroundColor = 'var(--surface-variant)';
-            //     updateNotification.style.border = '1px solid var(--accent-yellow)';
-            // }
+
+            /** highlight the update notification in the settings page
+            var updateNotification = document.getElementById('update-notification');
+            if (updateNotification) {
+                updateNotification.style.backgroundColor = 'var(--surface-variant)';
+                updateNotification.style.border = '1px solid var(--accent-yellow)';
+            }
+                */
+
             var dismissed = StorageManager.get('update_notification_dismissed');
             if (dismissed) {
-                // If the notification was dismissed more than 3 days ago, remove it
-                // 3 days = 3 * 24 * 60 * 60 * 1000 = 259200000 ms
-                // Check if the dismissed timestamp is older than 3 days
-                // If so, remove the dismissed flag to show the notification again
-                // This ensures that users who dismissed the notification will see it again after 3 days
-                // We use Date.now() to get the current timestamp in milliseconds
-                // Compare the current timestamp with the dismissed timestamp
-                // If the difference is greater than 3 days, remove the dismissed flag
+
+                /**  
+                 * If the notification was dismissed more than 3 days ago, remove it
+                 * 3 days = 3 * 24 * 60 * 60 * 1000 = 259200000 ms
+                 * Check if the dismissed timestamp is older than 3 days
+                 * If so, remove the dismissed flag to show the notification again
+                 * This ensures that users who dismissed the notification will see it again after 3 days
+                 * We use Date.now() to get the current timestamp in milliseconds
+                 * Compare the current timestamp with the dismissed timestamp
+                 * If the difference is greater than 3 days, remove the dismissed flag
+                */
+
                 if (Date.now() - dismissed > 3 * 86400000) {
                     StorageManager.remove('update_notification_dismissed');
                 }
@@ -1353,8 +1357,11 @@ function initUpdateSystem() {
 }
 
 /**
- * نسخ رقم البطاقة إلى الحافظة
+ * Copy the card number to the clipboard 
+ * (only Press [Windows + V]) for show number
+ * or, Press [Ctrl + V] for paste
  */
+
 function copyCardNumber(number) {
     const formattedNumber = number.replace(/\s/g, '');
     
@@ -1370,7 +1377,7 @@ function copyCardNumber(number) {
 }
 
 /**
- * طريقة بديلة لنسخ النص
+ * An alternative method for copying text
  */
 function fallbackCopyCardNumber(text) {
     const textarea = document.createElement('textarea');
@@ -1392,7 +1399,7 @@ function fallbackCopyCardNumber(text) {
 }
 
 /**
- * عرض رسالة نجاح النسخ
+ * Displaying the copy success message
  */
 function showCopySuccess() {
     const statusEl = document.getElementById('copy-status');

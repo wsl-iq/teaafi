@@ -8,7 +8,6 @@
  */
 
 const DUAS_DATA = {
-    //  الأدعية 
     duas: {
         title: 'الأدعية',
         icon: 'fa-hands-praying',
@@ -84,12 +83,11 @@ const DUAS_DATA = {
                 source: 'الإمام زين العابدين (عليه السلام) - الصحيفة السجادية',
                 time: 'يستحب قراءته في جميع الأوقات',
                 icon: 'fa-heart',
-                content: '' // قريباً
+                content: '' // SOON
             }
         ]
     },
     
-    //  الزيارات 
     ziyarat: {
         title: 'الزيارات',
         icon: 'fa-kaaba',

@@ -21,7 +21,6 @@ function renderPoliciesPage() {
                 يرجى قراءة السياسات التالية بعناية قبل استخدام تطبيق تعافي
             </p>
             
-            <!-- قائمة السياسات -->
             <div class="cards-grid" style="margin-bottom: 24px;">
                 <div class="card" onclick="scrollToPolicy('privacy')">
                     <div class="card-header">
@@ -96,7 +95,6 @@ function renderPoliciesPage() {
                 </div>
             </div>
             
-            <!-- ==================== سياسة الخصوصية ==================== -->
             <div id="policy-privacy" class="content-section">
                 <h2 class="section-title">
                     <i class="fas fa-lock" style="margin-left: 8px; color: #1565C0;"></i>
@@ -151,7 +149,6 @@ function renderPoliciesPage() {
                 </div>
             </div>
             
-            <!-- ==================== شروط الاستخدام ==================== -->
             <div id="policy-terms" class="content-section">
                 <h2 class="section-title">
                     <i class="fas fa-file-contract" style="margin-left: 8px; color: #E65100;"></i>
@@ -199,7 +196,6 @@ function renderPoliciesPage() {
                 </div>
             </div>
             
-            <!-- ==================== الترخيص ==================== -->
             <div id="policy-license" class="content-section">
                 <h2 class="section-title">
                     <i class="fas fa-balance-scale" style="margin-left: 8px; color: #2E7D32;"></i>
@@ -240,7 +236,6 @@ function renderPoliciesPage() {
                 </div>
             </div>
             
-            <!-- ==================== قواعد السلوك ==================== -->
             <div id="policy-conduct" class="content-section">
                 <h2 class="section-title">
                     <i class="fas fa-users" style="margin-left: 8px; color: #6A1B9A;"></i>
@@ -277,7 +272,6 @@ function renderPoliciesPage() {
                 </div>
             </div>
             
-            <!-- ==================== المساهمة ==================== -->
             <div id="policy-contributing" class="content-section">
                 <h2 class="section-title">
                     <i class="fas fa-code-branch" style="margin-left: 8px; color: #00695C;"></i>
@@ -308,7 +302,6 @@ function renderPoliciesPage() {
                 </div>
             </div>
             
-            <!-- ==================== سياسة الأمان ==================== -->
             <div id="policy-security" class="content-section">
                 <h2 class="section-title">
                     <i class="fas fa-shield-alt" style="margin-left: 8px; color: #C62828;"></i>
@@ -339,7 +332,6 @@ function renderPoliciesPage() {
                 </div>
             </div>
             
-            <!-- زر العودة للأعلى -->
             <div style="text-align: center; padding: 24px;">
                 <button class="btn btn-primary" onclick="scrollToTop()">
                     <i class="fas fa-arrow-up"></i>
@@ -366,7 +358,7 @@ function scrollToPolicy(policyId) {
     const element = document.getElementById('policy-' + policyId);
     if (element) {
         element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        // إضافة تأثير تمييز مؤقت
+        // Add a temporary highlight effect
         element.style.transition = 'all 0.3s ease';
         element.style.boxShadow = '0 0 0 4px var(--primary-light)';
         element.style.borderRadius = '12px';

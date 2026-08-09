@@ -1,3 +1,12 @@
+/**
+ * Developer: Mohammed Al-Baqer
+ * Website: https://wsl-iq.github.io/teaafi/
+ * Copyright (c) 2026 Mohammed Al-Baqer
+ * Folder : pages
+ * File   : exercises.js
+ * Type: JavaScript
+ */
+
 var currentExerciseGender = StorageManager.getUser()?.gender || 'male';
 
 function renderExercisesPage() {
@@ -13,7 +22,6 @@ function renderExercisesPage() {
                     الرياضة اليومية
                 </h1>
                 
-                <!-- أزرار التبديل بين الجنسين -->
                 <div style="display:flex;gap:4px;background:var(--surface-variant);padding:4px;border-radius:12px;flex-shrink:0;">
                     <button class="btn btn-sm" onclick="switchExerciseView('male')" 
                             style="min-height:40px;${gender === 'male' ? 'background:var(--primary-gradient);color:white;border:none;' : 'background:transparent;color:var(--text-secondary);'}">
@@ -39,7 +47,6 @@ function renderExercisesPage() {
                 <p style="font-size:16px;line-height:1.8;">${exerciseData.weekly.focus}: ${exerciseData.weekly.exercises}</p>
             </div>
             
-            <!-- اقتراح سريع -->
             <div class="card" style="border-right:4px solid #2196F3;margin-bottom:16px;">
                 <h3 style="color:#2196F3;margin-bottom:8px;">
                     <i class="fas ${exerciseData.daily.icon}" style="margin-left:8px;"></i> اقتراح سريع
@@ -48,7 +55,6 @@ function renderExercisesPage() {
                 <p style="font-size:12px;color:var(--text-tertiary);">يحرق ~${exerciseData.daily.calories} سعرة | المستوى: ${exerciseData.daily.level}</p>
             </div>
             
-            <!-- الخطة الأسبوعية -->
             <h2 class="section-title" style="margin-top:24px;">
                 <i class="fas fa-calendar-week" style="margin-left:8px;"></i> الخطة الأسبوعية
             </h2>

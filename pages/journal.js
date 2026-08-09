@@ -1,4 +1,11 @@
-// Taeafi Daily Journal v1.1.2 - No Emoji
+/**
+ * Developer: Mohammed Al-Baqer
+ * Website: https://wsl-iq.github.io/teaafi/
+ * Copyright (c) 2026 Mohammed Al-Baqer
+ * Folder : pages
+ * File   : journal.js
+ * Type: JavaScript
+ */
 
 function renderJournalPage() {
     var mainContent = document.getElementById('main-content');

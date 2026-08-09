@@ -8,9 +8,18 @@
  */
 
 var QuizData = {
-    // ==================== 100 سؤال ====================
+    /** 
+     * 100 questions
+     * Desire and Control (1-15)
+     * Mood and Mental Health (16-35)
+     * Sleep and physical health (31-50)
+     * Worship and Spirituality (46-65)
+     * Social Relations (61-75)
+     * Productivity and Development (76-90)
+     * The Future and Hope (91-100)
+     */
+
     allQuestions: [
-        // الرغبة والتحكم (1-15)
         { id: 1, text: 'كيف تقيم رغبتك في العادة خلال الأسبوع الماضي؟', options: ['ضعيفة جداً', 'ضعيفة', 'متوسطة', 'قوية', 'قوية جداً'], scores: [0,1,2,3,4] },
         { id: 2, text: 'كم مرة فكرت في العادة اليوم؟', options: ['0 مرات', '1-3 مرات', '4-6 مرات', '7-10 مرات', 'أكثر من 10'], scores: [0,1,2,3,4] },
         { id: 3, text: 'هل واجهت أي انتكاسات هذا الأسبوع؟', options: ['لم أواجه', 'مرة واحدة', 'مرتين', 'ثلاث مرات', 'أكثر من ثلاث'], scores: [0,1,2,3,4] },
@@ -27,7 +36,6 @@ var QuizData = {
         { id: 14, text: 'كيف تقيم تقدمك في رحلة التعافي بشكل عام؟', options: ['ممتاز', 'جيد جداً', 'جيد', 'مقبول', 'ضعيف'], scores: [0,1,2,3,4] },
         { id: 15, text: 'هل تشعر أنك تستطيع الاستمرار في التعافي؟', options: ['بكل تأكيد', 'نعم', 'ربما', 'لست متأكداً', 'لا أستطيع'], scores: [0,1,2,3,4] },
 
-        // المزاج والصحة النفسية (16-35)
         { id: 16, text: 'كيف تصف حالتك المزاجية هذا الأسبوع؟', options: ['ممتاز', 'جيد', 'متوسط', 'سيء', 'سيء جداً'], scores: [0,1,2,3,4] },
         { id: 17, text: 'هل شعرت بالضغط النفسي أو التوتر هذا الأسبوع؟', options: ['لم أشعر', 'شعرت قليلاً', 'شعرت أحياناً', 'شعرت كثيراً', 'شعرت دائماً'], scores: [0,1,2,3,4] },
         { id: 18, text: 'هل شعرت بالارتياح النفسي والسلام الداخلي؟', options: ['شعرت به كثيراً', 'شعرت به', 'محايد', 'شعرت بالضيق', 'شعرت بالضيق كثيراً'], scores: [0,1,2,3,4] },
@@ -44,7 +52,6 @@ var QuizData = {
         { id: 29, text: 'هل تشعر أن حياتك لها معنى وهدف؟', options: ['بكل تأكيد', 'نعم', 'محايد', 'لا أشعر', 'لا هدف لي'], scores: [0,1,2,3,4] },
         { id: 30, text: 'كم مرة شعرت بالامتنان هذا الأسبوع؟', options: ['كل يوم', 'معظم الأيام', 'بعض الأيام', 'نادراً', 'لم أشعر'], scores: [0,1,2,3,4] },
 
-        // النوم والصحة الجسدية (31-50)
         { id: 31, text: 'كيف تقيم جودة نومك هذا الأسبوع؟', options: ['ممتاز', 'جيد', 'متوسط', 'سيء', 'سيء جداً'], scores: [0,1,2,3,4] },
         { id: 32, text: 'كم ساعة تنام في المتوسط ليلاً؟', options: ['8 ساعات أو أكثر', '7-8 ساعات', '6-7 ساعات', '5-6 ساعات', 'أقل من 5 ساعات'], scores: [0,1,2,3,4] },
         { id: 33, text: 'هل تستيقظ وأنت تشعر بالنشاط والطاقة؟', options: ['دائماً', 'غالباً', 'أحياناً', 'نادراً', 'لا أشعر بالنشاط'], scores: [0,1,2,3,4] },
@@ -61,7 +68,6 @@ var QuizData = {
         { id: 44, text: 'هل توقفت عن التدخين أو الكحول هذا الأسبوع؟', options: ['لا أدخن أصلاً', 'توقفت تماماً', 'قللت كثيراً', 'قللت قليلاً', 'لم أقلل'], scores: [0,1,2,3,4] },
         { id: 45, text: 'كيف تقيم صحتك الجسدية بشكل عام؟', options: ['ممتازة', 'جيدة', 'متوسطة', 'سيئة', 'سيئة جداً'], scores: [0,1,2,3,4] },
 
-        // العبادة والروحانيات (46-65)
         { id: 46, text: 'هل التزمت بالأذكار والعبادات هذا الأسبوع؟', options: ['ملتزم جداً', 'ملتزم', 'أحياناً', 'نادراً', 'لم ألتزم'], scores: [0,1,2,3,4] },
         { id: 47, text: 'كم مرة صليت في المسجد هذا الأسبوع؟', options: ['كل الصلوات', 'معظم الصلوات', 'بعض الصلوات', 'صلاة واحدة', 'لم أصلِّ في المسجد'], scores: [0,1,2,3,4] },
         { id: 48, text: 'هل تشعر أنك أقرب إلى الله هذا الأسبوع؟', options: ['أقرب كثيراً', 'أقرب', 'محايد', 'أبعد قليلاً', 'أبعد كثيراً'], scores: [0,1,2,3,4] },
@@ -78,7 +84,6 @@ var QuizData = {
         { id: 59, text: 'هل ساعدت الآخرين أو تصدقت هذا الأسبوع؟', options: ['ساعدت كثيراً', 'ساعدت', 'ساعدت قليلاً', 'لم أساعد', 'لا أهتم'], scores: [0,1,2,3,4] },
         { id: 60, text: 'هل تشعر براحة البال عند ذكر الله؟', options: ['دائماً', 'غالباً', 'أحياناً', 'نادراً', 'لا أشعر'], scores: [0,1,2,3,4] },
 
-        // العلاقات الاجتماعية (61-75)
         { id: 61, text: 'هل شعرت بالتحسن في علاقاتك الاجتماعية هذا الأسبوع؟', options: ['تحسنت كثيراً', 'تحسنت', 'بقيت كما هي', 'تدهورت قليلاً', 'تدهورت كثيراً'], scores: [0,1,2,3,4] },
         { id: 62, text: 'كم مرة تواصلت مع أصدقائك هذا الأسبوع؟', options: ['كل يوم', 'معظم الأيام', 'بعض الأيام', 'مرة واحدة', 'لم أتواصل'], scores: [0,1,2,3,4] },
         { id: 63, text: 'هل قضيت وقتاً ممتعاً مع عائلتك هذا الأسبوع؟', options: ['كل يوم', 'معظم الأيام', 'بعض الأيام', 'نادراً', 'لم أقضِ'], scores: [0,1,2,3,4] },
@@ -95,7 +100,6 @@ var QuizData = {
         { id: 74, text: 'كيف تقيم دعم أسرتك لك في التعافي؟', options: ['دعم قوي', 'دعم جيد', 'دعم متوسط', 'دعم ضعيف', 'لا يوجد دعم'], scores: [0,1,2,3,4] },
         { id: 75, text: 'هل تشعر أنك قدوة حسنة للآخرين؟', options: ['قدوة بامتياز', 'قدوة', 'محايد', 'لست قدوة', 'قدوة سيئة'], scores: [0,1,2,3,4] },
 
-        // الإنتاجية والتطوير (76-90)
         { id: 76, text: 'كيف تقيم إنتاجيتك في العمل أو الدراسة هذا الأسبوع؟', options: ['ممتازة', 'جيدة', 'متوسطة', 'ضعيفة', 'ضعيفة جداً'], scores: [0,1,2,3,4] },
         { id: 77, text: 'هل أنجزت مهامك اليومية في وقتها؟', options: ['أنجزت كل شيء', 'أنجزت معظمها', 'أنجزت بعضها', 'أنجزت القليل', 'لم أنجز شيئاً'], scores: [0,1,2,3,4] },
         { id: 78, text: 'هل تعلمت شيئاً جديداً هذا الأسبوع؟', options: ['تعلمت كثيراً', 'تعلمت', 'تعلمت شيئاً بسيطاً', 'لم أتعلم', 'لا أهتم'], scores: [0,1,2,3,4] },
@@ -112,7 +116,6 @@ var QuizData = {
         { id: 89, text: 'كيف تقيم تطورك الشخصي مقارنة بالشهر الماضي؟', options: ['تطورت كثيراً', 'تطورت', 'بقيت كما أنا', 'تراجعت قليلاً', 'تراجعت كثيراً'], scores: [0,1,2,3,4] },
         { id: 90, text: 'هل تشعر أنك تعيش حياة متوازنة؟', options: ['متوازنة جداً', 'متوازنة', 'محايد', 'غير متوازنة', 'فوضوية'], scores: [0,1,2,3,4] },
 
-        // المستقبل والأمل (91-100)
         { id: 91, text: 'كيف ترى مستقبلك بعد التعافي؟', options: ['مشرق جداً', 'مشرق', 'محايد', 'غامض', 'مظلم'], scores: [0,1,2,3,4] },
         { id: 92, text: 'هل وضعت خطة واضحة للـ 30 يوماً القادمة؟', options: ['خطة واضحة ومكتوبة', 'خطة واضحة', 'خطة تقريبية', 'لا خطة', 'لا أعرف'], scores: [0,1,2,3,4] },
         { id: 93, text: 'هل تؤمن أن التعافي الكامل ممكن؟', options: ['ممكن جداً', 'ممكن', 'ربما', 'صعب', 'مستحيل'], scores: [0,1,2,3,4] },
@@ -141,20 +144,20 @@ var QuizData = {
     ]
 };
 
-// ==================== المتغيرات ====================
+// Variables
 var selectedQuestions = [];
 var currentQuestion = 0;
 var answers = [];
 var quizActive = false;
 var quizHistory = [];
 
-// ==================== الدوال الرئيسية ====================
+// Functions
 
 function getRandomQuestions(count) {
     var pool = QuizData.allQuestions.slice();
     var result = [];
     
-    // خلط الأسئلة
+    // Mixing questions
     for (var i = pool.length - 1; i > 0; i--) {
         var j = Math.floor(Math.random() * (i + 1));
         var temp = pool[i];
@@ -162,7 +165,7 @@ function getRandomQuestions(count) {
         pool[j] = temp;
     }
     
-    // اختيار أول count سؤال
+    // Choose the first count question
     for (var k = 0; k < count && k < pool.length; k++) {
         result.push(pool[k]);
     }
@@ -176,10 +179,10 @@ function renderQuizPage() {
     answers = [];
     quizActive = true;
     
-    // ✅ اختيار 15 سؤال عشوائي
+    // 15 randomly selected questions
     selectedQuestions = getRandomQuestions(15);
     
-    // تحميل التاريخ السابق
+    // Load previous history
     quizHistory = StorageManager.get('quiz_history') || [];
     
     mainContent.innerHTML = `
@@ -207,7 +210,6 @@ function renderQuizPage() {
                 <div id="quiz-result" style="display: none;"></div>
             </div>
             
-            <!-- التاريخ السابق -->
             ${quizHistory.length > 0 ? `
                 <div class="card" style="margin-top: 24px;">
                     <h3 style="margin-bottom: 12px;"><i class="fas fa-history" style="margin-left: 6px;"></i> آخر التقييمات</h3>
@@ -277,7 +279,7 @@ function showQuizResult() {
     var maxScore = selectedQuestions.length * 4;
     var percent = Math.round((totalScore / maxScore) * 100);
     
-    // تحديد المستوى
+    // Level determination
     var result = QuizData.results.find(function(r) {
         return totalScore >= r.min && totalScore <= r.max;
     });
@@ -291,7 +293,7 @@ function showQuizResult() {
     if (progressDiv) progressDiv.style.display = 'none';
     container.style.display = 'block';
     
-    // ✅ إحصائيات الفئات
+    // Category statistics
     var categories = {
         'الرغبة والتحكم': { total: 0, count: 0 },
         'المزاج والصحة النفسية': { total: 0, count: 0 },
@@ -310,7 +312,7 @@ function showQuizResult() {
         }
     });
     
-    // بناء HTML الفئات
+    // Building HTML classes
     var categoryHTML = '';
     for (var cat in categories) {
         if (categories[cat].count > 0) {
@@ -372,7 +374,7 @@ function showQuizResult() {
         </div>
     `;
     
-    // ✅ حفظ النتيجة
+    // Save result
     var record = {
         score: totalScore,
         maxScore: maxScore,

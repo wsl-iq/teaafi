@@ -1,5 +1,11 @@
-// Taeafi Breath Challenge Game v1.1.2 - Final Fixed
-// Developer: Mohammed Al-Baqer
+/**
+ * Developer: Mohammed Al-Baqer
+ * Website: https://wsl-iq.github.io/teaafi/
+ * Copyright (c) 2026 Mohammed Al-Baqer
+ * Folder : pages
+ * File   : challenge-game.js
+ * Type: JavaScript
+ */
 
 var BreathGame = {
     round: 0,
@@ -193,10 +199,8 @@ function renderBreathGamePage() {
             </h1>
             <p class="text-secondary mb-4">تمرين تنفس يساعد على الاسترخاء وتقوية الإرادة</p>
             
-            <!-- منطقة اللعبة -->
             <div class="card breath-game-card" style="text-align: center; padding: 40px 20px 32px;">
                 
-                <!-- الدائرة - في الأعلى منفصلة عن النصوص -->
                 <div style="position: relative; width: 160px; height: 160px; margin: 0 auto 32px;">
                     <div id="breath-circle" class="breath-circle-main">
                         <i id="breath-icon" class="fas fa-play-circle breath-circle-icon"></i>
@@ -204,14 +208,12 @@ function renderBreathGamePage() {
                     <div class="breath-circle-ring"></div>
                 </div>
                 
-                <!-- النصوص - تحت الدائرة بمسافة آمنة -->
                 <div style="position: relative; z-index: 5; margin-bottom: 8px;">
                     <span id="breath-phase-text" class="breath-phase-label">جاهز</span>
                 </div>
                 
                 <p id="breath-instruction" class="breath-instruction-text">اضغط ابدأ للتحدي</p>
                 
-                <!-- شريط التقدم -->
                 <div style="margin-bottom: 20px; max-width: 300px; margin-left: auto; margin-right: auto;">
                     <div class="breath-progress-bg">
                         <div id="breath-progress" class="breath-progress-fill"></div>
@@ -221,7 +223,6 @@ function renderBreathGamePage() {
                     </p>
                 </div>
                 
-                <!-- الإحصائيات -->
                 <div style="display: flex; justify-content: center; gap: 48px; margin-bottom: 24px;">
                     <div style="text-align: center;">
                         <i class="fas fa-star" style="color: #FFD700; font-size: 18px; display: block; margin-bottom: 4px;"></i>
@@ -235,7 +236,6 @@ function renderBreathGamePage() {
                     </div>
                 </div>
                 
-                <!-- الأزرار -->
                 <div style="display: flex; gap: 12px; justify-content: center;">
                     <button id="breath-start-btn" class="btn btn-primary" onclick="BreathGame.start()" style="min-width: 140px;">
                         <i class="fas fa-play"></i> ابدأ التحدي
@@ -246,7 +246,6 @@ function renderBreathGamePage() {
                 </div>
             </div>
             
-            <!-- شرح التمرين -->
             <div class="card breath-guide-card" style="margin-top: 16px;">
                 <h3 style="margin-bottom: 16px; display: flex; align-items: center; gap: 8px; color: var(--text-primary);">
                     <i class="fas fa-info-circle" style="color: #2196F3;"></i>
@@ -255,7 +254,6 @@ function renderBreathGamePage() {
                 
                 <div style="display: flex; flex-direction: column; gap: 10px;">
                     
-                    <!-- شهيق -->
                     <div class="breath-guide-step breath-guide-inhale">
                         <div class="breath-guide-icon" style="background: #2196F3;">
                             <i class="fas fa-arrow-up"></i>
@@ -266,7 +264,6 @@ function renderBreathGamePage() {
                         </div>
                     </div>
                     
-                    <!-- احبس -->
                     <div class="breath-guide-step breath-guide-hold">
                         <div class="breath-guide-icon" style="background: #FF9800;">
                             <i class="fas fa-pause"></i>
@@ -277,7 +274,6 @@ function renderBreathGamePage() {
                         </div>
                     </div>
                     
-                    <!-- زفير -->
                     <div class="breath-guide-step breath-guide-exhale">
                         <div class="breath-guide-icon" style="background: #9C27B0;">
                             <i class="fas fa-arrow-down"></i>
@@ -299,7 +295,7 @@ function renderBreathGamePage() {
         </div>
     `;
     
-    // إضافة CSS
+    // Add CSS
     if (!document.getElementById('breath-game-styles-v2')) {
         var style = document.createElement('style');
         style.id = 'breath-game-styles-v2';
@@ -309,7 +305,6 @@ function renderBreathGamePage() {
                 to { transform: rotate(360deg); }
             }
             
-            /* الدائرة الرئيسية */
             .breath-circle-main {
                 width: 160px; height: 160px;
                 border-radius: 50%;
@@ -329,7 +324,6 @@ function renderBreathGamePage() {
                 transition: all 0.3s ease;
             }
             
-            /* الحلقة الخارجية */
             .breath-circle-ring {
                 position: absolute;
                 top: -12px; left: -12px;
@@ -341,7 +335,6 @@ function renderBreathGamePage() {
                 z-index: 1;
             }
             
-            /* النصوص */
             .breath-phase-label {
                 font-size: 22px;
                 font-weight: 700;
@@ -354,7 +347,6 @@ function renderBreathGamePage() {
                 min-height: 22px;
             }
             
-            /* شريط التقدم */
             .breath-progress-bg {
                 background: var(--border-light);
                 border-radius: 8px;
@@ -369,7 +361,6 @@ function renderBreathGamePage() {
                 transition: width 0.5s ease;
             }
             
-            /* دليل التمرين */
             .breath-guide-step {
                 display: flex;
                 align-items: center;
@@ -398,7 +389,6 @@ function renderBreathGamePage() {
                 font-size: 13px;
             }
             
-            /* شهيق */
             .breath-guide-inhale {
                 background: #E3F2FD;
                 border-right-color: #2196F3;
@@ -406,7 +396,6 @@ function renderBreathGamePage() {
             .breath-guide-inhale strong { color: #1565C0; }
             .breath-guide-inhale p { color: #1565C0; }
             
-            /* احبس */
             .breath-guide-hold {
                 background: #FFF3E0;
                 border-right-color: #FF9800;
@@ -414,7 +403,6 @@ function renderBreathGamePage() {
             .breath-guide-hold strong { color: #E65100; }
             .breath-guide-hold p { color: #E65100; }
             
-            /* زفير */
             .breath-guide-exhale {
                 background: #F3E5F5;
                 border-right-color: #9C27B0;
@@ -422,7 +410,6 @@ function renderBreathGamePage() {
             .breath-guide-exhale strong { color: #6A1B9A; }
             .breath-guide-exhale p { color: #6A1B9A; }
             
-            /* المجموع */
             .breath-guide-total {
                 margin-top: 14px;
                 padding: 12px;
@@ -435,7 +422,7 @@ function renderBreathGamePage() {
                 color: #2E7D32;
             }
             
-            /* ========== الوضع الداكن ========== */
+            /* Dark */
             .theme-dark .breath-circle-ring {
                 border-color: var(--border);
                 opacity: 0.3;

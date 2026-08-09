@@ -38,12 +38,10 @@ function showMainApp() {
     if (ws) { ws.classList.add('hidden'); ws.style.display = 'none'; }
     if (app) { app.classList.add('visible'); app.style.display = 'flex'; }
     
-    // ✅ استدعاء renderHomePage مباشرة بدون navigateTo
     if (typeof renderHomePage === 'function') {
         renderHomePage();
     }
     
-    // ✅ تحديث شريط التنقل السفلي يدوياً
     document.querySelectorAll('.nav-item').forEach(function(item) {
         item.classList.remove('active');
         if (item.dataset.page === 'home') {
@@ -51,7 +49,6 @@ function showMainApp() {
         }
     });
     
-    // ✅ تحديث الشريط الجانبي يدوياً
     document.querySelectorAll('.nav-link').forEach(function(link) {
         link.classList.remove('active');
         if (link.dataset.page === 'home') {

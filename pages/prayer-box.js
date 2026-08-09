@@ -1,4 +1,11 @@
-// Taeafi Prayer Box v1.0 - Fixed (No Emoji)
+/**
+ * Developer: Mohammed Al-Baqer
+ * Website: https://wsl-iq.github.io/teaafi/
+ * Copyright (c) 2026 Mohammed Al-Baqer
+ * Folder : pages
+ * File   : prayer-box.js
+ * Type: JavaScript
+ */
 
 function renderPrayerBoxPage() {
     var mainContent = document.getElementById('main-content');

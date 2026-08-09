@@ -32,7 +32,7 @@ var SmartNotifications = {
         this.stop();
         this.interval = setInterval(function() {
             self.checkAndSend();
-        }, 3600000); // كل ساعة
+        }, 3600000); // Every hour 
     },
     
     stop: function() {
@@ -47,7 +47,6 @@ var SmartNotifications = {
         var settings = StorageManager.getSettings();
         if (!settings.notifications) return;
         
-        // تذكير الأذكار - الفجر، الظهر، العصر، المغرب، العشاء
         var prayerTimes = [
             { hour: 5, name: 'الفجر', dhikr: 'أذكار الصباح' },
             { hour: 12, name: 'الظهر', dhikr: 'الصلاة على النبي' },
@@ -65,7 +64,6 @@ var SmartNotifications = {
             }
         });
         
-        // تذكير التعافي في أفضل وقت
         var bestParts = this.bestTime.split(':');
         if (now.getHours() === parseInt(bestParts[0]) && now.getMinutes() === 0) {
             var stats = typeof RecoveryCounter !== 'undefined' ? 

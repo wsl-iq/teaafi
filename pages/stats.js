@@ -25,7 +25,6 @@ function renderStatsPage() {
                 الإحصائيات
             </h1>
             
-            <!-- بطاقات سريعة -->
             <div class="stats-cards-grid">
                 <div class="stat-card" style="border-top: 4px solid #4CAF50;">
                     <i class="fas fa-calendar-check" style="color: #4CAF50;"></i>
@@ -49,7 +48,6 @@ function renderStatsPage() {
                 </div>
             </div>
             
-            <!-- شريط تقدم التعافي -->
             <div class="card">
                 <h3 style="margin-bottom: 12px;">
                     <i class="fas fa-chart-line" style="color: #4CAF50; margin-left: 8px;"></i>
@@ -65,7 +63,6 @@ function renderStatsPage() {
                 </p>
             </div>
             
-            <!-- إحصائيات التسبيح -->
             <div class="card">
                 <h3 style="margin-bottom: 12px;">
                     <i class="fas fa-mosque" style="color: #2196F3; margin-left: 8px;"></i>
@@ -78,7 +75,6 @@ function renderStatsPage() {
                 </div>
             </div>
             
-            <!-- الإنجازات -->
             <div class="card">
                 <h3 style="margin-bottom: 16px;">
                     <i class="fas fa-award" style="color: #FFD700; margin-left: 8px;"></i>
@@ -123,7 +119,7 @@ function renderAchievements() {
     return html;
 }
 
-// CSS للإحصائيات
+// For statistics CSS 
 var statsStyles = document.createElement('style');
 statsStyles.textContent = `
     .stats-cards-grid {

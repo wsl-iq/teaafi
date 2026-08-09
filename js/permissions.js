@@ -23,7 +23,7 @@ class PermissionsManager {
         try {
             const permission = await Notification.requestPermission();
             
-            // حفظ حالة الصلاحية في التخزين المحلي
+            // Preserving local storage privileges
             if (permission === 'granted') {
                 StorageManager.saveSettings({
                     ...StorageManager.getSettings(),
@@ -51,22 +51,22 @@ class PermissionsManager {
         const modal = document.getElementById('permission-modal');
         if (!modal) return;
         
-        // التحقق إذا كان قد تم سؤال المستخدم مسبقاً
+        // Check if the user has been asked before
         const settings = StorageManager.getSettings();
         const permission = await this.checkNotificationPermission();
         
-        // لا تظهر النافذة إذا:
-        // 1. تم منح الصلاحية بالفعل
-        // 2. تم رفض الصلاحية بالفعل
-        // 3. تم سؤال المستخدم مسبقاً وحفظت إجابته
+        /** The window will not appear if:
+         1. Permission has already been granted
+         2. Permission has already been denied
+         3. The user has already been asked and their answer saved */
+
         if (permission === 'granted' || 
             permission === 'denied' || 
             settings.notificationPermissionAsked === true) {
-            // لا تظهر النافذة
             return;
         }
         
-        // إظهار النافذة فقط إذا لم يتم السؤال مسبقاً
+        // The window will only be displayed if no prior request has been made.
         if (permission === 'default') {
             modal.classList.remove('hidden');
         }
@@ -93,16 +93,16 @@ async function requestPermissions() {
     }
 }
 
+// Note that the user has rejected the request to prevent repetition
+// Do not ask again unless a request is made.
+
 function declinePermissions() {
     PermissionsManager.hidePermissionModal();
-    
-    // حفظ أن المستخدم رفض الطلب حتى لا يتكرر
     StorageManager.saveSettings({
         ...StorageManager.getSettings(),
         notifications: false,
         notificationPermissionAsked: true,
         notificationPermissionGranted: false
     });
-    
     showToast('يمكنك تفعيل الإشعارات لاحقاً من الإعدادات');
 }

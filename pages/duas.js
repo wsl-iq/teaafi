@@ -19,7 +19,6 @@ function renderDuasPage() {
             </h1>
             <p class="text-secondary mb-4">مجموعة من الأدعية المأثورة والزيارات المباركة</p>
             
-            <!-- ✅ شريط تحكم حجم الخط -->
             <div class="card" style="margin-bottom: 20px; padding: 16px 20px;">
                 <div style="display: flex; align-items: center; gap: 12px;">
                     <i class="fas fa-font" style="color: var(--primary); font-size: 14px; flex-shrink: 0;"></i>
@@ -40,7 +39,6 @@ function renderDuasPage() {
                 </div>
             </div>
             
-            <!-- ==================== الأدعية ==================== -->
             <h2 class="section-title" style="margin-top: 24px;">
                 <i class="fas fa-hands-praying" style="margin-left: 8px; color: #4A148C;"></i>
                 ${DUAS_DATA.duas.title}
@@ -67,7 +65,6 @@ function renderDuasPage() {
                 }).join('')}
             </div>
             
-            <!-- ==================== الزيارات ==================== -->
             <h2 class="section-title" style="margin-top: 32px;">
                 <i class="fas fa-kaaba" style="margin-left: 8px; color: #0D6B6E;"></i>
                 ${DUAS_DATA.ziyarat.title}
@@ -116,7 +113,6 @@ function renderDuaDetail(category, id) {
                 <i class="fas fa-arrow-right"></i> رجوع للأدعية والزيارات
             </button>
             
-            <!-- ✅ شريط تحكم حجم الخط -->
             <div class="card" style="margin-bottom: 16px; padding: 12px 16px;">
                 <div style="display: flex; align-items: center; gap: 10px;">
                     <i class="fas fa-font" style="color: var(--primary); font-size: 13px; flex-shrink: 0;"></i>
@@ -174,25 +170,20 @@ function renderDuaDetail(category, id) {
     `;
 }
 
-// دوال التحكم بحجم الخط
 
 function changeDuaFontSize(size) {
-    // حفظ الحجم
     StorageManager.set('dua_font_size', parseInt(size));
     
-    // تحديث العرض الرقمي
     var valueEl = document.getElementById('font-size-value');
     if (valueEl) {
         valueEl.textContent = size;
     }
     
-    // تحديث جميع النصوص في الصفحة الحالية
     var duaContent = document.querySelector('.dua-content');
     if (duaContent) {
         duaContent.style.fontSize = size + 'px';
     }
     
-    // تحديث النصوص الأخرى
     var allText = document.querySelectorAll('.card p, .card h2, .card h3');
     allText.forEach(function(el) {
         if (!el.closest('.card-header') && !el.closest('.cards-grid')) {

@@ -1,4 +1,11 @@
-
+/**
+ * Developer: Mohammed Al-Baqer
+ * Website: https://wsl-iq.github.io/teaafi/
+ * Copyright (c) 2026 Mohammed Al-Baqer
+ * Folder : data
+ * File   : exercises.js
+ * Type: JavaScript
+ */
 
 var EXERCISE_DATA = {
     male: {

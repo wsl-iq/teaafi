@@ -13,8 +13,6 @@ function renderSpiritualPage() {
     mainContent.innerHTML = `
         <div class="animate-fade-in">
             <h1 class="heading-underline">التحصين الإيماني</h1>
-            
-            <!-- قسم النبي محمد (صلى الله عليه وآله وسلم) -->
             <div class="spiritual-card">
                 <h2 style="margin-bottom: 16px;">
                     <i class="fas fa-star" style="margin-left: 8px;"></i>
@@ -28,7 +26,6 @@ function renderSpiritualPage() {
                 `).join('')}
             </div>
             
-            <!-- قسم الإمام علي (عليه السلام) -->
             <div class="spiritual-card" style="background: linear-gradient(135deg, #1B5E20 0%, #4CAF50 100%);">
                 <h2 style="margin-bottom: 16px;">
                     <i class="fas fa-crown" style="margin-left: 8px;"></i>
@@ -42,7 +39,6 @@ function renderSpiritualPage() {
                 `).join('')}
             </div>
             
-            <!-- قسم أدعية أهل البيت (عليهم السلام) -->
             <div class="spiritual-card" style="background: linear-gradient(135deg, #4A148C 0%, #9C27B0 100%);">
                 <h2 style="margin-bottom: 16px;">
                     <i class="fas fa-hands-praying" style="margin-left: 8px;"></i>
@@ -57,7 +53,6 @@ function renderSpiritualPage() {
                 `).join('')}
             </div>
             
-            <!-- الآيات القرآنية -->
             <div class="card">
                 <h3 style="margin-bottom: 16px;">
                     <i class="fas fa-quran" style="margin-left: 8px; color: var(--primary);"></i>
@@ -71,7 +66,6 @@ function renderSpiritualPage() {
                 `).join('')}
             </div>
             
-            <!-- أذكار الصباح -->
             <div class="card">
                 <h3 style="margin-bottom: 16px;">
                     <i class="fas fa-sun" style="margin-left: 8px; color: var(--accent-orange);"></i>
@@ -88,7 +82,6 @@ function renderSpiritualPage() {
                 `).join('')}
             </div>
             
-            <!-- أذكار المساء -->
             <div class="card">
                 <h3 style="margin-bottom: 16px;">
                     <i class="fas fa-moon" style="margin-left: 8px; color: #5C6BC0;"></i>
@@ -105,7 +98,6 @@ function renderSpiritualPage() {
                 `).join('')}
             </div>
             
-            <!-- أدعية التوبة -->
             <div class="card">
                 <h3 style="margin-bottom: 16px;">
                     <i class="fas fa-hand-holding-heart" style="margin-left: 8px; color: var(--accent-red);"></i>
@@ -119,7 +111,6 @@ function renderSpiritualPage() {
                 `).join('')}
             </div>
             
-            <!-- أدعية الثبات -->
             <div class="card">
                 <h3 style="margin-bottom: 16px;">
                     <i class="fas fa-anchor" style="margin-left: 8px; color: var(--primary);"></i>
@@ -133,7 +124,6 @@ function renderSpiritualPage() {
                 `).join('')}
             </div>
             
-            <!-- التحصين -->
             <div class="card">
                 <h3 style="margin-bottom: 16px;">
                     <i class="fas fa-shield-alt" style="margin-left: 8px; color: var(--accent-green);"></i>
@@ -150,7 +140,6 @@ function renderSpiritualPage() {
                 `).join('')}
             </div>
             
-            <!-- أحاديث -->
             <div class="card">
                 <h3 style="margin-bottom: 16px;">
                     <i class="fas fa-scroll" style="margin-left: 8px; color: var(--accent-purple);"></i>
@@ -164,7 +153,6 @@ function renderSpiritualPage() {
                 `).join('')}
             </div>
             
-            <!-- نصائح لتقوية الإرادة -->
             <div class="card" style="background: #E8F5E9; border: 1px solid #C8E6C9;">
                 <h3 style="margin-bottom: 16px; color: var(--accent-green);">
                     <i class="fas fa-lightbulb" style="margin-left: 8px;"></i>

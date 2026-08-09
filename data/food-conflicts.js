@@ -1,5 +1,11 @@
-// Taeafi Food Conflicts Database v1.0
-
+/**
+ * Developer: Mohammed Al-Baqer
+ * Website: https://wsl-iq.github.io/teaafi/
+ * Copyright (c) 2026 Mohammed Al-Baqer
+ * Folder : data
+ * File   : food-conflicts.js
+ * Type: JavaScript
+ */
 var FOOD_CONFLICTS = [
     { combo: 'حليب + ليمون / برتقال', effect: 'تخثر الحليب في المعدة وعسر هضم', severity: 'عالي' },
     { combo: 'سمك + لبن / زبادي', effect: 'اضطرابات هضمية وحساسية جلدية', severity: 'عالي' },

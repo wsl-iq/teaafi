@@ -1,3 +1,12 @@
+/**
+ * Developer: Mohammed Al-Baqer
+ * Website: https://wsl-iq.github.io/teaafi/
+ * Copyright (c) 2026 Mohammed Al-Baqer
+ * Folder : js
+ * File   : themes.js
+ * Type: JavaScript
+ */
+
 var ThemesManager = {
     themes: {
         green:   { id: 'green',   name: 'الأخضر',        icon: 'fa-leaf',              color: '#0D6B6E' },
@@ -126,10 +135,12 @@ function toggleNightModeSchedule() {
 function startNightModeScheduler() { stopNightModeScheduler(); checkNightMode(); nightModeInterval = setInterval(checkNightMode, 60000); }
 function stopNightModeScheduler() { if (nightModeInterval) { clearInterval(nightModeInterval); nightModeInterval = null; } }
 
-// if (StorageManager.get('night_mode_schedule')) startNightModeScheduler();
-// if Time day from 6:00 AM to 7:00 PM == Light Mode
-// if Time day from 7:00 PM to 6:00 AM == Dark Mode
-// ChackNightMode function to check the time and apply the theme accordingly
+/**
+ * if (StorageManager.get('night_mode_schedule')) startNightModeScheduler();
+ * if Time day from 6:00 AM to 7:00 PM == Light Mode
+ * if Time day from 7:00 PM to 6:00 AM == Dark Mode
+ * ChackNightMode function to check the time and apply the theme accordingly
+ */
 
 function checkNightMode() {
     if (!StorageManager.get('night_mode_schedule')) return;

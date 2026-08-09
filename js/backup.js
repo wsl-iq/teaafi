@@ -11,7 +11,7 @@ var BackupManager = {
     exportData: function() {
         try {
             var data = {
-                version: '1.1.0',
+                version: '1.1.2',
                 exportDate: new Date().toISOString(),
                 user: StorageManager.getUser(),
                 recovery: StorageManager.getRecoveryData(),
@@ -35,13 +35,13 @@ var BackupManager = {
             URL.revokeObjectURL(url);
             
             if (typeof showToast === 'function') {
-                showToast('✅ تم تصدير البيانات بنجاح');
+                showToast('تم تصدير البيانات بنجاح');
             }
             return true;
         } catch (e) {
             console.error('[Backup] Export failed:', e);
             if (typeof showToast === 'function') {
-                showToast('❌ فشل تصدير البيانات');
+                showToast('فشل تصدير البيانات');
             }
             return false;
         }
@@ -65,7 +65,7 @@ var BackupManager = {
             if (data.habitsHistory) StorageManager.set('habits_history', data.habitsHistory);
             
             if (typeof showToast === 'function') {
-                showToast('✅ تم استيراد البيانات بنجاح');
+                showToast('تم استيراد البيانات بنجاح');
             }
             
             setTimeout(function() { location.reload(); }, 1500);
@@ -73,7 +73,7 @@ var BackupManager = {
         } catch (e) {
             console.error('[Backup] Import failed:', e);
             if (typeof showToast === 'function') {
-                showToast('❌ فشل استيراد البيانات - تأكد من الملف');
+                showToast('فشل استيراد البيانات - تأكد من الملف');
             }
             return false;
         }

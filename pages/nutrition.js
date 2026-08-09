@@ -1,4 +1,11 @@
-// pages/nutrition.js - مع إمكانية التبديل بين الجنسين للاطلاع
+/**
+ * Developer: Mohammed Al-Baqer
+ * Website: https://wsl-iq.github.io/teaafi/
+ * Copyright (c) 2026 Mohammed Al-Baqer
+ * Folder : pages
+ * File   : nutrition.js
+ * Type: JavaScript
+ */
 
 var currentNutritionGender = StorageManager.getUser()?.gender || 'male';
 
@@ -6,7 +13,7 @@ function renderNutritionPage() {
     var mainContent = document.getElementById('main-content');
     var user = StorageManager.getUser();
     
-    // استخدام الجنس المختار للعرض (وليس جنس المستخدم)
+    // Use the gender selected for display (not the user's gender).
     var gender = currentNutritionGender;
     
     var breakfast = getTodayMeal('breakfast', gender);
@@ -76,7 +83,7 @@ function renderNutritionPage() {
 function renderMealCard(title, meal, icon, color) {
     if (!meal) return '';
     
-    // التحقق من تعارضات الطعام
+    // Checking for food incompatibility
     var conflicts = checkFoodConflict(meal.meal);
     
     return `

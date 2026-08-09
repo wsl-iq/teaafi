@@ -1,4 +1,11 @@
-// Taeafi XP & Levels System v1.0 - No Emoji
+/**
+ * Developer: Mohammed Al-Baqer
+ * Website: https://wsl-iq.github.io/teaafi/
+ * Copyright (c) 2026 Mohammed Al-Baqer
+ * Folder : js
+ * File   : xp-system.js
+ * Type: JavaScript
+ */
 
 var XPSystem = {
     level: 1,

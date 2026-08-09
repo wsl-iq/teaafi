@@ -211,7 +211,6 @@ class RecoveryCounter {
         };
     }
 
-        // ==================== الزنا والعلاقات غير الشرعية ====================
     static #getAdulteryMessages(days, hours, minutes) {
         return {
             firstDay: [
@@ -277,7 +276,6 @@ class RecoveryCounter {
         };
     }
     
-    // ==================== التدخين ====================
     static #getSmokingMessages(days, hours, minutes) {
         return {
             firstDay: [
@@ -343,7 +341,6 @@ class RecoveryCounter {
         };
     }
     
-    // ==================== الأفلام الإباحية ====================
     static #getPornographyMessages(days, hours, minutes) {
         return {
             firstDay: [
@@ -409,7 +406,6 @@ class RecoveryCounter {
         };
     }
     
-    // ==================== الكحول ====================
     static #getAlcoholMessages(days, hours, minutes) {
         return {
             firstDay: [
@@ -475,7 +471,6 @@ class RecoveryCounter {
         };
     }
     
-    // ==================== المخدرات ====================
     static #getDrugsMessages(days, hours, minutes) {
         return {
             firstDay: [
@@ -541,7 +536,6 @@ class RecoveryCounter {
         };
     }
     
-    // ==================== إدمان الألعاب ====================
     static #getGamingMessages(days, hours, minutes) {
         return {
             firstDay: [
@@ -607,7 +601,6 @@ class RecoveryCounter {
         };
     }
     
-    // ==================== إدمان التواصل الاجتماعي ====================
     static #getSocialMediaMessages(days, hours, minutes) {
         return {
             firstDay: [
@@ -673,7 +666,6 @@ class RecoveryCounter {
         };
     }
     
-    // ==================== إدمان الهاتف الذكي ====================
     static #getSmartphoneMessages(days, hours, minutes) {
         return {
             firstDay: [
@@ -739,7 +731,6 @@ class RecoveryCounter {
         };
     }
     
-    // ==================== المقامرة ====================
     static #getGamblingMessages(days, hours, minutes) {
         return {
             firstDay: [
@@ -805,7 +796,6 @@ class RecoveryCounter {
         };
     }
     
-    // ==================== التسويف ====================
     static #getProcrastinationMessages(days, hours, minutes) {
         return {
             firstDay: [
@@ -871,7 +861,6 @@ class RecoveryCounter {
         };
     }
     
-    // ==================== الكذب ====================
     static #getLyingMessages(days, hours, minutes) {
         return {
             firstDay: [
@@ -937,7 +926,6 @@ class RecoveryCounter {
         };
     }
     
-    // ==================== الغضب ====================
     static #getAngerMessages(days, hours, minutes) {
         return {
             firstDay: [
@@ -1003,7 +991,6 @@ class RecoveryCounter {
         };
     }
     
-    // ==================== الإسراف المالي ====================
     static #getOverspendingMessages(days, hours, minutes) {
         return {
             firstDay: [
@@ -1069,7 +1056,6 @@ class RecoveryCounter {
         };
     }
     
-    // ==================== سوء التغذية ====================
     static #getPoorNutritionMessages(days, hours, minutes) {
         return {
             firstDay: [
@@ -1135,7 +1121,6 @@ class RecoveryCounter {
         };
     }
     
-    // ==================== الخمول وقلة الحركة ====================
     static #getInactivityMessages(days, hours, minutes) {
         return {
             firstDay: [
@@ -1201,7 +1186,6 @@ class RecoveryCounter {
         };
     }
     
-    // ==================== اضطرابات النوم ====================
     static #getSleepDisorderMessages(days, hours, minutes) {
         return {
             firstDay: [
@@ -1267,7 +1251,6 @@ class RecoveryCounter {
         };
     }
     
-    // ==================== الإفراط في الكافيين ====================
     static #getCaffeineMessages(days, hours, minutes) {
         return {
             firstDay: [
@@ -1333,7 +1316,6 @@ class RecoveryCounter {
         };
     }
     
-    // ==================== قضم الأظافر ====================
     static #getNailBitingMessages(days, hours, minutes) {
         return {
             firstDay: [
@@ -1399,7 +1381,6 @@ class RecoveryCounter {
         };
     }
     
-    // ==================== التنمر ====================
     static #getBullyingMessages(days, hours, minutes) {
         return {
             firstDay: [
@@ -1465,7 +1446,6 @@ class RecoveryCounter {
         };
     }
     
-    // ==================== العزلة الاجتماعية ====================
     static #getIsolationMessages(days, hours, minutes) {
         return {
             firstDay: [
@@ -1531,7 +1511,6 @@ class RecoveryCounter {
         };
     }
     
-    // ==================== مراحل التعافي ====================
     static getMilestones(stats) {
         const days = stats.totalDays;
         const milestones = [];

@@ -16,7 +16,7 @@ class NotificationService {
                (typeof window.webkit !== 'undefined' && ua.includes('mobile'));
     }
     
-    // إرسال إشعار
+    // send Notification
     static async sendNotification(title, options) {
         if (this.isWebView()) {
             // داخل WebView - إظهار تنبيه داخل التطبيق
@@ -24,18 +24,18 @@ class NotificationService {
             return;
         }
         
-        // متصفح عادي - استخدام Notification API
+        // using Notification API
         if (!('Notification' in window)) return;
         if (Notification.permission !== 'granted') return;
         
         var defaultOptions = {
-            icon: '/assets/icons/icon-192.png', // قريباَ
-            badge: '/assets/icons/icon-72.png', // قريباً
-            vibrate: [200, 100, 200],
-            tag: 'taafi-reminder', // قريباَ
-            renotify: true,
-            requireInteraction: false,
-            silent: false
+            // icon: '.png', 
+            // badge: '.png',
+            // vibrate: [200, 100, 200],
+            // tag: '', 
+            // renotify: true,
+            // requireInteraction: false,
+            // silent: false
         };
         
         if (typeof options === 'object') {
@@ -57,17 +57,17 @@ class NotificationService {
         }
     }
     
-    // إظهار تنبيه داخل التطبيق (لـ WebView)
+    // (WebView)
     static showInAppNotification(title, body) {
         if (typeof showToast === 'function') {
             showToast(title + ': ' + body);
         }
         
-        // أيضاً إظهار كـ console
+        // show for console
         console.log('[Notification]', title, body);
     }
     
-    // إرسال تذكير يومي
+    // send remamber every day
     static async sendDailyReminder() {
         var settings = StorageManager.getSettings();
         if (!settings.notifications || !settings.dailyReminder) return;
@@ -91,11 +91,10 @@ class NotificationService {
         await this.sendNotification(msg.title, msg.body);
     }
     
-    // جدولة التذكير اليومي
     static scheduleDailyReminder() {
         var self = this;
         
-        // فحص كل دقيقة
+        // Chacking all (1Minutes) = (60s)
         setInterval(function() {
             var now = new Date();
             var settings = StorageManager.getSettings();

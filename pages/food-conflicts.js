@@ -1,3 +1,12 @@
+/**
+ * Developer: Mohammed Al-Baqer
+ * Website: https://wsl-iq.github.io/teaafi/
+ * Copyright (c) 2026 Mohammed Al-Baqer
+ * Folder : pages
+ * File   : food-conflicts.js
+ * Type: JavaScript
+ */
+
 function renderFoodConflictsPage() {
     var mainContent = document.getElementById('main-content');
     
@@ -9,7 +18,6 @@ function renderFoodConflictsPage() {
             </h1>
             <p class="text-secondary mb-6">أدخل مكونات وجبتك لتحليل التعارضات بشكل دقيق</p>
             
-            <!-- نظام إدخال المكونات -->
             <div class="card" style="margin-bottom:16px;">
                 <h3 style="margin-bottom:12px;">
                     <i class="fas fa-list-ul" style="margin-left:8px;"></i> مكونات الوجبة
@@ -24,7 +32,6 @@ function renderFoodConflictsPage() {
                     </button>
                 </div>
                 
-                <!-- اقتراحات سريعة -->
                 <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;">
                     <span class="quick-ingredient" onclick="quickAddIngredient('حليب')">حليب</span>
                     <span class="quick-ingredient" onclick="quickAddIngredient('بيض')">بيض</span>
@@ -44,7 +51,6 @@ function renderFoodConflictsPage() {
                     <span class="quick-ingredient" onclick="quickAddIngredient('خبز')">خبز</span>
                 </div>
                 
-                <!-- المكونات المضافة -->
                 <div id="ingredient-tags" style="display:flex;flex-wrap:wrap;gap:8px;min-height:40px;margin-bottom:12px;">
                     <p style="color:var(--text-tertiary);font-size:13px;">لم تضف أي مكونات بعد</p>
                 </div>
@@ -54,7 +60,6 @@ function renderFoodConflictsPage() {
                 </button>
             </div>
             
-            <!-- نتيجة التحليل -->
             <div id="analysis-result"></div>
             
             <!-- قاعدة بيانات التعارضات -->
@@ -87,7 +92,6 @@ function renderFoodConflictsPage() {
     `;
 }
 
-// ==================== نظام إدارة المكونات ====================
 var mealIngredients = [];
 
 function addIngredient() {
@@ -96,7 +100,7 @@ function addIngredient() {
     
     var ingredient = input.value.trim();
     
-    // تحقق من التكرار
+    // Chacking from loop
     if (mealIngredients.indexOf(ingredient) !== -1) {
         if (typeof showToast === 'function') showToast('هذا المكون مضاف مسبقاً');
         input.value = '';
@@ -143,13 +147,11 @@ function renderIngredientTags() {
         }).join('');
     }
     
-    // تفعيل زر التحليل إذا كان هناك مكونان على الأقل
     if (analyzeBtn) {
         analyzeBtn.disabled = mealIngredients.length < 2;
     }
 }
 
-// ==================== نظام التحليل الذكي ====================
 function analyzeMeal() {
     if (mealIngredients.length < 2) {
         if (typeof showToast === 'function') showToast('أضف مكونين على الأقل للتحليل');
@@ -159,22 +161,18 @@ function analyzeMeal() {
     var resultDiv = document.getElementById('analysis-result');
     if (!resultDiv) return;
     
-    // تحليل جميع التركيبات الممكنة
     var conflicts = [];
     var safeCombos = [];
     
-    // فحص كل زوج من المكونات
     for (var i = 0; i < mealIngredients.length; i++) {
         for (var j = i + 1; j < mealIngredients.length; j++) {
             var combo = mealIngredients[i] + ' + ' + mealIngredients[j];
             var reverseCombo = mealIngredients[j] + ' + ' + mealIngredients[i];
             
-            // البحث في قاعدة البيانات
             var found = false;
             for (var k = 0; k < FOOD_CONFLICTS.length; k++) {
                 var dbCombo = FOOD_CONFLICTS[k].combo;
                 
-                // فحص مباشر
                 if (dbCombo.includes(mealIngredients[i]) && dbCombo.includes(mealIngredients[j])) {
                     if (FOOD_CONFLICTS[k].severity !== 'آمن') {
                         conflicts.push({
@@ -203,7 +201,6 @@ function analyzeMeal() {
         }
     }
     
-    // بناء نتيجة التحليل
     var totalPairs = conflicts.length + safeCombos.length;
     
     resultDiv.innerHTML = `
@@ -213,7 +210,6 @@ function analyzeMeal() {
                 نتيجة التحليل
             </h3>
             
-            <!-- ملخص -->
             <div style="display:flex;gap:12px;margin-bottom:20px;text-align:center;">
                 <div style="flex:1;background:${conflicts.length > 0 ? '#FCE4EC' : '#E8F5E9'};padding:16px;border-radius:12px;">
                     <div style="font-size:28px;font-weight:700;color:${conflicts.length > 0 ? '#C62828' : '#4CAF50'};">${conflicts.length}</div>
@@ -229,14 +225,12 @@ function analyzeMeal() {
                 </div>
             </div>
             
-            <!-- الحكم النهائي -->
             <div style="text-align:center;padding:16px;border-radius:12px;margin-bottom:20px;${conflicts.length === 0 ? 'background:#E8F5E9;color:#2E7D32;' : 'background:#FCE4EC;color:#C62828;'}">
                 <i class="fas ${conflicts.length === 0 ? 'fa-check-circle' : 'fa-exclamation-triangle'}" style="font-size:24px;margin-bottom:8px;display:block;"></i>
                 <strong style="font-size:18px;">${conflicts.length === 0 ? 'الوجبة آمنة - لا توجد تعارضات' : 'يوجد ' + conflicts.length + ' تعارض في الوجبة'}</strong>
                 ${conflicts.length > 0 ? '<p style="font-size:13px;margin-top:4px;">ينصح بتجنب التركيبات المتعارضة</p>' : ''}
             </div>
             
-            <!-- قائمة المكونات المحللة -->
             <div style="margin-bottom:16px;">
                 <strong>المكونات المحللة:</strong>
                 <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;">
@@ -247,7 +241,6 @@ function analyzeMeal() {
             </div>
             
             ${conflicts.length > 0 ? `
-                <!-- التعارضات -->
                 <h4 style="color:#C62828;margin-bottom:12px;">
                     <i class="fas fa-exclamation-triangle"></i> التعارضات المكتشفة
                 </h4>
@@ -263,7 +256,6 @@ function analyzeMeal() {
             ` : ''}
             
             ${safeCombos.length > 0 ? `
-                <!-- التركيبات الآمنة -->
                 <h4 style="color:#2E7D32;margin-bottom:12px;margin-top:16px;">
                     <i class="fas fa-check-circle"></i> التركيبات الآمنة
                 </h4>
@@ -279,11 +271,10 @@ function analyzeMeal() {
         </div>
     `;
     
-    // تمرير للنتيجة
     resultDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
-// ==================== أنماط CSS ====================
+// CSS 
 var foodConflictStyles = document.createElement('style');
 foodConflictStyles.textContent = `
     .ingredient-tag {
