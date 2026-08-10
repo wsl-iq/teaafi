@@ -1,34 +1,46 @@
 /**
  * Developer: Mohammed Al-Baqer
+ * Website: https://wsl-iq.github.io/teaafi/
+ * Copyright (c) 2026 Mohammed Al-Baqer
  * Folder : js
  * File   : router.js
- *
- * نظام التنقل بين صفحات تطبيق تعافي
- *
- * الحل:
- * - كل صفحة يتم Render لها أول مرة فقط.
- * - HTML الخاص بالصفحة يتم حفظه في Cache.
- * - عند الرجوع للصفحة يتم استرجاع HTML المحفوظ.
- * - هذا يمنع إعادة بناء الصفحة من الصفر.
+ * Type: JavaScript
  */
+
 class Router {
 
-    // الصفحة الحالية
+    // Current page
     static #currentPage = 'home';
-
     /*
-     * Cache خاص بمحتوى الصفحات.
-     *
-     * مثال:
-     *
-     * home → HTML الصفحة الرئيسية
-     * settings → HTML الإعدادات
-     * calendar → HTML التقويم
+     * Cache Specific to the content of the pages.
+     * example:
+     * home → HTML
+     * settings → HTML 
+     * calendar → HTML 
      */
     static #pageCache = new Map();
 
+    /**
+     * Create a back button
+     * It is added automatically to each page.
+     */
+    static #addBackButton(container) {
+        // Make sure the button is not already there
+        if (container.querySelector('.back-button')) {
+            return;
+        }
+        
+        const backButton = document.createElement('button');
+        backButton.className = 'back-button';
+        backButton.innerHTML = '<i class="fas fa-arrow-right"></i> رجوع';
+        backButton.onclick = () => window.history.back();
+        
+        // Add the button at the top of the page
+        container.insertBefore(backButton, container.firstChild);
+    }
+
     /*
-     * قائمة الصفحات ودوال Render الخاصة بها.
+     * A list of pages and their (Render) functions.
      */
     static #pages = {
         home: 'renderHomePage',
@@ -51,13 +63,34 @@ class Router {
         'food-conflicts': 'renderFoodConflictsPage'
     };
 
+    static #cacheCurrentPage(mainContent) {
+        if (
+            !this.#currentPage ||
+            !mainContent ||
+            this.#pageCache.has(this.#currentPage)
+        ) {
+            return;
+        }
+
+        this.#pageCache.set(
+            this.#currentPage,
+            mainContent.innerHTML
+        );
+        console.log(
+            `[Router] Cached page: ${this.#currentPage}`
+        );
+    }
+
+    static #restorePage(page, mainContent) {
+        console.log(`[Router] Restoring cached page: ${page}`);
+        mainContent.innerHTML = this.#pageCache.get(page);
+    }
+
     /**
-     * =====================================================
-     * الانتقال إلى صفحة
-     * =====================================================
+     * Go to page
      */
     static navigateTo(page) {
-        // التأكد أن الصفحة موجودة
+        // Make sure the page exists
         if (!this.#pages[page]) {
             console.error(
                 'Page not found:',
@@ -66,10 +99,10 @@ class Router {
             return;
         }
 
-        // الحصول على main-content
+        // Get main-content
         const mainContent = document.getElementById('main-content');
 
-        // حماية
+        // security
         if (!mainContent) {
             console.error(
                 'main-content not found.'
@@ -77,43 +110,34 @@ class Router {
             return;
         }
 
-        /*
-         * إذا المستخدم ضغط على نفس الصفحة
-         * لا نعيد Render.
-         */
-        if (this.#currentPage === page) {
+        if (
+            this.#currentPage === page &&
+            this.#pageCache.has(page)
+        ) {
             mainContent.scrollTop = 0;
             return;
         }
 
-        /*
-         * -------------------------------------------------
-         * إذا الصفحة موجودة في Cache
-         * -------------------------------------------------
-         *
-         * نسترجع HTML القديم مباشرة.
-         *
-         * ملاحظة:
-         * هذا يحافظ على حالة HTML نفسها،
-         * لكنه لا يحافظ على JavaScript event listeners
-         * التي تم ربطها مباشرة بالعناصر.
-         *
-         * لذلك بعض الصفحات قد تحتاج إعادة تهيئة
-         * JavaScript بعد الرجوع إليها.
-         */
-        if (this.#pageCache.has(page)) {
-            console.log(`[Router] Restoring cached page: ${page}`);
+        // Save current page
+        this.#cacheCurrentPage(mainContent);
 
-            /*
-             * إعادة HTML المحفوظ.
-             */
-            mainContent.innerHTML = this.#pageCache.get(page);
+        // Refresh the current page.
+        this.#currentPage = page;
+
+        // update Navigation.
+        this.#updateNavState(page);
+
+        // Added to history
+        window.history.pushState(
+            { page: page },
+            '',
+            `#${page}`
+        );
+
+        // Restore or create page
+        if (this.#pageCache.has(page)) {
+            this.#restorePage(page, mainContent);
         } else {
-            /*
-             * -------------------------------------------------
-             * الصفحة تفتح لأول مرة
-             * -------------------------------------------------
-             */
             const renderFunction = this.#pages[page];
 
             if (
@@ -125,44 +149,25 @@ class Router {
                 return;
             }
 
-            /*
-             * تشغيل دالة الصفحة.
-             *
-             * مثال:
-             *
-             * renderSettingsPage()
-             */
             window[renderFunction]();
-
-            /*
-             * بعد انتهاء الـ Render:
-             *
-             * نحفظ HTML الصفحة داخل Cache.
-             */
-            this.#pageCache.set(
-                page,
-                mainContent.innerHTML
-            );
-            console.log(`[Router] Cached page: ${page}`);
+            this.#cacheCurrentPage(mainContent);
         }
 
-        /*
-         * تحديث الصفحة الحالية.
-         */
-        this.#currentPage = page;
+        // Add a back button automatically (for all pages except home)
+        if (page !== 'home') {
+            const container =
+                mainContent.querySelector('.animate-fade-in') ||
+                mainContent.firstChild;
 
-        /*
-         * تحديث Navigation.
-         */
-        this.#updateNavState(page);
+            if (container) {
+                this.#addBackButton(container);
+            }
+        }
 
-        /*
-         * إرجاع Scroll إلى الأعلى.
-         */
         mainContent.scrollTop = 0;
 
         /*
-         * حفظ آخر صفحة.
+         * save last page
          */
         if (
             typeof StorageManager !== 'undefined' &&
@@ -176,9 +181,7 @@ class Router {
     }
 
     /**
-     * =====================================================
-     * تحديث Navigation
-     * =====================================================
+     * update Navigation
      */
     static #updateNavState(page) {
         /*
@@ -213,24 +216,17 @@ class Router {
     }
 
     /**
-     * =====================================================
-     * الحصول على الصفحة الحالية
-     * =====================================================
+     * Get the current page
      */
     static getCurrentPage() {
         return this.#currentPage;
     }
 
     /**
-     * =====================================================
-     * حذف Cache صفحة معينة
-     *
-     * استخدمها إذا أردت إجبار صفحة على إعادة Render.
-     *
-     * مثال:
-     *
+     * Delete the cache of a specific page
+     * Use this if you want to force a page to re-render.
+     * Example:
      * Router.clearPageCache('calendar');
-     * =====================================================
      */
     static clearPageCache(page) {
         this.#pageCache.delete(page);
@@ -238,9 +234,9 @@ class Router {
     }
 
     /**
-     * =====================================================
-     * حذف Cache جميع الصفحات
-     * =====================================================
+     
+     * Delete all page cache
+     
      */
     static clearAllPageCache() {
         this.#pageCache.clear();
@@ -249,30 +245,37 @@ class Router {
 }
 
 /**
- * =========================================================
- * navigateTo القديمة
- * =========================================================
+ * navigateTo old
  *
- * نخليها حتى كل المشروع يبقى متوافق.
- *
- * أي مكان عندك:
- *
+ * We keep it that way so that the whole project remains compatible.
+ * Anywhere you have:
  * navigateTo('settings');
- *
- * سيستمر بالعمل.
- * =========================================================
+ * It will continue to operate.
  */
 function navigateTo(page) {
     /*
-     * تنظيف Counter عند الخروج.
+     * clear Counter if exit
      */
     if (typeof cleanupCounter === 'function') {
         cleanupCounter();
     }
 
     /*
-     * استخدام Router الجديد.
+     * using Router modren.
      */
     Router.navigateTo(page);
 }
 
+// Support for the (back) button in the browser and device
+
+window.addEventListener('popstate', function(event) {
+    if (event.state && event.state.page) {
+        Router.navigateTo(event.state.page);
+    }
+});
+
+// Prevent exit when returning to the homepage
+window.addEventListener('beforeunload', function(e) {
+     // If there are previous pages, we do not display a warning.
+    // You can modify this as needed.
+});

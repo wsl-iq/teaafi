@@ -590,7 +590,7 @@ function renderHomePage() {
         typeof APP_VERSION !== 'undefined' &&
         compareVersions(updateAvailable.version, APP_VERSION) > 0;
     
-    // إنشاء الحاوية
+    // Container creation
     const container = document.createElement('div');
     container.className = 'animate-fade-in';
     container.innerHTML = `

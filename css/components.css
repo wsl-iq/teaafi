@@ -2978,3 +2978,33 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
         display: none;
     }
 }
+
+/* button Back */
+
+.back-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    margin-bottom: 12px;
+    background: var(--surface);
+    color: var(--primary);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    direction: rtl;
+}
+
+.back-button:hover {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+    transform: translateX(-2px);
+}
+
+.back-button i {
+    font-size: 0.8rem;
+}

@@ -528,7 +528,7 @@ function renderSettingsPage() {
                         </div>
                     </div>
                     <div style="display: flex; align-items: center; gap: 8px;">
-                        <span style="font-size: 11px; color: #E91E63; background: #FCE4EC; padding: 4px 10px; border-radius: 20px; font-weight: 500;">22 مميزات</span>
+                        <span style="font-size: 11px; color: #E91E63; background: #FCE4EC; padding: 4px 10px; border-radius: 20px; font-weight: 500;">23 مميزات</span>
                         <i class="fas fa-chevron-down" id="changelog-arrow" style="color: var(--text-tertiary); font-size: 14px; transition: transform 0.3s ease;"></i>
                     </div>
                 </div>
@@ -557,6 +557,7 @@ function renderSettingsPage() {
                         <li>20- تصحيح الأخطاء الواجهة الرئيسية</li>
                         <li>21- أضافة التقويم الهجري والميلادي مع الساعة</li>
                         <li>22- التعديل على السياسات والقوانين أضافة بعض الشروط الصارمة</li>
+                        <li>23-إمكانية الرجوع للصفحة السابقة وتصحيح الإخطاء</li>
                     </ul>
                 </div>
             </div>
