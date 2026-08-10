@@ -315,3 +315,4 @@ function renderHabitsPage() {
         </div>
     `;
 }
+

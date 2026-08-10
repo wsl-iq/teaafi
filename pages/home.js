@@ -572,7 +572,7 @@ function renderHomePage() {
     const mainContent = document.getElementById('main-content');
     if (!mainContent) return;
 
-    // تفريغ المحتوى القديم
+    // Unpacking old content
     while (mainContent.firstChild) {
         mainContent.removeChild(mainContent.firstChild);
     }
@@ -958,4 +958,73 @@ function handleBackup() {
         }
     }
 }
+
+// Function to check for updates by comparing remote version
+function checkForUpdates(options) {
+    options = options || {};
+    var remoteUrl = options.remoteUrl || 'https://raw.githubusercontent.com/wsl-iq/teaafi/refs/heads/main/version.txt';
+    var localUrl = options.localUrl || './version.txt';
+    
+    var currentVersion = null;
+    var updateAvailable = null;
+
+    // Get local version
+    fetch(localUrl, { cache: 'no-cache' })
+        .then(function(res) { if (!res.ok) throw new Error('Failed to fetch local version'); return res.text(); })
+        .then(function(text) {
+            try {
+                var localData = JSON.parse(text);
+                currentVersion = localData.version;
+            } catch (e) {
+                console.warn('Failed to parse local version:', e);
+            }
+            
+            // Get remote version
+            return fetch(remoteUrl, { cache: 'no-cache' });
+        })
+        .then(function(res) { if (!res.ok) throw new Error('Failed to fetch remote version'); return res.text(); })
+        .then(function(text) {
+            try {
+                var remoteData = JSON.parse(text);
+                var remoteVersion = remoteData.version;
+                
+                if (!remoteVersion || !currentVersion) return;
+                if (currentVersion !== remoteVersion) {
+                    updateAvailable = remoteData;
+                    
+                    // show update notification bar
+                    var existing = document.querySelector('.update-notification-bar');
+                    if (existing) return;
+                    
+                    var container = document.createElement('div');
+                    container.className = 'animate-fade-in';
+                    container.innerHTML = `
+                        <div class="update-notification-bar" onclick="navigateTo('settings'); setTimeout(function() { var el = document.getElementById('update-status'); if (el) el.scrollIntoView({ behavior: 'smooth' }); }, 500);">
+                            <div class="update-dot"></div>
+                            <div class="update-text">
+                                <span>يوجد تحديث جديد v${updateAvailable.version}</span>
+                                <i class="fas fa-arrow-left" style="font-size: 12px;"></i>
+                            </div>
+                            <button class="update-close-btn" onclick="event.stopPropagation(); dismissUpdateNotification();">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    `;
+                    document.body.appendChild(container);
+                    
+                    if (StorageManager && typeof StorageManager.set === 'function') {
+                        StorageManager.set('update_notification_dismissed', Date.now());
+                    }
+                }
+            } catch (e) {
+                console.warn('Failed to parse remote version:', e);
+            }
+        })
+        .catch(function(err) {
+            console.warn('Update check failed:', err);
+        });
+}
+
+// رجوع للعادات
+
 

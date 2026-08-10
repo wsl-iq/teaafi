@@ -11,37 +11,40 @@ class Router {
 
     // Current page
     static #currentPage = 'home';
-    /*
-     * Cache Specific to the content of the pages.
-     * example:
-     * home → HTML
-     * settings → HTML 
-     * calendar → HTML 
-     */
+    
+    // Pages that should NOT be cached (rebuilt every time)
+    static #noCachePages = [
+        'habits',
+        'recovery', 
+        'calendar',
+        'tasbih',
+        'stats',
+        'journal',
+        'breath'
+    ];
+    
+    // Page cache storage
     static #pageCache = new Map();
 
     /**
-     * Create a back button
-     * It is added automatically to each page.
+     * Create and add back button to page
      */
     static #addBackButton(container) {
-        // Make sure the button is not already there
-        if (container.querySelector('.back-button')) {
+        if (!container || container.querySelector('.back-button')) {
             return;
         }
         
         const backButton = document.createElement('button');
         backButton.className = 'back-button';
         backButton.innerHTML = '<i class="fas fa-arrow-right"></i> رجوع';
-        backButton.onclick = () => window.history.back();
+        backButton.onclick = () => {
+            this.navigateTo('home');
+        };
         
-        // Add the button at the top of the page
         container.insertBefore(backButton, container.firstChild);
     }
 
-    /*
-     * A list of pages and their (Render) functions.
-     */
+    // Page registry: page name → render function
     static #pages = {
         home: 'renderHomePage',
         habits: 'renderHabitsPage',
@@ -63,219 +66,200 @@ class Router {
         'food-conflicts': 'renderFoodConflictsPage'
     };
 
+    /**
+     * Cache current page HTML
+     */
     static #cacheCurrentPage(mainContent) {
-        if (
-            !this.#currentPage ||
-            !mainContent ||
-            this.#pageCache.has(this.#currentPage)
-        ) {
-            return;
-        }
+        if (!this.#currentPage || !mainContent) return;
+        
+        // Skip dynamic pages
+        if (this.#noCachePages.includes(this.#currentPage)) return;
+        
+        // Already cached
+        if (this.#pageCache.has(this.#currentPage)) return;
 
+        // Store page HTML
         this.#pageCache.set(
             this.#currentPage,
             mainContent.innerHTML
         );
-        console.log(
-            `[Router] Cached page: ${this.#currentPage}`
-        );
-    }
-
-    static #restorePage(page, mainContent) {
-        console.log(`[Router] Restoring cached page: ${page}`);
-        mainContent.innerHTML = this.#pageCache.get(page);
     }
 
     /**
-     * Go to page
+     * Restore page from cache
+     */
+    static #restorePage(page, mainContent) {
+        const cachedHTML = this.#pageCache.get(page);
+        if (!cachedHTML) return false;
+        
+        mainContent.innerHTML = cachedHTML;
+        return true;
+    }
+
+    /**
+     * Navigate to a page
      */
     static navigateTo(page) {
-        // Make sure the page exists
+        // Validate page exists
         if (!this.#pages[page]) {
-            console.error(
-                'Page not found:',
-                page
-            );
+            console.error('Page not found:', page);
             return;
         }
 
-        // Get main-content
         const mainContent = document.getElementById('main-content');
-
-        // security
         if (!mainContent) {
-            console.error(
-                'main-content not found.'
-            );
+            console.error('main-content not found.');
             return;
         }
 
-        if (
-            this.#currentPage === page &&
-            this.#pageCache.has(page)
-        ) {
+        // Same page, no action needed
+        if (this.#currentPage === page && this.#pageCache.has(page)) {
             mainContent.scrollTop = 0;
             return;
         }
 
-        // Save current page
+        // Cache current page before leaving
         this.#cacheCurrentPage(mainContent);
 
-        // Refresh the current page.
+        // Update current page
+        const previousPage = this.#currentPage;
         this.#currentPage = page;
 
-        // update Navigation.
+        // Update navigation indicators
         this.#updateNavState(page);
 
-        // Added to history
-        window.history.pushState(
-            { page: page },
-            '',
-            `#${page}`
-        );
+        // Push to browser history
+        if (!window.history.state || window.history.state.page !== page) {
+            window.history.pushState(
+                { page: page, previous: previousPage },
+                '',
+                `#${page}`
+            );
+        }
 
-        // Restore or create page
-        if (this.#pageCache.has(page)) {
+        // Render page (from cache or fresh)
+        if (this.#pageCache.has(page) && !this.#noCachePages.includes(page)) {
+            // Restore from cache
             this.#restorePage(page, mainContent);
         } else {
+            // Clear cache for dynamic pages
+            if (this.#noCachePages.includes(page)) {
+                this.#pageCache.delete(page);
+            }
+            
+            // Call render function
             const renderFunction = this.#pages[page];
-
-            if (
-                typeof window[renderFunction] !== 'function'
-            ) {
-                console.error(
-                    `Render function "${renderFunction}" not found.`
-                );
+            if (typeof window[renderFunction] !== 'function') {
+                console.error(`Render function "${renderFunction}" not found.`);
                 return;
             }
 
+            // Clear old content
+            mainContent.innerHTML = '';
+            
+            // Render page
             window[renderFunction]();
-            this.#cacheCurrentPage(mainContent);
+            
+            // Cache after rendering
+            setTimeout(() => {
+                this.#cacheCurrentPage(mainContent);
+            }, 100);
         }
 
-        // Add a back button automatically (for all pages except home)
-        if (page !== 'home') {
-            const container =
-                mainContent.querySelector('.animate-fade-in') ||
-                mainContent.firstChild;
-
-            if (container) {
-                this.#addBackButton(container);
+        // Add back button to all pages except home
+        setTimeout(() => {
+            if (page !== 'home') {
+                const container = mainContent.querySelector('.animate-fade-in') || 
+                                 mainContent.querySelector('.page-container') ||
+                                 mainContent.firstElementChild;
+                
+                if (container) {
+                    this.#addBackButton(container);
+                }
             }
-        }
+        }, 150);
 
         mainContent.scrollTop = 0;
 
-        /*
-         * save last page
-         */
-        if (
-            typeof StorageManager !== 'undefined' &&
-            typeof StorageManager.set === 'function'
-        ) {
-            StorageManager.set(
-                'last_page',
-                page
-            );
+        // Save last visited page
+        if (typeof StorageManager !== 'undefined' && typeof StorageManager.set === 'function') {
+            StorageManager.set('last_page', page);
         }
     }
 
     /**
-     * update Navigation
+     * Go back to home page
      */
-    static #updateNavState(page) {
-        /*
-         * Bottom Navigation
-         */
-        document
-            .querySelectorAll('.nav-item')
-            .forEach(item => {
-                item.classList.remove('active');
-
-                if (
-                    item.dataset.page === page
-                ) {
-                    item.classList.add('active');
-                }
-            });
-
-        /*
-         * Sidebar
-         */
-        document
-            .querySelectorAll('.nav-link')
-            .forEach(link => {
-                link.classList.remove('active');
-
-                if (
-                    link.dataset.page === page
-                ) {
-                    link.classList.add('active');
-                }
-            });
+    static goHome() {
+        this.navigateTo('home');
     }
 
     /**
-     * Get the current page
+     * Update bottom nav and sidebar active states
+     */
+    static #updateNavState(page) {
+        // Bottom Navigation
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.classList.remove('active');
+            if (item.dataset.page === page) {
+                item.classList.add('active');
+            }
+        });
+
+        // Sidebar
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.classList.remove('active');
+            if (link.dataset.page === page) {
+                link.classList.add('active');
+            }
+        });
+    }
+
+    /**
+     * Get current page name
      */
     static getCurrentPage() {
         return this.#currentPage;
     }
 
     /**
-     * Delete the cache of a specific page
-     * Use this if you want to force a page to re-render.
-     * Example:
-     * Router.clearPageCache('calendar');
+     * Clear cache for a specific page
      */
     static clearPageCache(page) {
         this.#pageCache.delete(page);
-        console.log(`[Router] Cache cleared: ${page}`);
     }
 
     /**
-     
-     * Delete all page cache
-     
+     * Clear all page cache
      */
     static clearAllPageCache() {
         this.#pageCache.clear();
-        console.log('[Router] All page cache cleared.');
     }
 }
 
 /**
- * navigateTo old
- *
- * We keep it that way so that the whole project remains compatible.
- * Anywhere you have:
- * navigateTo('settings');
- * It will continue to operate.
+ * Legacy navigateTo function - kept for backward compatibility
  */
 function navigateTo(page) {
-    /*
-     * clear Counter if exit
-     */
     if (typeof cleanupCounter === 'function') {
         cleanupCounter();
     }
-
-    /*
-     * using Router modren.
-     */
     Router.navigateTo(page);
 }
 
-// Support for the (back) button in the browser and device
+/**
+ * Go to home page
+ */
+function goHome() {
+    Router.goHome();
+}
 
+// Browser back button support
 window.addEventListener('popstate', function(event) {
     if (event.state && event.state.page) {
         Router.navigateTo(event.state.page);
+    } else {
+        // No history - go home
+        Router.navigateTo('home');
     }
-});
-
-// Prevent exit when returning to the homepage
-window.addEventListener('beforeunload', function(e) {
-     // If there are previous pages, we do not display a warning.
-    // You can modify this as needed.
 });
