@@ -14,10 +14,10 @@
 namespace {
     // Node structure representing each cache entry in the doubly-linked list
     struct Node {
-        int key;           // Integer key for cache lookup
+        int key;            // Integer key for cache lookup
         char* val;         // Pointer to dynamically allocated string value
-        Node* next;        // Pointer to the next (more recent) node
-        Node* prev;        // Pointer to the previous (less recent) node
+        Node* next;       // Pointer to the next (more recent) node
+        Node* prev;      // Pointer to the previous (less recent) node
     };
     
     // Pointer to the head (most recently used) node of the doubly-linked list
@@ -48,10 +48,10 @@ void cache_init(int max) {
     
     // Iterate through the entire linked list and delete all nodes
     while (head) { 
-        Node* t = head;           // Temporary pointer to current head
+        Node* t = head;             // Temporary pointer to current head
         head = head->next;         // Move head to next node
-        delete[] t->val;           // Free the dynamically allocated string
-        delete t;                  // Free the node structure
+        delete[] t->val;          // Free the dynamically allocated string
+        delete t;                // Free the node structure
     }
     
     // Reset pointers and counter
@@ -128,13 +128,13 @@ void cache_put(int key, const char* val) {
     
     // Evict least recently used (tail) nodes if cache exceeds max capacity
     while (count >= max_items && tail) {
-        Node* t = tail;                    // Temporary pointer to tail node
+        Node* t = tail;                        // Temporary pointer to tail node
         if (t->prev) t->prev->next = nullptr; // Unlink tail from the list
-        tail = t->prev;                    // Move tail pointer backward
-        if (head == t) head = nullptr;     // If only one node existed, clear head
+        tail = t->prev;                      // Move tail pointer backward
+        if (head == t) head = nullptr;      // If only one node existed, clear head
         delete[] t->val;                   // Free the evicted node's string
-        delete t;                          // Free the evicted node
-        count--;                           // Decrement cache size
+        delete t;                         // Free the evicted node
+        count--;                         // Decrement cache size
     }
     
     // Create and initialize new node with the provided key-value pair
