@@ -7,6 +7,567 @@
  * Type: JavaScript
  */
 
+// Names of the days of the week
+const weekDays = [
+    'الأحد',
+    'الإثنين',
+    'الثلاثاء',
+    'الأربعاء',
+    'الخميس',
+    'الجمعة',
+    'السبت'
+];
+
+// Names of the Islamic months
+const hijriMonths = [
+    'محرم',
+    'صفر',
+    'ربيع الأول',
+    'ربيع الثاني',
+    'جمادى الأولى',
+    'جمادى الآخرة',
+    'رجب',
+    'شعبان',
+    'رمضان',
+    'شوال',
+    'ذو القعدة',
+    'ذو الحجة'
+];
+
+// Names of the months of the Gregorian calendar
+const gregorianMonths = [
+    'يناير',
+    'فبراير',
+    'مارس',
+    'إبريل',
+    'مايو',
+    'يونيو',
+    'يوليو',
+    'أغسطس',
+    'سبتمبر',
+    'أكتوبر',
+    'نوفمبر',
+    'ديسمبر'
+];
+
+// Names used in (Iraq)
+const gregorianMonthsAlt = [
+    'كانون الثاني',
+    'شباط',
+    'آذار',
+    'نيسان',
+    'أيار',
+    'حزيران',
+    'تموز',
+    'آب',
+    'أيلول',
+    'تشرين الأول',
+    'تشرين الثاني',
+    'كانون الأول'
+];
+
+/** 
+ * API
+ */
+
+const HIJRI_API_URL =
+    'https://mumineen.org/api/v1/calendar/';
+
+// System variables
+
+let dateInterval = null;
+let lastFetchedDate = null;
+
+// Converting numbers to Arabic
+
+function toArabicNumbers(value) {
+    return String(value).replace(
+        /\d/g,
+        digit => '٠١٢٣٤٥٦٧٨٩'[digit]
+        // digit => '0123456789'[digit]
+    );
+}
+
+// Obtaining the Gregorian date in (API) format
+
+function getGregorianDateString(date) {
+
+    const year = date.getFullYear();
+
+    const month = String(
+        date.getMonth() + 1
+    ).padStart(2, '0');
+
+    const day = String(
+        date.getDate()
+    ).padStart(2, '0');
+
+    return `${year}-${month}-${day}`;
+}
+
+// Displaying the Hijri date
+
+function displayHijriDate(year, month, day) {
+    const element = document.getElementById('hijri-date');
+    if (!element) return;
+
+    const monthNumber = parseInt(month, 10);
+    const monthName = hijriMonths[monthNumber - 1] || 'غير معروف';
+
+    element.innerHTML = `
+        <span class="date-value">
+            ${toArabicNumbers(year)}-${toArabicNumbers(String(monthNumber).padStart(2, '0'))}-${toArabicNumbers(day)}
+        </span>
+        <span class="date-month">${monthName}</span>
+    `;
+}
+
+// Retrieve the Hijri date from the API
+
+async function fetchHijriDate(date) {
+
+    const dateString =
+        getGregorianDateString(date);
+
+    try {
+
+        const response = await fetch(
+            `${HIJRI_API_URL}${dateString}?greg=true`,
+            {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json'
+                },
+                cache: 'no-store'
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error(
+                `API Error: ${response.status}`
+            );
+        }
+
+        const data =
+            await response.json();
+
+        /*
+         * API:
+         *
+         * hijri_date: "1447-07-11"
+         *
+         * or:
+         *
+         * hijri_year
+         * hijri_month
+         * hijri_day_arabic
+         */
+
+        if (!data || !data.hijri_date) {
+            throw new Error(
+                'التاريخ الهجري غير موجود في استجابة API'
+            );
+        }
+
+        const parts =
+            data.hijri_date.split('-');
+
+        if (parts.length !== 3) {
+            throw new Error(
+                'صيغة التاريخ الهجري غير صحيحة'
+            );
+        }
+
+        const hijriYear =
+            parts[0];
+
+        const hijriMonth =
+            parts[1];
+
+        const hijriDay =
+            parts[2];
+
+        displayHijriDate(
+            hijriYear,
+            hijriMonth,
+            hijriDay
+        );
+
+        lastFetchedDate =
+            dateString;
+
+        console.log(
+            'التاريخ الهجري:',
+            data.hijri_date
+        );
+
+        return true;
+
+    } catch (error) {
+
+        console.warn(
+            'فشل جلب التاريخ الهجري من API:',
+            error
+        );
+
+        /*
+         * In case of internet failure
+         * We use the local account.
+         */
+
+        const hijri =
+            gregorianToHijriLocal(date);
+
+        displayHijriDate(
+            hijri.year,
+            hijri.month,
+            hijri.day
+        );
+
+        /*
+         * We do not save the date in
+         * lastFetchedDate here,
+         * until the API is attempted
+         * again.
+         */
+
+        return false;
+    }
+}
+
+// Update Timer
+
+function updateTime() {
+
+    const now =
+        new Date();
+
+    let hours =
+        now.getHours();
+
+    const minutes =
+        String(
+            now.getMinutes()
+        ).padStart(2, '0');
+
+    const seconds =
+        String(
+            now.getSeconds()
+        ).padStart(2, '0');
+
+    const period =
+        hours >= 12
+            ? 'مساءً'
+            : 'صباحاً';
+
+    hours =
+        hours % 12 || 12;
+
+    const timeString =
+        `${hours}:${minutes}:${seconds} ${period}`;
+
+    const timeElement =
+        document.getElementById(
+            'current-time'
+        );
+
+    const dayElement =
+        document.getElementById(
+            'current-day'
+        );
+
+    if (timeElement) {
+        timeElement.textContent =
+            timeString;
+    }
+
+    if (dayElement) {
+
+        dayElement.textContent =
+            weekDays[
+                now.getDay()
+            ];
+    }
+}
+
+// Update the Gregorian calendar
+
+function updateGregorianDate() {
+    const now = new Date();
+    const day = now.getDate();
+    const month = now.getMonth();
+    const year = now.getFullYear();
+
+    const element = document.getElementById('gregorian-date');
+    if (!element) return;
+
+    element.innerHTML = `
+        <span class="date-value">
+            ${toArabicNumbers(year)}-${toArabicNumbers(month + 1)}-${toArabicNumbers(day)}
+        </span>
+        <span class="date-month">${gregorianMonths[month]} - ${gregorianMonthsAlt[month]}</span>
+    `;
+}
+
+// Date Update
+
+async function updateDate() {
+
+    const now =
+        new Date();
+
+    // Gregorian calendar
+    updateGregorianDate();
+
+    // Current date
+    const currentDate =
+        getGregorianDateString(now);
+
+    /*
+     * API requested only once
+     * Per day.
+     */
+
+    if (
+        lastFetchedDate !== currentDate
+    ) {
+
+        await fetchHijriDate(now);
+    }
+}
+
+// Local Reserve Account
+
+function gregorianToHijriLocal(date) {
+
+    const gDate =
+        new Date(date);
+
+    const gDay =
+        gDate.getDate();
+
+    const gMonth =
+        gDate.getMonth() + 1;
+
+    const gYear =
+        gDate.getFullYear();
+
+    let jd;
+
+    if (
+        (gYear > 1582) ||
+        (
+            gYear === 1582 &&
+            gMonth > 10
+        ) ||
+        (
+            gYear === 1582 &&
+            gMonth === 10 &&
+            gDay > 14
+        )
+    ) {
+
+        jd =
+            Math.floor(
+                (
+                    1461 *
+                    (
+                        gYear +
+                        4800 +
+                        Math.floor(
+                            (gMonth - 14) / 12
+                        )
+                    )
+                ) / 4
+            ) +
+
+            Math.floor(
+                (
+                    367 *
+                    (
+                        gMonth -
+                        2 -
+                        12 *
+                        Math.floor(
+                            (gMonth - 14) / 12
+                        )
+                    )
+                ) / 12
+            ) -
+
+            Math.floor(
+                (
+                    3 *
+                    Math.floor(
+                        (
+                            gYear +
+                            4900 +
+                            Math.floor(
+                                (gMonth - 14) / 12
+                            )
+                        ) / 100
+                    )
+                ) / 4
+            ) +
+
+            gDay -
+            32075;
+
+    } else {
+
+        jd =
+            367 * gYear -
+
+            Math.floor(
+                (
+                    7 *
+                    (
+                        gYear +
+                        5001 +
+                        Math.floor(
+                            (gMonth - 9) / 7
+                        )
+                    )
+                ) / 4
+            ) +
+
+            Math.floor(
+                (275 * gMonth) / 9
+            ) +
+
+            gDay +
+            1729777;
+    }
+
+    const l =
+        jd -
+        1948440 +
+        10632;
+
+    const n =
+        Math.floor(
+            (l - 1) / 10631
+        );
+
+    const l2 =
+        l -
+        10631 * n +
+        354;
+
+    const j =
+        Math.floor(
+            (10985 - l2) / 5316
+        ) *
+        Math.floor(
+            (50 * l2) / 17719
+        ) +
+
+        Math.floor(
+            l2 / 5670
+        ) *
+        Math.floor(
+            (43 * l2) / 15238
+        );
+
+    const l3 =
+        l2 -
+
+        Math.floor(
+            (30 - j) / 15
+        ) *
+        Math.floor(
+            (17719 * j) / 50
+        ) -
+
+        Math.floor(
+            j / 16
+        ) *
+        Math.floor(
+            (15238 * j) / 43
+        ) +
+
+        29;
+
+    const hMonth =
+        Math.floor(
+            (24 * l3) / 709
+        );
+
+    const hDay =
+        l3 -
+        Math.floor(
+            (709 * hMonth) / 24
+        );
+
+    const hYear =
+        30 * n +
+        j -
+        30;
+
+    return {
+        day: hDay,
+        month: hMonth,
+        year: hYear
+    };
+}
+
+// Start the system
+
+function startDateUpdates() {
+
+    // Stop any previous timer
+    if (dateInterval) {
+        clearInterval(dateInterval);
+        dateInterval = null;
+    }
+
+    /** 
+     * Very important:
+     * When returning to the homepage, new
+     * HTML elements are created, so the date must be requested again.
+     */
+    lastFetchedDate = null;
+
+    // Live update
+    updateTime();
+    updateDate();
+
+    // Time updated every second
+    dateInterval = setInterval(() => {
+
+        updateTime();
+
+        const now = new Date();
+        const currentDate = getGregorianDateString(now);
+
+        // If the day changes
+        if (lastFetchedDate !== currentDate) {
+            updateDate();
+        }
+
+    }, 1000);
+}
+
+// System shutdown
+
+function stopDateUpdates() {
+
+    if (dateInterval) {
+
+        clearInterval(
+            dateInterval
+        );
+
+        dateInterval = null;
+    }
+}
+
+/** Date and Time Display Feature
+ * Hijri + Gregorian
+ * API: Mumineen MDO API
+ * Names of the days of the week in Arabic
+ */
+
 function renderHomePage() {
     const mainContent = document.getElementById('main-content');
     if (!mainContent) {
@@ -54,6 +615,25 @@ function renderHomePage() {
                     <i class="fas fa-search" style="color: var(--text-tertiary); margin-left: 8px;"></i>
                     <span style="color: var(--text-disabled);">ابحث عن عادة، دعاء، أو أي محتوى...</span>
                     <kbd style="margin-right: auto; background: var(--surface-variant); padding: 2px 8px; border-radius: 4px; font-size: 11px; color: var(--text-tertiary);">Ctrl+K</kbd>
+                </div>
+            </div>
+
+            <div class="dual-date-container" id="dual-date">
+                <div class="date-header">
+                    <span class="current-day" id="current-day">--</span>
+                    <span class="current-time" id="current-time">--:--:-- --</span>
+                </div>
+
+                <div class="date-cards">
+                    <div class="date-card hijri-card" id="hijri-date">
+                        <span class="date-value">----</span>
+                        <span class="date-month">----</span>
+                    </div>
+
+                    <div class="date-card gregorian-card" id="gregorian-date">
+                        <span class="date-value">----</span>
+                        <span class="date-month">----</span>
+                    </div>
                 </div>
             </div>
             
@@ -323,6 +903,9 @@ function renderHomePage() {
             </div>
         </div>
     `;
+    
+    if (dateInterval) clearInterval(dateInterval);
+    startDateUpdates();
     
     // Update counter every minute
     if (recoveryStats.isActive) {

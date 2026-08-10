@@ -2919,3 +2919,62 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
 .theme-dark .conflict-db-item[style*="background:#E8F5E9"] p {
     color: #A5D6A7 !important;
 }
+
+/*
+ * Dual date display (Hijri and Gregorian)
+ * Simple classic design - Dark mode compatible
+*/
+
+.dual-date-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 6px 0;
+    margin: 4px 0;
+    direction: rtl;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.date-card {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.date-label {
+    color: var(--text-tertiary);
+    font-size: 0.75rem;
+}
+
+.date-value {
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.date-month {
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+}
+
+/* Date separator
+.date-card:first-child::after {
+    content: '|';
+    margin-right: 12px;
+    color: var(--border);
+}
+*/
+
+/* Mobile version*/
+@media (max-width: 400px) {
+    .dual-date-container {
+        flex-direction: column;
+        gap: 2px;
+        font-size: 0.8rem;
+    }
+    
+    .date-card:first-child::after {
+        display: none;
+    }
+}

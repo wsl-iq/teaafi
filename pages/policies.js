@@ -191,7 +191,8 @@ function renderPoliciesPage() {
                         • أي ضرر ناتج عن استخدام المعلومات المقدمة<br>
                         • القرارات الشخصية المبنية على محتوى التطبيق<br>
                         • فقدان البيانات في حالة مسح المتصفح<br>
-                        • عدم توافق التطبيق مع بعض المتصفحات القديمة
+                        • عدم توافق التطبيق مع بعض المتصفحات القديمة<br>
+                        • في حال تحميل التطبيق من جهة مجهولة وتعرضت لإضرار فأنا غير مسؤول
                     </p>
                 </div>
             </div>
@@ -286,16 +287,18 @@ function renderPoliciesPage() {
                         <strong>3. المساهمة بالكود:</strong> Fork ثم Pull Request<br>
                         <strong>4. المساهمة بالمحتوى:</strong> تأكد من دقة المعلومات والمصادر<br>
                         <strong>5. المساهمة بالترجمة:</strong> افتح issue للمناقشة أولاً
+                        
                     </p>
                 </div>
                 
                 <div class="subsection" style="border-right-color: #00695C;">
                     <h3 style="color: #00695C; margin-bottom: 12px;">إرشادات الكود</h3>
                     <p style="line-height: 2; color: var(--text-primary);">
-                        • استخدم HTML5 semantic elements<br>
-                        • اكتب CSS باستخدام CSS Variables<br>
-                        • استخدم JavaScript ES6+ الحديث<br>
-                        • اكتب تعليقات واضحة بالعربية<br>
+                        • أستخدام الكتابة للكود عبر :<br>
+                        • HTML5 semantic elements<br>
+                        • CSS3 CSS Variables<br>
+                        • +Vanilla JavaScript ES6<br>
+                        • اكتب تعليقات واضحة بالعربية أو الإنگليزية<br>
                         • حافظ على RTL compatibility<br>
                         • اختبر على المتصفحات المختلفة
                     </p>
