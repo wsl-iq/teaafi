@@ -570,95 +570,95 @@ function stopDateUpdates() {
 
 function renderHomePage() {
     const mainContent = document.getElementById('main-content');
-    if (!mainContent) {
-        return;
+    if (!mainContent) return;
+
+    // تفريغ المحتوى القديم
+    while (mainContent.firstChild) {
+        mainContent.removeChild(mainContent.firstChild);
     }
 
     const user = typeof StorageManager !== 'undefined' && typeof StorageManager.getUser === 'function'
-        ? StorageManager.getUser()
-        : null;
+        ? StorageManager.getUser() : null;
     const stats = typeof RecoveryCounter !== 'undefined' && typeof RecoveryCounter.getRecoveryStats === 'function'
-        ? RecoveryCounter.getRecoveryStats()
-        : null;
+        ? RecoveryCounter.getRecoveryStats() : null;
     const recoveryStats = stats || { isActive: false, days: 0, weeks: 0, months: 0, years: 0 };
 
     const updateAvailable = typeof StorageManager !== 'undefined' && typeof StorageManager.get === 'function'
-        ? StorageManager.get('update_available')
-        : null;
+        ? StorageManager.get('update_available') : null;
     const hasUpdate = updateAvailable && updateAvailable.version &&
         typeof compareVersions === 'function' &&
         typeof APP_VERSION !== 'undefined' &&
         compareVersions(updateAvailable.version, APP_VERSION) > 0;
     
-    mainContent.innerHTML = `
-        <div class="animate-fade-in">
-            ${hasUpdate ? `
-                <div class="update-notification-bar" onclick="navigateTo('settings'); setTimeout(function() { var el = document.getElementById('update-status'); if (el) el.scrollIntoView({ behavior: 'smooth' }); }, 500);">
-                    <div class="update-dot"></div>
-                    <div class="update-text">
-                        <span>يوجد تحديث جديد v${updateAvailable.version}</span>
-                        <i class="fas fa-arrow-left" style="font-size: 12px;"></i>
-                    </div>
-                    <button class="update-close-btn" onclick="event.stopPropagation(); dismissUpdateNotification();">
-                        <i class="fas fa-times"></i>
-                    </button>
+    // إنشاء الحاوية
+    const container = document.createElement('div');
+    container.className = 'animate-fade-in';
+    container.innerHTML = `
+        ${hasUpdate ? `
+            <div class="update-notification-bar" onclick="navigateTo('settings'); setTimeout(function() { var el = document.getElementById('update-status'); if (el) el.scrollIntoView({ behavior: 'smooth' }); }, 500);">
+                <div class="update-dot"></div>
+                <div class="update-text">
+                    <span>يوجد تحديث جديد v${updateAvailable.version}</span>
+                    <i class="fas fa-arrow-left" style="font-size: 12px;"></i>
                 </div>
-            ` : ''}
-
-            <div class="mb-6">
-                <h1 class="font-bold">مرحباً ${user?.name || ''}</h1>
-                <p class="text-secondary mt-2">كل يوم هو فرصة جديدة للتغيير</p>
+                <button class="update-close-btn" onclick="event.stopPropagation(); dismissUpdateNotification();">
+                    <i class="fas fa-times"></i>
+                </button>
             </div>
+        ` : ''}
+
+        <div class="mb-6">
+            <h1 class="font-bold">مرحباً ${user?.name || ''}</h1>
+            <p class="text-secondary mt-2">كل يوم هو فرصة جديدة للتغيير</p>
+        </div>
+    
+        <div class="search-bar-container" onclick="(window.SearchEngine && SearchEngine.showSearchUI) ? SearchEngine.showSearchUI() : null">
+            <div class="search-bar">
+                <i class="fas fa-search" style="color: var(--text-tertiary); margin-left: 8px;"></i>
+                <span style="color: var(--text-disabled);">ابحث عن عادة، دعاء، أو أي محتوى...</span>
+                <kbd style="margin-right: auto; background: var(--surface-variant); padding: 2px 8px; border-radius: 4px; font-size: 11px; color: var(--text-tertiary);">Ctrl+K</kbd>
+            </div>
+        </div>
+
+        <div class="dual-date-container" id="dual-date">
+            <div class="date-header">
+                <span class="current-day" id="current-day">--</span>
+                <span class="current-time" id="current-time">--:--:-- --</span>
+            </div>
+            <div class="date-cards">
+                <div class="date-card hijri-card" id="hijri-date">
+                    <span class="date-value">----</span>
+                    <span class="date-month">----</span>
+                </div>
+                <div class="date-card gregorian-card" id="gregorian-date">
+                    <span class="date-value">----</span>
+                    <span class="date-month">----</span>
+                </div>
+            </div>
+        </div>
         
-            <div class="search-bar-container" onclick="(window.SearchEngine && SearchEngine.showSearchUI) ? SearchEngine.showSearchUI() : null">
-                <div class="search-bar">
-                    <i class="fas fa-search" style="color: var(--text-tertiary); margin-left: 8px;"></i>
-                    <span style="color: var(--text-disabled);">ابحث عن عادة، دعاء، أو أي محتوى...</span>
-                    <kbd style="margin-right: auto; background: var(--surface-variant); padding: 2px 8px; border-radius: 4px; font-size: 11px; color: var(--text-tertiary);">Ctrl+K</kbd>
-                </div>
-            </div>
-
-            <div class="dual-date-container" id="dual-date">
-                <div class="date-header">
-                    <span class="current-day" id="current-day">--</span>
-                    <span class="current-time" id="current-time">--:--:-- --</span>
-                </div>
-
-                <div class="date-cards">
-                    <div class="date-card hijri-card" id="hijri-date">
-                        <span class="date-value">----</span>
-                        <span class="date-month">----</span>
+        ${recoveryStats.isActive ? `
+            <div class="counter-card" onclick="navigateTo('recovery')">
+                <i class="fas fa-calendar-check" style="font-size: 32px; margin-bottom: 12px;"></i>
+                <h3>رحلة التعافي مستمرة</h3>
+                <div class="counter-value" id="home-counter">${recoveryStats.days}</div>
+                <p>يوم منذ بداية رحلتك</p>
+                <div class="counter-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">${recoveryStats.weeks}</div>
+                        <div class="stat-label">أسبوع</div>
                     </div>
-
-                    <div class="date-card gregorian-card" id="gregorian-date">
-                        <span class="date-value">----</span>
-                        <span class="date-month">----</span>
+                    <div class="stat-item">
+                        <div class="stat-value">${recoveryStats.months}</div>
+                        <div class="stat-label">شهر</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">${recoveryStats.years}</div>
+                        <div class="stat-label">سنة</div>
                     </div>
                 </div>
             </div>
-            
-            ${recoveryStats.isActive ? `
-                <div class="counter-card" onclick="navigateTo('recovery')">
-                    <i class="fas fa-calendar-check" style="font-size: 32px; margin-bottom: 12px;"></i>
-                    <h3>رحلة التعافي مستمرة</h3>
-                    <div class="counter-value" id="home-counter">${recoveryStats.days}</div>
-                    <p>يوم منذ بداية رحلتك</p>
-                    <div class="counter-stats">
-                        <div class="stat-item">
-                            <div class="stat-value">${recoveryStats.weeks}</div>
-                            <div class="stat-label">أسبوع</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-value">${recoveryStats.months}</div>
-                            <div class="stat-label">شهر</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-value">${recoveryStats.years}</div>
-                            <div class="stat-label">سنة</div>
-                        </div>
-                    </div>
-                </div>
-            ` : ''}
+        ` : ''}
             
             <div class="cards-grid">
                 <div class="card" onclick="navigateTo('habits')">
@@ -903,6 +903,8 @@ function renderHomePage() {
             </div>
         </div>
     `;
+
+    mainContent.appendChild(container);
     
     if (dateInterval) clearInterval(dateInterval);
     startDateUpdates();
@@ -956,3 +958,4 @@ function handleBackup() {
         }
     }
 }
+
