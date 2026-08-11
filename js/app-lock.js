@@ -177,7 +177,6 @@ var AppLock = {
                 <h3 style="margin-bottom:2px;color:var(--text-primary);">تعافي</h3>
                 <p style="color:var(--text-secondary);font-size:14px;margin-bottom:24px;">أدخل الرمز السري للمتابعة</p>
                 
-                <!-- عرض الرمز -->
                 <div style="display:flex;gap:10px;justify-content:center;margin-bottom:8px;" id="pin-display">
                     <div class="pin-digit" id="pin-d-0"></div>
                     <div class="pin-digit" id="pin-d-1"></div>
@@ -187,19 +186,16 @@ var AppLock = {
                     <div class="pin-digit" id="pin-d-5"></div>
                 </div>
                 
-                <!-- زر إظهار/إخفاء -->
                 <button id="toggle-pin-btn" onclick="AppLock.togglePinVisibility()" 
                         style="background:none;border:none;color:var(--text-tertiary);cursor:pointer;font-size:18px;padding:4px 12px;margin-bottom:12px;">
                     <i class="fas fa-eye-slash"></i>
                 </button>
                 
-                <!-- رسائل -->
                 <p id="pin-error" style="color:#F44336;font-size:12px;min-height:20px;margin-bottom:2px;"></p>
                 <p id="pin-attempts" style="color:var(--text-tertiary);font-size:11px;min-height:16px;margin-bottom:16px;">
                     ${this.attempts > 0 ? 'محاولات متبقية: <strong>' + (this.maxAttempts - this.attempts) + '</strong>' : ''}
                 </p>
                 
-                <!-- لوحة الأرقام -->
                 <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:270px;margin:0 auto 16px;" id="pin-pad">
                     <button class="pin-key">1</button>
                     <button class="pin-key">2</button>
@@ -215,7 +211,6 @@ var AppLock = {
                     <button class="pin-key pin-delete"><i class="fas fa-delete-left"></i></button>
                 </div>
                 
-                <!-- نسيت كلمة السر -->
                 <button onclick="AppLock.showForgotPinDialog()" 
                         style="background:none;border:none;color:var(--text-tertiary);font-size:11px;cursor:pointer;text-decoration:underline;padding:4px 8px;">
                     <i class="fas fa-question-circle" style="margin-left:3px;"></i> هل نسيت كلمة السر؟
@@ -336,7 +331,7 @@ var AppLock = {
                     self.inputPin = self.inputPin.slice(0, -1);
                 } else if (/^\d$/.test(val)) {
                     if (self.inputPin.length >= 6) {
-                        // رسالة الحد الأقصى
+                        // Maximum message
                         if (errorEl) {
                             errorEl.textContent = 'الحد الأقصى 6 أرقام فقط';
                             errorEl.style.animation = 'none';
@@ -347,20 +342,20 @@ var AppLock = {
                         return;
                     }
                     self.inputPin += val;
-                    // تأثير الضغط
+                    // Pressure effect
                     this.style.transform = 'scale(0.85)';
                     setTimeout(function() { key.style.transform = ''; }, 120);
                 }
                 
-                // تحديث العرض
+                // Display update
                 self._updatePinDisplay();
                 
-                // مسح رسالة الخطأ
+                // Delete the error message
                 if (errorEl && errorEl.textContent.includes('الحد الأقصى') === false) {
                     errorEl.textContent = '';
                 }
                 
-                // تحقق عند اكتمال 6 أرقام
+                // Check when 6 digits are complete
                 if (self.inputPin.length === 6) {
                     setTimeout(function() {
                         if (self.verifyPin(self.inputPin)) {

@@ -1,3 +1,10 @@
+# /*
+#  * Developer: Mohammed Al-Baqer
+#  * Folder: wasm
+#  * File: CMakeLists.txt
+#  * Copyright (c) 2026, lnc. Mohammed Al-Baqer. All rights reserved.
+#  */
+
 cmake_minimum_required(VERSION 3.10)
 project(TaeafiWASM LANGUAGES C CXX)
 

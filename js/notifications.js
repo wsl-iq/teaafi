@@ -19,7 +19,7 @@ class NotificationService {
     // send Notification
     static async sendNotification(title, options) {
         if (this.isWebView()) {
-            // داخل WebView - إظهار تنبيه داخل التطبيق
+            // Inside (WebView) - Show alert within the app
             this.showInAppNotification(title, options.body || options);
             return;
         }

@@ -2,11 +2,6 @@
 # -*- coding: utf-8 -*-
 # Developer: Mohammed Al-Baqer
 # Copyright: Copyright (c) 2026
-# License: MIT License
-# Version: 1.1.1
-# Please note that this code or file is for developer use only as a result of performance testing.
-# This file is for testing the opening of a local web file and performance testing,
-# such as (RAM) and (CPU) consumption using developer tools (DevTools).
 
 import webview
 from datetime import datetime

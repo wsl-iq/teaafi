@@ -7,6 +7,8 @@
  * Type: JavaScript
  */
 
+// function Application Version
+
 let ApplicationVersion = './version.txt';
 (function loadAppVersionFromFile() {
     try {
@@ -28,7 +30,7 @@ let ApplicationVersion = './version.txt';
 function renderSettingsPage() {
     const mainContent = document.getElementById('main-content');
     const settings = StorageManager.getSettings();
-    const currentTheme = settings.theme || 'light';
+    const currentTheme = settings.theme || 'light'; // default mode light
     const isAutoTheme = ThemesManager.isAuto();
     const themeMode = isAutoTheme ? 'auto' : (ThemesManager.isDark() ? 'dark' : 'light');
     
@@ -258,12 +260,10 @@ function renderSettingsPage() {
                         <br>تقييمك يساعدني على تحسين التطبيق وتقديم محتوى أفضل
                     </p>
                     
-                    <!-- حقل التعليق -->
                     <div style="margin: 0 auto 12px; max-width: 520px; text-align: center;">
                         <textarea id="rating-message" placeholder="اترك تعليقك أو اقتراحك قبل التقييم..." style="width:100%; min-height:60px; padding:10px; border-radius:8px; border:1px solid var(--border-light); resize:vertical; font-size:14px; direction: rtl; font-family: var(--font-primary);"></textarea>
                     </div>
                     
-                    <!-- النجوم - RTL من اليمين لليسار -->
                     <p style="font-size: 11px; color: var(--text-tertiary); margin-bottom: 8px;">
                         <i class="fas fa-arrow-left" style="margin-left: 4px;"></i>
                         من اليمين: 5 نجوم (ممتاز) ← إلى اليسار: نجمة واحدة
@@ -1048,6 +1048,7 @@ let autoUpdateInterval = null;
 /**
  * Enable/Disable Automatic Verification
  */
+
 function toggleAutoUpdateCheck(enabled) {
     updateSetting('autoUpdateCheck', enabled);
     
@@ -1063,6 +1064,7 @@ function toggleAutoUpdateCheck(enabled) {
 /**
  * Start automatic verification
  */
+
 function startAutoUpdateCheck() {
     stopAutoUpdateCheck(); // Stop any previous timer
     
@@ -1080,6 +1082,7 @@ function startAutoUpdateCheck() {
 /**
  * Turn off automatic verification
  */
+
 function stopAutoUpdateCheck() {
     if (autoUpdateInterval) {
         clearInterval(autoUpdateInterval);
@@ -1092,6 +1095,7 @@ function stopAutoUpdateCheck() {
  * Check for updates
  * @param {boolean} silent - If true, Toast messages will not appear.
  */
+
 async function checkForUpdates(silent) {
     const updateStatus = document.getElementById('update-status');
     const updateInfo = document.getElementById('update-info');
@@ -1178,6 +1182,7 @@ async function checkForUpdates(silent) {
 /**
  * Display message indicating an update
  */
+
 function showUpdateAvailable(latestVersion, downloadUrl, silent) {
     const updateStatus = document.getElementById('update-status');
     const updateInfo = document.getElementById('update-info');
@@ -1220,6 +1225,7 @@ function showUpdateAvailable(latestVersion, downloadUrl, silent) {
 /**
  * Displays "No update" message
  */
+
 function showNoUpdateAvailable(silent) {
     const updateStatus = document.getElementById('update-status');
     const updateInfo = document.getElementById('update-info');
@@ -1243,6 +1249,7 @@ function showNoUpdateAvailable(silent) {
 /**
  * Verification failed message displayed
  */
+
 function showUpdateCheckFailed(silent) {
     const updateStatus = document.getElementById('update-status');
     const updateInfo = document.getElementById('update-info');
@@ -1269,6 +1276,7 @@ function showUpdateCheckFailed(silent) {
 /**
  * Comparing two version numbers
  */
+
 function compareVersions(v1, v2) {
     if (!v1 || !v2) return 0;
     
@@ -1288,6 +1296,7 @@ function compareVersions(v1, v2) {
 /**
  * Last scan time update
  */
+
 function updateLastCheckTime() {
     const lastCheck = StorageManager.get('last_update_check');
     const el = document.getElementById('last-check-time');
@@ -1314,6 +1323,7 @@ function updateLastCheckTime() {
 /**
  * Configure the page load update system
  */
+
 function initUpdateSystem() {
     const versionEl = document.getElementById('current-version');
     if (versionEl) versionEl.textContent = ApplicationVersion;

@@ -154,8 +154,8 @@ self.addEventListener('push', event => {
   let data = {
     title: 'تعافي',
     body: 'تذكير من تطبيق تعافي',
-    icon: '/assets/icons/icon-192.png',
-    badge: '/assets/icons/icon-72.png'
+    icon: '.png',
+    badge: '.png'
   };
   
   if (event.data) {

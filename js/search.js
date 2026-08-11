@@ -329,7 +329,7 @@ var SearchEngine = {
 
 //  shortcut keys
 document.addEventListener('keydown', function(e) {
-    // Ctrl+K
+    // [Ctrl + K]
     if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
         e.preventDefault();
         SearchEngine.showSearchUI();

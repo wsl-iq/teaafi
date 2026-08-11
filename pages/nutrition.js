@@ -12,10 +12,7 @@ var currentNutritionGender = StorageManager.getUser()?.gender || 'male';
 function renderNutritionPage() {
     var mainContent = document.getElementById('main-content');
     var user = StorageManager.getUser();
-    
-    // Use the gender selected for display (not the user's gender).
-    var gender = currentNutritionGender;
-    
+    var gender = currentNutritionGender; // Use the gender selected for display (not the user's gender).
     var breakfast = getTodayMeal('breakfast', gender);
     var lunch = getTodayMeal('lunch', gender);
     var dinner = getTodayMeal('dinner', gender);

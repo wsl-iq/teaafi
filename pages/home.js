@@ -583,22 +583,88 @@ function renderHomePage() {
         ? RecoveryCounter.getRecoveryStats() : null;
     const recoveryStats = stats || { isActive: false, days: 0, weeks: 0, months: 0, years: 0 };
 
-    const updateAvailable = typeof StorageManager !== 'undefined' && typeof StorageManager.get === 'function'
-        ? StorageManager.get('update_available') : null;
-    const hasUpdate = updateAvailable && updateAvailable.version &&
-        typeof compareVersions === 'function' &&
-        typeof APP_VERSION !== 'undefined' &&
-        compareVersions(updateAvailable.version, APP_VERSION) > 0;
-    
+    // Check for updates
+    let hasUpdate = false;
+    let updateVersion = '';
+
+    // Fetch the current version of (localStorage) directly
+    const storedVersion = localStorage.getItem('app_version') || 
+                          (typeof APP_VERSION !== 'undefined' ? APP_VERSION : null);
+
+    if (typeof StorageManager !== 'undefined' && typeof StorageManager.get === 'function') {
+        const stored = StorageManager.get('update_available');
+        
+        if (stored) {
+            let updateData = null;
+            
+            if (typeof stored === 'string') {
+                try {
+                    updateData = JSON.parse(stored);
+                } catch (e) {
+                    updateData = { version: stored.trim() };
+                }
+            } else if (typeof stored === 'object' && stored !== null) {
+                updateData = stored;
+            }
+            
+            // ust make sure the stored version exists.
+            if (updateData && updateData.version) {
+                // If (APP_VERSION) is not defined or different
+                if (!storedVersion || updateData.version !== storedVersion) {
+                    hasUpdate = true;
+                    updateVersion = updateData.version;
+                }
+            }
+        }
+    }
+
+    //If there is still no update, try (localStorage) directly.
+    if (!hasUpdate) {
+        try {
+            const raw = localStorage.getItem('update_available');
+            if (raw && raw !== 'null') {
+                const parsed = JSON.parse(raw);
+                if (parsed && parsed.version) {
+                    if (!storedVersion || parsed.version !== storedVersion) {
+                        hasUpdate = true;
+                        updateVersion = parsed.version;
+                    }
+                }
+            }
+        } catch (e) {}
+    }
+
     // Container creation
     const container = document.createElement('div');
     container.className = 'animate-fade-in';
     container.innerHTML = `
+        <style>
+            .update-notification-bar{
+                display:flex;
+                align-items:center;
+                justify-content:space-between;
+                background:linear-gradient(90deg,#fff8e1,#fff3cd);
+                border:1px solid rgba(0,0,0,0.06);
+                padding:8px 12px;
+                border-radius:8px;
+                cursor:pointer;
+                box-shadow:0 2px 6px rgba(0,0,0,0.04);
+                gap:10px;
+                margin-bottom:12px;
+            }
+            .update-dot{ width:10px; height:10px; background:#ff3b30; border-radius:50%; flex:0 0 auto; }
+            .update-text{ display:flex; align-items:center; gap:8px; font-size:13px; color:#3b3b3b; }
+            .update-text i{ opacity:0.7 }
+            .update-close-btn{ background:transparent; border:none; color:#666; cursor:pointer; padding:6px; border-radius:6px }
+            .update-close-btn i{ font-size:12px }
+            .update-notification-bar:hover{ box-shadow:0 4px 12px rgba(0,0,0,0.08) }
+        </style>
+
         ${hasUpdate ? `
             <div class="update-notification-bar" onclick="navigateTo('settings'); setTimeout(function() { var el = document.getElementById('update-status'); if (el) el.scrollIntoView({ behavior: 'smooth' }); }, 500);">
                 <div class="update-dot"></div>
                 <div class="update-text">
-                    <span>يوجد تحديث جديد v${updateAvailable.version}</span>
+                    <span>يوجد تحديث جديد v${updateVersion}</span>
                     <i class="fas fa-arrow-left" style="font-size: 12px;"></i>
                 </div>
                 <button class="update-close-btn" onclick="event.stopPropagation(); dismissUpdateNotification();">
@@ -959,72 +1025,85 @@ function handleBackup() {
     }
 }
 
-// Function to check for updates by comparing remote version
 function checkForUpdates(options) {
     options = options || {};
     var remoteUrl = options.remoteUrl || 'https://raw.githubusercontent.com/wsl-iq/teaafi/refs/heads/main/version.txt';
     var localUrl = options.localUrl || './version.txt';
     
-    var currentVersion = null;
-    var updateAvailable = null;
-
-    // Get local version
+    function parseVersion(text) {
+        if (!text) return null;
+        text = text.trim();
+        try {
+            var data = JSON.parse(text);
+            if (data && data.version) return data.version.trim();
+        } catch (e) {
+            // Perhaps the version as a live text
+            return text;
+        }
+        return null;
+    }
+    
+    var localVersion = null;
+    var remoteVersion = null;
+    
+    //Bring the local version
     fetch(localUrl, { cache: 'no-cache' })
-        .then(function(res) { if (!res.ok) throw new Error('Failed to fetch local version'); return res.text(); })
+        .then(function(res) {
+            if (!res.ok) throw new Error('Local version not found');
+            return res.text();
+        })
         .then(function(text) {
-            try {
-                var localData = JSON.parse(text);
-                currentVersion = localData.version;
-            } catch (e) {
-                console.warn('Failed to parse local version:', e);
-            }
+            localVersion = parseVersion(text);
             
-            // Get remote version
+            // Bring the remote version
             return fetch(remoteUrl, { cache: 'no-cache' });
         })
-        .then(function(res) { if (!res.ok) throw new Error('Failed to fetch remote version'); return res.text(); })
+        .then(function(res) {
+            if (!res.ok) throw new Error('Remote version not found');
+            return res.text();
+        })
         .then(function(text) {
-            try {
-                var remoteData = JSON.parse(text);
-                var remoteVersion = remoteData.version;
-                
-                if (!remoteVersion || !currentVersion) return;
-                if (currentVersion !== remoteVersion) {
-                    updateAvailable = remoteData;
-                    
-                    // show update notification bar
-                    var existing = document.querySelector('.update-notification-bar');
-                    if (existing) return;
-                    
-                    var container = document.createElement('div');
-                    container.className = 'animate-fade-in';
-                    container.innerHTML = `
-                        <div class="update-notification-bar" onclick="navigateTo('settings'); setTimeout(function() { var el = document.getElementById('update-status'); if (el) el.scrollIntoView({ behavior: 'smooth' }); }, 500);">
-                            <div class="update-dot"></div>
-                            <div class="update-text">
-                                <span>يوجد تحديث جديد v${updateAvailable.version}</span>
-                                <i class="fas fa-arrow-left" style="font-size: 12px;"></i>
-                            </div>
-                            <button class="update-close-btn" onclick="event.stopPropagation(); dismissUpdateNotification();">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        </div>
-                    `;
-                    document.body.appendChild(container);
-                    
-                    if (StorageManager && typeof StorageManager.set === 'function') {
-                        StorageManager.set('update_notification_dismissed', Date.now());
-                    }
+            remoteVersion = parseVersion(text);
+            
+    
+            /** 
+             * Comparison
+             */
+    
+            if (!localVersion || !remoteVersion) {
+                // There is insufficient data.
+                if (typeof StorageManager !== 'undefined' && typeof StorageManager.set === 'function') {
+                    StorageManager.set('update_available', null);
                 }
-            } catch (e) {
-                console.warn('Failed to parse remote version:', e);
+                return;
+            }
+            
+            if (localVersion !== remoteVersion) {
+                // here is an update
+                var updateData = { version: remoteVersion };
+                
+                // save as in Storage
+                if (typeof StorageManager !== 'undefined' && typeof StorageManager.set === 'function') {
+                    StorageManager.set('update_available', JSON.stringify(updateData));
+                }
+                
+                console.log('Update available: v' + remoteVersion);
+                
+                // Update the interface if we are on the homepage
+                var mainContent = document.getElementById('main-content');
+                if (mainContent && Router.getCurrentPage() === 'home') {
+                    renderHomePage(); // Rebuild the page to show the refresh bar
+                }
+                
+            } else {
+                // No update
+                if (typeof StorageManager !== 'undefined' && typeof StorageManager.set === 'function') {
+                    StorageManager.set('update_available', null);
+                }
+                console.log('App is up to date: v' + localVersion);
             }
         })
         .catch(function(err) {
-            console.warn('Update check failed:', err);
+            console.warn('Update check failed:', err.message);
         });
 }
-
-// رجوع للعادات
-
-

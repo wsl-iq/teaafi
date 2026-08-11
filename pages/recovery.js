@@ -214,9 +214,9 @@ function startLiveCounter() {
  * months
  * years
  */
+
 function updateLiveCounter() {
     const stats = RecoveryCounter.getRecoveryStats();
-    
     const secondsEl = document.getElementById('counter-seconds');
     const minutesEl = document.getElementById('counter-minutes');
     const hoursEl = document.getElementById('counter-hours');
