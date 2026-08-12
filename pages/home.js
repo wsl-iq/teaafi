@@ -827,6 +827,19 @@ function renderHomePage() {
                     </div>
                     <p class="card-description">عداد أيام، مراحل التحسن، رسائل تحفيزية، ودعم مستمر</p>
                 </div>
+                
+                <div class="card" onclick="navigateTo('forgetfulness')">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: #F3E5F5; color: #9C27B0;">
+                            <i class="fas fa-person-praying"></i>
+                        </div>
+                        <div>
+                            <h3 class="card-title">مساعد الصلاة</h3>
+                            <p class="text-sm text-secondary">تذكيرات وأوقات</p>
+                        </div>
+                    </div>
+                    <p class="card-description">مساعد شامل لأوقات الصلاة والتذكيرات اليومية</p>
+                </div>
             </div>
             
             <h2 class="section-title" style="margin-top: 32px;">

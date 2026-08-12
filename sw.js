@@ -7,7 +7,7 @@
  * Type: JavaScript
  */
 
-const CACHE_NAME = 'taafi-app-v1.0.0';
+const CACHE_NAME = 'taafi-app-v1.3.3';
 const DYNAMIC_CACHE = 'taafi-dynamic-v1';
 
 const STATIC_ASSETS = [
@@ -71,6 +71,7 @@ const STATIC_ASSETS = [
   '/pages/food-conflicts.js',
   '/pages/nutrition.js',
   '/pages/exercises.js',
+  '/pages/Forgetfulness.js',
 
   // json
   '/manifest.json',
@@ -142,7 +143,7 @@ self.addEventListener('fetch', event => {
           .catch(() => {
             // Return offline page if available
             if (event.request.headers.get('accept').includes('text/html')) {
-              return caches.match('/.html');
+              return caches.match('offline.html');
             }
           });
       })

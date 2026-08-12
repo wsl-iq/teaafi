@@ -15,6 +15,7 @@ class Router {
     // Pages that should NOT be cached (rebuilt every time)
     static #noCachePages = [
         'home',
+        'forgetfulness',
         'habits',
         'recovery', 
         'calendar',
@@ -64,7 +65,8 @@ class Router {
         calendar: 'renderCalendarPage',
         nutrition: 'renderNutritionPage',
         exercises: 'renderExercisesPage',
-        'food-conflicts': 'renderFoodConflictsPage'
+        'food-conflicts': 'renderFoodConflictsPage',
+        forgetfulness: 'renderForgetfulnessPage'
     };
 
     /**

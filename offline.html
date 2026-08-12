@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes" />
+    <meta name="theme-color" content="#0D6B6E" />
+    <title>تعافي - لا يوجد اتصال</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;600;700;800&family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet" />
+
+    <!-- Font Awesome 6 (Free) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <style>
+        /* ========== RESET & BASE ========== */
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            font-size: 16px;
+            -webkit-text-size-adjust: 100%;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: 'Tajawal', 'Cairo', sans-serif;
+            background: #F0F2F5;
+            color: #1A1C1E;
+            line-height: 1.6;
+            min-height: 100vh;
+            min-height: 100dvh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            direction: rtl;
+            padding: clamp(12px, 4vw, 40px);
+            margin: 0;
+            transition: background 0.4s ease;
+        }
+
+        /* ========== MAIN CONTAINER ========== */
+        .offline-container {
+            width: 100%;
+            max-width: min(480px, 92vw);
+            background: #FFFFFF;
+            border-radius: clamp(24px, 5vw, 40px);
+            padding: clamp(28px, 5vw, 48px) clamp(20px, 4vw, 40px) clamp(24px, 4vw, 36px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.10), 0 8px 24px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            animation: containerIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+            border: 1px solid rgba(13, 107, 110, 0.06);
+            transition: padding 0.3s ease, border-radius 0.3s ease;
+        }
+
+        /* Gradient orbs */
+        .offline-container::before,
+        .offline-container::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .offline-container::before {
+            width: 70%;
+            height: 70%;
+            top: -30%;
+            left: -20%;
+            background: radial-gradient(circle, rgba(13, 107, 110, 0.04) 0%, transparent 70%);
+            animation: orbFloat 18s ease-in-out infinite alternate;
+        }
+
+        .offline-container::after {
+            width: 50%;
+            height: 50%;
+            bottom: -20%;
+            right: -10%;
+            background: radial-gradient(circle, rgba(38, 166, 154, 0.04) 0%, transparent 70%);
+            animation: orbFloat 22s ease-in-out infinite alternate-reverse;
+        }
+
+        @keyframes orbFloat {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+            100% {
+                transform: translate(10%, 10%) scale(1.2);
+            }
+        }
+
+        @keyframes containerIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.96);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* ========== WIFI ICON ========== */
+        .wifi-wrapper {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto clamp(16px, 3vw, 24px);
+            width: clamp(100px, 22vw, 150px);
+            height: clamp(100px, 22vw, 150px);
+        }
+
+        .wifi-icon {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #0D6B6E, #26A69A);
+            border-radius: 50%;
+            box-shadow: 0 8px 40px rgba(13, 107, 110, 0.25);
+            animation: wifiPulse 2.8s ease-in-out infinite;
+            transition: transform 0.3s ease;
+        }
+
+        .wifi-icon i {
+            font-size: clamp(44px, 10vw, 68px);
+            color: white;
+            filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.15));
+            transition: transform 0.3s ease;
+        }
+
+        /* Slash overlay */
+        .wifi-icon .slash {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+        }
+
+        .wifi-icon .slash::after {
+            content: '';
+            position: absolute;
+            width: 56%;
+            height: 4px;
+            background: #F44336;
+            border-radius: 3px;
+            transform: rotate(-45deg);
+            box-shadow: 0 2px 10px rgba(244, 67, 54, 0.35);
+            transition: all 0.3s ease;
+        }
+
+        /* Slash responsive */
+        @media (max-width: 480px) {
+            .wifi-icon .slash::after {
+                height: 3.5px;
+                width: 50%;
+            }
+        }
+        @media (max-width: 360px) {
+            .wifi-icon .slash::after {
+                height: 3px;
+                width: 46%;
+            }
+        }
+        @media (min-width: 768px) {
+            .wifi-icon .slash::after {
+                height: 5px;
+                width: 58%;
+            }
+        }
+
+        @keyframes wifiPulse {
+            0%,
+            100% {
+                transform: scale(1);
+                box-shadow: 0 8px 40px rgba(13, 107, 110, 0.25);
+            }
+            50% {
+                transform: scale(1.04);
+                box-shadow: 0 12px 56px rgba(13, 107, 110, 0.35);
+            }
+        }
+
+        /* Glow rings */
+        .wifi-glow {
+            position: absolute;
+            border-radius: 50%;
+            border: 2px solid rgba(13, 107, 110, 0.08);
+            animation: glowRing 3s ease-out infinite;
+            pointer-events: none;
+        }
+
+        .wifi-glow:nth-child(2) {
+            animation-delay: 1s;
+            border-width: 1.5px;
+            opacity: 0.5;
+        }
+
+        .wifi-glow:nth-child(3) {
+            animation-delay: 2s;
+            border-width: 1px;
+            opacity: 0.3;
+        }
+
+        @keyframes glowRing {
+            0% {
+                transform: scale(0.85);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        /* ========== TYPOGRAPHY ========== */
+        .offline-title {
+            font-family: 'Cairo', 'Tajawal', sans-serif;
+            font-size: clamp(26px, 6vw, 38px);
+            font-weight: 800;
+            color: #1A1C1E;
+            margin-bottom: clamp(6px, 1.2vw, 10px);
+            position: relative;
+            z-index: 1;
+            letter-spacing: -0.5px;
+        }
+
+        .offline-title .highlight {
+            background: linear-gradient(135deg, #0D6B6E, #26A69A);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .offline-subtitle {
+            font-size: clamp(15px, 3vw, 18px);
+            color: #6B7280;
+            margin-bottom: clamp(20px, 3.5vw, 30px);
+            line-height: 1.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .offline-subtitle strong {
+            color: #0D6B6E;
+            font-weight: 600;
+        }
+
+        /* ========== BUTTON ========== */
+        .offline-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: clamp(8px, 1.5vw, 14px);
+            padding: clamp(16px, 2.8vw, 20px) clamp(24px, 4.5vw, 40px);
+            border-radius: clamp(16px, 2.8vw, 22px);
+            font-size: clamp(16px, 2.8vw, 19px);
+            font-weight: 700;
+            font-family: 'Tajawal', 'Cairo', sans-serif;
+            cursor: pointer;
+            border: none;
+            transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+            width: 100%;
+            min-height: clamp(54px, 10vw, 64px);
+            position: relative;
+            overflow: hidden;
+            text-decoration: none;
+            background: linear-gradient(135deg, #0D6B6E, #26A69A);
+            color: white;
+            box-shadow: 0 4px 24px rgba(13, 107, 110, 0.30);
+            z-index: 1;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+
+        .offline-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(13, 107, 110, 0.35);
+        }
+
+        .offline-btn:active {
+            transform: scale(0.96);
+        }
+
+        .offline-btn i {
+            font-size: clamp(18px, 2.8vw, 22px);
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .offline-btn:hover i {
+            transform: rotate(-20deg);
+        }
+
+        .offline-btn .btn-text {
+            white-space: nowrap;
+        }
+
+        /* Loading dots */
+        .offline-btn .loading-dots {
+            display: inline-flex;
+            gap: 5px;
+            align-items: center;
+            margin-right: 4px;
+        }
+
+        .offline-btn .loading-dots span {
+            width: clamp(6px, 1.2vw, 8px);
+            height: clamp(6px, 1.2vw, 8px);
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.7);
+            animation: dotBounce 1.4s ease-in-out infinite both;
+        }
+
+        .offline-btn .loading-dots span:nth-child(1) {
+            animation-delay: -0.32s;
+        }
+        .offline-btn .loading-dots span:nth-child(2) {
+            animation-delay: -0.16s;
+        }
+        .offline-btn .loading-dots span:nth-child(3) {
+            animation-delay: 0s;
+        }
+
+        @keyframes dotBounce {
+            0%,
+            80%,
+            100% {
+                transform: scale(0.4);
+                opacity: 0.4;
+            }
+            40% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* Retry state */
+        .offline-btn.retrying {
+            pointer-events: none;
+            opacity: 0.85;
+        }
+
+        .offline-btn.retrying i {
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* ========== FOOTER ========== */
+        .offline-footer {
+            margin-top: clamp(24px, 4vw, 36px);
+            padding-top: clamp(18px, 3vw, 28px);
+            border-top: 1px solid #E5E7EB;
+            position: relative;
+            z-index: 1;
+        }
+
+        .offline-footer .app-name {
+            font-size: clamp(20px, 4.5vw, 26px);
+            font-weight: 800;
+            background: linear-gradient(135deg, #0D6B6E, #26A69A);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .offline-footer .app-sub {
+            font-size: clamp(12px, 2vw, 14px);
+            color: #9CA3AF;
+            margin-top: 2px;
+        }
+
+        .offline-footer .app-sub i {
+            color: #0D6B6E;
+            margin: 0 4px;
+        }
+
+        .offline-footer .app-version {
+            font-size: clamp(11px, 1.8vw, 13px);
+            color: #9CA3AF;
+            margin-top: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .offline-footer .app-version .dot {
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: #0D6B6E;
+            display: inline-block;
+            flex-shrink: 0;
+        }
+
+        .offline-footer .app-version .github-link {
+            color: #6B7280;
+            text-decoration: none;
+            transition: color 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .offline-footer .app-version .github-link:hover {
+            color: #0D6B6E;
+        }
+
+        /* ========== TOAST ========== */
+        .offline-toast {
+            position: fixed;
+            bottom: clamp(20px, 3vw, 40px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: #1A1C1E;
+            color: white;
+            padding: clamp(14px, 2.5vw, 18px) clamp(20px, 3.5vw, 32px);
+            border-radius: clamp(16px, 2.5vw, 20px);
+            font-size: clamp(14px, 2.2vw, 16px);
+            font-family: 'Tajawal', 'Cairo', sans-serif;
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.20);
+            z-index: 99999;
+            max-width: min(460px, 92vw);
+            text-align: center;
+            animation: toastIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+            direction: rtl;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .offline-toast i {
+            font-size: clamp(18px, 2.8vw, 22px);
+            flex-shrink: 0;
+        }
+
+        @keyframes toastIn {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(20px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0) scale(1);
+            }
+        }
+
+        @keyframes toastOut {
+            from {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0) scale(1);
+            }
+            to {
+                opacity: 0;
+                transform: translateX(-50%) translateY(20px) scale(0.95);
+            }
+        }
+
+        /* ========== DARK MODE ========== */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background: #121212;
+            }
+
+            .offline-container {
+                background: #1E1E1E;
+                border-color: rgba(255, 255, 255, 0.04);
+            }
+
+            .offline-container::before {
+                background: radial-gradient(circle, rgba(38, 166, 154, 0.06) 0%, transparent 70%);
+            }
+            .offline-container::after {
+                background: radial-gradient(circle, rgba(13, 107, 110, 0.05) 0%, transparent 70%);
+            }
+
+            .offline-title {
+                color: #E0E0E0;
+            }
+
+            .offline-subtitle {
+                color: #B0B0B0;
+            }
+            .offline-subtitle strong {
+                color: #26A69A;
+            }
+
+            .offline-footer {
+                border-top-color: #3D3D3D;
+            }
+            .offline-footer .app-sub {
+                color: #808080;
+            }
+            .offline-footer .app-version {
+                color: #808080;
+            }
+            .offline-footer .app-version .github-link {
+                color: #808080;
+            }
+            .offline-footer .app-version .github-link:hover {
+                color: #26A69A;
+            }
+
+            .wifi-icon {
+                background: linear-gradient(135deg, #0D6B6E, #26A69A);
+                box-shadow: 0 8px 40px rgba(38, 166, 154, 0.20);
+            }
+
+            .wifi-glow {
+                border-color: rgba(38, 166, 154, 0.12);
+            }
+
+            .offline-toast {
+                background: #2D2D2D;
+                border-color: rgba(255, 255, 255, 0.06);
+            }
+        }
+
+        /* ========== REDUCED MOTION ========== */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+
+            .offline-container {
+                animation: none;
+            }
+            .offline-container::before,
+            .offline-container::after {
+                animation: none;
+            }
+            .wifi-icon {
+                animation: none;
+            }
+            .wifi-glow {
+                animation: none;
+            }
+            .offline-btn .loading-dots span {
+                animation: none;
+            }
+            .offline-btn.retrying i {
+                animation: none;
+            }
+        }
+
+        /* ========== PRINT ========== */
+        @media print {
+            body {
+                background: white;
+                padding: 20px;
+            }
+            .offline-container {
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+            .offline-btn {
+                display: none;
+            }
+            .wifi-glow {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="offline-container" role="main" aria-label="صفحة عدم الاتصال بالإنترنت">
+
+        <!-- Wi-Fi Icon -->
+        <div class="wifi-wrapper">
+            <div class="wifi-icon">
+                <i class="fas fa-wifi"></i>
+                <span class="slash"></span>
+            </div>
+            <div class="wifi-glow" style="inset: -8%;"></div>
+            <div class="wifi-glow" style="inset: -18%;"></div>
+            <div class="wifi-glow" style="inset: -28%;"></div>
+        </div>
+
+        <!-- Title -->
+        <h1 class="offline-title">
+            <span class="highlight">تعافي</span>
+        </h1>
+
+        <!-- Subtitle -->
+        <p class="offline-subtitle">
+            <strong>لا يوجد اتصال بالإنترنت</strong><br />
+            يرجى التحقق من اتصالك بالإنترنت والمحاولة مرة أخرى.
+        </p>
+
+        <!-- Retry Button -->
+        <button class="offline-btn" id="retryBtn" onclick="handleRetry()">
+            <i class="fas fa-sync-alt"></i>
+            <span class="btn-text">إعادة المحاولة</span>
+            <span class="loading-dots">
+                <span></span><span></span><span></span>
+            </span>
+        </button>
+
+        <!-- Footer -->
+        <div class="offline-footer">
+            <div class="app-name">تعافي</div>
+            <div class="app-sub">
+                <i class="fas fa-leaf"></i>
+                رحلتك نحو حياة أفضل
+                <i class="fas fa-leaf"></i>
+            </div>
+            <div class="app-version">
+                <span class="dot"></span>
+                شكراً لاستخدامك تطبيق تعافي
+                <span class="dot"></span>
+            </div>
+            <div class="app-version" style="margin-top: 2px;">
+                <i class="fab fa-github"></i>
+                <a href="https://github.com/wsl-iq/teaafi" target="_blank" rel="noopener" class="github-link">
+                    github.com/wsl-iq/teaafi
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        /**
+         * Developer: Mohammed Al-Baqer
+         * Website: https://wsl-iq.github.io/teaafi/
+         * Copyright (c) 2026 Mohammed Al-Baqer
+         * File: offline.html
+         */
+
+        const retryBtn = document.getElementById('retryBtn');
+
+        function handleRetry() {
+            retryBtn.classList.add('retrying');
+            retryBtn.innerHTML = `
+                        <i class="fas fa-spinner"></i>
+                        <span class="btn-text">جاري إعادة المحاولة...</span>
+                        <span class="loading-dots">
+                            <span></span><span></span><span></span>
+                        </span>
+                    `;
+            retryBtn.disabled = true;
+
+            setTimeout(() => {
+                fetch('/favicon.ico', {
+                        method: 'HEAD',
+                        cache: 'no-cache',
+                        mode: 'no-cors'
+                    })
+                    .then(() => {
+                        window.location.reload();
+                    })
+                    .catch(() => {
+                        resetRetryButton();
+                        showOfflineMessage('لا يزال الاتصال غير متاح. حاول مرة أخرى لاحقاً.');
+                    });
+            }, 1200);
+        }
+
+        function resetRetryButton() {
+            retryBtn.classList.remove('retrying');
+            retryBtn.innerHTML = `
+                        <i class="fas fa-sync-alt"></i>
+                        <span class="btn-text">إعادة المحاولة</span>
+                        <span class="loading-dots">
+                            <span></span><span></span><span></span>
+                        </span>
+                    `;
+            retryBtn.disabled = false;
+        }
+
+        function showOfflineMessage(message) {
+            const existing = document.querySelector('.offline-toast');
+            if (existing) existing.remove();
+
+            const toast = document.createElement('div');
+            toast.className = 'offline-toast';
+            toast.innerHTML = `
+                        <i class="fas fa-info-circle" style="color: #26A69A;"></i>
+                        <span>${message}</span>
+                    `;
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.animation = 'toastOut 0.3s ease forwards';
+                setTimeout(() => toast.remove(), 400);
+            }, 4000);
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                const btn = document.getElementById('retryBtn');
+                if (btn && !btn.disabled) {
+                    e.preventDefault();
+                    handleRetry();
+                }
+            }
+        });
+
+        // Network events
+        window.addEventListener('online', function() {
+            showOfflineMessage('تم استعادة الاتصال بالإنترنت! اضغط "إعادة المحاولة"');
+            resetRetryButton();
+        });
+
+        window.addEventListener('offline', function() {
+            showOfflineMessage('فقدت الاتصال بالإنترنت. حاول إعادة المحاولة.');
+        });
+
+        console.log('[Offline] Page loaded - ' + (navigator.onLine ? 'Online' : 'Offline'));
+    </script>
+
+</body>
+</html>
