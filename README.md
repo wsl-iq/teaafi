@@ -8,7 +8,7 @@
 
 [About](#-about) • [Features](#-features) • [Tech Stack](#-tech-stack) • [Installation](#-installation) • [Project Structure](#-project-structure) • [Pages Overview](#-pages-overview) • [Contributing](#-contributing) • [License](#-license)
 
-![Version](https://img.shields.io/badge/version-1.1.2-blue.svg) ![License](https://img.shields.io/badge/license-MIT-green.svg) ![Platform](https://img.shields.io/badge/platform-web%20%7C%20mobile%20%7C%20desktop-orange.svg) ![PWA](https://img.shields.io/badge/PWA-ready-purple.svg) ![Language](https://img.shields.io/badge/language-Arabic%20%7C%20RTL-red.svg)
+![Version](https://img.shields.io/badge/version-1.3.3-blue.svg) ![License](https://img.shields.io/badge/license-MIT-green.svg) ![Platform](https://img.shields.io/badge/platform-web%20%7C%20mobile%20%7C%20desktop-orange.svg) ![PWA](https://img.shields.io/badge/PWA-ready-purple.svg) ![Language](https://img.shields.io/badge/language-Arabic%20%7C%20RTL-red.svg)
 
 ---
 
