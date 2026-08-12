@@ -159,7 +159,15 @@ class Router {
             mainContent.innerHTML = '';
             
             // Render page
+            mainContent.innerHTML = '';
             window[renderFunction]();
+
+            mainContent.classList.remove('page-transition');
+
+            // Force browser/WebView to restart the animation.
+            void mainContent.offsetWidth;
+
+            mainContent.classList.add('page-transition');
             
             // Cache after rendering
             setTimeout(() => {

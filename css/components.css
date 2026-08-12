@@ -3008,3 +3008,23 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
 .back-button i {
     font-size: 0.8rem;
 }
+
+/*
+   Page Navigation Animation
+ */
+
+.page-transition {
+    animation: pageFadeIn 0.22s ease-out;
+}
+
+@keyframes pageFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
