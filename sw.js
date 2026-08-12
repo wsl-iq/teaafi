@@ -68,9 +68,9 @@ const STATIC_ASSETS = [
   '/pages/policies.js',
   '/pages/prayer-box.js',
   '/pages/calendar.js',
-  '/data/food-conflicts.js',
-  '/data/nutrition.js',
-  '/data/exercises.js',
+  '/pages/food-conflicts.js',
+  '/pages/nutrition.js',
+  '/pages/exercises.js',
 
   // json
   '/manifest.json',

@@ -76,6 +76,7 @@ const HIJRI_API_URL =
 // System variables
 
 let dateInterval = null;
+let recoveryCounterInterval = null;
 let lastFetchedDate = null;
 
 // Converting numbers to Arabic
@@ -560,6 +561,11 @@ function stopDateUpdates() {
 
         dateInterval = null;
     }
+
+    if (recoveryCounterInterval) {
+        clearInterval(recoveryCounterInterval);
+        recoveryCounterInterval = null;
+    }
 }
 
 /** Date and Time Display Feature
@@ -567,6 +573,62 @@ function stopDateUpdates() {
  * API: Mumineen MDO API
  * Names of the days of the week in Arabic
  */
+
+
+/**
+ * Update only the recovery card's values.
+ * The homepage itself is not rebuilt.
+ */
+function updateHomeRecoveryCard() {
+    const card = document.getElementById('home-recovery-card');
+
+    if (!card) {
+        return;
+    }
+
+    if (
+        typeof RecoveryCounter === 'undefined' ||
+        typeof RecoveryCounter.getRecoveryStats !== 'function'
+    ) {
+        return;
+    }
+
+    const stats = RecoveryCounter.getRecoveryStats();
+
+    if (!stats || !stats.isActive) {
+        card.remove();
+        return;
+    }
+
+    const counter = document.getElementById('home-counter');
+    if (counter) {
+        counter.textContent = stats.days;
+    }
+
+    const values = card.querySelectorAll('.home-recovery-stat-value');
+
+    if (values[0]) values[0].textContent = stats.weeks;
+    if (values[1]) values[1].textContent = stats.months;
+    if (values[2]) values[2].textContent = stats.years;
+}
+
+/**
+ * Install the listener once.
+ * When recovery starts, the visible home page updates immediately.
+ */
+if (!window.__taeafiRecoveryHomeListener) {
+    window.__taeafiRecoveryHomeListener = true;
+
+    window.addEventListener('recoveryUpdated', function () {
+        if (
+            typeof Router !== 'undefined' &&
+            typeof Router.getCurrentPage === 'function' &&
+            Router.getCurrentPage() === 'home'
+        ) {
+            updateHomeRecoveryCard();
+        }
+    });
+}
 
 function renderHomePage() {
     const mainContent = document.getElementById('main-content');
@@ -704,22 +766,22 @@ function renderHomePage() {
         </div>
         
         ${recoveryStats.isActive ? `
-            <div class="counter-card" onclick="navigateTo('recovery')">
+            <div class="counter-card" id="home-recovery-card" onclick="navigateTo('recovery')">
                 <i class="fas fa-calendar-check" style="font-size: 32px; margin-bottom: 12px;"></i>
                 <h3>رحلة التعافي مستمرة</h3>
                 <div class="counter-value" id="home-counter">${recoveryStats.days}</div>
                 <p>يوم منذ بداية رحلتك</p>
                 <div class="counter-stats">
                     <div class="stat-item">
-                        <div class="stat-value">${recoveryStats.weeks}</div>
+                        <div class="stat-value home-recovery-stat-value">${recoveryStats.weeks}</div>
                         <div class="stat-label">أسبوع</div>
                     </div>
                     <div class="stat-item">
-                        <div class="stat-value">${recoveryStats.months}</div>
+                        <div class="stat-value home-recovery-stat-value">${recoveryStats.months}</div>
                         <div class="stat-label">شهر</div>
                     </div>
                     <div class="stat-item">
-                        <div class="stat-value">${recoveryStats.years}</div>
+                        <div class="stat-value home-recovery-stat-value">${recoveryStats.years}</div>
                         <div class="stat-label">سنة</div>
                     </div>
                 </div>
@@ -975,14 +1037,11 @@ function renderHomePage() {
     if (dateInterval) clearInterval(dateInterval);
     startDateUpdates();
     
-    // Update counter every minute
+    // Update recovery counter every minute.
+    // The card itself is updated immediately by the recoveryUpdated event.
     if (recoveryStats.isActive) {
-        setInterval(() => {
-            const counterEl = document.getElementById('home-counter');
-            if (counterEl && typeof RecoveryCounter !== 'undefined' && typeof RecoveryCounter.getRecoveryStats === 'function') {
-                const currentStats = RecoveryCounter.getRecoveryStats();
-                counterEl.textContent = currentStats.days;
-            }
+        recoveryCounterInterval = setInterval(() => {
+            updateHomeRecoveryCard();
         }, 60000);
     }
 }

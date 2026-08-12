@@ -14,6 +14,7 @@ class Router {
     
     // Pages that should NOT be cached (rebuilt every time)
     static #noCachePages = [
+        'home',
         'habits',
         'recovery', 
         'calendar',

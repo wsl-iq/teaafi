@@ -10,8 +10,27 @@
 class RecoveryCounter {
     static #recoveryData = null;
     
-    static init() {
+    
+    /**
+     * Notify active pages that recovery data changed.
+     */
+    static #notifyUpdated() {
+        try {
+            window.dispatchEvent(new Event('recoveryUpdated'));
+        } catch (error) {
+            console.warn('Recovery update event failed:', error);
+        }
+    }
+
+    /**
+     * Refresh the in-memory state from persistent storage.
+     */
+    static refresh() {
         this.#recoveryData = StorageManager.getRecoveryData();
+        return this.#recoveryData;
+    }
+static init() {
+        this.refresh();
     }
     
     static startRecovery(habitType) {
@@ -21,6 +40,7 @@ class RecoveryCounter {
             relapses: []
         };
         StorageManager.saveRecoveryData(this.#recoveryData);
+        this.#notifyUpdated();
         return this.#recoveryData;
     }
     
@@ -31,6 +51,7 @@ class RecoveryCounter {
             relapses: []
         };
         StorageManager.saveRecoveryData(this.#recoveryData);
+        this.#notifyUpdated();
     }
     
     static addRelapse() {
@@ -39,6 +60,7 @@ class RecoveryCounter {
             date: new Date().toISOString()
         });
         StorageManager.saveRecoveryData(this.#recoveryData);
+        this.#notifyUpdated();
     }
     
     static getTimeSinceStart() {
@@ -80,6 +102,8 @@ class RecoveryCounter {
     }
     
     static getRecoveryStats() {
+        this.refresh();
+
         const time = this.getTimeSinceStart();
         return {
             ...time,
