@@ -143,3 +143,4 @@ function getTodayExercise(gender) {
         daily: dailySuggestion
     };
 }
+

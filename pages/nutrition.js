@@ -134,3 +134,4 @@ function showAlternative(mealText, budget) {
         }
     }
 }
+

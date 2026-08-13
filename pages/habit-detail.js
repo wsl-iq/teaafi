@@ -10,6 +10,21 @@
 let currentViewGender = StorageManager.getUser()?.gender || 'male';
 
 function renderHabitDetail(habitType) {
+    
+    /** 
+     * Habit cards call this function directly. Convert that direct call
+     * into a real Router history entry so Android/WebView Back can return
+     * to the habits list instead of skipping straight to the previous page.
+     */
+
+    if (
+        !window.__taeafiRouterRenderingHabitDetail &&
+        typeof Router !== 'undefined' &&
+        typeof Router.openHabitDetail === 'function'
+    ) {
+        return Router.openHabitDetail(habitType);
+    }
+
     const mainContent = document.getElementById('main-content');
     const content = HABIT_CONTENT[habitType];
     
@@ -28,7 +43,7 @@ function renderHabitDetail(habitType) {
     
     mainContent.innerHTML = `
         <div class="animate-fade-in">
-            <button class="btn btn-outline mb-4" onclick="navigateTo('habits')">
+            <button class="btn btn-outline mb-4" onclick="Router.back()">
                 <i class="fas fa-arrow-right"></i>
                 رجوع للعادات
             </button>
@@ -135,19 +150,34 @@ function renderHabitDetail(habitType) {
 // Gender switching functions
 function switchToMaleView(habitType) {
     currentViewGender = 'male';
-    renderHabitDetail(habitType);
+    window.__taeafiRouterRenderingHabitDetail = true;
+    try {
+        renderHabitDetail(habitType);
+    } finally {
+        window.__taeafiRouterRenderingHabitDetail = false;
+    }
     showToast('تم التبديل إلى محتوى الرجال');
 }
 
 function switchToFemaleView(habitType) {
     currentViewGender = 'female';
-    renderHabitDetail(habitType);
+    window.__taeafiRouterRenderingHabitDetail = true;
+    try {
+        renderHabitDetail(habitType);
+    } finally {
+        window.__taeafiRouterRenderingHabitDetail = false;
+    }
     showToast('تم التبديل إلى محتوى النساء');
 }
 
 function switchGenderView(gender, habitType) {
     currentViewGender = gender;
-    renderHabitDetail(habitType);
+    window.__taeafiRouterRenderingHabitDetail = true;
+    try {
+        renderHabitDetail(habitType);
+    } finally {
+        window.__taeafiRouterRenderingHabitDetail = false;
+    }
 }
 
 function startRecoveryJourney(habitType) {

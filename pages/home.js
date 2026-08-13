@@ -1050,8 +1050,11 @@ function renderHomePage() {
     if (dateInterval) clearInterval(dateInterval);
     startDateUpdates();
     
-    // Update recovery counter every minute.
-    // The card itself is updated immediately by the recoveryUpdated event.
+    /** 
+     * Update recovery counter every minute.
+     * The card itself is updated immediately by the recoveryUpdated event.
+     */
+    
     if (recoveryStats.isActive) {
         recoveryCounterInterval = setInterval(() => {
             updateHomeRecoveryCard();

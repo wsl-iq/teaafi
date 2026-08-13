@@ -7,7 +7,7 @@
  * using a doubly-linked list for efficient O(1) operations.
 */
 
-#include "optimization.h"
+#include "optimization.h" // import from file optimization.h
 #include <cstring>
 
 // Anonymous namespace containing the cache implementation details
@@ -153,6 +153,3 @@ void cache_put(int key, const char* val) {
 }
 
 }
-
-// clear cache,
-
