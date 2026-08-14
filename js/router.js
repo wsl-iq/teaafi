@@ -16,7 +16,9 @@
 
 class Router {
 
+
     // Current page / navigation state
+
 
     static #currentPage = 'home';
     static #isNavigating = false;
@@ -40,7 +42,9 @@ class Router {
     // Page cache storage.
     static #pageCache = new Map();
 
+
     // Page registry
+
 
     static #pages = {
         home: 'renderHomePage',
@@ -68,7 +72,9 @@ class Router {
         forgetfulness: 'renderForgetfulnessPage'
     };
 
+
     // Initialization
+
 
     static init() {
         if (this.#initialized) {
@@ -115,27 +121,40 @@ class Router {
     // Back button
 
     static #addBackButton(container) {
-        if (!container || container.querySelector('.back-button')) {
+        if (!container) {
             return;
         }
 
-        const backButton = document.createElement('button');
-        backButton.className = 'back-button';
-        backButton.type = 'button';
-        backButton.innerHTML = '<i class="fas fa-arrow-right"></i> رجوع';
+        let backButton = container.querySelector('.back-button');
 
-        // IMPORTANT:
-        // Do not navigate directly to home.
-        // Use real browser/WebView history so:
-        // settings -> calendar -> settings -> home
-        // behaves correctly.
-        backButton.addEventListener('click', (event) => {
+        if (!backButton) {
+            backButton = document.createElement('button');
+
+            backButton.className = 'back-button';
+            backButton.type = 'button';
+            backButton.dataset.routerBack = 'true';
+
+            backButton.innerHTML =
+                '<i class="fas fa-arrow-right"></i> رجوع';
+
+            container.insertBefore(
+                backButton,
+                container.firstChild
+            );
+        }
+
+        // Remove any previous listener from this button
+        // and rebind it after retrieving from cache.
+        const newBackButton = backButton.cloneNode(true);
+
+        backButton.replaceWith(newBackButton);
+
+        newBackButton.addEventListener('click', (event) => {
             event.preventDefault();
             event.stopPropagation();
-            this.back();
-        });
 
-        container.insertBefore(backButton, container.firstChild);
+            Router.back();
+        });
     }
 
     /**
@@ -683,3 +702,5 @@ if (document.readyState === 'loading') {
 } else {
     Router.init();
 }
+
+// addBackButton

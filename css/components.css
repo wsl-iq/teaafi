@@ -3008,9 +3008,10 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
 .back-button i {
     font-size: 0.8rem;
 }
-/* ========================================================================
-   مساعد الصلاة - Forgetfulness
-   ======================================================================== */
+
+/* 
+ * Forgetfulness
+*/
 
 .forgetfulness-page {
     width: 100%;
@@ -3147,7 +3148,7 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     font-size: 12px;
 }
 
-/* -------------------------- Session -------------------------- */
+/* Session */
 
 .forgetfulness-session {
     min-height: calc(100vh - 120px);
@@ -3300,7 +3301,7 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     font-size: 11px;
 }
 
-/* -------------------------- Checklist -------------------------- */
+/* Checklist */
 
 .forgetfulness-checklist-card {
     margin-top: 12px;
@@ -3393,7 +3394,7 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     cursor: default;
 }
 
-/* -------------------------- Completion -------------------------- */
+/* Completion */
 
 .forgetfulness-complete {
     text-align: center;
@@ -3468,7 +3469,7 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     gap: 9px;
 }
 
-/* -------------------------- Mobile -------------------------- */
+/* Mobile */
 
 @media (max-width: 600px) {
     .forgetfulness-page {
