@@ -355,10 +355,16 @@ function showQuizResult() {
             
             <!-- مقارنة بالتقييم السابق -->
             ${quizHistory.length > 1 ? `
-                <div style="background: #E3F2FD; padding: 12px; border-radius: 12px; margin-bottom: 16px; text-align: center;">
-                    <p style="font-size: 12px; color: #1565C0;">
-                        <i class="fas fa-chart-line" style="margin-left: 4px;"></i>
-                        ${totalScore < quizHistory[quizHistory.length - 2].score ? '⬇️ تحسن! نتيجتك أقل من المرة السابقة (' + quizHistory[quizHistory.length - 2].score + ')' : totalScore > quizHistory[quizHistory.length - 2].score ? '⬆️ ارتفعت نتيجتك عن المرة السابقة (' + quizHistory[quizHistory.length - 2].score + ')' : '➡️ نتيجتك ثابتة مثل المرة السابقة'}
+                <div class="quiz-history-comparison">
+                    <p>
+                        <i class="fas fa-chart-line"></i>
+                        ${
+                            totalScore < quizHistory[quizHistory.length - 2].score
+                                ? 'تحسن! نتيجتك أقل من المرة السابقة (' + quizHistory[quizHistory.length - 2].score + ')'
+                                : totalScore > quizHistory[quizHistory.length - 2].score
+                                    ? 'ارتفعت نتيجتك عن المرة السابقة (' + quizHistory[quizHistory.length - 2].score + ')'
+                                    : 'نتيجتك ثابتة مثل المرة السابقة'
+                        }
                     </p>
                 </div>
             ` : ''}

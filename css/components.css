@@ -3511,3 +3511,147 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
         padding: 20px 12px;
     }
 }
+
+/* 
+ * Leaderboard - Total Points Card (Fixing Bugs)
+ * Theme Adaptive / Hover Safe
+*/
+
+/* light mode */
+.card[style*="linear-gradient(135deg,#FFD700,#FFA000)"] {
+    background: var(--card-bg) !important;
+    color: var(--text-primary) !important;
+}
+
+/* icon */
+.card[style*="linear-gradient(135deg,#FFD700,#FFA000)"] i {
+    color: #D99A00 !important;
+}
+
+/* Points number*/
+.card[style*="linear-gradient(135deg,#FFD700,#FFA000)"] div {
+    color: var(--text-primary) !important;
+}
+
+/* Text */
+.card[style*="linear-gradient(135deg,#FFD700,#FFA000)"] p {
+    color: var(--text-secondary) !important;
+}
+
+/*    
+ * Hover It preserves animation without changing colors.
+*/
+
+.card[style*="linear-gradient(135deg,#FFD700,#FFA000)"]:hover {
+    background: var(--card-bg) !important;
+    color: var(--text-primary) !important;
+}
+
+.card[style*="linear-gradient(135deg,#FFD700,#FFA000)"]:hover i {
+    color: #D99A00 !important;
+}
+
+.card[style*="linear-gradient(135deg,#FFD700,#FFA000)"]:hover div {
+    color: var(--text-primary) !important;
+}
+
+.card[style*="linear-gradient(135deg,#FFD700,#FFA000)"]:hover p {
+    color: var(--text-secondary) !important;
+}
+
+/* 
+ * Dark mode
+*/
+
+.dark-mode .card[style*="linear-gradient(135deg,#FFD700,#FFA000)"],
+body.dark-mode .card[style*="linear-gradient(135deg,#FFD700,#FFA000)"] {
+    background: var(--card-bg) !important;
+    color: var(--text-primary) !important;
+}
+
+.dark-mode .card[style*="linear-gradient(135deg,#FFD700,#FFA000)"] i,
+body.dark-mode .card[style*="linear-gradient(135deg,#FFD700,#FFA000)"] i {
+    color: #FFD700 !important;
+}
+
+.dark-mode .card[style*="linear-gradient(135deg,#FFD700,#FFA000)"] div,
+body.dark-mode .card[style*="linear-gradient(135deg,#FFD700,#FFA000)"] div {
+    color: var(--text-primary) !important;
+}
+
+.dark-mode .card[style*="linear-gradient(135deg,#FFD700,#FFA000)"] p,
+body.dark-mode .card[style*="linear-gradient(135deg,#FFD700,#FFA000)"] p {
+    color: var(--text-secondary) !important;
+}
+
+/* Hover in dark mode */
+.dark-mode .card[style*="linear-gradient(135deg,#FFD700,#FFA000)"]:hover,
+body.dark-mode .card[style*="linear-gradient(135deg,#FFD700,#FFA000)"]:hover {
+    background: var(--card-bg) !important;
+    color: var(--text-primary) !important;
+}
+
+/* 
+ * Quiz - Previous Score Comparison (Fixing Bugs)
+ * Light / Dark Theme
+*/
+
+/* light mode*/
+.quiz-history-comparison {
+    background: #E3F2FD;
+    color: #1565C0;
+    padding: 12px;
+    border-radius: 12px;
+    margin-bottom: 16px;
+    text-align: center;
+    transition:
+        background-color 0.25s ease,
+        color 0.25s ease;
+}
+
+.quiz-history-comparison p {
+    margin: 0;
+    font-size: 12px;
+    color: #1565C0;
+}
+
+.quiz-history-comparison i {
+    margin-left: 4px;
+    color: #1565C0;
+}
+
+
+/* 
+ * Dark Mode The project uses body.theme-dark
+*/
+
+body.theme-dark .quiz-history-comparison {
+    background: #263238 !important;
+    color: #90CAF9 !important;
+}
+
+body.theme-dark .quiz-history-comparison p {
+    color: #90CAF9 !important;
+}
+
+body.theme-dark .quiz-history-comparison i {
+    color: #90CAF9 !important;
+}
+
+
+/* 
+ * Prevent any general rules from changing colors, During Hover
+*/
+
+body.theme-dark .quiz-history-comparison:hover {
+    background: #263238 !important;
+    color: #90CAF9 !important;
+}
+
+body.theme-dark .quiz-history-comparison:hover p {
+    color: #90CAF9 !important;
+}
+
+body.theme-dark .quiz-history-comparison:hover i {
+    color: #90CAF9 !important;
+}
