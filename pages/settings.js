@@ -352,7 +352,18 @@ function renderSettingsPage() {
                     <div style="height: 1px; background: var(--border-light); margin-bottom: 20px;"></div>
                     
                     <div style="display: flex; flex-direction: column; gap: 8px;">
-                        <!-- Instagram -->
+                        <a href="https://wsl-iq.github.io/" target="_blank" rel="noopener noreferrer"
+                           style="display: flex; align-items: center; gap: 14px; padding: 14px 18px; border-radius: var(--radius-lg); background: linear-gradient(135deg, #0F172A, #1E293B, #334155); color: white; text-decoration: none; transition: all 0.3s ease; box-shadow: 0 2px 10px rgba(15, 23, 42, 0.28);">
+                            <div style="width: 40px; height: 40px; border-radius: 12px; background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                <i class="fas fa-globe" style="font-size: 22px; color: #E2E8F0;"></i>
+                            </div>
+                            <div style="flex: 1;">
+                                <span style="font-weight: 600; font-size: 15px;">موقعي الشخصي</span>
+                                <p style="font-size: 12px; opacity: 0.9;">wsl-iq.github.io</p>
+                            </div>
+                            <i class="fas fa-arrow-left" style="font-size: 14px; opacity: 0.8;"></i>
+                        </a>
+
                         <a href="https://www.instagram.com/g6xs0r/" target="_blank" rel="noopener noreferrer" 
                            style="display: flex; align-items: center; gap: 14px; padding: 14px 18px; border-radius: var(--radius-lg); background: linear-gradient(45deg, #F09433, #E6683C, #DC2743, #CC2366, #BC1888); color: white; text-decoration: none; transition: all 0.3s ease; box-shadow: 0 2px 8px rgba(225, 48, 108, 0.2);">
                             <div style="width: 40px; height: 40px; border-radius: 12px; background: white; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
@@ -388,6 +399,7 @@ function renderSettingsPage() {
                             </div>
                             <i class="fas fa-arrow-left" style="font-size: 14px; opacity: 0.8;"></i>
                         </a>
+
                     </div>
                 </div>
             </div>

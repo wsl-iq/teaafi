@@ -63,6 +63,6 @@ echo
 echo "Build completed successfully."
 echo
 echo "Output:"
-echo "  build/optimization.js"
-echo "  build/optimization.wasm"
+echo "-> build/optimization.js"
+echo "-> build/optimization.wasm"
 echo
