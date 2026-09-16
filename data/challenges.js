@@ -39,18 +39,28 @@ var WEEKLY_CHALLENGES = [
     {
         id: 'dua_reader',
         title: 'قارئ الأدعية',
-        description: 'اقرأ 5 أدعية كاملة هذا الأسبوع',
+        description: 'ادخل إلى الأدعية والزيارات لمدة 10 دقائق هذا الأسبوع',
         icon: 'fa-book-open',
         color: '#9C27B0',
-        target: 5,
-        metric: 'duas',
+        target: 10,
+        metric: 'duas_minutes',
         reward: 'شارة "القارئ" + 75 نقطة',
         check: function() {
-            var read = StorageManager.get('duas_read') || [];
+            var sessions = StorageManager.get('duas_visits') || [];
             var weekAgo = Date.now() - 7 * 86400000;
-            return read.filter(function(d) { return new Date(d.date) > weekAgo; }).length >= 5;
+            var minutes = sessions.reduce(function(total, session) {
+                if (!session || new Date(session.date || session.start).getTime() <= weekAgo) {
+                    return total;
+                }
+
+                var duration = session.duration || session.durationMinutes || 0;
+                return total + (duration > 3600 ? duration / 60000 : duration > 60 ? duration / 60 : duration);
+            }, 0);
+
+            return minutes >= 10;
         }
     },
+    
     {
         id: 'quiz_master',
         title: 'سيد التقييم',
@@ -167,3 +177,5 @@ var ChallengesManager = {
         return Math.round((done / total) * 100);
     }
 };
+
+

@@ -3655,3 +3655,898 @@ body.theme-dark .quiz-history-comparison:hover p {
 body.theme-dark .quiz-history-comparison:hover i {
     color: #90CAF9 !important;
 }
+
+/*
+   Taeafi - 21 Day Challenge
+ */
+
+.twenty-one-page {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding-bottom: 40px;
+}
+
+
+/*
+   Hero
+ */
+
+.twenty-one-hero {
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    padding: 42px 24px;
+    margin-bottom: 20px;
+    border-radius: 24px;
+    background: linear-gradient(
+        135deg,
+        var(--primary),
+        var(--primary-dark, #1565C0)
+    );
+    color: #ffffff;
+    box-shadow: var(--card-shadow);
+}
+
+.twenty-one-hero::before {
+    content: "";
+    position: absolute;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.08);
+    top: -80px;
+    left: -50px;
+}
+
+.twenty-one-hero::after {
+    content: "";
+    position: absolute;
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.06);
+    bottom: -70px;
+    right: -30px;
+}
+
+.twenty-one-hero-icon {
+    position: relative;
+    z-index: 1;
+    width: 76px;
+    height: 76px;
+    margin: 0 auto 18px;
+    border-radius: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,0.15);
+    font-size: 34px;
+}
+
+.twenty-one-hero h1,
+.twenty-one-hero p,
+.twenty-one-badge {
+    position: relative;
+    z-index: 1;
+}
+
+.twenty-one-hero h1 {
+    margin: 14px 0 10px;
+    font-size: 30px;
+    font-weight: 800;
+}
+
+.twenty-one-hero p {
+    max-width: 650px;
+    margin: 0 auto;
+    line-height: 1.9;
+    opacity: 0.92;
+}
+
+.twenty-one-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.15);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+
+/*
+   Introduction
+ */
+
+.twenty-one-intro-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 22px;
+    margin-bottom: 20px;
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    border: 1px solid var(--border-light);
+    box-shadow: var(--card-shadow);
+}
+
+.twenty-one-intro-icon {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--primary-light);
+    color: var(--primary);
+    font-size: 20px;
+}
+
+.twenty-one-intro-card h2 {
+    margin: 0 0 8px;
+    color: var(--text-primary);
+    font-size: 19px;
+}
+
+.twenty-one-intro-card p {
+    margin: 0;
+    color: var(--text-secondary);
+    line-height: 1.9;
+}
+
+
+/*
+   Chapters
+ */
+
+.twenty-one-chapters {
+    display: grid;
+    gap: 14px;
+}
+
+.twenty-one-chapter {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 20px;
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    border: 1px solid var(--border-light);
+    box-shadow: var(--card-shadow);
+}
+
+.twenty-one-chapter-number {
+    flex-shrink: 0;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--primary-light);
+    color: var(--primary);
+    font-weight: 800;
+}
+
+.twenty-one-chapter h3 {
+    margin: 0 0 8px;
+    color: var(--text-primary);
+    font-size: 17px;
+}
+
+.twenty-one-chapter h3 i {
+    margin-left: 7px;
+    color: var(--primary);
+}
+
+.twenty-one-chapter p {
+    margin: 0 0 10px;
+    color: var(--text-secondary);
+    line-height: 1.8;
+}
+
+.twenty-one-chapter ul {
+    margin: 0;
+    padding-right: 20px;
+    color: var(--text-secondary);
+    line-height: 2;
+}
+
+
+/*
+   Quote
+ */
+
+.twenty-one-quote {
+    margin: 20px 0;
+    padding: 24px;
+    text-align: center;
+    border-radius: var(--radius-lg);
+    background: var(--primary-light);
+    color: var(--text-primary);
+}
+
+.twenty-one-quote i {
+    color: var(--primary);
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.twenty-one-quote p {
+    margin: 0 0 8px;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.twenty-one-quote span {
+    color: var(--text-secondary);
+    font-size: 13px;
+}
+
+
+/*
+   Warning
+ */
+
+.twenty-one-warning {
+    display: flex;
+    gap: 15px;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    padding: 20px;
+    border-radius: var(--radius-lg);
+    background: var(--warning-light, rgba(255,152,0,0.10));
+    border: 1px solid var(--accent-orange, #FF9800);
+}
+
+.twenty-one-warning-icon {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,152,0,0.14);
+    color: var(--accent-orange, #FF9800);
+}
+
+.twenty-one-warning h3 {
+    margin: 0 0 7px;
+    color: var(--text-primary);
+}
+
+.twenty-one-warning p {
+    margin: 0;
+    color: var(--text-secondary);
+    line-height: 1.9;
+}
+
+
+/*
+   Consent
+ */
+
+.twenty-one-consent {
+    text-align: center;
+    padding: 28px 22px;
+    border-radius: 24px;
+    background: var(--surface);
+    border: 1px solid var(--border-light);
+    box-shadow: var(--card-shadow);
+}
+
+.twenty-one-consent > i {
+    color: var(--primary);
+    font-size: 30px;
+    margin-bottom: 12px;
+}
+
+.twenty-one-consent h2 {
+    margin: 0 0 10px;
+    color: var(--text-primary);
+}
+
+.twenty-one-consent p {
+    max-width: 700px;
+    margin: 0 auto 20px;
+    color: var(--text-secondary);
+    line-height: 1.9;
+}
+
+.twenty-one-start-button {
+    min-width: 240px;
+}
+
+
+/*
+   Dashboard Header
+ */
+
+.twenty-one-dashboard-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 18px;
+    padding: 24px;
+    border-radius: 24px;
+    background: var(--surface);
+    border: 1px solid var(--border-light);
+    box-shadow: var(--card-shadow);
+}
+
+.twenty-one-dashboard-header .twenty-one-badge {
+    background: var(--primary-light);
+    color: var(--primary);
+}
+
+.twenty-one-dashboard-header h1 {
+    margin: 12px 0 6px;
+    color: var(--text-primary);
+    font-size: 25px;
+}
+
+.twenty-one-dashboard-header p {
+    margin: 0;
+    color: var(--text-secondary);
+}
+
+.twenty-one-dashboard-icon {
+    flex-shrink: 0;
+    width: 70px;
+    height: 70px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--primary-light);
+    color: var(--primary);
+    font-size: 28px;
+}
+
+
+/*
+   Main Progress
+ */
+
+.twenty-one-main-progress {
+    padding: 20px;
+    margin-bottom: 18px;
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    border: 1px solid var(--border-light);
+    box-shadow: var(--card-shadow);
+}
+
+.twenty-one-progress-top,
+.twenty-one-progress-meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.twenty-one-progress-top {
+    margin-bottom: 10px;
+    color: var(--text-primary);
+    font-weight: 700;
+}
+
+.twenty-one-progress-top strong {
+    color: var(--primary);
+}
+
+.twenty-one-progress-meta {
+    margin-top: 8px;
+    color: var(--text-tertiary);
+    font-size: 12px;
+}
+
+.twenty-one-progress-bar {
+    width: 100%;
+    height: 10px;
+    overflow: hidden;
+    border-radius: 999px;
+    background: var(--surface-variant);
+}
+
+.twenty-one-progress-bar span {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: var(--primary-gradient, var(--primary));
+    transition: width 0.35s ease;
+}
+
+.twenty-one-progress-bar.small {
+    height: 8px;
+}
+
+
+/*
+   Statistics
+ */
+
+.twenty-one-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.twenty-one-stat-card {
+    padding: 18px 12px;
+    text-align: center;
+    border-radius: var(--radius-lg);
+    background: var(--surface);
+    border: 1px solid var(--border-light);
+    box-shadow: var(--card-shadow);
+}
+
+.twenty-one-stat-icon {
+    width: 42px;
+    height: 42px;
+    margin: 0 auto 8px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--primary-light);
+    color: var(--primary);
+}
+
+.twenty-one-stat-card strong {
+    display: block;
+    margin-bottom: 4px;
+    color: var(--text-primary);
+    font-size: 20px;
+}
+
+.twenty-one-stat-card span {
+    color: var(--text-secondary);
+    font-size: 12px;
+}
+
+
+/*
+   Today's Card
+ */
+
+.twenty-one-today-card {
+    margin-bottom: 18px;
+    padding: 22px;
+    border-radius: 24px;
+    background: var(--surface);
+    border: 1px solid var(--border-light);
+    box-shadow: var(--card-shadow);
+}
+
+.twenty-one-today-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.twenty-one-today-label {
+    display: inline-block;
+    color: var(--primary);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.twenty-one-today-header h2 {
+    margin: 5px 0 0;
+    color: var(--text-primary);
+}
+
+.twenty-one-today-score {
+    width: 66px;
+    height: 66px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--primary-light);
+    color: var(--primary);
+    font-size: 21px;
+    font-weight: 800;
+}
+
+.twenty-one-task-progress {
+    margin-bottom: 22px;
+}
+
+.twenty-one-task-progress > div:first-child {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    color: var(--text-secondary);
+    font-size: 13px;
+}
+
+.twenty-one-task-progress strong {
+    color: var(--text-primary);
+}
+
+
+/*
+   Sections
+ */
+
+.twenty-one-section {
+    padding: 18px 0;
+    border-top: 1px solid var(--border-light);
+}
+
+.twenty-one-section-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.twenty-one-section-icon {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    border-radius: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--primary-light);
+    color: var(--primary);
+}
+
+.twenty-one-section-header h3 {
+    margin: 0 0 4px;
+    color: var(--text-primary);
+    font-size: 16px;
+}
+
+.twenty-one-section-header p {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+
+/*
+   Tasks
+ */
+
+.twenty-one-task-list {
+    display: grid;
+    gap: 8px;
+}
+
+.twenty-one-task {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px;
+    border: 1px solid var(--border-light);
+    border-radius: 14px;
+    background: var(--background);
+    color: var(--text-primary);
+    text-align: right;
+    cursor: pointer;
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.twenty-one-task:hover {
+    border-color: var(--primary);
+    transform: translateY(-1px);
+}
+
+.twenty-one-task-icon {
+    flex-shrink: 0;
+    width: 38px;
+    height: 38px;
+    border-radius: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--surface-variant);
+    color: var(--text-secondary);
+}
+
+.twenty-one-task-content {
+    flex: 1;
+}
+
+.twenty-one-task-content strong {
+    color: var(--text-primary);
+    font-size: 13px;
+}
+
+.twenty-one-task-check {
+    flex-shrink: 0;
+    color: var(--text-tertiary);
+    font-size: 20px;
+}
+
+.twenty-one-task.is-complete {
+    border-color: var(--primary);
+    background: var(--primary-light);
+}
+
+.twenty-one-task.is-complete .twenty-one-task-icon,
+.twenty-one-task.is-complete .twenty-one-task-check {
+    color: var(--primary);
+}
+
+.twenty-one-task.is-complete .twenty-one-task-check {
+    font-size: 21px;
+}
+
+
+/*
+   Actions
+ */
+
+.twenty-one-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.twenty-one-actions .btn {
+    flex: 1;
+    min-width: 190px;
+}
+
+.twenty-one-relapse-button {
+    min-height: 46px;
+    padding: 10px 18px;
+    border: 1px solid var(--accent-red, #F44336);
+    border-radius: var(--radius-md);
+    background: transparent;
+    color: var(--accent-red, #F44336);
+    font-family: inherit;
+    font-weight: 700;
+    cursor: pointer;
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+}
+
+.twenty-one-relapse-button:hover {
+    background: var(--accent-red, #F44336);
+    color: #ffffff;
+}
+
+
+/*
+ * Message
+*/
+
+.twenty-one-message-card {
+    margin-bottom: 18px;
+    padding: 24px;
+    text-align: center;
+    border-radius: var(--radius-lg);
+    background: var(--primary-light);
+}
+
+.twenty-one-message-card i {
+    color: var(--primary);
+    font-size: 22px;
+    margin-bottom: 8px;
+}
+
+.twenty-one-message-card p {
+    margin: 0 0 6px;
+    color: var(--text-primary);
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.twenty-one-message-card span {
+    color: var(--text-secondary);
+    font-size: 12px;
+}
+
+
+/*
+ * History
+*/
+
+.twenty-one-history-card {
+    padding: 22px;
+    border-radius: 24px;
+    background: var(--surface);
+    border: 1px solid var(--border-light);
+    box-shadow: var(--card-shadow);
+}
+
+.twenty-one-history-header {
+    margin-bottom: 14px;
+}
+
+.twenty-one-history-header > div {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+}
+
+.twenty-one-history-header i {
+    color: var(--primary);
+}
+
+.twenty-one-history-header h2 {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: 18px;
+}
+
+.twenty-one-history {
+    display: grid;
+    gap: 8px;
+}
+
+.twenty-one-history-item {
+    display: grid;
+    grid-template-columns: 70px 1fr auto;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    border-radius: 13px;
+    background: var(--background);
+    border: 1px solid var(--border-light);
+}
+
+.twenty-one-history-day {
+    text-align: center;
+}
+
+.twenty-one-history-day span {
+    display: block;
+    color: var(--text-tertiary);
+    font-size: 10px;
+}
+
+.twenty-one-history-day strong {
+    color: var(--text-primary);
+}
+
+.twenty-one-history-status {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    color: var(--text-secondary);
+    font-size: 12px;
+}
+
+.twenty-one-history-score {
+    color: var(--primary);
+}
+
+.twenty-one-history-item.relapse .twenty-one-history-status {
+    color: var(--accent-red, #F44336);
+}
+
+.twenty-one-history-item.complete .twenty-one-history-status {
+    color: var(--accent-green, #4CAF50);
+}
+
+.twenty-one-empty {
+    text-align: center;
+    padding: 30px 10px;
+    color: var(--text-tertiary);
+}
+
+.twenty-one-empty i {
+    font-size: 30px;
+    margin-bottom: 8px;
+}
+
+
+/*
+ * Dark Mode
+*/
+
+body.theme-dark .twenty-one-hero {
+    box-shadow: var(--card-shadow);
+}
+
+body.theme-dark .twenty-one-task {
+    background: #181818;
+}
+
+body.theme-dark .twenty-one-task.is-complete {
+    background: rgba(33, 150, 243, 0.12);
+}
+
+body.theme-dark .twenty-one-warning {
+    background: rgba(255, 152, 0, 0.08);
+}
+
+body.theme-dark .twenty-one-history-item {
+    background: #181818;
+}
+
+
+/*
+ * Responsive
+*/
+
+@media (max-width: 800px) {
+
+    .twenty-one-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .twenty-one-dashboard-header {
+        align-items: flex-start;
+    }
+}
+
+
+@media (max-width: 560px) {
+
+    .twenty-one-page {
+        padding-bottom: 25px;
+    }
+
+    .twenty-one-hero {
+        padding: 32px 18px;
+        border-radius: 20px;
+    }
+
+    .twenty-one-hero h1 {
+        font-size: 24px;
+    }
+
+    .twenty-one-dashboard-header {
+        padding: 18px;
+    }
+
+    .twenty-one-dashboard-header h1 {
+        font-size: 21px;
+    }
+
+    .twenty-one-dashboard-icon {
+        width: 55px;
+        height: 55px;
+        font-size: 22px;
+    }
+
+    .twenty-one-stats-grid {
+        gap: 8px;
+    }
+
+    .twenty-one-stat-card {
+        padding: 14px 8px;
+    }
+
+    .twenty-one-task {
+        padding: 11px;
+    }
+
+    .twenty-one-history-item {
+        grid-template-columns: 55px 1fr auto;
+        gap: 7px;
+    }
+
+    .twenty-one-actions {
+        flex-direction: column;
+    }
+
+    .twenty-one-actions .btn,
+    .twenty-one-relapse-button {
+        width: 100%;
+        min-width: 0;
+    }
+
+}

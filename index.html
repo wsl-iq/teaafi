@@ -44,6 +44,7 @@
     <link rel="stylesheet" href="css/desktop.css">
     <link rel="stylesheet" href="css/utilities.css">
     <link rel="stylesheet" href="css/themes.css">
+    <link rel="stylesheet" href="css/multi-habit.css">
     
     <link rel="manifest" href="manifest.json">
 </head>
@@ -239,7 +240,7 @@
             </nav>
             
             <div class="sidebar-footer">
-                <p>نسخة 1.4.3</p>
+                <p>نسخة 1.5.8</p>
                 <p>.Copyright © 2026, lnc</p>
                 <P>.Mohammed Al-Baqer</p>
                 <p>.All rights reserved</p>
@@ -273,6 +274,7 @@
                 <i class="fas fa-mosque"></i>
                 <span>إيماني</span>
             </button>
+
             <!--<button class="nav-item" data-page="forgetfulness" onclick="navigateTo('forgetfulness')">
                 <i class="fas fa-person-praying"></i>
                 <span>الصلاة</span>
@@ -281,13 +283,13 @@
                 <i class="fas fa-shield-alt"></i>
                 <span>السياسات</span>
             </button>-->
+
             <button class="nav-item" data-page="settings" onclick="navigateTo('settings')">
                 <i class="fas fa-cog"></i>
                 <span>الإعدادات</span>
             </button>
         </nav>
     </div>
-
     <div id="toast-container" class="toast-container"></div>
 
     <style>
@@ -298,6 +300,8 @@
     </style>
     
     <script src="js/storage.js"></script>
+    <script src="service-worker.js"></script>
+    <script src="js/data-update-manager.js"></script>
     <script src="js/permissions.js"></script>
     <script src="js/notifications.js"></script>
     <script src="js/counter.js"></script>
@@ -318,6 +322,8 @@
     <script src="pages/spiritual.js"></script>
     <script src="pages/tasbih.js"></script>
     <script src="pages/recovery.js"></script>
+    <script src="js/multi-habit-recovery.js"></script>
+    <script src="js/habit-controls.js"></script>
     <script src="pages/policies.js"></script>
     <script src="pages/settings.js"></script>
     <script src="pages/stats.js"></script>
@@ -331,6 +337,7 @@
     <script src="pages/nutrition.js"></script>
     <script src="pages/exercises.js"></script>
     <script src="pages/food-conflicts.js"></script>
+    <script src="pages/21-day.js"></script>
     <script src="js/smart-notifications.js"></script>
     <script src="js/search.js"></script>
     <script src="js/backup.js"></script>
@@ -358,6 +365,43 @@
         console.log('Cached message:', msg);
     })();
 </script>
+
+<script>
+    // Connect directly to the Service Worker file, with the ability to simulate an internet outage.
+    (function () {
+        const params = new URLSearchParams(window.location.search);
+        const simulatedOffline = params.has('simulateOffline') || localStorage.getItem('simulateOffline') === 'true';
+
+        function updateConnectionState() {
+            const offline = simulatedOffline || !navigator.onLine;
+            document.documentElement.classList.toggle('offline-mode', offline);
+            window.dispatchEvent(new CustomEvent('app-connection-change', {
+                detail: { offline: offline, simulated: simulatedOffline }
+            }));
+        }
+
+        // Example: simulateOffline(true) or simulateOffline(false) from the console.
+        window.simulateOffline = function (enabled) {
+            localStorage.setItem('simulateOffline', String(enabled !== false));
+            window.location.reload();
+        };
+
+        window.addEventListener('online', updateConnectionState);
+        window.addEventListener('offline', updateConnectionState);
+        updateConnectionState();
+
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function () {
+                navigator.serviceWorker.register('./service-worker.js', { scope: './' })
+                    .then(function (registration) {
+                        console.log('Contact was made with service-worker.js:', registration.scope);
+                    })
+                    .catch(function (error) {
+                        console.error('Failed to operate service-worker.js:', error);
+                    });
+            });
+        }
+    })();
+</script>
 </body>
 </html>
-

@@ -2,7 +2,7 @@
  * Developer: Mohammed Al-Baqer
  * Website: https://wsl-iq.github.io/teaafi/
  * Copyright (c) 2026 Mohammed Al-Baqer
- * Folder : pages
+ * Folder : Pages
  * File   : leaderboard.js
  * Type: JavaScript
  */
@@ -13,20 +13,42 @@ function renderLeaderboardPage() {
     var points = StorageManager.get('challenge_points') || 0;
     var achievements = typeof AchievementsManager !== 'undefined' ? AchievementsManager.getUnlocked() : [];
     var journal = StorageManager.get('journal_entries') || [];
-    var tasbih = StorageManager.get('tasbih_data') || {};
+    
+    // ✅ Get the REAL tasbih total
+    var tasbihData = getTasbihStats();
+    var tasbihTotal = tasbihData.totalCount;
+    
+    // Spiritual reading stats
+    var spiritualStats = getSpiritualStats();
+    
+    // Load and update personal records
     var records = StorageManager.get('personal_records') || {
-        longestStreak: stats.totalDays,
-        mostTasbih: tasbih.totalCount || 0,
+        longestStreak: 0,
+        mostTasbih: 0,
         bestQuiz: 0,
-        achievements: achievements.length
+        achievements: 0
     };
     
-    if (stats.totalDays > records.longestStreak) records.longestStreak = stats.totalDays;
-    if ((tasbih.totalCount || 0) > records.mostTasbih) records.mostTasbih = tasbih.totalCount || 0;
-    if (achievements.length > records.achievements) records.achievements = achievements.length;
+    // ✅ Update records with current data
+    if (stats.totalDays > (records.longestStreak || 0)) {
+        records.longestStreak = stats.totalDays;
+    }
+    
+    if (tasbihTotal > (records.mostTasbih || 0)) {
+        records.mostTasbih = tasbihTotal;
+    }
+    
+    if (achievements.length > (records.achievements || 0)) {
+        records.achievements = achievements.length;
+    }
+    
+    // Save updated records
     StorageManager.set('personal_records', records);
     
     var levelInfo = getUserLevel(points);
+    
+    // Get weekly challenge progress
+    var weeklyTasbih = getWeeklyTasbihCount();
     
     mainContent.innerHTML = `
         <div class="animate-fade-in">
@@ -45,22 +67,26 @@ function renderLeaderboardPage() {
                 <i class="fas fa-medal" style="margin-left:8px;color:#FFD700;"></i>
                 سجلاتي الشخصية
             </h2>
+
             <div class="stats-cards-grid">
                 <div class="stat-card" style="border-top:4px solid #4CAF50;">
                     <i class="fas fa-calendar-check" style="color:#4CAF50;"></i>
-                    <span class="stat-number">${records.longestStreak}</span>
+                    <span class="stat-number" id="record-streak">${records.longestStreak}</span>
                     <span class="stat-label">أطول فترة تعافي</span>
                 </div>
+
                 <div class="stat-card" style="border-top:4px solid #2196F3;">
                     <i class="fas fa-hands-praying" style="color:#2196F3;"></i>
-                    <span class="stat-number">${records.mostTasbih}</span>
+                    <span class="stat-number" id="record-tasbih">${(records.mostTasbih || 0).toLocaleString('en-US')}</span>
                     <span class="stat-label">أكثر تسبيحات</span>
                 </div>
+
                 <div class="stat-card" style="border-top:4px solid #FFD700;">
                     <i class="fas fa-trophy" style="color:#FFD700;"></i>
-                    <span class="stat-number">${records.achievements}</span>
+                    <span class="stat-number" id="record-achievements">${records.achievements}</span>
                     <span class="stat-label">إنجاز</span>
                 </div>
+
                 <div class="stat-card" style="border-top:4px solid #E91E63;">
                     <i class="fas fa-pen-fancy" style="color:#E91E63;"></i>
                     <span class="stat-number">${journal.length}</span>
@@ -68,11 +94,38 @@ function renderLeaderboardPage() {
                 </div>
             </div>
             
+            <!-- Weekly Challenge Progress -->
+            <div class="card" style="margin-top: 16px;">
+                <h3 style="margin-bottom: 12px;">
+                    <i class="fas fa-calendar-week" style="margin-left: 8px; color: #FF9800;"></i>
+                    تقدم هذا الأسبوع
+                </h3>
+                <div style="display: flex; justify-content: space-around; text-align: center;">
+                    <div>
+                        <div style="font-size: 24px; font-weight: 700; color: #2196F3;">${weeklyTasbih}</div>
+                        <div style="font-size: 11px; color: var(--text-tertiary);">تسبيحة هذا الأسبوع</div>
+                    </div>
+                    <div>
+                        <div style="font-size: 24px; font-weight: 700; color: #4CAF50;">${spiritualStats.totalReads}</div>
+                        <div style="font-size: 11px; color: var(--text-tertiary);">قراءة (دعاء/زيارة)</div>
+                    </div>
+                </div>
+                <div style="margin-top: 12px; padding: 8px; background: var(--surface-variant); border-radius: 8px; text-align: center;">
+                    <p style="font-size: 12px; color: var(--text-secondary);">
+                        ${weeklyTasbih >= 1000 ? '🌟 أكملت 1000 تسبيحة هذا الأسبوع!' : 
+                          weeklyTasbih >= 500 ? '💪 ${weeklyTasbih} تسبيحة - أنت في الطريق الصحيح!' : 
+                          '📿 ${weeklyTasbih} تسبيحة حتى الآن هذا الأسبوع'}
+                    </p>
+                </div>
+            </div>
+            
             <h2 class="section-title" style="margin-top:24px;">
                 <i class="fas fa-fire" style="margin-left:8px;color:#FF9800;"></i>
                 تحديات هذا الأسبوع
             </h2>
-            ${renderWeeklyChallenges()}
+            <div id="weekly-challenges-container">
+                ${renderWeeklyChallenges()}
+            </div>
             
             <div class="card" style="text-align:center;">
                 <h3><i class="fas fa-chart-line" style="margin-left:6px;"></i> مستواك الحالي</h3>
@@ -87,13 +140,68 @@ function renderLeaderboardPage() {
     `;
 }
 
+/**
+ * Get the real tasbih total count.
+ */
+function getTasbihStats() {
+    var data = StorageManager.get('tasbih_data') || {};
+    var total = Number(data.totalCount || 0);
+    var counts = data.counts || {};
+    var calculated = Number(counts.allahuAkbar || 0) + 
+                    Number(counts.alhamdulillah || 0) + 
+                    Number(counts.subhanAllah || 0);
+    return {
+        totalCount: Math.max(total, calculated),
+        counts: counts
+    };
+}
+
+function getSpiritualStats() {
+    var data = StorageManager.get('spiritual_reading_data') || {};
+    return {
+        totalReads: Number(data.totalReads || 0),
+        totalDuas: Number(data.totalDuas || 0),
+        totalZiyarat: Number(data.totalZiyarat || 0)
+    };
+}
+
+/**
+ * Get weekly tasbih count for challenges.
+ * Uses timestamped history if available.
+ */
+function getWeeklyTasbihCount() {
+    var data = StorageManager.get('tasbih_data') || {};
+    var history = data.history || [];
+    var weekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
+    var weeklyTotal = 0;
+    
+    // If we have timestamped history, use it
+    for (var i = 0; i < history.length; i++) {
+        if (history[i].timestamp && history[i].timestamp >= weekAgo) {
+            weeklyTotal += Number(history[i].total || 0);
+        }
+        // Also check if date string is within the week
+        else if (history[i].date) {
+            var entryDate = new Date(history[i].date);
+            if (entryDate.getTime() >= weekAgo) {
+                weeklyTotal += Number(history[i].total || 0);
+            }
+        }
+    }
+    
+    // Add current session's weekly count
+    var session = StorageManager.get('tasbih_session') || {};
+    weeklyTotal += Number(session.weeklyCount || 0);
+    
+    return weeklyTotal;
+}
+
 function renderWeeklyChallenges() {
     if (typeof ChallengesManager === 'undefined') return '<p style="text-align:center;color:var(--text-tertiary);">جاري التحميل...</p>';
     
     var active = ChallengesManager.getActiveChallenges();
     var completed = ChallengesManager.getCompletedChallenges();
     var progress = ChallengesManager.getProgress();
-    
     var html = '';
     
     html += `
@@ -167,5 +275,66 @@ function getUserLevel(points) {
             return levels[i];
         }
     }
+
     return levels[levels.length - 1];
+}
+
+// Update leaderboard when data changes
+window.addEventListener('taeafiDataUpdated', function(e) {
+    if (typeof Router !== 'undefined' && Router.getCurrentPage() === 'leaderboard') {
+        // Refresh the page to show updated data
+        renderLeaderboardPage();
+    }
+});
+
+window.addEventListener('taeafiTasbihUpdated', function(e) {
+    if (typeof Router !== 'undefined' && Router.getCurrentPage() === 'leaderboard') {
+        // Update just the record display if possible
+        updateLeaderboardRecords();
+    }
+});
+
+window.addEventListener('taeafiSpiritualReading', function(e) {
+    if (typeof Router !== 'undefined' && Router.getCurrentPage() === 'leaderboard') {
+        updateLeaderboardRecords();
+    }
+});
+
+window.addEventListener('recoveryUpdated', function(e) {
+    if (typeof Router !== 'undefined' && Router.getCurrentPage() === 'leaderboard') {
+        updateLeaderboardRecords();
+    }
+});
+
+/**
+ * Update leaderboard records without full reload.
+ */
+function updateLeaderboardRecords() {
+    try {
+        var stats = RecoveryCounter.getRecoveryStats();
+        var tasbihData = getTasbihStats();
+        var achievements = typeof AchievementsManager !== 'undefined' ? 
+            AchievementsManager.getUnlocked() : [];
+        
+        var records = StorageManager.get('personal_records') || {};
+        
+        // Update displayed numbers
+        var streakEl = document.getElementById('record-streak');
+        if (streakEl) streakEl.textContent = records.longestStreak || stats.totalDays || 0;
+        
+        var tasbihEl = document.getElementById('record-tasbih');
+        if (tasbihEl) tasbihEl.textContent = (records.mostTasbih || 0).toLocaleString('en-US');
+        
+        var achievementsEl = document.getElementById('record-achievements');
+        if (achievementsEl) achievementsEl.textContent = records.achievements || achievements.length || 0;
+        
+        // Update weekly challenges container if needed
+        var container = document.getElementById('weekly-challenges-container');
+        if (container) {
+            container.innerHTML = renderWeeklyChallenges();
+        }
+        
+    } catch (error) {
+        console.warn('[Leaderboard] Update failed:', error);
+    }
 }

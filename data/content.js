@@ -427,3 +427,5 @@ const HABIT_CONTENT = {
         ]
     }
 };
+
+// window.TaeafiMultiHabit

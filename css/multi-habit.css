@@ -1,0 +1,29 @@
+/**
+ * Developer: Mohammed Al-Baqer
+ * Folder : css
+ * File   : multi-habit.css
+ * Type   : CSS
+ * Copyright (c) 2026
+ */
+.taeafi-multi-habits-panel{margin-top:28px;padding:20px;border-radius:var(--radius-xl,18px);background:var(--surface,#fff);border:1px solid var(--border-color,rgba(0,0,0,.08));box-shadow:var(--card-shadow,0 8px 24px rgba(0,0,0,.06))}
+.taeafi-multi-habits-header{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:16px}
+.taeafi-multi-habits-header h2{margin:6px 0;color:var(--text-primary)}
+.taeafi-multi-habits-header p{margin:0;color:var(--text-secondary)}
+.taeafi-multi-habits-header>strong{min-width:52px;padding:8px 12px;border-radius:999px;text-align:center;background:var(--surface-variant);color:var(--text-primary)}
+.taeafi-multi-habits-kicker{color:var(--primary,#0D6B6E);font-size:13px;font-weight:700}
+.taeafi-multi-habits-list{display:grid;gap:10px}
+.taeafi-habit-item{display:flex;align-items:center;gap:12px;padding:12px;border-radius:14px;background:var(--background,#f5f6f8);border:1px solid transparent;transition:transform .18s ease,border-color .18s ease}
+.taeafi-habit-item:hover{transform:translateY(-1px)}
+.taeafi-habit-item.is-active{border-color:var(--primary,#0D6B6E)}
+.taeafi-habit-icon{width:44px;height:44px;display:grid;place-items:center;flex-shrink:0;border-radius:12px;background:var(--surface-variant);color:var(--primary,#0D6B6E)}
+.taeafi-habit-info{min-width:0;flex:1;display:flex;flex-direction:column;gap:4px}
+.taeafi-habit-info strong{color:var(--text-primary)}
+.taeafi-habit-info span{color:var(--text-secondary);font-size:13px}
+.taeafi-habit-actions{display:flex;align-items:center;gap:6px}
+.taeafi-habit-actions button{border:0;cursor:pointer;border-radius:10px;min-height:36px;padding:0 10px;background:var(--surface);color:var(--text-primary);transition:transform .16s ease,opacity .16s ease}
+.taeafi-habit-actions button:hover{transform:translateY(-1px)}
+.taeafi-habit-actions button.danger{color:var(--accent-red,#F44336)}
+.taeafi-habit-active{display:inline-flex;align-items:center;gap:5px;color:var(--primary,#0D6B6E);font-size:13px;font-weight:700}
+.taeafi-multi-habits-empty{padding:30px 15px;text-align:center;color:var(--text-secondary)}
+.taeafi-multi-habits-empty i{display:block;margin-bottom:8px;font-size:30px;color:var(--primary,#0D6B6E)}
+@media(max-width:600px){.taeafi-habit-item{align-items:flex-start;flex-wrap:wrap}.taeafi-habit-actions{width:100%;justify-content:flex-end}}

@@ -8,9 +8,7 @@
  */
 
 #include "optimization.h"
-
 #include <math.h>
-
 
 int fast_abs(int value)
 {
@@ -21,21 +19,17 @@ int fast_abs(int value)
     return value;
 }
 
-
 float fast_sqrt(float value)
 {
     if (value <= 0.0f) {
         return 0.0f;
     }
-
     return sqrtf(value);
 }
-
 
 unsigned int hash_str(const char* string)
 {
     unsigned int hash = 5381u;
-
     if (!string) {
         return 0u;
     }
@@ -44,6 +38,5 @@ unsigned int hash_str(const char* string)
         hash = ((hash << 5) + hash) + (unsigned char)*string;
         ++string;
     }
-
     return hash;
 }

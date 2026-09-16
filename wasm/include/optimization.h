@@ -120,7 +120,6 @@ int rle_decompress(
     int output_capacity
 );
 
-
 /*
  * Algorithms
  **/
@@ -141,7 +140,6 @@ int bin_search(
  */
 void qsort_int(int* array, int size);
 
-
 /*
  * Mathematics
  **/
@@ -160,7 +158,6 @@ float fast_sqrt(float value);
  * Calculates a DJB2-style hash for a null-terminated string.
  */
 unsigned int hash_str(const char* string);
-
 
 /*
  * Cache

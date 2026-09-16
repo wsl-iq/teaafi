@@ -9,6 +9,39 @@
 
 // function Application Version
 
+/**
+ * Load application version from version.txt
+ * Validates the format before accepting the value.
+ * Default fallback version (must match the current release)
+ */
+
+let ApplicationVersion = '1.5.8';
+
+(function loadAppVersionFromFile() {
+    try {
+        fetch('./version.txt', { cache: 'no-cache' })
+            .then(function(response) {
+                if (!response.ok) throw new Error('version.txt not found');
+                return response.text();
+            })
+            .then(function(text) {
+                var v = text.trim();
+                // Accept only valid version formats like 1.5.3 or 1.5.3.2
+                if (/^\d+(\.\d+){1,3}$/.test(v)) {
+                    ApplicationVersion = v;
+                } else {
+                    console.warn('[Version] Invalid version format in version.txt:', v);
+                }
+            })
+            .catch(function() {
+                // Silent fail - keep the default version
+            });
+    } catch (e) {
+        // Silent fail - keep the default version
+    }
+})();
+
+/**
 let ApplicationVersion = './version.txt';
 (function loadAppVersionFromFile() {
     try {
@@ -26,6 +59,7 @@ let ApplicationVersion = './version.txt';
     } catch (e) {
     }
 })();
+*/
 
 function renderSettingsPage() {
     const mainContent = document.getElementById('main-content');
@@ -540,7 +574,7 @@ function renderSettingsPage() {
                         </div>
                     </div>
                     <div style="display: flex; align-items: center; gap: 8px;">
-                        <span style="font-size: 11px; color: #E91E63; background: #FCE4EC; padding: 4px 10px; border-radius: 20px; font-weight: 500;">24 مميزات</span>
+                        <span style="font-size: 11px; color: #E91E63; background: #FCE4EC; padding: 4px 10px; border-radius: 20px; font-weight: 500;">28 مميزات</span>
                         <i class="fas fa-chevron-down" id="changelog-arrow" style="color: var(--text-tertiary); font-size: 14px; transition: transform 0.3s ease;"></i>
                     </div>
                 </div>
@@ -571,6 +605,10 @@ function renderSettingsPage() {
                         <li>22- التعديل على السياسات والقوانين أضافة بعض الشروط الصارمة</li>
                         <li>23-إمكانية الرجوع للصفحة السابقة وتصحيح الإخطاء</li>
                         <li>24- أضافة ميزة مساعد الصلاة - سجل الركوع والسجود لتعرف أين وصلت</li>
+                        <li>25- أضافة ميزة تحدي 21 يوم لأختبار العزيمة والإرادة </li>
+                        <li>26- إدارة رحلات التعافي كل عادة تمتلك رحلة مستقلة وتتسع لأربعة رحلات </li>
+                        <li>27- تصحيح الإخطاء التقويم وادارة رحلات التعافي </li>
+                        <li>28- إصلاح أخطاء المتعلقة بالإنجازات أو الإحصائيات</li>
                     </ul>
                 </div>
             </div>

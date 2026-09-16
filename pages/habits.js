@@ -22,8 +22,6 @@ function renderHabitsPage() {
                 الصحة الجسدية
             </h2>
             <div class="cards-grid">
-                
-                <!-- التدخين -->
                 <div class="card" onclick="renderHabitDetail('smoking')">
                     <div class="card-header">
                         <div class="card-icon" style="background: #FFF3E0; color: #FF9800;">
@@ -315,4 +313,3 @@ function renderHabitsPage() {
         </div>
     `;
 }
-

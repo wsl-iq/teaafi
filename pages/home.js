@@ -92,17 +92,9 @@ function toArabicNumbers(value) {
 // Obtaining the Gregorian date in (API) format
 
 function getGregorianDateString(date) {
-
     const year = date.getFullYear();
-
-    const month = String(
-        date.getMonth() + 1
-    ).padStart(2, '0');
-
-    const day = String(
-        date.getDate()
-    ).padStart(2, '0');
-
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
 }
 
@@ -111,7 +103,6 @@ function getGregorianDateString(date) {
 function displayHijriDate(year, month, day) {
     const element = document.getElementById('hijri-date');
     if (!element) return;
-
     const monthNumber = parseInt(month, 10);
     const monthName = hijriMonths[monthNumber - 1] || 'غير معروف';
 
@@ -123,15 +114,39 @@ function displayHijriDate(year, month, day) {
     `;
 }
 
+// Correction of the two-day difference in the displayed Hijri date only (Fixing Bugs)
+// (-2) days
+function subtractTwoHijriDays(year, month, day) {
+    let hijriYear = parseInt(year, 10);
+    let hijriMonth = parseInt(month, 10);
+    let hijriDay = parseInt(day, 10) - 2;
+
+    while (hijriDay <= 0) {
+        hijriMonth--;
+
+        if (hijriMonth <= 0) {
+            hijriMonth = 12;
+            hijriYear--;
+        }
+
+        // The Islamic months usually alternate between 30 and 29 days.
+        const previousMonthDays = hijriMonth % 2 === 1 ? 30 : 29;
+        hijriDay += previousMonthDays;
+    }
+
+    return {
+        year: hijriYear,
+        month: hijriMonth,
+        day: hijriDay
+    };
+}
+
 // Retrieve the Hijri date from the API
 
 async function fetchHijriDate(date) {
-
-    const dateString =
-        getGregorianDateString(date);
+    const dateString = getGregorianDateString(date);
 
     try {
-
         const response = await fetch(
             `${HIJRI_API_URL}${dateString}?greg=true`,
             {
@@ -144,30 +159,22 @@ async function fetchHijriDate(date) {
         );
 
         if (!response.ok) {
-            throw new Error(
-                `API Error: ${response.status}`
-            );
+            throw new Error(`API Error: ${response.status}`);
         }
 
-        const data =
-            await response.json();
+        const data = await response.json();
 
         /*
          * API:
-         *
          * hijri_date: "1447-07-11"
-         *
          * or:
-         *
          * hijri_year
          * hijri_month
          * hijri_day_arabic
          */
 
         if (!data || !data.hijri_date) {
-            throw new Error(
-                'التاريخ الهجري غير موجود في استجابة API'
-            );
+            throw new Error('التاريخ الهجري غير موجود في استجابة API');
         }
 
         const parts =
@@ -179,51 +186,27 @@ async function fetchHijriDate(date) {
             );
         }
 
-        const hijriYear =
-            parts[0];
+        const hijriYear = parts[0];
+        const hijriMonth = parts[1];
+        const hijriDay = parts[2];
+        const correctedHijriDate = subtractTwoHijriDays(hijriYear, hijriMonth, hijriDay);
 
-        const hijriMonth =
-            parts[1];
-
-        const hijriDay =
-            parts[2];
-
-        displayHijriDate(
-            hijriYear,
-            hijriMonth,
-            hijriDay
-        );
-
-        lastFetchedDate =
-            dateString;
-
-        console.log(
-            'التاريخ الهجري:',
-            data.hijri_date
-        );
-
+        displayHijriDate(correctedHijriDate.year, correctedHijriDate.month, correctedHijriDate.day);
+        lastFetchedDate = dateString;
+        console.log('التاريخ الهجري:', data.hijri_date);
         return true;
 
     } catch (error) {
-
-        console.warn(
-            'فشل جلب التاريخ الهجري من API:',
-            error
-        );
+        console.warn('فشل جلب التاريخ الهجري من API:', error);
 
         /*
          * In case of internet failure
          * We use the local account.
          */
 
-        const hijri =
-            gregorianToHijriLocal(date);
-
-        displayHijriDate(
-            hijri.year,
-            hijri.month,
-            hijri.day
-        );
+        const hijri = gregorianToHijriLocal(date);
+        const correctedHijriDate = subtractTwoHijriDays(hijri.year, hijri.month, hijri.day);
+        displayHijriDate(correctedHijriDate.year, correctedHijriDate.month, correctedHijriDate.day);
 
         /*
          * We do not save the date in
@@ -239,55 +222,25 @@ async function fetchHijriDate(date) {
 // Update Timer
 
 function updateTime() {
-
-    const now =
-        new Date();
-
-    let hours =
-        now.getHours();
-
-    const minutes =
-        String(
-            now.getMinutes()
-        ).padStart(2, '0');
-
-    const seconds =
-        String(
-            now.getSeconds()
-        ).padStart(2, '0');
-
-    const period =
-        hours >= 12
+    const now = new Date();
+    let hours = now.getHours();
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const seconds = String(now.getSeconds()).padStart(2, '0');
+    const period = hours >= 12
             ? 'مساءً'
             : 'صباحاً';
 
-    hours =
-        hours % 12 || 12;
-
-    const timeString =
-        `${hours}:${minutes}:${seconds} ${period}`;
-
-    const timeElement =
-        document.getElementById(
-            'current-time'
-        );
-
-    const dayElement =
-        document.getElementById(
-            'current-day'
-        );
+    hours = hours % 12 || 12;
+    const timeString = `${hours}:${minutes}:${seconds} ${period}`;
+    const timeElement = document.getElementById('current-time');
+    const dayElement = document.getElementById('current-day');
 
     if (timeElement) {
-        timeElement.textContent =
-            timeString;
+        timeElement.textContent = timeString;
     }
 
     if (dayElement) {
-
-        dayElement.textContent =
-            weekDays[
-                now.getDay()
-            ];
+        dayElement.textContent = weekDays[now.getDay()];
     }
 }
 
@@ -298,7 +251,6 @@ function updateGregorianDate() {
     const day = now.getDate();
     const month = now.getMonth();
     const year = now.getFullYear();
-
     const element = document.getElementById('gregorian-date');
     if (!element) return;
 
@@ -313,26 +265,16 @@ function updateGregorianDate() {
 // Date Update
 
 async function updateDate() {
-
-    const now =
-        new Date();
-
-    // Gregorian calendar
-    updateGregorianDate();
-
-    // Current date
-    const currentDate =
-        getGregorianDateString(now);
+    const now = new Date();
+    updateGregorianDate(); // Gregorian calendar
+    const currentDate = getGregorianDateString(now); // Current date
 
     /*
      * API requested only once
      * Per day.
      */
 
-    if (
-        lastFetchedDate !== currentDate
-    ) {
-
+    if (lastFetchedDate !== currentDate) {
         await fetchHijriDate(now);
     }
 }
@@ -340,182 +282,38 @@ async function updateDate() {
 // Local Reserve Account
 
 function gregorianToHijriLocal(date) {
-
-    const gDate =
-        new Date(date);
-
-    const gDay =
-        gDate.getDate();
-
-    const gMonth =
-        gDate.getMonth() + 1;
-
-    const gYear =
-        gDate.getFullYear();
+    const gDate = new Date(date);
+    const gDay = gDate.getDate();
+    const gMonth = gDate.getMonth() + 1;
+    const gYear = gDate.getFullYear();
 
     let jd;
-
-    if (
-        (gYear > 1582) ||
-        (
-            gYear === 1582 &&
-            gMonth > 10
-        ) ||
-        (
-            gYear === 1582 &&
-            gMonth === 10 &&
-            gDay > 14
-        )
-    ) {
-
-        jd =
-            Math.floor(
-                (
-                    1461 *
-                    (
-                        gYear +
-                        4800 +
-                        Math.floor(
-                            (gMonth - 14) / 12
-                        )
-                    )
-                ) / 4
-            ) +
-
-            Math.floor(
-                (
-                    367 *
-                    (
-                        gMonth -
-                        2 -
-                        12 *
-                        Math.floor(
-                            (gMonth - 14) / 12
-                        )
-                    )
-                ) / 12
-            ) -
-
-            Math.floor(
-                (
-                    3 *
-                    Math.floor(
-                        (
-                            gYear +
-                            4900 +
-                            Math.floor(
-                                (gMonth - 14) / 12
-                            )
-                        ) / 100
-                    )
-                ) / 4
-            ) +
-
-            gDay -
-            32075;
+    if ((gYear > 1582) || (gYear === 1582 && gMonth > 10) || (gYear === 1582 && gMonth === 10 && gDay > 14)) {
+        jd = Math.floor((1461 * (gYear + 4800 + Math.floor((gMonth - 14) / 12))) / 4) + Math.floor((
+                    367 * (gMonth - 2 - 12 * Math.floor((gMonth - 14) / 12))) / 12) - Math.floor((3 * Math.floor((
+                            gYear + 4900 + Math.floor((gMonth - 14) / 12)) / 100)) / 4) + gDay - 32075;
 
     } else {
-
-        jd =
-            367 * gYear -
-
-            Math.floor(
-                (
-                    7 *
-                    (
-                        gYear +
-                        5001 +
-                        Math.floor(
-                            (gMonth - 9) / 7
-                        )
-                    )
-                ) / 4
-            ) +
-
-            Math.floor(
-                (275 * gMonth) / 9
-            ) +
-
-            gDay +
-            1729777;
+        jd = 367 * gYear - Math.floor((7 *(gYear + 5001 + Math.floor((gMonth - 9) / 7))) / 4) + Math.floor((275 * gMonth) / 9) + gDay + 1729777;
     }
 
-    const l =
-        jd -
-        1948440 +
-        10632;
-
-    const n =
-        Math.floor(
-            (l - 1) / 10631
-        );
-
-    const l2 =
-        l -
-        10631 * n +
-        354;
-
-    const j =
-        Math.floor(
-            (10985 - l2) / 5316
-        ) *
-        Math.floor(
-            (50 * l2) / 17719
-        ) +
-
-        Math.floor(
-            l2 / 5670
-        ) *
-        Math.floor(
-            (43 * l2) / 15238
-        );
-
-    const l3 =
-        l2 -
-
-        Math.floor(
-            (30 - j) / 15
-        ) *
-        Math.floor(
-            (17719 * j) / 50
-        ) -
-
-        Math.floor(
-            j / 16
-        ) *
-        Math.floor(
-            (15238 * j) / 43
-        ) +
-
-        29;
-
-    const hMonth =
-        Math.floor(
-            (24 * l3) / 709
-        );
-
-    const hDay =
-        l3 -
-        Math.floor(
-            (709 * hMonth) / 24
-        );
-
-    const hYear =
-        30 * n +
-        j -
-        30;
+    const l = jd - 1948440 + 10632;
+    const n = Math.floor((l - 1) / 10631);
+    const l2 = l - 10631 * n + 354;
+    const j = Math.floor((10985 - l2) / 5316) * Math.floor((50 * l2) / 17719) + Math.floor(l2 / 5670) * Math.floor((43 * l2) / 15238);
+    const l3 = l2 - Math.floor((30 - j) / 15) * Math.floor((17719 * j) / 50) - Math.floor(j / 16) * Math.floor((15238 * j) / 43) + 29;
+    const hMonth = Math.floor((24 * l3) / 709);
+    const hDay = l3 - Math.floor((709 * hMonth) / 24);
+    const hYear = 30 * n + j - 30;
 
     return {
-        day: hDay,
-        month: hMonth,
-        year: hYear
+        day: hDay, month: hMonth, year: hYear
     };
 }
 
 // Start the system
 
 function startDateUpdates() {
-
     // Stop any previous timer
     if (dateInterval) {
         clearInterval(dateInterval);
@@ -535,9 +333,7 @@ function startDateUpdates() {
 
     // Time updated every second
     dateInterval = setInterval(() => {
-
         updateTime();
-
         const now = new Date();
         const currentDate = getGregorianDateString(now);
 
@@ -552,13 +348,8 @@ function startDateUpdates() {
 // System shutdown
 
 function stopDateUpdates() {
-
     if (dateInterval) {
-
-        clearInterval(
-            dateInterval
-        );
-
+        clearInterval(dateInterval);
         dateInterval = null;
     }
 
@@ -574,11 +365,11 @@ function stopDateUpdates() {
  * Names of the days of the week in Arabic
  */
 
-
 /**
  * Update only the recovery card's values.
  * The homepage itself is not rebuilt.
  */
+
 function updateHomeRecoveryCard() {
     const card = document.getElementById('home-recovery-card');
 
@@ -587,9 +378,7 @@ function updateHomeRecoveryCard() {
     }
 
     if (
-        typeof RecoveryCounter === 'undefined' ||
-        typeof RecoveryCounter.getRecoveryStats !== 'function'
-    ) {
+        typeof RecoveryCounter === 'undefined' || typeof RecoveryCounter.getRecoveryStats !== 'function') {
         return;
     }
 
@@ -618,13 +407,8 @@ function updateHomeRecoveryCard() {
  */
 if (!window.__taeafiRecoveryHomeListener) {
     window.__taeafiRecoveryHomeListener = true;
-
     window.addEventListener('recoveryUpdated', function () {
-        if (
-            typeof Router !== 'undefined' &&
-            typeof Router.getCurrentPage === 'function' &&
-            Router.getCurrentPage() === 'home'
-        ) {
+        if (typeof Router !== 'undefined' && typeof Router.getCurrentPage === 'function' && Router.getCurrentPage() === 'home') {
             updateHomeRecoveryCard();
         }
     });
@@ -650,15 +434,13 @@ function renderHomePage() {
     let updateVersion = '';
 
     // Fetch the current version of (localStorage) directly
-    const storedVersion = localStorage.getItem('app_version') || 
-                          (typeof APP_VERSION !== 'undefined' ? APP_VERSION : null);
+    const storedVersion = localStorage.getItem('app_version') ||  (typeof APP_VERSION !== 'undefined' ? APP_VERSION : null);
 
     if (typeof StorageManager !== 'undefined' && typeof StorageManager.get === 'function') {
         const stored = StorageManager.get('update_available');
         
         if (stored) {
             let updateData = null;
-            
             if (typeof stored === 'string') {
                 try {
                     updateData = JSON.parse(stored);
@@ -840,14 +622,14 @@ function renderHomePage() {
                     </div>
                     <p class="card-description">مساعد شامل لأوقات الصلاة والتذكيرات اليومية</p>
                 </div>
+
+
             </div>
-            
             <h2 class="section-title" style="margin-top: 32px;">
                 <i class="fas fa-toolbox" style="margin-left: 8px;"></i>
                 أدوات مساعدة
             </h2>
             <div class="cards-grid">
-                <!-- الإحصائيات -->
                 <div class="card" onclick="navigateTo('stats')">
                     <div class="card-header">
                         <div class="card-icon" style="background: #E3F2FD; color: #2196F3;">
@@ -917,6 +699,19 @@ function renderHomePage() {
                         </div>
                     </div>
                     <p class="card-description">شاهد أيام تعافيك باللون الأخضر والانتكاسات بالأحمر</p>
+                </div>
+                
+                <div class="card" onclick="navigateTo('21-day')">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: #FCE4EC; color: #F44336;">
+                            <i class="fas fa-fire"></i>
+                        </div>
+                        <div>
+                            <h3 class="card-title">تحدي 21 يوم</h3>
+                            <p class="text-sm text-secondary">اختبر عزيمتك</p>
+                        </div>
+                    </div>
+                    <p class="card-description">تحدي مكثف لمدة 21 يوم لتقوية إرادتك والتغلب على الإدمان</p>
                 </div>
             </div>
 

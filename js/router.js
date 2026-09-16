@@ -5,7 +5,9 @@
  * Folder : js
  * File   : router.js
  * Type   : JavaScript
- *
+ */
+
+/**
  * Router responsibilities:
  * - SPA page navigation
  * - Real browser / WebView back navigation
@@ -14,12 +16,8 @@
  * - Navigation state synchronization
  */
 
+// Current page / navigation state
 class Router {
-
-
-    // Current page / navigation state
-
-
     static #currentPage = 'home';
     static #isNavigating = false;
     static #initialized = false;
@@ -36,16 +34,14 @@ class Router {
         'stats',
         'journal',
         'breath',
-        'habit-detail'
+        'habit-detail',
+        '21-day'
     ];
 
     // Page cache storage.
     static #pageCache = new Map();
 
-
     // Page registry
-
-
     static #pages = {
         home: 'renderHomePage',
         habits: 'renderHabitsPage',
@@ -66,6 +62,7 @@ class Router {
         nutrition: 'renderNutritionPage',
         exercises: 'renderExercisesPage',
         'food-conflicts': 'renderFoodConflictsPage',
+        '21-day': 'renderTwentyOneDayPage',
 
         // Optional page added by the prayer-assistant feature.
         // It is harmless if the render function is not loaded yet.
@@ -74,8 +71,6 @@ class Router {
 
 
     // Initialization
-
-
     static init() {
         if (this.#initialized) {
             return;
@@ -112,7 +107,6 @@ class Router {
         }
 
         this.#currentPage = requestedPage;
-
         // Keep the current page state synchronized without creating
         // another history entry.
         this.#updateNavState(requestedPage);
@@ -129,37 +123,26 @@ class Router {
 
         if (!backButton) {
             backButton = document.createElement('button');
-
             backButton.className = 'back-button';
             backButton.type = 'button';
             backButton.dataset.routerBack = 'true';
-
-            backButton.innerHTML =
-                '<i class="fas fa-arrow-right"></i> رجوع';
-
-            container.insertBefore(
-                backButton,
-                container.firstChild
-            );
+            backButton.innerHTML = '<i class="fas fa-arrow-right"></i> رجوع';
+            container.insertBefore(backButton, container.firstChild);
         }
 
         // Remove any previous listener from this button
         // and rebind it after retrieving from cache.
         const newBackButton = backButton.cloneNode(true);
-
         backButton.replaceWith(newBackButton);
-
         newBackButton.addEventListener('click', (event) => {
             event.preventDefault();
             event.stopPropagation();
-
             Router.back();
         });
     }
 
     /**
      * Real application back action.
-     *
      * Android/WebView/browser will trigger popstate after history.back().
      * We deliberately do NOT call navigateTo() directly here.
      */
@@ -170,11 +153,7 @@ class Router {
 
         const state = window.history.state;
 
-        if (
-            state &&
-            state.__taeafiRouter === true &&
-            this.#historyIndex > 0
-        ) {
+        if (state && state.__taeafiRouter === true && this.#historyIndex > 0) {
             window.history.back();
             return true;
         }
@@ -189,7 +168,6 @@ class Router {
     }
 
     // Cache
-
     static #cacheCurrentPage(mainContent) {
         if (!this.#currentPage || !mainContent) {
             return;
@@ -229,7 +207,6 @@ class Router {
 
     /**
      * Navigate to a page.
-     *
      * historyMode:
      * - push    : normal navigation, creates a history entry
      * - pop     : browser/WebView back, does NOT create an entry
@@ -267,18 +244,14 @@ class Router {
 
         const previousPage = this.#currentPage;
         const previousIndex = this.#historyIndex;
-
         this.#isNavigating = true;
 
         try {
             // Save current static page before leaving it.
             this.#cacheCurrentPage(mainContent);
-
             // History management
-
             if (historyMode === 'push') {
                 const nextIndex = previousIndex + 1;
-
                 window.history.pushState(
                     {
                         __taeafiRouter: true,
@@ -309,12 +282,7 @@ class Router {
             // For historyMode=pop, the browser already changed history.state.
             if (historyMode === 'pop') {
                 const state = window.history.state;
-
-                if (
-                    state &&
-                    state.__taeafiRouter === true &&
-                    Number.isInteger(state.index)
-                ) {
+                if (state && state.__taeafiRouter === true && Number.isInteger(state.index)) {
                     this.#historyIndex = state.index;
                 }
             }
@@ -324,10 +292,7 @@ class Router {
 
             // Render / restore
 
-            const canUseCache =
-                this.#pageCache.has(page) &&
-                !this.#noCachePages.includes(page);
-
+            const canUseCache = this.#pageCache.has(page) && !this.#noCachePages.includes(page);
             let rendered = false;
 
             if (canUseCache) {
@@ -343,9 +308,7 @@ class Router {
                 const renderFunction = this.#pages[page];
 
                 if (typeof window[renderFunction] !== 'function') {
-                    console.error(
-                        `Render function "${renderFunction}" not found.`
-                    );
+                    console.error(`Render function "${renderFunction}" not found.`);
 
                     // Restore the previous logical state if rendering failed.
                     this.#currentPage = previousPage;
@@ -359,10 +322,8 @@ class Router {
                 }
 
                 mainContent.innerHTML = '';
-
                 if (page === 'habit-detail') {
-                    const habitType = params?.habitType ||
-                        window.history.state?.habitType;
+                    const habitType = params?.habitType || window.history.state?.habitType;
 
                     if (!habitType) {
                         console.error('Habit detail type is missing.');
@@ -383,10 +344,7 @@ class Router {
 
             // Add the internal back button after the page exists.
             if (page !== 'home' && page !== 'habit-detail') {
-                const container =
-                    mainContent.querySelector('.animate-fade-in') ||
-                    mainContent.querySelector('.page-container') ||
-                    mainContent.firstElementChild;
+                const container = mainContent.querySelector('.animate-fade-in') || mainContent.querySelector('.page-container') || mainContent.firstElementChild;
 
                 if (container) {
                     this.#addBackButton(container);
@@ -396,15 +354,9 @@ class Router {
             // Scroll to top without smooth scrolling. Smooth scrolling here
             // can combine with page animation and feel like a WebView shake.
             mainContent.scrollTop = 0;
-
-            // Page transition
-            this.#playTransition(mainContent, direction);
-
+            this.#playTransition(mainContent, direction); // Page transition
             // Save last visited page, but don't use it as navigation state.
-            if (
-                typeof StorageManager !== 'undefined' &&
-                typeof StorageManager.set === 'function'
-            ) {
+            if (typeof StorageManager !== 'undefined' && typeof StorageManager.set === 'function') {
                 StorageManager.set('last_page', page);
             }
 
@@ -478,7 +430,6 @@ class Router {
 
         // Force a reflow so repeated navigation restarts the animation.
         void mainContent.offsetWidth;
-
         mainContent.classList.add(className);
 
         const cleanup = () => {
@@ -496,7 +447,6 @@ class Router {
 
     /**
      * Opens a habit detail page as a real history entry.
-     *
      * The habit cards in habits.js call renderHabitDetail() directly,
      * so habit-detail.js redirects that call here. This gives the
      * detail screen its own history entry and makes both the Android
@@ -523,9 +473,7 @@ class Router {
             const previousPage = this.#currentPage;
             const previousIndex = this.#historyIndex;
             const nextIndex = previousIndex + 1;
-
             this.#cacheCurrentPage(mainContent);
-
             window.history.pushState(
                 {
                     __taeafiRouter: true,
@@ -541,7 +489,6 @@ class Router {
             this.#historyIndex = nextIndex;
             this.#currentPage = 'habit-detail';
             this.#updateNavState('habits');
-
             const renderFunction = this.#pages['habit-detail'];
 
             if (typeof window[renderFunction] !== 'function') {
@@ -566,9 +513,7 @@ class Router {
             this.#playTransition(mainContent, 'forward');
 
             if (
-                typeof StorageManager !== 'undefined' &&
-                typeof StorageManager.set === 'function'
-            ) {
+                typeof StorageManager !== 'undefined' && typeof StorageManager.set === 'function') {
                 StorageManager.set('last_page', 'habit-detail');
             }
 
@@ -593,17 +538,11 @@ class Router {
 
     static #updateNavState(page) {
         document.querySelectorAll('.nav-item').forEach(item => {
-            item.classList.toggle(
-                'active',
-                item.dataset.page === page
-            );
+            item.classList.toggle('active',item.dataset.page === page);
         });
 
         document.querySelectorAll('.nav-link').forEach(link => {
-            link.classList.toggle(
-                'active',
-                link.dataset.page === page
-            );
+            link.classList.toggle('active',link.dataset.page === page);
         });
     }
 
@@ -661,18 +600,12 @@ window.addEventListener('popstate', function (event) {
     const state = event.state;
 
     // A history entry created by this router.
-    if (
-        state &&
-        state.__taeafiRouter === true &&
-        state.page &&
-        Router.getCurrentPage() !== state.page
-    ) {
+    if (state && state.__taeafiRouter === true && state.page && Router.getCurrentPage() !== state.page) {
         const targetIndex = Number.isInteger(state.index)
             ? state.index
             : 0;
 
         const currentIndex = Router.getHistoryIndex();
-
         Router.navigateTo(state.page, {
             historyMode: 'pop',
             direction: targetIndex < currentIndex ? 'back' : 'forward',
@@ -702,5 +635,3 @@ if (document.readyState === 'loading') {
 } else {
     Router.init();
 }
-
-// addBackButton

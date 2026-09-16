@@ -18,6 +18,7 @@ const ACHIEVEMENTS = {
         category: 'recovery',
         condition: function(stats) { return stats.isActive && stats.totalDays >= 0; }
     },
+
     first_day: {
         id: 'first_day',
         title: 'أول 24 ساعة',
@@ -27,6 +28,7 @@ const ACHIEVEMENTS = {
         category: 'recovery',
         condition: function(stats) { return stats.totalDays >= 1; }
     },
+
     three_days: {
         id: 'three_days',
         title: 'صامد',
@@ -36,6 +38,7 @@ const ACHIEVEMENTS = {
         category: 'recovery',
         condition: function(stats) { return stats.totalDays >= 3; }
     },
+
     week_warrior: {
         id: 'week_warrior',
         title: 'بطل الأسبوع',
@@ -45,6 +48,7 @@ const ACHIEVEMENTS = {
         category: 'recovery',
         condition: function(stats) { return stats.totalDays >= 7; }
     },
+
     two_weeks: {
         id: 'two_weeks',
         title: 'قوة الإرادة',
@@ -54,6 +58,7 @@ const ACHIEVEMENTS = {
         category: 'recovery',
         condition: function(stats) { return stats.totalDays >= 14; }
     },
+
     month_master: {
         id: 'month_master',
         title: 'سيد الشهر',
@@ -63,6 +68,7 @@ const ACHIEVEMENTS = {
         category: 'recovery',
         condition: function(stats) { return stats.totalDays >= 30; }
     },
+
     two_months: {
         id: 'two_months',
         title: 'محارب',
@@ -72,6 +78,7 @@ const ACHIEVEMENTS = {
         category: 'recovery',
         condition: function(stats) { return stats.totalDays >= 60; }
     },
+
     ninety_days: {
         id: 'ninety_days',
         title: 'أسطورة التعافي',
@@ -81,6 +88,7 @@ const ACHIEVEMENTS = {
         category: 'recovery',
         condition: function(stats) { return stats.totalDays >= 90; }
     },
+
     six_months: {
         id: 'six_months',
         title: 'نصف عام حرية',
@@ -90,6 +98,7 @@ const ACHIEVEMENTS = {
         category: 'recovery',
         condition: function(stats) { return stats.totalDays >= 180; }
     },
+
     year_free: {
         id: 'year_free',
         title: 'عام الحرية',
@@ -109,10 +118,14 @@ const ACHIEVEMENTS = {
         color: '#00BCD4',
         category: 'tasbih',
         condition: function() {
-            var data = StorageManager.get('tasbih_data');
-            return data && data.totalCount >= 100;
+            var data = StorageManager.get('tasbih_data') || {};
+            var total = Number(data.totalCount || 0);
+            var counts = data.counts || {};
+            var calculated = Number(counts.allahuAkbar || 0) + Number(counts.alhamdulillah || 0) + Number(counts.subhanAllah || 0);
+            return Math.max(total, calculated) >= 100;
         }
     },
+
     tasbih_1000: {
         id: 'tasbih_1000',
         title: 'مُسبِّح مخلص',
@@ -121,10 +134,14 @@ const ACHIEVEMENTS = {
         color: '#4CAF50',
         category: 'tasbih',
         condition: function() {
-            var data = StorageManager.get('tasbih_data');
-            return data && data.totalCount >= 1000;
+            var data = StorageManager.get('tasbih_data') || {};
+            var total = Number(data.totalCount || 0);
+            var counts = data.counts || {};
+            var calculated = Number(counts.allahuAkbar || 0) + Number(counts.alhamdulillah || 0) + Number(counts.subhanAllah || 0);
+            return Math.max(total, calculated) >= 1000;
         }
     },
+
     tasbih_5000: {
         id: 'tasbih_5000',
         title: 'أهل الذكر',
@@ -133,12 +150,15 @@ const ACHIEVEMENTS = {
         color: '#FF9800',
         category: 'tasbih',
         condition: function() {
-            var data = StorageManager.get('tasbih_data');
-            return data && data.totalCount >= 5000;
+            var data = StorageManager.get('tasbih_data') || {};
+            var total = Number(data.totalCount || 0);
+            var counts = data.counts || {};
+            var calculated = Number(counts.allahuAkbar || 0) + Number(counts.alhamdulillah || 0) + Number(counts.subhanAllah || 0);
+            return Math.max(total, calculated) >= 5000;
         }
     },
     
-    // General achievements
+    // General achievements 
     multi_habit: {
         id: 'multi_habit',
         title: 'محارب متعدد',
@@ -147,10 +167,21 @@ const ACHIEVEMENTS = {
         color: '#795548',
         category: 'general',
         condition: function() {
-            var habits = StorageManager.get('habits_history') || [];
-            return habits.length >= 3;
+                if (typeof TaeafiMultiHabit !== 'undefined' && typeof TaeafiMultiHabit.getHabits === 'function') {
+                    return (TaeafiMultiHabit.getHabits() || []).length >= 3;
+                }
+                try {
+                    var raw = localStorage.getItem('taeafi_multi_habit_recovery');
+                    if (raw) {
+                        var parsed = JSON.parse(raw);
+                        var db = parsed && parsed.value ? parsed.value : parsed;
+                        if (db && db.habits) return Object.keys(db.habits).length >= 3;
+                    }
+                } catch (e) {}
+                return false;
         }
     },
+
     perfect_week: {
         id: 'perfect_week',
         title: 'أسبوع مثالي',
@@ -159,9 +190,11 @@ const ACHIEVEMENTS = {
         color: '#FFD700',
         category: 'recovery',
         condition: function(stats) {
-            return stats.totalDays >= 7 && stats.relapses === 0;
+            var relapseCount = Array.isArray(stats.relapses) ? stats.relapses.length : Number(stats.relapses || 0);
+            return stats.totalDays >= 7 && relapseCount === 0;
         }
     },
+
     come_back: {
         id: 'come_back',
         title: 'العودة أقوى',
@@ -170,9 +203,11 @@ const ACHIEVEMENTS = {
         color: '#FF5722',
         category: 'recovery',
         condition: function(stats) {
-            return stats.relapses > 0 && stats.totalDays >= 1;
+            var relapseCount = Array.isArray(stats.relapses) ? stats.relapses.length : Number(stats.relapses || 0);
+            return relapseCount > 0 && stats.totalDays >= 1;
         }
     },
+
     rating_given: {
         id: 'rating_given',
         title: 'مُقيِّم',
@@ -186,38 +221,127 @@ const ACHIEVEMENTS = {
     }
 };
 
-//  Achievements Manager
+// Achievements Manager
 var AchievementsManager = {
     unlocked: [],
-    
     init: function() {
         this.unlocked = StorageManager.get('achievements') || [];
         this.checkAll();
     },
     
     checkAll: function() {
-        var stats = typeof RecoveryCounter !== 'undefined' ? 
-            RecoveryCounter.getRecoveryStats() : { totalDays: 0, relapses: 0, isActive: false };
-        
+
+        var stats =
+            typeof RecoveryCounter !== 'undefined'
+                ? RecoveryCounter.getRecoveryStats()
+                : {
+                    totalDays: 0,
+                    relapses: 0,
+                    isActive: false
+                };
+
         var newlyUnlocked = [];
-        
+
         for (var key in ACHIEVEMENTS) {
-            var achievement = ACHIEVEMENTS[key];
-            if (this.unlocked.indexOf(achievement.id) === -1) {
-                if (achievement.condition(stats)) {
-                    this.unlocked.push(achievement.id);
-                    newlyUnlocked.push(achievement);
+
+            if (
+                !Object.prototype.hasOwnProperty.call(
+                    ACHIEVEMENTS,
+                    key
+                )
+            ) {
+                continue;
+            }
+
+            var achievement =
+                ACHIEVEMENTS[key];
+
+            if (
+                this.unlocked.indexOf(
+                    achievement.id
+                ) !== -1
+            ) {
+                continue;
+            }
+
+            try {
+
+                var completed =
+                    achievement.condition(stats);
+
+                if (completed) {
+
+                    this.unlocked.push(
+                        achievement.id
+                    );
+
+                    newlyUnlocked.push(
+                        achievement
+                    );
                 }
+
+            } catch (error) {
+
+                console.error(
+                    '[Achievements] Condition failed:',
+                    achievement.id,
+                    error
+                );
+
             }
         }
-        
+
+        /*
+        * حفظ الإنجازات إذا صار تغيير.
+        */
         if (newlyUnlocked.length > 0) {
-            StorageManager.set('achievements', this.unlocked);
-            newlyUnlocked.forEach(function(a) {
-                showAchievementNotification(a);
-            });
+
+            StorageManager.set(
+                'achievements',
+                this.unlocked
+            );
+
+            // ✅ Ensure DataUpdateManager knows about the new achievement
+            if (typeof DataUpdateManager !== 'undefined') {
+                DataUpdateManager._updatePersonalRecords();
+            }
+
+            newlyUnlocked.forEach(
+                function (achievement) {
+
+                    if (
+                        typeof showAchievementNotification ===
+                        'function'
+                    ) {
+
+                        showAchievementNotification(
+                            achievement
+                        );
+                    }
+
+                }
+            );
+
+            /*
+            * حدث عام حتى الإحصائيات والـ leaderboard
+            * تعرف أن هناك إنجاز جديد.
+            */
+            window.dispatchEvent(
+                new CustomEvent(
+                    'taeafiAchievementUnlocked',
+                    {
+                        detail: {
+                            achievements:
+                                newlyUnlocked
+                        }
+                    }
+                )
+            );
         }
+
+        return newlyUnlocked;
     },
+    
     
     getUnlocked: function() {
         var result = [];
@@ -253,6 +377,7 @@ var AchievementsManager = {
                 if (this.unlocked.indexOf(ACHIEVEMENTS[key].id) !== -1) unlocked++;
             }
         }
+        
         return { unlocked: unlocked, total: total };
     }
 };
@@ -268,6 +393,7 @@ function showAchievementNotification(achievement) {
             <p>${achievement.description}</p>
         </div>
     `;
+
     document.body.appendChild(modal);
     
     setTimeout(function() {
@@ -291,6 +417,7 @@ achievementStyles.textContent = `
         z-index: 9999;
         animation: slideDown 0.5s ease;
     }
+
     .achievement-card {
         background: var(--surface);
         padding: 20px 30px;
@@ -299,15 +426,18 @@ achievementStyles.textContent = `
         text-align: center;
         min-width: 280px;
     }
+
     @keyframes slideDown {
         from { top: -100px; opacity: 0; }
         to { top: 20px; opacity: 1; }
     }
+
     .achievements-grid {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
         gap: 12px;
     }
+
     .achievement-item {
         text-align: center;
         padding: 16px;
@@ -315,12 +445,15 @@ achievementStyles.textContent = `
         background: var(--surface);
         border: 1px solid var(--border-light);
     }
+
     .achievement-item.locked {
         opacity: 0.5;
         filter: grayscale(100%);
     }
+
     .achievement-item.unlocked {
         border-color: var(--primary);
     }
 `;
+
 document.head.appendChild(achievementStyles);

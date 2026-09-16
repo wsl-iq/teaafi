@@ -106,6 +106,7 @@ function renderDuaDetail(category, id) {
     }
     
     var hasContent = item.content && item.content.trim().length > 0;
+    var readCount = getSpiritualReadCount(category, id);
     
     mainContent.innerHTML = `
         <div class="animate-fade-in">
@@ -146,15 +147,24 @@ function renderDuaDetail(category, id) {
                 
                 <p style="color: var(--text-secondary); margin-bottom: 16px; line-height: 1.8; font-size: ${fontSize}px;">${item.description}</p>
                 
-                <div style="background: var(--surface-variant); padding: 12px 16px; border-radius: var(--radius-md); margin-bottom: 20px;">
+                <div style="background: var(--surface-variant); padding: 12px 16px; border-radius: var(--radius-md); margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;">
                     <p style="font-size: ${fontSize - 1}px; color: var(--text-tertiary);">
                         <i class="fas fa-clock" style="margin-left: 4px;"></i> ${item.time}
                     </p>
+                    <span style="font-size: 12px; color: var(--primary); background: var(--primary-light); padding: 4px 12px; border-radius: 20px;">
+                        <i class="fas fa-eye" style="margin-left: 4px;"></i>
+                        قرأت ${readCount} مرات
+                    </span>
                 </div>
                 
                 ${hasContent ? `
                     <div class="dua-content" style="line-height: 2.8; font-family: var(--font-quran); font-size: ${fontSize}px; text-align: justify;">
                         ${item.content.replace(/\n/g, '<br>')}
+                    </div>
+                    <div style="margin-top: 20px; display: flex; gap: 12px; justify-content: center;">
+                        <button class="btn btn-primary" onclick="recordDuaReading('${category}', '${id}')">
+                            <i class="fas fa-check-circle"></i> سجل أنني قرأت
+                        </button>
                     </div>
                 ` : `
                     <div class="card" style="text-align: center; padding: 40px 20px; background: #FFF8E1; border: 1px dashed #FFC107;">
@@ -170,6 +180,114 @@ function renderDuaDetail(category, id) {
     `;
 }
 
+/**
+ * Get the read count for a specific spiritual item.
+ */
+function getSpiritualReadCount(category, id) {
+    var data = StorageManager.get('spiritual_reading_data') || {};
+    var collection = category === 'ziyarat' ? (data.ziyarat || {}) : (data.duas || {});
+    return collection[id] ? (collection[id].count || 0) : 0;
+}
+
+/**
+ * Record that a user has read a dua or ziyarat.
+ * This triggers the update chain.
+ */
+function recordDuaReading(category, id) {
+    if (!category || !id) {
+        return false;
+    }
+
+    var key = 'spiritual_reading_data';
+    var data = StorageManager.get(key) || {};
+    
+    // Initialize collections
+    if (!data.duas) data.duas = {};
+    if (!data.ziyarat) data.ziyarat = {};
+    
+    var collection = category === 'ziyarat' ? data.ziyarat : data.duas;
+    
+    // Get the item title
+    var itemTitle = getSpiritualItemTitle(category, id);
+    
+    // Update or create entry
+    if (!collection[id]) {
+        collection[id] = {
+            id: id,
+            count: 0,
+            firstRead: Date.now(),
+            lastRead: null,
+            title: itemTitle
+        };
+    }
+    
+    collection[id].count = Number(collection[id].count || 0) + 1;
+    collection[id].lastRead = Date.now();
+    
+    // Update totals
+    data.totalReads = Number(data.totalReads || 0) + 1;
+    data.totalDuas = Object.keys(data.duas).length;
+    data.totalZiyarat = Object.keys(data.ziyarat).length;
+    data.updatedAt = Date.now();
+    
+    // Save data
+    StorageManager.set(key, data);
+    
+    // ✅ CRITICAL: Notify all systems about the update
+    if (typeof DataUpdateManager !== 'undefined') {
+        DataUpdateManager.notifyDataChanged(category === 'ziyarat' ? 'ziyarat' : 'dua', {
+            id: id,
+            title: itemTitle,
+            count: collection[id].count,
+            totalReads: data.totalReads
+        });
+    }
+    
+    // Dispatch event
+    try {
+        window.dispatchEvent(new CustomEvent('taeafiSpiritualReading', {
+            detail: {
+                category: category,
+                id: id,
+                title: itemTitle,
+                totalReads: data.totalReads,
+                totalDuas: data.totalDuas,
+                totalZiyarat: data.totalZiyarat,
+                timestamp: Date.now()
+            }
+        }));
+    } catch (e) {}
+    
+    showToast('✅ تم تسجيل قراءة ' + itemTitle);
+    
+    // Refresh the page to show updated count
+    renderDuaDetail(category, id);
+    
+    return true;
+}
+
+/**
+ * Get the title of a spiritual item.
+ */
+function getSpiritualItemTitle(category, id) {
+    var data = DUAS_DATA[category];
+    if (!data) return id;
+    var item = data.items.find(function(i) { return i.id === id; });
+    return item ? item.title : id;
+}
+
+/**
+ * Get reading statistics for spiritual items.
+ */
+function getSpiritualStats() {
+    var data = StorageManager.get('spiritual_reading_data') || {};
+    return {
+        totalReads: Number(data.totalReads || 0),
+        totalDuas: Number(data.totalDuas || 0),
+        totalZiyarat: Number(data.totalZiyarat || 0),
+        lastRead: data.updatedAt || null
+    };
+}
 
 function changeDuaFontSize(size) {
     StorageManager.set('dua_font_size', parseInt(size));
@@ -207,4 +325,9 @@ function resetDuaFontSize() {
     if (typeof showToast === 'function') {
         showToast('تم إعادة حجم الخط إلى الافتراضي');
     }
+}
+
+// Legacy function for compatibility
+function recordSpiritualReading(category, id) {
+    return recordDuaReading(category, id);
 }

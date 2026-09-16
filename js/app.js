@@ -16,6 +16,9 @@ function initApp() {
     try {
         if (typeof StorageManager !== 'undefined' && typeof StorageManager.init === 'function') StorageManager.init();
         if (typeof RecoveryCounter !== 'undefined' && typeof RecoveryCounter.init === 'function') RecoveryCounter.init();
+        if (typeof AchievementsManager !== 'undefined' && typeof AchievementsManager.init === 'function') AchievementsManager.init();
+        // Link whit  Achievements
+        
     } catch (e) { console.error('init error:', e); }
     
     setTimeout(function() {

@@ -8,9 +8,7 @@
  */
 
 #include "optimization.h"
-
 #include <stddef.h>
-
 
 int rle_compress(
     const int* input,
@@ -54,17 +52,11 @@ int rle_compress(
 
         i += count;
     }
-
     return output_index;
 }
 
 
-int rle_decompress(
-    const int* input,
-    int length,
-    int* output,
-    int output_capacity
-)
+int rle_decompress(const int* input, int length, int* output, int output_capacity)
 {
     int output_index = 0;
 

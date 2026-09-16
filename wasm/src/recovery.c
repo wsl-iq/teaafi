@@ -9,7 +9,6 @@
 
 #include "optimization.h"
 
-
 static const int MILESTONES[] = {
     1,
     3,
@@ -25,11 +24,9 @@ static const int MILESTONES[] = {
 #define MILESTONE_COUNT \
     ((int)(sizeof(MILESTONES) / sizeof(MILESTONES[0])))
 
-
 int calc_milestones(int days)
 {
     int count = 0;
-
     if (days <= 0) {
         return 0;
     }
@@ -39,7 +36,6 @@ int calc_milestones(int days)
             ++count;
         }
     }
-
     return count;
 }
 
@@ -75,7 +71,6 @@ int calc_progress(int days, int relapses)
 
     return (int)result;
 }
-
 
 int days_to_next(int days)
 {

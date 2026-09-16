@@ -22,18 +22,18 @@ let tasbihTarget = {
 let currentTasbih = 'allahuAkbar';
 let tasbihTotalCount = 0;
 let tasbihHistory = [];
+let tasbihSession = {
+    startTime: Date.now(),
+    todayCount: 0,
+    weeklyCount: 0,
+    totalSessions: 0
+};
 
 function renderTasbihPage() {
     const mainContent = document.getElementById('main-content');
     
-    // Retrieve the counter from local storage if available.
-    const savedTasbih = StorageManager.get('tasbih_data');
-    if (savedTasbih) {
-        tasbihCount = savedTasbih.counts || tasbihCount;
-        tasbihTotalCount = savedTasbih.totalCount || 0;
-        tasbihHistory = savedTasbih.history || [];
-        currentTasbih = savedTasbih.current || 'allahuAkbar';
-    }
+    // Load saved data from storage
+    loadTasbihData();
     
     const totalProgress = Math.round(((tasbihCount.allahuAkbar + tasbihCount.alhamdulillah + tasbihCount.subhanAllah) / 100) * 100);
     
@@ -176,9 +176,13 @@ function renderTasbihPage() {
                 <div class="card" style="margin-top: 20px;">
                     <h3 style="margin-bottom: 12px;">
                         <i class="fas fa-history" style="margin-left: 8px;"></i>
-                        سجل التسبيحات السابقة
+                        سجل التسبيحات السابقة (آخر ${Math.min(tasbihHistory.length, 10)} جلسة)
                     </h3>
-                    ${tasbihHistory.slice(-5).reverse().map((record, index) => `
+                    <p style="font-size: 12px; color: var(--text-tertiary); margin-bottom: 12px;">
+                        <i class="fas fa-info-circle" style="margin-left: 4px;"></i>
+                        إجمالي التسبيحات الكلي: <strong>${tasbihTotalCount}</strong>
+                    </p>
+                    ${tasbihHistory.slice().reverse().map(record => `
                         <div style="display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border-light);">
                             <div>
                                 <i class="fas fa-check-circle" style="color: #4CAF50; margin-left: 8px;"></i>
@@ -193,7 +197,29 @@ function renderTasbihPage() {
     `;
 }
 
-// glorification functions
+function loadTasbihData() {
+    var savedData = StorageManager.get('tasbih_data');
+    if (savedData) {
+        tasbihCount = savedData.counts || { allahuAkbar: 0, alhamdulillah: 0, subhanAllah: 0 };
+        tasbihTotalCount = Number(savedData.totalCount || 0);
+        tasbihHistory = Array.isArray(savedData.history) ? savedData.history.slice(-10) : [];
+        currentTasbih = savedData.current || 'allahuAkbar';
+        
+        // Ensure totalCount is at least the sum of counts
+        var calculatedTotal = Number(tasbihCount.allahuAkbar || 0) + 
+                             Number(tasbihCount.alhamdulillah || 0) + 
+                             Number(tasbihCount.subhanAllah || 0);
+        if (tasbihTotalCount < calculatedTotal) {
+            tasbihTotalCount = calculatedTotal;
+        }
+    }
+    
+    // Load session data
+    var sessionData = StorageManager.get('tasbih_session');
+    if (sessionData) {
+        tasbihSession = sessionData;
+    }
+}
 
 function getCurrentDhikrLabel() {
     const labels = {
@@ -228,36 +254,39 @@ function getCurrentProgress() {
 }
 
 function incrementTasbih() {
-    // Checking that the number is complete
+    // If current dhikr is complete, switch to next
     if (tasbihCount[currentTasbih] >= tasbihTarget[currentTasbih]) {
-        // Automatic transition to the next tasbih
         switchToNextTasbih();
         return;
     }
     
-    /** Increase the counter
-     * Slight vibration when counting
-     * Display update
-     * Save data
-     */
-
-    tasbihCount[currentTasbih]++;
-    tasbihTotalCount++;
-
+    // Increment current count
+    tasbihCount[currentTasbih] = Number(tasbihCount[currentTasbih] || 0) + 1;
+    tasbihTotalCount = Number(tasbihTotalCount || 0) + 1;
+    
+    // Update session stats
+    var today = new Date().toDateString();
+    tasbihSession.todayCount = Number(tasbihSession.todayCount || 0) + 1;
+    tasbihSession.weeklyCount = Number(tasbihSession.weeklyCount || 0) + 1;
+    tasbihSession.totalSessions = Number(tasbihSession.totalSessions || 0) + 1;
+    
+    // Vibrate
     vibrateDevice();
+    
+    // Update display
     updateTasbihDisplay();
+    
+    // Save data - this triggers the update chain
     saveTasbihData();
     
-    // Checking the completion of the current tasbih
+    // Check if current dhikr is complete
     if (tasbihCount[currentTasbih] >= tasbihTarget[currentTasbih]) {
         showToast(`أكملت ${getCurrentDhikrLabel()} - ${getCurrentTarget()} مرة`);
         
-        // Checking that all praises have been completed
         if (isAllTasbihComplete()) {
             completeAllTasbih();
         } else {
-            // Automatic transition to the next tasbih after one second
-            setTimeout(() => {
+            setTimeout(function() {
                 switchToNextTasbih();
             }, 1000);
         }
@@ -268,6 +297,8 @@ function decrementTasbih() {
     if (tasbihCount[currentTasbih] > 0) {
         tasbihCount[currentTasbih]--;
         tasbihTotalCount = Math.max(0, tasbihTotalCount - 1);
+        tasbihSession.todayCount = Math.max(0, (tasbihSession.todayCount || 0) - 1);
+        tasbihSession.weeklyCount = Math.max(0, (tasbihSession.weeklyCount || 0) - 1);
         updateTasbihDisplay();
         saveTasbihData();
     }
@@ -303,9 +334,9 @@ function resetCurrentTasbih() {
 
 function resetAllTasbih() {
     if (confirm('هل أنت متأكد من تصفير جميع العدادات؟')) {
-        // Save the record before resetting
+        // Save record before resetting if total is significant
         if (tasbihTotalCount >= 100) {
-            tasbihHistory.push({
+            var record = {
                 date: new Date().toLocaleDateString('ar-SA', { 
                     year: 'numeric', 
                     month: 'long', 
@@ -313,10 +344,12 @@ function resetAllTasbih() {
                     hour: '2-digit',
                     minute: '2-digit'
                 }),
-                total: tasbihTotalCount
-            });
+                total: tasbihTotalCount,
+                timestamp: Date.now(),
+                counts: { ...tasbihCount }
+            };
             
-            // Keep only the last 10 recordings
+            tasbihHistory.push(record);
             if (tasbihHistory.length > 10) {
                 tasbihHistory = tasbihHistory.slice(-10);
             }
@@ -325,6 +358,9 @@ function resetAllTasbih() {
         tasbihCount = { allahuAkbar: 0, alhamdulillah: 0, subhanAllah: 0 };
         tasbihTotalCount = 0;
         currentTasbih = 'allahuAkbar';
+        tasbihSession.todayCount = 0;
+        tasbihSession.weeklyCount = 0;
+        
         updateTasbihDisplay();
         saveTasbihData();
         showToast('تم تصفير جميع العدادات');
@@ -338,15 +374,15 @@ function isAllTasbihComplete() {
 }
 
 function completeAllTasbih() {
-    // A longer vibration indicates completion.
+    // Long vibration for completion
     if (navigator.vibrate) {
         navigator.vibrate([100, 50, 100, 50, 200]);
     }
     
     showToast('أكملت تسبيح الزهراء (عليها السلام) - 100 ذكر - تقبل الله منك');
     
-    // Saved in the record
-    tasbihHistory.push({
+    // Save to history
+    var record = {
         date: new Date().toLocaleDateString('ar-SA', { 
             year: 'numeric', 
             month: 'long', 
@@ -354,9 +390,12 @@ function completeAllTasbih() {
             hour: '2-digit',
             minute: '2-digit'
         }),
-        total: 100
-    });
+        total: 100,
+        timestamp: Date.now(),
+        type: 'complete'
+    };
     
+    tasbihHistory.push(record);
     if (tasbihHistory.length > 10) {
         tasbihHistory = tasbihHistory.slice(-10);
     }
@@ -365,7 +404,6 @@ function completeAllTasbih() {
 }
 
 function updateTasbihDisplay() {
-    // Main counter update
     const currentCountEl = document.getElementById('current-count');
     const currentLabelEl = document.getElementById('current-dhikr-label');
     const currentTargetEl = document.getElementById('current-target');
@@ -391,7 +429,7 @@ function updateTasbihDisplay() {
         progressBar.style.width = getCurrentProgress() + '%';
     }
     
-    // Update the counter card color according to the current tasbih (prayer beads).
+    // Update counter card color
     const counterCard = document.getElementById('tasbih-counter');
     if (counterCard) {
         const colors = {
@@ -409,23 +447,100 @@ function vibrateDevice() {
     }
 }
 
+/**
+ * Save tasbih data and trigger update chain.
+ * This is the single source of truth for tasbih data.
+ */
 function saveTasbihData() {
+    var safeCounts = {
+        allahuAkbar: Number(tasbihCount?.allahuAkbar || 0),
+        alhamdulillah: Number(tasbihCount?.alhamdulillah || 0),
+        subhanAllah: Number(tasbihCount?.subhanAllah || 0)
+    };
+
+    var safeTotal = Number(tasbihTotalCount || 0);
+    
+    // Recalculate total from counts to ensure consistency
+    var calculatedTotal = safeCounts.allahuAkbar + safeCounts.alhamdulillah + safeCounts.subhanAllah;
+    if (safeTotal < calculatedTotal) {
+        safeTotal = calculatedTotal;
+    }
+    
+    tasbihCount = safeCounts;
+    tasbihTotalCount = safeTotal;
+
+    // Save main data
     StorageManager.set('tasbih_data', {
-        counts: tasbihCount,
-        totalCount: tasbihTotalCount,
+        counts: safeCounts,
+        totalCount: safeTotal,
         current: currentTasbih,
-        history: tasbihHistory
+        history: Array.isArray(tasbihHistory) ? tasbihHistory.slice(-10) : []
     });
+    
+    // Save session data
+    StorageManager.set('tasbih_session', tasbihSession);
+    
+    // ✅ CRITICAL: Notify all systems about the update
+    if (typeof DataUpdateManager !== 'undefined') {
+        DataUpdateManager.notifyDataChanged('tasbih', {
+            totalCount: safeTotal,
+            counts: safeCounts,
+            current: currentTasbih
+        });
+    } else {
+        // Fallback if DataUpdateManager is not loaded
+        checkAchievementsAndChallenges();
+    }
+    
+    // Dispatch event for any listeners
+    try {
+        window.dispatchEvent(new CustomEvent('taeafiTasbihUpdated', {
+            detail: {
+                totalCount: safeTotal,
+                counts: safeCounts,
+                timestamp: Date.now()
+            }
+        }));
+    } catch (e) {}
 }
 
-// Multi-touch support to prevent zooming in/out on the tasbih counter
-document.addEventListener('DOMContentLoaded', () => {
+/**
+ * Fallback achievement and challenge check.
+ * Used if DataUpdateManager is not available.
+ */
+function checkAchievementsAndChallenges() {
+    // Check achievements
+    if (typeof AchievementsManager !== 'undefined' && 
+        typeof AchievementsManager.checkAll === 'function') {
+        try {
+            AchievementsManager.checkAll();
+        } catch (e) {
+            console.warn('[Tasbih] Achievement check failed:', e);
+        }
+    }
+    
+    // Check challenges
+    if (typeof ChallengesManager !== 'undefined' && 
+        typeof ChallengesManager.checkAll === 'function') {
+        try {
+            ChallengesManager.checkAll();
+        } catch (e) {
+            console.warn('[Tasbih] Challenge check failed:', e);
+        }
+    }
+}
+
+// Multi-touch support to prevent zooming
+document.addEventListener('DOMContentLoaded', function() {
     const counterCard = document.getElementById('tasbih-counter');
     if (counterCard) {
-        counterCard.addEventListener('touchstart', (e) => {
+        counterCard.addEventListener('touchstart', function(e) {
             if (e.touches.length > 1) {
                 e.preventDefault();
             }
         }, { passive: false });
     }
+    
+    // Load data on page load
+    loadTasbihData();
 });

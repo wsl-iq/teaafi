@@ -9,12 +9,7 @@
 
 #include "optimization.h"
 
-
-int bin_search(
-    const int* array,
-    int size,
-    int target
-)
+int bin_search(const int* array, int size, int target)
 {
     int low = 0;
     int high;
@@ -22,7 +17,6 @@ int bin_search(
     if (!array || size <= 0) {
         return -1;
     }
-
     high = size - 1;
 
     while (low <= high) {
@@ -38,10 +32,8 @@ int bin_search(
             high = middle - 1;
         }
     }
-
     return -1;
 }
-
 
 /*
  * Quick Sort
@@ -54,15 +46,9 @@ static void swap_int(int* a, int* b)
     *b = temporary;
 }
 
-
-static int partition(
-    int* array,
-    int low,
-    int high
-)
+static int partition(int* array, int low, int high)
 {
     int pivot = array[low + (high - low) / 2];
-
     int left = low;
     int right = high;
 
@@ -82,16 +68,10 @@ static int partition(
             --right;
         }
     }
-
     return left;
 }
 
-
-static void quick_sort(
-    int* array,
-    int low,
-    int high
-)
+static void quick_sort(int* array, int low, int high)
 {
     if (low >= high) {
         return;
@@ -99,7 +79,6 @@ static void quick_sort(
 
     {
         int index = partition(array, low, high);
-
         if (low < index - 1) {
             quick_sort(array, low, index - 1);
         }
@@ -109,7 +88,6 @@ static void quick_sort(
         }
     }
 }
-
 
 void qsort_int(int* array, int size)
 {
