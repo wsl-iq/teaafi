@@ -12,7 +12,7 @@ function renderStatsPage() {
     var stats = typeof RecoveryCounter !== 'undefined' ? 
         RecoveryCounter.getRecoveryStats() : { totalDays: 0, relapses: 0, isActive: false };
     
-    // ✅ Get the REAL total count, not limited by history
+    // Get the REAL total count, not limited by history
     var tasbih = getTasbihStats();
     var tasbihTotal = tasbih.totalCount;
     var tasbihCounts = tasbih.counts || {};
@@ -41,7 +41,11 @@ function renderStatsPage() {
                 </div>
                 <div class="stat-card" style="border-top: 4px solid #F44336;">
                     <i class="fas fa-rotate-left" style="color: #F44336;"></i>
-                    <span class="stat-number" id="stat-relapses">${stats.relapses || 0}</span>
+                    <span class="stat-number" id="stat-relapses">${
+                        Array.isArray(stats.relapses)
+                            ? stats.relapses.length
+                            : Number(stats.relapses || 0)
+                    }</span>
                     <span class="stat-label">انتكاسة</span>
                 </div>
                 <div class="stat-card" style="border-top: 4px solid #2196F3;">
@@ -262,7 +266,15 @@ function updateStatsUI() {
         
         // Update relapses
         var relapseEl = document.getElementById('stat-relapses');
-        if (relapseEl) relapseEl.textContent = stats.relapses || 0;
+        if (relapseEl) {
+            relapseEl.textContent = Array.isArray(stats.relapses) 
+                ? stats.relapses.length 
+                : Number(stats.relapses || 0);
+        }
+        
+        // The Code Old and Bugs
+        // var relapseEl = document.getElementById('stat-relapses');
+        // if (relapseEl) relapseEl.textContent = stats.relapses || 0;
         
         // Update tasbih total
         var tasbihEl = document.getElementById('stat-tasbih-total');
@@ -336,3 +348,8 @@ statsStyles.textContent = `
     }
 `;
 document.head.appendChild(statsStyles);
+
+// <span class="stat-number" id="stat-relapses">${stats.relapses || 0}</span>
+
+// var relapseEl = document.getElementById('stat-relapses');
+// if (relapseEl) relapseEl.textContent = stats.relapses || 0;

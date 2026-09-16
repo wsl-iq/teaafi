@@ -14,7 +14,7 @@ function renderLeaderboardPage() {
     var achievements = typeof AchievementsManager !== 'undefined' ? AchievementsManager.getUnlocked() : [];
     var journal = StorageManager.get('journal_entries') || [];
     
-    // ✅ Get the REAL tasbih total
+    // Get the REAL tasbih total
     var tasbihData = getTasbihStats();
     var tasbihTotal = tasbihData.totalCount;
     
@@ -29,7 +29,7 @@ function renderLeaderboardPage() {
         achievements: 0
     };
     
-    // ✅ Update records with current data
+    // Update records with current data
     if (stats.totalDays > (records.longestStreak || 0)) {
         records.longestStreak = stats.totalDays;
     }
@@ -112,9 +112,9 @@ function renderLeaderboardPage() {
                 </div>
                 <div style="margin-top: 12px; padding: 8px; background: var(--surface-variant); border-radius: 8px; text-align: center;">
                     <p style="font-size: 12px; color: var(--text-secondary);">
-                        ${weeklyTasbih >= 1000 ? '🌟 أكملت 1000 تسبيحة هذا الأسبوع!' : 
-                          weeklyTasbih >= 500 ? '💪 ${weeklyTasbih} تسبيحة - أنت في الطريق الصحيح!' : 
-                          '📿 ${weeklyTasbih} تسبيحة حتى الآن هذا الأسبوع'}
+                        ${weeklyTasbih >= 1000 ? 'أكملت 1000 تسبيحة هذا الأسبوع!' : 
+                          weeklyTasbih >= 500 ? '${weeklyTasbih} تسبيحة - أنت في الطريق الصحيح!' : 
+                          '${weeklyTasbih} تسبيحة حتى الآن هذا الأسبوع'}
                     </p>
                 </div>
             </div>
