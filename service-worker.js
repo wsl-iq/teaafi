@@ -7,7 +7,7 @@
  * Type: JavaScript
  */
 
-const CACHE_NAME = 'taafi-app-v1.5.3';
+const CACHE_NAME = 'taafi-app-v2.0.0';
 const DYNAMIC_CACHE = 'taafi-dynamic-v1';
 const STATIC_ASSETS = [
   '/',
@@ -25,8 +25,10 @@ const STATIC_ASSETS = [
   '/css/desktop.css',
   '/css/utilities.css',
   '/css/themes.css',
+  '/css/welcome.css',
 
   // JavaScript
+  //js
   '/js/app.js',
   '/js/storage.js',
   '/js/router.js',
@@ -40,8 +42,10 @@ const STATIC_ASSETS = [
   '/js/smart-notifications.js',
   '/js/themes.js',
   '/js/xp-system.js',
-  'js/data-update-manager.js',
-
+  '/js/data-update-manager.js',
+  '/js/user-manager.js',
+  
+  // data
   '/data/content.js',
   '/data/adhkar.js',
   '/data/achievements.js',
@@ -50,7 +54,8 @@ const STATIC_ASSETS = [
   '/data/food-conflicts.js',
   '/data/nutrition.js',
   '/data/exercises.js',
-
+  
+  // pages
   '/pages/welcome.js',
   '/pages/home.js',
   '/pages/habits.js',

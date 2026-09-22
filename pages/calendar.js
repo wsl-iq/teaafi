@@ -10,15 +10,26 @@
 function renderCalendarPage() {
     var mainContent = document.getElementById('main-content');
     var now = new Date();
-    var year = now.getFullYear();
-    var month = now.getMonth(); // 0-11
+    var year = calendarYear;
+    var month = calendarMonth; // 0-11
     
-    // Retrieve recovery data
-    var recoveryData = StorageManager.getRecoveryData();
     var recoveryDays = {};
-    
-    if (recoveryData && recoveryData.startDate) {
-        var start = new Date(recoveryData.startDate);
+
+    // Read recovery data from the multi-habit system and merge all habits.
+    var habits = typeof TaeafiMultiHabit !== 'undefined' &&
+                 typeof TaeafiMultiHabit.getHabits === 'function'
+        ? TaeafiMultiHabit.getHabits() : [];
+    if (!Array.isArray(habits)) habits = Object.values(habits || {});
+
+    // Keep compatibility with users who still have data in the old system.
+    var recoveryData = typeof StorageManager !== 'undefined' &&
+                       typeof StorageManager.getRecoveryData === 'function'
+        ? StorageManager.getRecoveryData() : null;
+    if (recoveryData && recoveryData.startDate) habits.push(recoveryData);
+
+    habits.forEach(function(habit) {
+        if (!habit || !habit.startDate) return;
+        var start = new Date(habit.startDate);
         var today = new Date();
         
         // Calculating recovery days
@@ -30,16 +41,17 @@ function renderCalendarPage() {
         }
         
         // Adding relapses
-        if (recoveryData.relapses) {
-            recoveryData.relapses.forEach(function(r) {
-                var rd = new Date(r.date);
+        if (habit.relapses) {
+            habit.relapses.forEach(function(r) {
+                var relapseDate = r && (r.date || r.createdAt || r);
+                var rd = new Date(relapseDate);
                 var dateKey = rd.getFullYear() + '-' + 
                              String(rd.getMonth() + 1).padStart(2, '0') + '-' + 
                              String(rd.getDate()).padStart(2, '0');
                 recoveryDays[dateKey] = 'relapse';
             });
         }
-    }
+    });
     
     var todayKey = now.getFullYear() + '-' + 
                   String(now.getMonth() + 1).padStart(2, '0') + '-' + 

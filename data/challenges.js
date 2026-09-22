@@ -19,7 +19,10 @@ var WEEKLY_CHALLENGES = [
         reward: 'شارة "الأسبوع الذهبي" + 100 نقطة',
         check: function() {
             var stats = RecoveryCounter.getRecoveryStats();
-            return stats.totalDays >= 7 && stats.relapses === 0;
+            var relapseCount = Array.isArray(stats.relapses)
+                ? stats.relapses.length
+                : Number(stats.relapses || 0);
+            return stats.totalDays >= 7 && relapseCount === 0;
         }
     },
     {
@@ -46,33 +49,39 @@ var WEEKLY_CHALLENGES = [
         metric: 'duas_minutes',
         reward: 'شارة "القارئ" + 75 نقطة',
         check: function() {
-            var sessions = StorageManager.get('duas_visits') || [];
+            var data = StorageManager.get('spiritual_reading_data') || {};
             var weekAgo = Date.now() - 7 * 86400000;
-            var minutes = sessions.reduce(function(total, session) {
-                if (!session || new Date(session.date || session.start).getTime() <= weekAgo) {
-                    return total;
-                }
+            var count = 0;
+            var collections = [data.duas || {}, data.ziyarat || {}];
 
-                var duration = session.duration || session.durationMinutes || 0;
-                return total + (duration > 3600 ? duration / 60000 : duration > 60 ? duration / 60 : duration);
-            }, 0);
+            collections.forEach(function(collection) {
+                Object.values(collection).forEach(function(item) {
+                    if (item.lastRead && item.lastRead >= weekAgo) {
+                        count += Number(item.count || 0);
+                    }
+                });
+            });
 
-            return minutes >= 10;
+            return count >= 10;
         }
     },
     
     {
         id: 'quiz_master',
         title: 'سيد التقييم',
-        description: 'أكمل اختبار التقييم الذاتي وحقق أقل من 10 نقاط',
+        description: 'أكمل اختبار التقييم الذاتي وحقق نتيجة ممتازة',
         icon: 'fa-clipboard-check',
         color: '#2196F3',
-        target: 10,
-        metric: 'quiz',
+        target: 20,
+        metric: 'quiz_percent',
         reward: 'شارة "الواعي" + 150 نقطة',
         check: function() {
             var quiz = StorageManager.get('last_quiz');
-            return quiz && quiz.score <= 10;
+            if (!quiz) return false;
+            var percent = quiz.percent !== undefined
+                ? Number(quiz.percent)
+                : Math.round((Number(quiz.score || 0) / (Number(quiz.maxScore) || 60)) * 100);
+            return percent <= 20;
         }
     },
     {
@@ -87,7 +96,14 @@ var WEEKLY_CHALLENGES = [
         check: function() {
             var journal = StorageManager.get('journal_entries') || [];
             var weekAgo = Date.now() - 7 * 86400000;
-            return journal.filter(function(j) { return new Date(j.date) > weekAgo; }).length >= 7;
+            var days = {};
+            journal.forEach(function(j) {
+                var date = new Date(j.date);
+                if (date.getTime() > weekAgo) {
+                    days[date.getFullYear() + '-' + date.getMonth() + '-' + date.getDate()] = true;
+                }
+            });
+            return Object.keys(days).length >= 7;
         }
     },
     {
@@ -100,9 +116,14 @@ var WEEKLY_CHALLENGES = [
         metric: 'new_habit',
         reward: 'شارة "المحارب" + 200 نقطة',
         check: function() {
-            var habits = StorageManager.get('habits_history') || [];
+            var habits = typeof TaeafiMultiHabit !== 'undefined' &&
+                typeof TaeafiMultiHabit.getHabits === 'function'
+                ? TaeafiMultiHabit.getHabits() || []
+                : [];
             var weekAgo = Date.now() - 7 * 86400000;
-            return habits.filter(function(h) { return new Date(h.date) > weekAgo; }).length >= 1;
+            return habits.some(function(h) {
+                return h.createdAt && new Date(h.createdAt).getTime() > weekAgo;
+            });
         }
     }
 ];
@@ -177,5 +198,3 @@ var ChallengesManager = {
         return Math.round((done / total) * 100);
     }
 };
-
-

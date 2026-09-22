@@ -15,7 +15,7 @@
  * Default fallback version (must match the current release)
  */
 
-let ApplicationVersion = '1.5.8';
+let ApplicationVersion = '2.0.0';
 
 (function loadAppVersionFromFile() {
     try {
@@ -346,7 +346,41 @@ function renderSettingsPage() {
                     </div>
                 </div>
             </div>
-            
+
+            <div class="settings-group">
+                <h3 style="padding: 16px 24px; border-bottom: 1px solid var(--border-light);">
+                    <i class="fas fa-id-card" style="margin-left: 8px; color: var(--primary);"></i>
+                    ملفي الشخصي
+                </h3>
+
+                <div class="settings-item" onclick="showEditProfileDialog()" style="cursor: pointer;">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div style="width: 44px; height: 44px; border-radius: 12px; background: var(--primary-light); display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-user-edit" style="font-size: 18px; color: var(--primary);"></i>
+                        </div>
+                        <div>
+                            <span style="font-weight: 600;">تحرير بياناتي</span>
+                            <p style="font-size: 11px; color: var(--text-tertiary);">الاسم، العمر، الجنس</p>
+                        </div>
+                    </div>
+                    <i class="fas fa-chevron-left" style="color: var(--text-tertiary); font-size: 14px;"></i>
+                </div>
+
+                <div class="settings-item" style="border-bottom: none;">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div style="width: 44px; height: 44px; border-radius: 12px; background: #E3F2FD; display: flex; align-items: center; justify-content: center;">
+                            <i class="fas fa-info-circle" style="font-size: 18px; color: #1565C0;"></i>
+                        </div>
+                        <div>
+                            <span style="font-weight: 600;">معلوماتي الحالية</span>
+                            <p style="font-size: 11px; color: var(--text-tertiary);" id="profile-summary">
+                                ${getProfileSummary()}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="settings-group">
                 <h3 style="padding: 16px 24px; border-bottom: 1px solid var(--border-light);">
                     <i class="fas fa-user-circle" style="margin-left: 8px; color: var(--primary);"></i>
@@ -574,41 +608,35 @@ function renderSettingsPage() {
                         </div>
                     </div>
                     <div style="display: flex; align-items: center; gap: 8px;">
-                        <span style="font-size: 11px; color: #E91E63; background: #FCE4EC; padding: 4px 10px; border-radius: 20px; font-weight: 500;">28 مميزات</span>
+                        <span style="font-size: 11px; color: #E91E63; background: #FCE4EC; padding: 4px 10px; border-radius: 20px; font-weight: 500;">22 مميزات</span>
                         <i class="fas fa-chevron-down" id="changelog-arrow" style="color: var(--text-tertiary); font-size: 14px; transition: transform 0.3s ease;"></i>
                     </div>
                 </div>
                 
                 <div id="changelog-content" style="display: none; padding: 16px 24px; border-top: 1px solid var(--border-light);">
                     <ul style="line-height: 2.2; padding-right: 20px; color: var(--text-secondary); font-size: 14px; list-style: none;">
-                        <li>1- نظام الإنجازات والشارات - 16 شارة تحفيزية</li>
-                        <li>2- الإحصائيات والرسوم البيانية - تتبع تقدمك</li>
-                        <li>3- اختبار تقييم ذاتي - 8 أسئلة لتقييم حالتك</li>
-                        <li>4- الوضع الليلي التلقائي - داكن من المغرب للفجر</li>
-                        <li>5- بحث متقدم في المحتوى - ابحث في كل شيء</li>
-                        <li>6- نسخ احتياطي وتصدير البيانات - حافظ على تقدمك</li>
-                        <li>7- إشعارات ذكية - تذكيرات في أفضل الأوقات</li>
-                        <li>8- عادة جديدة: الزنا والعلاقات غير الشرعية</li>
-                        <li>9- نظام التحقق من التحديثات - تلقائي ويدوي</li>
-                        <li>10- تحسينات عامة - أداء | داكن | جوال | تبرع | تقييم</li>
-                        <li>11- قفل التطبيق برمز سري - حماية خصوصيتك</li>
-                        <li>12- 5 ثيمات جديدة - وردي | صحراوي | محيط | رمضاني</li>
-                        <li>13- مذكرات يومية - عبّر عن مشاعرك</li>
-                        <li>14- لوحة المتصدرين - تحديات أسبوعية ونقاط</li>
-                        <li>15- لعبة تحدي النفس - تمرين تنفس تفاعلي</li>
-                        <li>16- الأدعية والزيارات - دعاء كميل، الندبة، عاشوراء...</li>
-                        <li>17- البحث الشامل - عادات، أذكار، أدعية، زيارات</li>
-                        <li>18- شريط تحكم بالخط - صفحة الأدعية والزيارات الرئيسية - صفحة تفاصيل الدعاء/الزيارة</li>
-                        <li>19- الصحة والرياضة - التغذية الصحية والرياضة اليوميةوتجنب تعارضات الطعام</li>
-                        <li>20- تصحيح الأخطاء الواجهة الرئيسية</li>
-                        <li>21- أضافة التقويم الهجري والميلادي مع الساعة</li>
-                        <li>22- التعديل على السياسات والقوانين أضافة بعض الشروط الصارمة</li>
-                        <li>23-إمكانية الرجوع للصفحة السابقة وتصحيح الإخطاء</li>
-                        <li>24- أضافة ميزة مساعد الصلاة - سجل الركوع والسجود لتعرف أين وصلت</li>
-                        <li>25- أضافة ميزة تحدي 21 يوم لأختبار العزيمة والإرادة </li>
-                        <li>26- إدارة رحلات التعافي كل عادة تمتلك رحلة مستقلة وتتسع لأربعة رحلات </li>
-                        <li>27- تصحيح الإخطاء التقويم وادارة رحلات التعافي </li>
-                        <li>28- إصلاح أخطاء المتعلقة بالإنجازات أو الإحصائيات</li>
+                        <li>1- إعادة بناء نظام التسجيل بالكامل (9 خطوات بدلاً من 3)</li>
+                        <li>2- شاشة ترحيب جديدة تعرض مميزات التطبيق قبل البدء</li>
+                        <li>3- إمكانية استيراد نسخة احتياطية أثناء التسجيل</li>
+                        <li>4- اختيار العادة الأولى أثناء التسجيل لبدء التعافي فوراً</li>
+                        <li>5- شاشة مراجعة وتأكيد للبيانات قبل الحفظ</li>
+                        <li>6- اختيار الثيم (المظهر) أثناء التسجيل مع معاينة مباشرة</li>
+                        <li>7- عهد التعافي مع تأكيد إلزامي قبل الدخول</li>
+                        <li>8- شاشة نجاح نهائية مع رسوم متحركة وقائمة تأكيد</li>
+                        <li>9- التحقق الفوري من صحة الاسم والعمر مع رسائل مخصصة</li>
+                        <li>10- خيار "تخطي" لحقل الاسم</li>
+                        <li>11- شريط تقدم جديد بأرقام وتسميات لكل خطوة</li>
+                        <li>12- زر رجوع مخصص للتنقل بين خطوات التسجيل</li>
+                        <li>13- حفظ بيانات المستخدم في IndexedDB + localStorage (حماية مزدوجة)</li>
+                        <li>14- إمكانية تحرير بيانات المستخدم (الاسم، العمر، الجنس) من الإعدادات</li>
+                        <li>15- عرض ملخص الملف الشخصي في صفحة الإعدادات</li>
+                        <li>16- تصحيح مشكلة عدم ظهور الإنجازات (AchievementsManager.init)</li>
+                        <li>17- تصحيح إنجازي "أسبوع مثالي" و "العودة أقوى"</li>
+                        <li>18- تصحيح إنجازات التسبيح لتقرأ القيمة الصحيحة</li>
+                        <li>19- تصحيح مشكلة عرض الانتكاسات في الإحصائيات</li>
+                        <li>20- إضافة تتبع أفضل نتيجة اختبار تقييم في لوحة المتصدرين</li>
+                        <li>21- تصحيح زر "أوافق وأبدأ التحدي" في تحدي 21 يوم</li>
+                        <li>22- مزامنة شريط التقدم مع الصفحة النشطة في التسجيل</li>
                     </ul>
                 </div>
             </div>
@@ -1465,6 +1493,7 @@ function fallbackCopyCardNumber(text) {
 /**
  * Displaying the copy success message
  */
+
 function showCopySuccess() {
     const statusEl = document.getElementById('copy-status');
     const copyBtn = document.getElementById('copy-card-btn');
@@ -1687,4 +1716,173 @@ function disableAppLock() {
             errorEl.style.animation = 'shake 0.4s ease';
         }
     }
+}
+
+
+/* PROFILE EDITING */
+
+/**
+ * Get a short summary of current user data.
+ */
+function getProfileSummary() {
+    try {
+        var user = typeof UserManager !== 'undefined' && typeof UserManager.get === 'function'
+            ? UserManager.get()
+            : null;
+
+        if (!user) return 'غير متوفر';
+
+        var name = user.name || 'صديقي';
+        var age = user.age || '—';
+        var gender = user.gender === 'male' ? 'ذكر' : user.gender === 'female' ? 'أنثى' : '—';
+
+        return name + ' • ' + age + ' سنة • ' + gender;
+    } catch (e) {
+        return 'غير متوفر';
+    }
+}
+
+/**
+ * Show the edit profile dialog.
+ */
+function showEditProfileDialog() {
+    var user = typeof UserManager !== 'undefined' && typeof UserManager.get === 'function'
+        ? (UserManager.get() || {})
+        : {};
+
+    var modal = document.createElement('div');
+    modal.className = 'modal-overlay';
+    modal.style.zIndex = '99999';
+    modal.innerHTML =
+        '<div class="modal-container" style="max-width: 420px; text-align: right;">' +
+
+            '<div style="text-align: center; margin-bottom: 20px;">' +
+                '<div style="width: 64px; height: 64px; margin: 0 auto 12px; border-radius: 50%; background: var(--primary-light); display: flex; align-items: center; justify-content: center; color: var(--primary); font-size: 26px;">' +
+                    '<i class="fas fa-user-edit"></i>' +
+                '</div>' +
+                '<h3 style="margin: 0;">تحرير بياناتي</h3>' +
+                '<p style="color: var(--text-secondary); font-size: 13px; margin-top: 4px;">عدّل بياناتك الشخصية</p>' +
+            '</div>' +
+
+            '<div class="form-group">' +
+                '<label class="form-label">الاسم</label>' +
+                '<div class="input-wrapper">' +
+                    '<i class="fas fa-user input-icon"></i>' +
+                    '<input type="text" id="edit-name" class="form-input" value="' + escapeHtmlAttr(user.name || '') + '" placeholder="الاسم" maxlength="50">' +
+                '</div>' +
+            '</div>' +
+
+            '<div class="form-group">' +
+                '<label class="form-label">العمر</label>' +
+                '<div class="input-wrapper">' +
+                    '<i class="fas fa-calendar input-icon"></i>' +
+                    '<input type="number" id="edit-age" class="form-input" value="' + (user.age || '') + '" placeholder="العمر" min="13" max="99" inputmode="numeric">' +
+                '</div>' +
+            '</div>' +
+
+            '<div class="form-group">' +
+                '<label class="form-label">الجنس</label>' +
+                '<div style="display: flex; gap: 10px;">' +
+                    '<div class="gender-option' + (user.gender === 'male' ? ' selected' : '') + '" data-edit-gender="male" onclick="editProfileSelectGender(\'male\')" style="flex:1; padding: 14px;">' +
+                        '<i class="fas fa-male gender-icon" style="font-size: 28px;"></i>' +
+                        '<span class="gender-label" style="font-size: 14px;">ذكر</span>' +
+                    '</div>' +
+                    '<div class="gender-option' + (user.gender === 'female' ? ' selected' : '') + '" data-edit-gender="female" onclick="editProfileSelectGender(\'female\')" style="flex:1; padding: 14px;">' +
+                        '<i class="fas fa-female gender-icon" style="font-size: 28px;"></i>' +
+                        '<span class="gender-label" style="font-size: 14px;">أنثى</span>' +
+                    '</div>' +
+                '</div>' +
+                '<input type="hidden" id="edit-gender" value="' + (user.gender || '') + '">' +
+            '</div>' +
+
+            '<p id="edit-profile-error" style="color: var(--accent-red); font-size: 12px; min-height: 18px; text-align: center;"></p>' +
+
+            '<div style="display: flex; gap: 10px; margin-top: 16px;">' +
+                '<button class="btn btn-outline" onclick="this.closest(\'.modal-overlay\').remove()" style="flex: 1;">' +
+                    'إلغاء' +
+                '</button>' +
+                '<button class="btn btn-primary" onclick="saveProfileEdit()" style="flex: 1;">' +
+                    '<i class="fas fa-save"></i> حفظ' +
+                '</button>' +
+            '</div>' +
+
+        '</div>';
+
+    document.body.appendChild(modal);
+}
+
+/**
+ * Select gender in edit dialog.
+ */
+function editProfileSelectGender(gender) {
+    var hidden = document.getElementById('edit-gender');
+    if (hidden) hidden.value = gender;
+
+    document.querySelectorAll('[data-edit-gender]').forEach(function (el) {
+        el.classList.remove('selected');
+        if (el.dataset.editGender === gender) el.classList.add('selected');
+    });
+}
+
+/**
+ * Save profile edit.
+ */
+function saveProfileEdit() {
+    var nameEl = document.getElementById('edit-name');
+    var ageEl = document.getElementById('edit-age');
+    var genderEl = document.getElementById('edit-gender');
+    var errorEl = document.getElementById('edit-profile-error');
+
+    var name = nameEl ? nameEl.value.trim() : '';
+    var age = ageEl ? parseInt(ageEl.value, 10) : 0;
+    var gender = genderEl ? genderEl.value : '';
+
+    // Validation
+    if (!name || name.length < 2) {
+        if (errorEl) errorEl.textContent = 'الاسم يجب أن يكون حرفين على الأقل';
+        return;
+    }
+    if (isNaN(age) || age < 13 || age > 99) {
+        if (errorEl) errorEl.textContent = 'العمر يجب أن يكون بين 13 و 99';
+        return;
+    }
+    if (gender !== 'male' && gender !== 'female') {
+        if (errorEl) errorEl.textContent = 'الرجاء اختيار الجنس';
+        return;
+    }
+
+    // Save
+    var updated = false;
+    if (typeof UserManager !== 'undefined' && typeof UserManager.update === 'function') {
+        updated = UserManager.update({ name: name, age: age, gender: gender });
+    }
+
+    if (updated) {
+        // Close modal
+        document.querySelectorAll('.modal-overlay').forEach(function (m) {
+            if (m.querySelector('#edit-name')) m.remove();
+        });
+
+        if (typeof showToast === 'function') {
+            showToast('تم حفظ بياناتك بنجاح');
+        }
+
+        // Refresh settings page
+        if (typeof renderSettingsPage === 'function') {
+            renderSettingsPage();
+        }
+    } else {
+        if (errorEl) errorEl.textContent = 'فشل الحفظ — حاول مرة أخرى';
+    }
+}
+
+/**
+ * Escape text for use in HTML attribute.
+ */
+function escapeHtmlAttr(text) {
+    return String(text || '')
+        .replace(/&/g, '&amp;')
+        .replace(/"/g, '&quot;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
 }

@@ -13,14 +13,14 @@ function renderLeaderboardPage() {
     var points = StorageManager.get('challenge_points') || 0;
     var achievements = typeof AchievementsManager !== 'undefined' ? AchievementsManager.getUnlocked() : [];
     var journal = StorageManager.get('journal_entries') || [];
-    
+
     // Get the REAL tasbih total
     var tasbihData = getTasbihStats();
     var tasbihTotal = tasbihData.totalCount;
-    
+
     // Spiritual reading stats
     var spiritualStats = getSpiritualStats();
-    
+
     // Load and update personal records
     var records = StorageManager.get('personal_records') || {
         longestStreak: 0,
@@ -28,41 +28,67 @@ function renderLeaderboardPage() {
         bestQuiz: 0,
         achievements: 0
     };
-    
-    // Update records with current data
+
+    // Check the longest streak across ALL habits (multi-habit system)
+    if (typeof TaeafiMultiHabit !== 'undefined' && typeof TaeafiMultiHabit.getHabits === 'function') {
+        var allHabits = TaeafiMultiHabit.getHabits() || [];
+        allHabits.forEach(function (h) {
+            if (h.habitType && typeof TaeafiMultiHabit.getStats === 'function') {
+                var hStats = TaeafiMultiHabit.getStats(h.habitType);
+                if (hStats && hStats.totalDays > (records.longestStreak || 0)) {
+                    records.longestStreak = hStats.totalDays;
+                }
+            }
+        });
+    }
+
+    // Fallback: active habit streak
     if (stats.totalDays > (records.longestStreak || 0)) {
         records.longestStreak = stats.totalDays;
     }
-    
+
+    // Update mostTasbih
     if (tasbihTotal > (records.mostTasbih || 0)) {
         records.mostTasbih = tasbihTotal;
     }
-    
+
+    // Update bestQuiz (was never updated before)
+    var quizHistory = StorageManager.get('quiz_history') || [];
+    var bestQuizScore = quizHistory.length > 0
+        ? Math.max.apply(null, quizHistory.map(function (q) {
+            return Number(q.score || 0);
+        }))
+        : 0;
+    if (bestQuizScore > (records.bestQuiz || 0)) {
+        records.bestQuiz = bestQuizScore;
+    }
+
+    // Update achievements count
     if (achievements.length > (records.achievements || 0)) {
         records.achievements = achievements.length;
     }
-    
+
     // Save updated records
     StorageManager.set('personal_records', records);
-    
+
     var levelInfo = getUserLevel(points);
-    
+
     // Get weekly challenge progress
     var weeklyTasbih = getWeeklyTasbihCount();
-    
+
     mainContent.innerHTML = `
         <div class="animate-fade-in">
             <h1 class="heading-underline">
                 <i class="fas fa-crown" style="margin-left: 8px; color: #FFD700;"></i>
                 لوحة المتصدرين الشخصية
             </h1>
-            
+
             <div class="card" style="text-align:center;background:linear-gradient(135deg,#FFD700,#FFA000);color:white;">
                 <i class="fas fa-star" style="font-size:40px;margin-bottom:8px;"></i>
                 <div style="font-size:48px;font-weight:800;">${points}</div>
                 <p>نقطة إجمالية</p>
             </div>
-            
+
             <h2 class="section-title" style="margin-top:24px;">
                 <i class="fas fa-medal" style="margin-left:8px;color:#FFD700;"></i>
                 سجلاتي الشخصية
@@ -93,7 +119,7 @@ function renderLeaderboardPage() {
                     <span class="stat-label">مذكرة</span>
                 </div>
             </div>
-            
+
             <!-- Weekly Challenge Progress -->
             <div class="card" style="margin-top: 16px;">
                 <h3 style="margin-bottom: 12px;">
@@ -112,13 +138,17 @@ function renderLeaderboardPage() {
                 </div>
                 <div style="margin-top: 12px; padding: 8px; background: var(--surface-variant); border-radius: 8px; text-align: center;">
                     <p style="font-size: 12px; color: var(--text-secondary);">
-                        ${weeklyTasbih >= 1000 ? 'أكملت 1000 تسبيحة هذا الأسبوع!' : 
-                          weeklyTasbih >= 500 ? '${weeklyTasbih} تسبيحة - أنت في الطريق الصحيح!' : 
-                          '${weeklyTasbih} تسبيحة حتى الآن هذا الأسبوع'}
+                        ${
+                            weeklyTasbih >= 1000
+                                ? '<i class="fas fa-trophy" style="margin-left: 4px; color: #FFD700;"></i> أكملت 1000 تسبيحة هذا الأسبوع!'
+                                : weeklyTasbih >= 500
+                                    ? '<i class="fas fa-dumbbell" style="margin-left: 4px; color: #4CAF50;"></i> ' + weeklyTasbih + ' تسبيحة - أنت في الطريق الصحيح!'
+                                    : '<i class="fas fa-praying-hands" style="margin-left: 4px; color: #2196F3;"></i> ' + weeklyTasbih + ' تسبيحة حتى الآن هذا الأسبوع'
+                        }
                     </p>
                 </div>
             </div>
-            
+
             <h2 class="section-title" style="margin-top:24px;">
                 <i class="fas fa-fire" style="margin-left:8px;color:#FF9800;"></i>
                 تحديات هذا الأسبوع
@@ -126,7 +156,7 @@ function renderLeaderboardPage() {
             <div id="weekly-challenges-container">
                 ${renderWeeklyChallenges()}
             </div>
-            
+
             <div class="card" style="text-align:center;">
                 <h3><i class="fas fa-chart-line" style="margin-left:6px;"></i> مستواك الحالي</h3>
                 <i class="fas ${levelInfo.icon}" style="font-size:60px;margin:16px 0;color:${levelInfo.color};"></i>
@@ -141,21 +171,34 @@ function renderLeaderboardPage() {
 }
 
 /**
- * Get the real tasbih total count.
+ * Get tasbih stats safely.
+ * Uses DataUpdateManager as source of truth, with fallback to storage.
  */
 function getTasbihStats() {
+    if (typeof DataUpdateManager !== 'undefined' &&
+        typeof DataUpdateManager.getTasbihTotal === 'function') {
+        return {
+            totalCount: DataUpdateManager.getTasbihTotal(),
+            counts: (StorageManager.get('tasbih_data') || {}).counts || {}
+        };
+    }
+
     var data = StorageManager.get('tasbih_data') || {};
     var total = Number(data.totalCount || 0);
     var counts = data.counts || {};
-    var calculated = Number(counts.allahuAkbar || 0) + 
-                    Number(counts.alhamdulillah || 0) + 
-                    Number(counts.subhanAllah || 0);
+    var calculated = Number(counts.allahuAkbar || 0) +
+                     Number(counts.alhamdulillah || 0) +
+                     Number(counts.subhanAllah || 0);
+
     return {
         totalCount: Math.max(total, calculated),
         counts: counts
     };
 }
 
+/**
+ * Get spiritual reading stats.
+ */
 function getSpiritualStats() {
     var data = StorageManager.get('spiritual_reading_data') || {};
     return {
@@ -167,43 +210,49 @@ function getSpiritualStats() {
 
 /**
  * Get weekly tasbih count for challenges.
- * Uses timestamped history if available.
+ * Uses DataUpdateManager if available, falls back to direct calculation.
  */
 function getWeeklyTasbihCount() {
+    if (typeof DataUpdateManager !== 'undefined' &&
+        typeof DataUpdateManager.getWeeklyTasbihCount === 'function') {
+        return DataUpdateManager.getWeeklyTasbihCount();
+    }
+
     var data = StorageManager.get('tasbih_data') || {};
     var history = data.history || [];
     var weekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
     var weeklyTotal = 0;
-    
-    // If we have timestamped history, use it
+
     for (var i = 0; i < history.length; i++) {
-        if (history[i].timestamp && history[i].timestamp >= weekAgo) {
-            weeklyTotal += Number(history[i].total || 0);
-        }
-        // Also check if date string is within the week
-        else if (history[i].date) {
-            var entryDate = new Date(history[i].date);
+        var entry = history[i];
+        var entryTotal = Number(entry.total || entry.count || 0);
+
+        if (entry.timestamp && entry.timestamp >= weekAgo) {
+            weeklyTotal += entryTotal;
+        } else if (entry.date) {
+            var entryDate = new Date(entry.date);
             if (entryDate.getTime() >= weekAgo) {
-                weeklyTotal += Number(history[i].total || 0);
+                weeklyTotal += entryTotal;
             }
         }
     }
-    
-    // Add current session's weekly count
+
     var session = StorageManager.get('tasbih_session') || {};
     weeklyTotal += Number(session.weeklyCount || 0);
-    
+
     return weeklyTotal;
 }
 
 function renderWeeklyChallenges() {
-    if (typeof ChallengesManager === 'undefined') return '<p style="text-align:center;color:var(--text-tertiary);">جاري التحميل...</p>';
-    
+    if (typeof ChallengesManager === 'undefined') {
+        return '<p style="text-align:center;color:var(--text-tertiary);">جاري التحميل...</p>';
+    }
+
     var active = ChallengesManager.getActiveChallenges();
     var completed = ChallengesManager.getCompletedChallenges();
     var progress = ChallengesManager.getProgress();
     var html = '';
-    
+
     html += `
         <div style="margin-bottom:16px;text-align:center;">
             <span style="font-size:14px;color:var(--text-secondary);">${completed.length}/${WEEKLY_CHALLENGES.length} مكتمل</span>
@@ -212,8 +261,8 @@ function renderWeeklyChallenges() {
             </div>
         </div>
     `;
-    
-    completed.forEach(function(c) {
+
+    completed.forEach(function (c) {
         html += `
             <div class="card" style="border-right:4px solid #4CAF50;opacity:0.8;margin-bottom:8px;">
                 <div style="display:flex;align-items:center;gap:10px;">
@@ -226,8 +275,8 @@ function renderWeeklyChallenges() {
             </div>
         `;
     });
-    
-    active.forEach(function(c) {
+
+    active.forEach(function (c) {
         html += `
             <div class="card" style="margin-bottom:8px;" onclick="checkSingleChallenge('${c.id}')">
                 <div style="display:flex;align-items:center;gap:10px;">
@@ -242,7 +291,7 @@ function renderWeeklyChallenges() {
             </div>
         `;
     });
-    
+
     return html || '<p style="text-align:center;color:var(--text-tertiary);">لا توجد تحديات حالياً</p>';
 }
 
@@ -268,7 +317,7 @@ function getUserLevel(points) {
         { min: 2000, max: 5000, title: 'أسطورة', icon: 'fa-crown', color: '#FFA000', next: 5000, progress: 0 },
         { min: 5000, max: 99999, title: 'خارق', icon: 'fa-bolt', color: '#7C4DFF', next: 99999, progress: 100 }
     ];
-    
+
     for (var i = 0; i < levels.length; i++) {
         if (points >= levels[i].min && points < levels[i].max) {
             levels[i].progress = Math.round(((points - levels[i].min) / (levels[i].max - levels[i].min)) * 100);
@@ -280,27 +329,25 @@ function getUserLevel(points) {
 }
 
 // Update leaderboard when data changes
-window.addEventListener('taeafiDataUpdated', function(e) {
+window.addEventListener('taeafiDataUpdated', function (e) {
     if (typeof Router !== 'undefined' && Router.getCurrentPage() === 'leaderboard') {
-        // Refresh the page to show updated data
         renderLeaderboardPage();
     }
 });
 
-window.addEventListener('taeafiTasbihUpdated', function(e) {
-    if (typeof Router !== 'undefined' && Router.getCurrentPage() === 'leaderboard') {
-        // Update just the record display if possible
-        updateLeaderboardRecords();
-    }
-});
-
-window.addEventListener('taeafiSpiritualReading', function(e) {
+window.addEventListener('taeafiTasbihUpdated', function (e) {
     if (typeof Router !== 'undefined' && Router.getCurrentPage() === 'leaderboard') {
         updateLeaderboardRecords();
     }
 });
 
-window.addEventListener('recoveryUpdated', function(e) {
+window.addEventListener('taeafiSpiritualReading', function (e) {
+    if (typeof Router !== 'undefined' && Router.getCurrentPage() === 'leaderboard') {
+        updateLeaderboardRecords();
+    }
+});
+
+window.addEventListener('recoveryUpdated', function (e) {
     if (typeof Router !== 'undefined' && Router.getCurrentPage() === 'leaderboard') {
         updateLeaderboardRecords();
     }
@@ -313,27 +360,28 @@ function updateLeaderboardRecords() {
     try {
         var stats = RecoveryCounter.getRecoveryStats();
         var tasbihData = getTasbihStats();
-        var achievements = typeof AchievementsManager !== 'undefined' ? 
-            AchievementsManager.getUnlocked() : [];
-        
+        var achievements = typeof AchievementsManager !== 'undefined'
+            ? AchievementsManager.getUnlocked()
+            : [];
+
         var records = StorageManager.get('personal_records') || {};
-        
+
         // Update displayed numbers
         var streakEl = document.getElementById('record-streak');
         if (streakEl) streakEl.textContent = records.longestStreak || stats.totalDays || 0;
-        
+
         var tasbihEl = document.getElementById('record-tasbih');
         if (tasbihEl) tasbihEl.textContent = (records.mostTasbih || 0).toLocaleString('en-US');
-        
+
         var achievementsEl = document.getElementById('record-achievements');
         if (achievementsEl) achievementsEl.textContent = records.achievements || achievements.length || 0;
-        
+
         // Update weekly challenges container if needed
         var container = document.getElementById('weekly-challenges-container');
         if (container) {
             container.innerHTML = renderWeeklyChallenges();
         }
-        
+
     } catch (error) {
         console.warn('[Leaderboard] Update failed:', error);
     }

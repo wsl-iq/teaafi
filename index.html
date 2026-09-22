@@ -45,6 +45,7 @@
     <link rel="stylesheet" href="css/utilities.css">
     <link rel="stylesheet" href="css/themes.css">
     <link rel="stylesheet" href="css/multi-habit.css">
+    <link rel="stylesheet" href="css/welcome.css">
     
     <link rel="manifest" href="manifest.json">
 </head>
@@ -87,84 +88,187 @@
         </div>
     </div>
 
-    <!-- Welcome Screen -->
+    <!-- Welcome Screen — v2.0.0 -->
     <div id="welcome-screen" class="welcome-screen hidden">
-        <div class="welcome-container">
-            <button class="welcome-back-btn hidden" onclick="goToHome()">
-                <i class="fas fa-times"></i>
+        <div class="welcome-container" style="position: relative;">
+
+            <!-- Back button (hidden by default) -->
+            <button class="welcome-back-btn hidden" id="welcome-back-btn" onclick="welcomeBackStep()">
+                <i class="fas fa-arrow-right"></i>
             </button>
-            
-            <div class="welcome-progress">
-                <div class="progress-step active" data-step="1"></div>
-                <div class="progress-step" data-step="2"></div>
-                <div class="progress-step" data-step="3"></div>
+
+            <!-- Progress Indicator -->
+            <div class="welcome-progress-new" id="welcome-progress">
+                <div class="welcome-step" data-step="1">
+                    <div class="welcome-step-circle">1</div>
+                    <div class="welcome-step-label">الاسم</div>
+                </div>
+                <div class="welcome-step-divider"></div>
+                <div class="welcome-step" data-step="2">
+                    <div class="welcome-step-circle">2</div>
+                    <div class="welcome-step-label">العمر</div>
+                </div>
+                <div class="welcome-step-divider"></div>
+                <div class="welcome-step" data-step="3">
+                    <div class="welcome-step-circle">3</div>
+                    <div class="welcome-step-label">الجنس</div>
+                </div>
+                <div class="welcome-step-divider"></div>
+                <div class="welcome-step" data-step="4">
+                    <div class="welcome-step-circle">4</div>
+                    <div class="welcome-step-label">العادة</div>
+                </div>
+                <div class="welcome-step-divider"></div>
+                <div class="welcome-step" data-step="5">
+                    <div class="welcome-step-circle">5</div>
+                    <div class="welcome-step-label">مراجعة</div>
+                </div>
+                <div class="welcome-step-divider"></div>
+                <div class="welcome-step" data-step="6">
+                    <div class="welcome-step-circle">6</div>
+                    <div class="welcome-step-label">المظهر</div>
+                </div>
+                <div class="welcome-step-divider"></div>
+                <div class="welcome-step" data-step="7">
+                    <div class="welcome-step-circle">7</div>
+                    <div class="welcome-step-label">العهد</div>
+                </div>
             </div>
-            
+
             <div class="welcome-slides">
-                <!-- Slide 1: Name -->
-                <div class="welcome-slide active" data-slide="1">
+
+                <!--STEP 0 — INTRO-->
+                <div class="welcome-slide active" data-slide="0">
+                    <div class="welcome-intro">
+                        <div class="welcome-intro-logo">
+                            <i class="fas fa-leaf"></i>
+                        </div>
+                        <h1>تعافي</h1>
+                        <p class="welcome-intro-subtitle">رحلتك نحو حياة أفضل</p>
+
+                        <div class="welcome-features">
+                            <div class="welcome-feature-item">
+                                <div class="welcome-feature-icon" style="background:#4CAF50;">
+                                    <i class="fas fa-calendar-check"></i>
+                                </div>
+                                <span>تتبع رحلة التعافي يوماً بيوم</span>
+                            </div>
+                            <div class="welcome-feature-item">
+                                <div class="welcome-feature-icon" style="background:#FF9800;">
+                                    <i class="fas fa-trophy"></i>
+                                </div>
+                                <span>إنجازات وتحديات أسبوعية</span>
+                            </div>
+                            <div class="welcome-feature-item">
+                                <div class="welcome-feature-icon" style="background:#9C27B0;">
+                                    <i class="fas fa-hands-praying"></i>
+                                </div>
+                                <span>أدعية وأذكار للتحصين الإيماني</span>
+                            </div>
+                            <div class="welcome-feature-item">
+                                <div class="welcome-feature-icon" style="background:#2196F3;">
+                                    <i class="fas fa-chart-line"></i>
+                                </div>
+                                <span>إحصائيات وتقارير مفصلة</span>
+                            </div>
+                        </div>
+
+                        <div class="welcome-intro-actions">
+                            <button class="btn btn-primary btn-lg" onclick="welcomeStartFresh()">
+                                <i class="fas fa-play"></i>
+                                ابدأ الآن
+                            </button>
+                            <button class="btn btn-outline" onclick="welcomeShowImportDialog()">
+                                <i class="fas fa-cloud-arrow-down"></i>
+                                لدي نسخة احتياطية
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!--STEP 1 — NAME-->
+                <div class="welcome-slide" data-slide="1">
                     <div class="slide-icon">
                         <i class="fas fa-user-circle"></i>
                     </div>
                     <h2 class="slide-title">ما اسمك؟</h2>
                     <p class="slide-description">نود التعرف عليك لتقديم تجربة مخصصة</p>
+
                     <div class="form-group">
+                        <label class="form-label">
+                            الاسم
+                            <span class="optional">(اختياري)</span>
+                        </label>
                         <div class="input-wrapper">
                             <i class="fas fa-user input-icon"></i>
-                            <input 
-                                type="text" 
-                                id="user-name" 
-                                class="form-input" 
+                            <input
+                                type="text"
+                                id="user-name"
+                                class="form-input"
                                 placeholder="أدخل اسمك الكريم"
                                 autocomplete="name"
+                                maxlength="50"
                             >
                         </div>
+                        <span class="form-hint" id="name-hint"></span>
                     </div>
-                    <button class="btn btn-primary btn-next" onclick="nextSlide(2)" disabled id="name-next-btn">
-                        التالي
-                        <i class="fas fa-arrow-left"></i>
-                    </button>
+
+                    <div class="slide-buttons">
+                        <button class="btn btn-skip" onclick="welcomeNameSkip()">
+                            تخطي
+                        </button>
+                        <button class="btn btn-primary" onclick="welcomeNameNext()">
+                            التالي
+                            <i class="fas fa-arrow-left"></i>
+                        </button>
+                    </div>
                 </div>
-                
-                <!-- Slide 2: Age -->
+
+                <!--STEP 2 — AGE-->
                 <div class="welcome-slide" data-slide="2">
                     <div class="slide-icon">
                         <i class="fas fa-calendar-alt"></i>
                     </div>
                     <h2 class="slide-title">كم عمرك؟</h2>
                     <p class="slide-description">يساعدنا ذلك في تخصيص المحتوى المناسب لك</p>
+
                     <div class="form-group">
+                        <label class="form-label">العمر (بالسنوات)</label>
                         <div class="input-wrapper">
                             <i class="fas fa-calendar input-icon"></i>
-                            <input 
-                                type="number" 
-                                id="user-age" 
-                                class="form-input" 
-                                placeholder="العمر"
-                                min="10"
-                                max="100"
+                            <input
+                                type="number"
+                                id="user-age"
+                                class="form-input"
+                                placeholder="مثال: 25"
+                                min="13"
+                                max="99"
+                                inputmode="numeric"
                             >
                         </div>
+                        <span class="form-hint" id="age-hint"></span>
                     </div>
+
                     <div class="slide-buttons">
-                        <button class="btn btn-outline" onclick="prevSlide(1)">
+                        <button class="btn btn-outline" onclick="welcomeGoTo(1, 'back')">
                             <i class="fas fa-arrow-right"></i>
                             السابق
                         </button>
-                        <button class="btn btn-primary" onclick="nextSlide(3)" disabled id="age-next-btn">
+                        <button class="btn btn-primary" onclick="welcomeAgeNext()">
                             التالي
                             <i class="fas fa-arrow-left"></i>
                         </button>
                     </div>
                 </div>
-                
-                <!-- Slide 3: Gender -->
+
+                <!--STEP 3 — GENDER-->
                 <div class="welcome-slide" data-slide="3">
                     <div class="slide-icon">
                         <i class="fas fa-venus-mars"></i>
                     </div>
                     <h2 class="slide-title">الجنس</h2>
                     <p class="slide-description">اختيارك يساعد في تقديم محتوى مخصص</p>
+
                     <div class="gender-selector">
                         <div class="gender-option" data-gender="male" onclick="selectGender('male')">
                             <i class="fas fa-male gender-icon"></i>
@@ -176,18 +280,178 @@
                         </div>
                     </div>
                     <input type="hidden" id="user-gender">
+
                     <div class="slide-buttons">
-                        <button class="btn btn-outline" onclick="prevSlide(2)">
+                        <button class="btn btn-outline" onclick="welcomeGoTo(2, 'back')">
                             <i class="fas fa-arrow-right"></i>
                             السابق
                         </button>
-                        <button class="btn btn-primary" onclick="completeWelcome()" disabled id="start-btn">
-                            <i class="fas fa-play"></i>
-                            ابدأ الرحلة
+                        <button class="btn btn-primary" id="gender-next-btn" disabled onclick="welcomeGenderNext()">
+                            التالي
+                            <i class="fas fa-arrow-left"></i>
                         </button>
                     </div>
                 </div>
+
+                <!--STEP 4 — FIRST HABIT-->
+                <div class="welcome-slide" data-slide="4">
+                    <div class="slide-icon">
+                        <i class="fas fa-bullseye"></i>
+                    </div>
+                    <h2 class="slide-title">من أي عادة تريد التعافي؟</h2>
+                    <p class="slide-description">اختر عادتك الأولى لبدء رحلتك</p>
+
+                    <div class="habits-grid-welcome" id="welcome-habits-grid"></div>
+
+                    <div class="slide-buttons">
+                        <button class="btn btn-skip" onclick="welcomeHabitSkip()">
+                            تخطي
+                        </button>
+                        <button class="btn btn-primary" id="habit-next-btn" disabled onclick="welcomeHabitNext()">
+                            التالي
+                            <i class="fas fa-arrow-left"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!--STEP 5 — REVIEW-->
+                <div class="welcome-slide" data-slide="5">
+                    <div class="slide-icon">
+                        <i class="fas fa-clipboard-check"></i>
+                    </div>
+                    <h2 class="slide-title">راجع بياناتك</h2>
+                    <p class="slide-description">تأكد من صحة معلوماتك قبل المتابعة</p>
+
+                    <div id="review-content"></div>
+
+                    <div class="slide-buttons">
+                        <button class="btn btn-outline" onclick="welcomeGoTo(4, 'back')">
+                            <i class="fas fa-arrow-right"></i>
+                            السابق
+                        </button>
+                        <button class="btn btn-primary" onclick="welcomeReviewNext()">
+                            التالي
+                            <i class="fas fa-arrow-left"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!--STEP 6 — THEME-->
+                <div class="welcome-slide" data-slide="6">
+                    <div class="slide-icon">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <h2 class="slide-title">اختر مظهرك المفضل</h2>
+                    <p class="slide-description">يمكنك تغييره لاحقاً من الإعدادات</p>
+
+                    <div class="theme-picker" id="theme-picker"></div>
+
+                    <div class="slide-buttons">
+                        <button class="btn btn-outline" onclick="welcomeGoTo(5, 'back')">
+                            <i class="fas fa-arrow-right"></i>
+                            السابق
+                        </button>
+                        <button class="btn btn-primary" onclick="welcomeThemeNext()">
+                            التالي
+                            <i class="fas fa-arrow-left"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!--STEP 7 — PACT-->
+                <div class="welcome-slide" data-slide="7">
+                    <div class="slide-icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h2 class="slide-title">عهد التعافي</h2>
+                    <p class="slide-description">قبل أن نبدأ، نريدك أن تتعهد لنفسك</p>
+
+                    <div class="pact-card">
+                        <i class="fas fa-quote-right"></i>
+                        <p>
+                            أتعهد أنا <strong id="pact-name">صديقي</strong> بأن أسعى للتعافي،
+                            وأن أستخدم هذا التطبيق بصدق وإخلاص.
+                            سأتعامل مع الانتكاسات كدروس، ولن أستسلم.
+                        </p>
+                    </div>
+
+                    <div class="pact-checkbox" id="pact-checkbox" onclick="welcomeTogglePact()">
+                        <div class="pact-checkbox-box">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <span>أوافق على هذا العهد وأبدأ رحلتي</span>
+                    </div>
+
+                    <div class="slide-buttons">
+                        <button class="btn btn-outline" onclick="welcomeGoTo(6, 'back')">
+                            <i class="fas fa-arrow-right"></i>
+                            السابق
+                        </button>
+                        <button class="btn btn-primary" id="pact-next-btn" disabled onclick="welcomePactNext()">
+                            التالي
+                            <i class="fas fa-arrow-left"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!--STEP 8 — FINAL SUCCESS-->
+                <div class="welcome-slide" data-slide="8">
+                    <div class="welcome-final">
+                        <div class="welcome-final-icon">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <h1 id="final-name">مرحباً بك!</h1>
+                        <p>تم إعداد حسابك بنجاح. أنت الآن جاهز لبدء رحلتك.</p>
+
+                        <div class="welcome-final-checklist">
+                            <div class="welcome-final-check">
+                                <i class="fas fa-check-circle"></i>
+                                <span>تم إنشاء حسابك</span>
+                            </div>
+                            <div class="welcome-final-check">
+                                <i class="fas fa-check-circle"></i>
+                                <span>تم حفظ بياناتك بشكل آمن</span>
+                            </div>
+                            <div class="welcome-final-check">
+                                <i class="fas fa-check-circle"></i>
+                                <span>تم تطبيق المظهر المختار</span>
+                            </div>
+                            <div class="welcome-final-check">
+                                <i class="fas fa-check-circle"></i>
+                                <span>رحلتك تبدأ الآن</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
+        </div>
+    </div>
+
+    <!-- Import Backup Modal -->
+    <div id="welcome-import-modal" class="modal-overlay" style="display: none; z-index: 99999;">
+        <div class="modal-container" style="max-width: 440px;">
+            <div style="text-align: center; margin-bottom: 16px;">
+                <div style="width: 64px; height: 64px; margin: 0 auto; border-radius: 50%; background: var(--primary-light); display: flex; align-items: center; justify-content: center; color: var(--primary); font-size: 28px;">
+                    <i class="fas fa-cloud-arrow-down"></i>
+                </div>
+            </div>
+            <h3 style="text-align: center; margin-bottom: 8px;">استيراد نسخة احتياطية</h3>
+            <p style="text-align: center; color: var(--text-secondary); font-size: 13px; margin-bottom: 20px;">
+                اختر ملف النسخة الاحتياطية (JSON) لاستعادة بياناتك
+            </p>
+
+            <div class="import-backup-area" onclick="welcomeTriggerImport()">
+                <i class="fas fa-file-upload"></i>
+                <p>اضغط لاختيار ملف النسخة الاحتياطية</p>
+                <small>الصيغة المدعومة: .json</small>
+            </div>
+
+            <input type="file" id="welcome-backup-file" accept=".json" style="display: none;" onchange="welcomeHandleBackupFile(event)">
+
+            <button class="btn btn-outline w-full" onclick="welcomeCloseImportDialog()" style="width: 100%;">
+                إلغاء
+            </button>
         </div>
     </div>
 
@@ -240,7 +504,7 @@
             </nav>
             
             <div class="sidebar-footer">
-                <p>نسخة 1.5.8</p>
+                <p>نسخة 2.0.0</p>
                 <p>.Copyright © 2026, lnc</p>
                 <P>.Mohammed Al-Baqer</p>
                 <p>.All rights reserved</p>
@@ -300,7 +564,6 @@
     </style>
     
     <script src="js/storage.js"></script>
-    <script src="service-worker.js"></script>
     <script src="js/data-update-manager.js"></script>
     <script src="js/permissions.js"></script>
     <script src="js/notifications.js"></script>
@@ -344,6 +607,7 @@
     <script src="js/app-lock.js"></script>
     <script src="js/themes.js"></script>
     <script src="js/xp-system.js"></script>
+    <script src="js/user-manager.js"></script>
     <script src="js/optimization.js"></script>
     <script src="js/app.js"></script>
     
@@ -405,3 +669,5 @@
 </script>
 </body>
 </html>
+
+<div id="welcome-screen" class="welcome-screen hidden"></div>

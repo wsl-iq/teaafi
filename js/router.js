@@ -17,6 +17,7 @@
  */
 
 // Current page / navigation state
+
 class Router {
     static #currentPage = 'home';
     static #isNavigating = false;
@@ -34,7 +35,7 @@ class Router {
         'stats',
         'journal',
         'breath',
-        'habit-detail',
+        'habit-detail', // Keep habit details uncached to avoid stale live data when navigating back.
         '21-day'
     ];
 
@@ -452,6 +453,7 @@ class Router {
      * detail screen its own history entry and makes both the Android
      * Back button and the in-page Back button work correctly.
      */
+
     static openHabitDetail(habitType) {
         if (!habitType) {
             return false;
@@ -590,6 +592,43 @@ function navigateTo(page) {
     });
 }
 
+/**
+ * Fix: "Agree and Start Challenge" button did not update the page.
+ * 
+ * Root Cause:
+ * The function renderTwentyOneDayPage() was called directly after saving
+ * the new challenge, without clearing the existing DOM first. As a result,
+ * the browser kept showing the old introduction screen until the user
+ * left the page and re-entered it through the Router.
+ * 
+ * Solution:
+ * Clear mainContent.innerHTML before re-rendering, and route the update
+ * through the Router (with a cleared page cache) to guarantee a clean
+ * full re-render without leaving the page.
+ * 
+ * Notes:
+ * - This issue is NOT caused by router.js. The Router is used only as a
+ *   clean way to force a full refresh.
+ * - The minimal fix is a single line: mainContent.innerHTML = '';
+ *   inside renderTwentyOneDayPage().
+ */
+
+function renderTwentyOneDayPage() {
+    const mainContent = document.getElementById('main-content');
+    if (!mainContent) return;
+    
+    mainContent.innerHTML = '';  // This is enough to solve the problem
+    
+    const data = twentyOneDayLoad();
+    if (!data || data.accepted !== true) {
+        renderTwentyOneDayIntroduction();
+        return;
+    }
+    twentyOneDayRefreshStatistics(data);
+    twentyOneDaySave(data);
+    renderTwentyOneDayDashboard(data);
+}
+
 function goHome() {
     return Router.goHome();
 }
@@ -619,6 +658,7 @@ window.addEventListener('popstate', function (event) {
 
     // If a WebView/browser reaches an old entry that doesn't have
     // our state, safely render home without pushing another entry.
+
     if (Router.getCurrentPage() !== 'home') {
         Router.navigateTo('home', {
             historyMode: 'replace',
@@ -628,6 +668,7 @@ window.addEventListener('popstate', function (event) {
 });
 
 // Initialize after the DOM is available.
+
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
         Router.init();

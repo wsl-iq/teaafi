@@ -348,8 +348,3 @@ statsStyles.textContent = `
     }
 `;
 document.head.appendChild(statsStyles);
-
-// <span class="stat-number" id="stat-relapses">${stats.relapses || 0}</span>
-
-// var relapseEl = document.getElementById('stat-relapses');
-// if (relapseEl) relapseEl.textContent = stats.relapses || 0;

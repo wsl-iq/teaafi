@@ -11,6 +11,13 @@ var SmartNotifications = {
     bestTime: '08:00',
     history: [],
     interval: null,
+
+    sendNotification: function(title, options) {
+        if (typeof NotificationService !== 'undefined' &&
+            typeof NotificationService.sendNotification === 'function') {
+            NotificationService.sendNotification(title, options);
+        }
+    },
     
     init: function() {
         this.history = StorageManager.get('notif_history') || [];
@@ -57,7 +64,7 @@ var SmartNotifications = {
         
         prayerTimes.forEach(function(pt) {
             if (now.getHours() === pt.hour && now.getMinutes() === 0) {
-                NotificationService.sendNotification(
+                self.sendNotification(
                     'حان وقت ' + pt.name,
                     { body: 'لا تنسَ ' + pt.dhikr + ' 🌿' }
                 );
@@ -72,7 +79,7 @@ var SmartNotifications = {
                 'أكملت ' + stats.totalDays + ' يوم في رحلة التعافي. استمر! 💪' :
                 'ابدأ رحلة التعافي اليوم - خطوة واحدة تغير حياتك 🌿';
             
-            NotificationService.sendNotification('تذكير التعافي', { body: msg });
+            this.sendNotification('تذكير التعافي', { body: msg });
         }
     },
     

@@ -189,6 +189,18 @@ var DataUpdateManager = {
                 records.achievements = achievements.length;
                 updated = true;
             }
+
+            // Update bestQuiz
+            var quizHistory = StorageManager.get('quiz_history') || [];
+            var bestQuizScore = quizHistory.length > 0
+                ? Math.max.apply(null, quizHistory.map(function (q) {
+                    return Number(q.score || 0);
+                }))
+                : 0;
+            if (bestQuizScore > (records.bestQuiz || 0)) {
+                records.bestQuiz = bestQuizScore;
+                updated = true;
+            }
             
             if (updated) {
                 StorageManager.set('personal_records', records);
@@ -335,3 +347,5 @@ window.addEventListener('taeafiDataUpdated', function(e) {
     // Update personal records on any data change
     DataUpdateManager._updatePersonalRecords();
 });
+
+// _updatePersonalRecords: function()

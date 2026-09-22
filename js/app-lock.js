@@ -12,17 +12,60 @@ var AppLock = {
     pin: null,
     attempts: 0,
     maxAttempts: 5,
-    recoveryCode: 'Taeafi0x10000',
+    // recoveryCode: 'Taeafi0x10000', The code Delete in now version becuse sequrity
+    recoveryCode: null,
     inputPin: '',
     showPin: false,
     
     init: function() {
         var settings = StorageManager.getSettings();
+        this._loadRecoveryCode(settings);
         if (settings.appLockEnabled && settings.appPin) {
             this.pin = settings.appPin;
             this.isLocked = true;
             this.showLockScreen();
         }
+    },
+
+    _loadRecoveryCode: function(settings) {
+        var encodedKey = settings.appRecoveryKey;
+        var encodedCode = settings.appRecoveryCode;
+
+        if (!encodedKey || !encodedCode) {
+            var keyBytes = new Uint8Array(16);
+            if (window.crypto && window.crypto.getRandomValues) {
+                window.crypto.getRandomValues(keyBytes);
+            } else {
+                for (var i = 0; i < keyBytes.length; i++) {
+                    keyBytes[i] = Math.floor(Math.random() * 256);
+                }
+            }
+
+            var key = Array.prototype.map.call(keyBytes, function(byte) {
+                return String.fromCharCode(byte);
+            }).join('');
+            var code = 'Taeafi' + Math.random().toString(36).slice(2, 10);
+            var encrypted = '';
+            for (var j = 0; j < code.length; j++) {
+                encrypted += String.fromCharCode(code.charCodeAt(j) ^ key.charCodeAt(j % key.length));
+            }
+
+            settings.appRecoveryKey = btoa(key);
+            settings.appRecoveryCode = btoa(encrypted);
+            StorageManager.saveSettings(settings);
+            this.recoveryCode = code;
+            return;
+        }
+
+        var storedKey = atob(encodedKey);
+        var storedCode = atob(encodedCode);
+        var decrypted = '';
+        for (var k = 0; k < storedCode.length; k++) {
+            decrypted += String.fromCharCode(
+                storedCode.charCodeAt(k) ^ storedKey.charCodeAt(k % storedKey.length)
+            );
+        }
+        this.recoveryCode = decrypted;
     },
     
     setPin: function(newPin) {
@@ -58,6 +101,7 @@ var AppLock = {
             this.attempts = 0;
             this.inputPin = '';
             this.showPin = false;
+            this.isLocked = false;
             this._showSuccessThenHide();
             return true;
         }
@@ -107,7 +151,7 @@ var AppLock = {
                     <p style="font-size:11px;color:var(--text-tertiary);margin-bottom:8px;text-align:right;">
                         <i class="fas fa-key" style="margin-left:4px;"></i> رمز الاسترداد
                     </p>
-                    <input type="text" id="recovery-input" placeholder="Taeafi0x10000" 
+                    <input type="text" id="recovery-input" placeholder="رمز الاسترداد" 
                            style="width:100%;padding:12px;border-radius:10px;border:1px solid var(--border);text-align:center;font-size:14px;font-family:monospace;direction:ltr;background:var(--input-bg);color:var(--text-primary);">
                     <p id="recovery-error" style="color:#F44336;font-size:11px;min-height:16px;margin-top:4px;text-align:center;"></p>
                     <button class="btn btn-primary btn-sm w-full mt-2" onclick="AppLock.useRecoveryCode()" style="width:100%;">
@@ -500,3 +544,15 @@ var AppLock = {
 document.addEventListener('DOMContentLoaded', function() {
     setTimeout(function() { AppLock.init(); }, 3000);
 });
+
+document.addEventListener('visibilitychange', function() {
+    if (!AppLock.pin) return;
+
+    if (document.hidden) {
+        AppLock.isLocked = true;
+    } else if (AppLock.isLocked && !document.getElementById('lock-overlay')) {
+        AppLock.showLockScreen();
+    }
+});
+
+// _show
