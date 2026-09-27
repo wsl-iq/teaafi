@@ -14,57 +14,62 @@ function renderLeaderboardPage() {
     var achievements = typeof AchievementsManager !== 'undefined' ? AchievementsManager.getUnlocked() : [];
     var journal = StorageManager.get('journal_entries') || [];
 
-    // Get the REAL tasbih total
+    // ✅ Get the REAL tasbih total
     var tasbihData = getTasbihStats();
     var tasbihTotal = tasbihData.totalCount;
 
     // Spiritual reading stats
     var spiritualStats = getSpiritualStats();
 
-    // Load and update personal records
-    var records = StorageManager.get('personal_records') || {
-        longestStreak: 0,
-        mostTasbih: 0,
-        bestQuiz: 0,
-        achievements: 0
-    };
+    // Load personal records with SAFE defaults
+    var records = StorageManager.get('personal_records') || {};
 
-    // Check the longest streak across ALL habits (multi-habit system)
+    // ✅ Force all fields to be numbers (never undefined)
+    records.longestStreak = Number(records.longestStreak || 0);
+    records.mostTasbih = Number(records.mostTasbih || 0);
+    records.bestQuiz = Number(records.bestQuiz || 0);
+    records.achievements = Number(records.achievements || 0);
+
+    // ✅ Check the longest streak across ALL habits (multi-habit system)
     if (typeof TaeafiMultiHabit !== 'undefined' && typeof TaeafiMultiHabit.getHabits === 'function') {
         var allHabits = TaeafiMultiHabit.getHabits() || [];
         allHabits.forEach(function (h) {
-            if (h.habitType && typeof TaeafiMultiHabit.getStats === 'function') {
-                var hStats = TaeafiMultiHabit.getStats(h.habitType);
-                if (hStats && hStats.totalDays > (records.longestStreak || 0)) {
-                    records.longestStreak = hStats.totalDays;
-                }
+            if (h && h.habitType && typeof TaeafiMultiHabit.getStats === 'function') {
+                try {
+                    var hStats = TaeafiMultiHabit.getStats(h.habitType);
+                    var days = Number((hStats && hStats.totalDays) || 0);
+                    if (days > records.longestStreak) {
+                        records.longestStreak = days;
+                    }
+                } catch (e) {}
             }
         });
     }
 
-    // Fallback: active habit streak
-    if (stats.totalDays > (records.longestStreak || 0)) {
-        records.longestStreak = stats.totalDays;
+    // ✅ Fallback: active habit streak
+    var activeDays = Number((stats && stats.totalDays) || 0);
+    if (activeDays > records.longestStreak) {
+        records.longestStreak = activeDays;
     }
 
-    // Update mostTasbih
-    if (tasbihTotal > (records.mostTasbih || 0)) {
+    // ✅ Update mostTasbih
+    if (tasbihTotal > records.mostTasbih) {
         records.mostTasbih = tasbihTotal;
     }
 
-    // Update bestQuiz (was never updated before)
+    // ✅ Update bestQuiz
     var quizHistory = StorageManager.get('quiz_history') || [];
     var bestQuizScore = quizHistory.length > 0
         ? Math.max.apply(null, quizHistory.map(function (q) {
             return Number(q.score || 0);
         }))
         : 0;
-    if (bestQuizScore > (records.bestQuiz || 0)) {
+    if (bestQuizScore > records.bestQuiz) {
         records.bestQuiz = bestQuizScore;
     }
 
-    // Update achievements count
-    if (achievements.length > (records.achievements || 0)) {
+    // ✅ Update achievements count
+    if (achievements.length > records.achievements) {
         records.achievements = achievements.length;
     }
 
@@ -140,10 +145,10 @@ function renderLeaderboardPage() {
                     <p style="font-size: 12px; color: var(--text-secondary);">
                         ${
                             weeklyTasbih >= 1000
-                                ? '<i class="fas fa-trophy" style="margin-left: 4px; color: #FFD700;"></i> أكملت 1000 تسبيحة هذا الأسبوع!'
+                                ? 'أكملت 1000 تسبيحة هذا الأسبوع!'
                                 : weeklyTasbih >= 500
-                                    ? '<i class="fas fa-dumbbell" style="margin-left: 4px; color: #4CAF50;"></i> ' + weeklyTasbih + ' تسبيحة - أنت في الطريق الصحيح!'
-                                    : '<i class="fas fa-praying-hands" style="margin-left: 4px; color: #2196F3;"></i> ' + weeklyTasbih + ' تسبيحة حتى الآن هذا الأسبوع'
+                                    ? weeklyTasbih + ' تسبيحة - أنت في الطريق الصحيح!'
+                                    : weeklyTasbih + ' تسبيحة حتى الآن هذا الأسبوع'
                         }
                     </p>
                 </div>
@@ -356,6 +361,9 @@ window.addEventListener('recoveryUpdated', function (e) {
 /**
  * Update leaderboard records without full reload.
  */
+/**
+ * Update leaderboard records without full reload.
+ */
 function updateLeaderboardRecords() {
     try {
         var stats = RecoveryCounter.getRecoveryStats();
@@ -366,22 +374,24 @@ function updateLeaderboardRecords() {
 
         var records = StorageManager.get('personal_records') || {};
 
-        // Update displayed numbers
+        // ✅ Force numbers
+        records.longestStreak = Number(records.longestStreak || 0);
+        records.mostTasbih = Number(records.mostTasbih || 0);
+        records.achievements = Number(records.achievements || 0);
+
         var streakEl = document.getElementById('record-streak');
-        if (streakEl) streakEl.textContent = records.longestStreak || stats.totalDays || 0;
+        if (streakEl) streakEl.textContent = String(records.longestStreak);
 
         var tasbihEl = document.getElementById('record-tasbih');
         if (tasbihEl) tasbihEl.textContent = (records.mostTasbih || 0).toLocaleString('en-US');
 
         var achievementsEl = document.getElementById('record-achievements');
-        if (achievementsEl) achievementsEl.textContent = records.achievements || achievements.length || 0;
+        if (achievementsEl) achievementsEl.textContent = String(records.achievements || achievements.length || 0);
 
-        // Update weekly challenges container if needed
         var container = document.getElementById('weekly-challenges-container');
         if (container) {
             container.innerHTML = renderWeeklyChallenges();
         }
-
     } catch (error) {
         console.warn('[Leaderboard] Update failed:', error);
     }

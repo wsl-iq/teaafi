@@ -534,6 +534,10 @@
      * RECORD RELAPSE
      */
 
+    /*
+     * RECORD RELAPSE — with analysis modal
+     */
+
     function recordRelapse(type) {
         if (!type) {
             return false;
@@ -592,6 +596,15 @@
         emitUpdate('relapse');
         toast(`تم تسجيل انتكاسة في ${name}`);
         refresh();
+
+        // Show analysis modal (optional — user can skip)
+        if (typeof window.showRelapseAnalysisModal === 'function') {
+            window.showRelapseAnalysisModal(type, function () {
+                // Callback after analysis is saved or skipped
+                console.log('[Relapse] Analysis completed for:', type);
+            });
+        }
+
         return true;
     }
 

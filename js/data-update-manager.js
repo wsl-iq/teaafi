@@ -162,15 +162,17 @@ var DataUpdateManager = {
             var achievements = typeof AchievementsManager !== 'undefined' ? 
                 AchievementsManager.getUnlocked() : [];
             
-            var totalCount = Number(tasbihData.totalCount || 0);
-            
-            // Ensure totalCount is at least the sum of counts
+            // ✅ Always recalculate total from counts
             var counts = tasbihData.counts || {};
             var calculatedTotal = Number(counts.allahuAkbar || 0) + 
                                  Number(counts.alhamdulillah || 0) + 
                                  Number(counts.subhanAllah || 0);
-            if (totalCount < calculatedTotal) {
-                totalCount = calculatedTotal;
+            var totalCount = Math.max(Number(tasbihData.totalCount || 0), calculatedTotal);
+
+            // ✅ If stored totalCount was stale, fix it permanently
+            if (tasbihData.totalCount !== totalCount) {
+                tasbihData.totalCount = totalCount;
+                StorageManager.set('tasbih_data', tasbihData);
             }
             
             var updated = false;
@@ -190,7 +192,7 @@ var DataUpdateManager = {
                 updated = true;
             }
 
-            // Update bestQuiz
+            // ✅ Update bestQuiz
             var quizHistory = StorageManager.get('quiz_history') || [];
             var bestQuizScore = quizHistory.length > 0
                 ? Math.max.apply(null, quizHistory.map(function (q) {
@@ -276,6 +278,7 @@ var DataUpdateManager = {
         var calculated = Number(counts.allahuAkbar || 0) + 
                         Number(counts.alhamdulillah || 0) + 
                         Number(counts.subhanAllah || 0);
+        // ✅ Return max of the two — protects against stale totalCount
         return Math.max(total, calculated);
     },
     
@@ -349,3 +352,5 @@ window.addEventListener('taeafiDataUpdated', function(e) {
 });
 
 // _updatePersonalRecords: function()
+// _updatePersonalRecords()
+// getTasbihTotal

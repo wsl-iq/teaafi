@@ -144,7 +144,29 @@ function renderHabitDetail(habitType) {
         </div>
     `;
     
-    document.getElementById('main-content').scrollTop = 0;
+    // Append the Habit Deep Dive section
+    if (typeof HabitDeepDive !== 'undefined' && typeof HabitDeepDive.render === 'function') {
+        var deepDiveHTML = HabitDeepDive.render(habitType);
+        if (deepDiveHTML) {
+            var container = mainContent.querySelector('.animate-fade-in');
+            if (container) {
+                var wrapper = document.createElement('div');
+                wrapper.innerHTML = deepDiveHTML;
+                while (wrapper.firstChild) {
+                    container.appendChild(wrapper.firstChild);
+                }
+            }
+        }
+    }
+
+    mainContent.scrollTop = 0;
+
+    // Attach events after DOM injection
+    if (typeof HabitDeepDive !== 'undefined' && typeof HabitDeepDive.attachEvents === 'function') {
+        setTimeout(function () {
+            HabitDeepDive.attachEvents(habitType);
+        }, 50);
+    }
 }
 
 // Gender switching functions

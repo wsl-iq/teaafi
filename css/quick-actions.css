@@ -1,0 +1,511 @@
+/**
+ * Developer: Mohammed Al-Baqer
+ * Website: https://wsl-iq.github.io/teaafi/
+ * Copyright (c) 2026 Mohammed Al-Baqer
+ * Folder : css
+ * File   : quick-actions.css
+ * Type   : CSS
+ */
+
+/* 
+ * QUICK ACTIONS — FLOATING BUTTON (TOP LEFT)
+ * Visible only on home page.
+ * Fades out when scrolling down.
+ */
+
+.quick-actions-container {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 9998;
+    pointer-events: none;
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 0.35s ease,
+                transform 0.35s ease;
+}
+
+/* Hidden by default (non-home pages) */
+.quick-actions-container.qa-hidden {
+    opacity: 0;
+    transform: translateY(-20px);
+    pointer-events: none;
+}
+
+.quick-actions-container.qa-hidden * {
+    pointer-events: none;
+}
+
+/* Fade out on scroll down */
+.quick-actions-container.qa-scrolled {
+    opacity: 0;
+    transform: translateY(-20px);
+}
+
+.quick-actions-container * {
+    pointer-events: auto;
+}
+
+.quick-actions-container.qa-hidden *,
+.quick-actions-container.qa-scrolled * {
+    pointer-events: none;
+}
+
+/*  MAIN FAB (Floating Action Button) */
+
+.quick-actions-fab {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--primary-gradient);
+    color: white;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 20px rgba(var(--primary-rgb), 0.4);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                background 0.3s ease,
+                box-shadow 0.3s ease;
+    -webkit-tap-highlight-color: transparent;
+    position: relative;
+    overflow: hidden;
+    animation: quickActionsFloat 3s ease-in-out infinite;
+}
+
+@keyframes quickActionsFloat {
+    0%, 100% {
+        transform: translateY(0);
+        box-shadow: 0 6px 20px rgba(var(--primary-rgb), 0.4);
+    }
+    50% {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 24px rgba(var(--primary-rgb), 0.5);
+    }
+}
+
+.quick-actions-fab:hover {
+    animation-play-state: paused;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(var(--primary-rgb), 0.5);
+}
+
+.quick-actions-fab:active {
+    transform: scale(0.92);
+}
+
+/* HAMBURGER ICON (Three Lines) */
+
+.quick-actions-fab .fab-icon {
+    position: relative;
+    width: 22px;
+    height: 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all 0.3s ease;
+}
+
+.quick-actions-fab .fab-line {
+    display: block;
+    width: 100%;
+    height: 2.5px;
+    background: white;
+    border-radius: 2px;
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-origin: center;
+}
+
+/* Open State — Lines become X */
+.quick-actions-container.open .quick-actions-fab {
+    background: linear-gradient(135deg, #EF5350, #E53935);
+    box-shadow: 0 6px 20px rgba(239, 83, 80, 0.5);
+    animation: none;
+    transform: rotate(180deg);
+}
+
+.quick-actions-container.open .quick-actions-fab .fab-line:nth-child(1) {
+    transform: translateY(7.5px) rotate(45deg);
+}
+
+.quick-actions-container.open .quick-actions-fab .fab-line:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+}
+
+.quick-actions-container.open .quick-actions-fab .fab-line:nth-child(3) {
+    transform: translateY(-7.5px) rotate(-45deg);
+}
+
+/*  ACTIONS MENU */
+
+.quick-actions-menu {
+    position: absolute;
+    top: 70px;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+}
+
+.quick-actions-container.open .quick-actions-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+/* ACTION ITEM */
+
+.quick-action-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--surface);
+    border-radius: 28px;
+    padding: 8px 20px 8px 8px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px solid var(--border-light);
+    white-space: nowrap;
+    -webkit-tap-highlight-color: transparent;
+    opacity: 0;
+    transform: translateX(-20px);
+}
+
+.quick-actions-container.open .quick-action-item {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.quick-actions-container.open .quick-action-item:nth-child(1) { transition-delay: 0.05s; }
+.quick-actions-container.open .quick-action-item:nth-child(2) { transition-delay: 0.10s; }
+.quick-actions-container.open .quick-action-item:nth-child(3) { transition-delay: 0.15s; }
+.quick-actions-container.open .quick-action-item:nth-child(4) { transition-delay: 0.20s; }
+.quick-actions-container.open .quick-action-item:nth-child(5) { transition-delay: 0.25s; }
+
+.quick-action-item:hover {
+    transform: translateX(4px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
+    background: var(--primary-light);
+    border-color: var(--primary);
+}
+
+.quick-action-item:active {
+    transform: scale(0.96);
+}
+
+.quick-action-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 16px;
+    flex-shrink: 0;
+}
+
+.quick-action-label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    padding-right: 4px;
+    padding-left: 4px;
+}
+
+/* OVERLAY */
+
+.quick-actions-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    z-index: 9997;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    pointer-events: none;
+}
+
+.quick-actions-overlay.show {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+/* EMERGENCY MODAL */
+
+.emergency-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    animation: emergencyFadeIn 0.3s ease;
+}
+
+@keyframes emergencyFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.emergency-card {
+    background: var(--surface);
+    border-radius: 24px;
+    padding: 32px 24px;
+    max-width: 420px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    animation: emergencyScaleIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    border: 2px solid var(--primary);
+}
+
+@keyframes emergencyScaleIn {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.emergency-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    background: var(--primary-gradient);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 36px;
+    animation: emergencyPulse 2s ease-in-out infinite;
+    box-shadow: 0 8px 24px rgba(var(--primary-rgb), 0.35);
+}
+
+@keyframes emergencyPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+}
+
+.emergency-card h2 {
+    font-size: 22px;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+    font-weight: 800;
+}
+
+.emergency-card p {
+    font-size: 15px;
+    line-height: 1.9;
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+}
+
+.emergency-dua {
+    background: var(--primary-light);
+    border-right: 4px solid var(--primary);
+    padding: 16px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    font-family: var(--font-quran);
+    font-size: 15px;
+    line-height: 2.2;
+    color: var(--text-primary);
+    text-align: right;
+}
+
+.emergency-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.emergency-actions .btn {
+    width: 100%;
+}
+
+.emergency-countdown {
+    font-size: 12px;
+    color: var(--text-tertiary);
+    margin-top: 12px;
+    min-height: 18px;
+}
+
+/* QUICK NOTE MODAL */
+
+.quick-note-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    animation: emergencyFadeIn 0.3s ease;
+}
+
+.quick-note-card {
+    background: var(--surface);
+    border-radius: 20px;
+    padding: 24px;
+    max-width: 460px;
+    width: 100%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    animation: emergencyScaleIn 0.3s ease;
+}
+
+.quick-note-card h3 {
+    margin: 0 0 16px;
+    color: var(--text-primary);
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.quick-note-card textarea {
+    width: 100%;
+    min-height: 120px;
+    padding: 14px;
+    border-radius: 12px;
+    border: 2px solid var(--border);
+    background: var(--input-bg);
+    color: var(--text-primary);
+    font-family: var(--font-primary);
+    font-size: 14px;
+    line-height: 1.7;
+    resize: vertical;
+    margin-bottom: 16px;
+    transition: border-color 0.2s;
+}
+
+.quick-note-card textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(var(--primary-rgb), 0.1);
+}
+
+.quick-note-mood {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.quick-note-mood-icon {
+    font-size: 28px;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 12px;
+    transition: all 0.2s ease;
+    opacity: 0.5;
+}
+
+.quick-note-mood-icon:hover {
+    opacity: 0.9;
+    transform: scale(1.1);
+}
+
+.quick-note-mood-icon.selected {
+    opacity: 1;
+    background: var(--primary-light);
+    transform: scale(1.15);
+}
+
+/* DARK MODE */
+
+.theme-dark .quick-action-item {
+    background: var(--surface);
+    border-color: var(--border);
+}
+
+.theme-dark .quick-action-item:hover {
+    background: var(--primary-light);
+    border-color: var(--primary);
+}
+
+.theme-dark .emergency-card,
+.theme-dark .quick-note-card {
+    background: var(--surface);
+    border-color: var(--border);
+}
+
+.theme-dark .quick-actions-overlay {
+    background: rgba(0, 0, 0, 0.6);
+}
+
+/* RESPONSIVE */
+
+@media (min-width: 1024px) {
+    .quick-actions-container {
+        top: 24px;
+        left: 24px;
+    }
+}
+
+@media (max-width: 400px) {
+    .quick-actions-container {
+        top: 14px;
+        left: 14px;
+    }
+
+    .quick-actions-fab {
+        width: 52px;
+        height: 52px;
+    }
+
+    .quick-actions-fab .fab-icon {
+        width: 20px;
+        height: 16px;
+    }
+
+    .quick-action-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 14px;
+    }
+
+    .quick-action-label {
+        font-size: 13px;
+    }
+
+    .quick-action-item {
+        padding: 6px 16px 6px 6px;
+    }
+}
+
+/* REDUCED MOTION */
+
+@media (prefers-reduced-motion: reduce) {
+    .quick-actions-fab,
+    .quick-action-item,
+    .emergency-icon,
+    .emergency-card {
+        animation: none !important;
+    }
+
+    .quick-actions-fab {
+        transition: background 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .quick-actions-container {
+        transition: opacity 0.2s ease;
+    }
+}

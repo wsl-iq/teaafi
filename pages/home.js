@@ -530,6 +530,8 @@ function renderHomePage() {
             </div>
         </div>
 
+        ${(typeof XPBar !== 'undefined' && typeof XPBar.buildHTML === 'function') ? XPBar.buildHTML() : ''}
+
         <div class="dual-date-container" id="dual-date">
             <div class="date-header">
                 <span class="current-day" id="current-day">--</span>
@@ -822,6 +824,19 @@ function renderHomePage() {
                     </div>
                     <p class="card-description">مساحة شخصية لكتابة الأفكار والمشاعر يومياً</p>
                 </div>
+
+                <div class="card" onclick="navigateTo('relapse-analysis')">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: #FCE4EC; color: #F44336;">
+                            <i class="fas fa-chart-pie"></i>
+                        </div>
+                        <div>
+                            <h3 class="card-title">تحليل الانتكاسات</h3>
+                            <p class="text-sm text-secondary">افهم أنماطك</p>
+                        </div>
+                    </div>
+                    <p class="card-description">اكتشف محفزاتك وأوقاتك الخطرة لتجنبها</p>
+                </div>
                 
                 <div class="card" onclick="navigateTo('breath')">
                     <div class="card-header">
@@ -844,6 +859,21 @@ function renderHomePage() {
     
     if (dateInterval) clearInterval(dateInterval);
     startDateUpdates();
+
+    // ✅ Initialize XP bar
+    if (typeof XPBar !== 'undefined') {
+        if (typeof XPBar.inject === 'function') {
+            // Ensure the bar exists in DOM
+            setTimeout(function () {
+                XPBar.inject();
+            }, 100);
+        }
+        if (typeof XPBar.startAutoRefresh === 'function') {
+            setTimeout(function () {
+                XPBar.startAutoRefresh();
+            }, 200);
+        }
+    }
     
     /** 
      * Update recovery counter every minute.

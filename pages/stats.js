@@ -139,18 +139,30 @@ function renderStatsPage() {
  * This is the source of truth.
  */
 function getTasbihStats() {
+    // Prefer DataUpdateManager if available (it has the most up-to-date logic)
+    if (typeof DataUpdateManager !== 'undefined' &&
+        typeof DataUpdateManager.getTasbihTotal === 'function') {
+        var data = StorageManager.get('tasbih_data') || {};
+        return {
+            totalCount: DataUpdateManager.getTasbihTotal(),
+            counts: data.counts || {},
+            current: data.current || 'allahuAkbar',
+            history: Array.isArray(data.history) ? data.history : []
+        };
+    }
+
+    // Fallback: direct calculation
     var data = StorageManager.get('tasbih_data') || {};
     var total = Number(data.totalCount || 0);
     var counts = data.counts || {};
-    
-    // Recalculate to ensure consistency
-    var calculatedTotal = Number(counts.allahuAkbar || 0) + 
-                         Number(counts.alhamdulillah || 0) + 
+
+    var calculatedTotal = Number(counts.allahuAkbar || 0) +
+                         Number(counts.alhamdulillah || 0) +
                          Number(counts.subhanAllah || 0);
-    
-    // Use the larger of the two (safety)
+
+    // ✅ Always use max to protect against stale totalCount
     var finalTotal = Math.max(total, calculatedTotal);
-    
+
     return {
         totalCount: finalTotal,
         counts: counts,
@@ -348,3 +360,6 @@ statsStyles.textContent = `
     }
 `;
 document.head.appendChild(statsStyles);
+
+// getTasbihStats()
+// 

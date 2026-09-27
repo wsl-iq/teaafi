@@ -4,14 +4,15 @@
  * Copyright (c) 2026 Mohammed Al-Baqer
  * Folder : js
  * File   : xp-system.js
- * Type: JavaScript
+ * Type   : JavaScript
  */
 
 var XPSystem = {
     level: 1,
     xp: 0,
     xpToNext: 100,
-    
+    _initialized: false,
+
     rewards: {
         recovery_day:    { xp: 10,  label: 'يوم تعافي' },
         perfect_week:    { xp: 100, label: 'أسبوع نظيف' },
@@ -25,7 +26,7 @@ var XPSystem = {
         streak_30:       { xp: 500, label: '30 يوم متتالي' },
         achievement:     { xp: 200, label: 'إنجاز جديد' }
     },
-    
+
     levels: [
         { level: 1,  name: 'مبتدئ',      icon: 'fa-seedling',       xp: 0 },
         { level: 2,  name: 'متحمس',      icon: 'fa-leaf',           xp: 100 },
@@ -38,32 +39,57 @@ var XPSystem = {
         { level: 9,  name: 'خارق',       icon: 'fa-bolt',           xp: 7500 },
         { level: 10, name: 'معافي',      icon: 'fa-star',           xp: 10000 }
     ],
-    
+
+    /*
+     * INITIALIZATION
+     */
+
     init: function() {
-        this.xp = StorageManager.get('user_xp') || 0;
+        this.xp = Number(StorageManager.get('user_xp') || 0);
         this.level = this.calculateLevel();
         this.xpToNext = this.getXPToNext();
+        this._initialized = true;
     },
-    
+
+    /*
+     * ADD XP
+     */
+
     addXP: function(action) {
         var reward = this.rewards[action];
         if (!reward) return;
-        
+
         var oldLevel = this.level;
         this.xp += reward.xp;
         StorageManager.set('user_xp', this.xp);
         this.level = this.calculateLevel();
         this.xpToNext = this.getXPToNext();
-        
+
         if (typeof showToast === 'function') {
             showToast('<i class="fas fa-plus-circle"></i> +' + reward.xp + ' XP - ' + reward.label);
         }
-        
+
         if (this.level > oldLevel) {
             this._showLevelUp();
         }
+
+        // Dispatch event to update XP bar immediately
+        try {
+            window.dispatchEvent(new CustomEvent('taeafiXPUpdated', {
+                detail: {
+                    xp: this.xp,
+                    level: this.level,
+                    progress: this.getProgress(),
+                    xpToNext: this.xpToNext
+                }
+            }));
+        } catch (e) {}
     },
-    
+
+    /*
+     * LEVEL CALCULATIONS
+     */
+
     calculateLevel: function() {
         for (var i = this.levels.length - 1; i >= 0; i--) {
             if (this.xp >= this.levels[i].xp) {
@@ -72,40 +98,67 @@ var XPSystem = {
         }
         return 1;
     },
-    
+
     getXPToNext: function() {
-        var nextLevel = this.levels.find(function(l) { return l.level === this.level + 1; }.bind(this));
+        var nextLevel = this.levels.find(function(l) {
+            return l.level === this.level + 1;
+        }.bind(this));
+
+        // No next level → 0 remaining
         if (!nextLevel) return 0;
-        return nextLevel.xp - this.xp;
+
+        var remaining = nextLevel.xp - this.xp;
+        return Math.max(0, remaining);
     },
-    
+
     getCurrentLevelXP: function() {
-        var current = this.levels.find(function(l) { return l.level === this.level; }.bind(this));
+        var current = this.levels.find(function(l) {
+            return l.level === this.level;
+        }.bind(this));
         return current ? current.xp : 0;
     },
-    
+
     getNextLevelXP: function() {
-        var next = this.levels.find(function(l) { return l.level === this.level + 1; }.bind(this));
+        var next = this.levels.find(function(l) {
+            return l.level === this.level + 1;
+        }.bind(this));
         return next ? next.xp : this.xp;
     },
-    
+
     getProgress: function() {
         var current = this.getCurrentLevelXP();
         var next = this.getNextLevelXP();
-        if (next === current) return 100;
-        return Math.round(((this.xp - current) / (next - current)) * 100);
+
+        // If no next level → full progress
+        if (!next || next <= current) {
+            return 100;
+        }
+
+        // Calculate raw progress
+        var rawProgress = ((this.xp - current) / (next - current)) * 100;
+
+        // Clamp between 0 and 100
+        return Math.min(100, Math.max(0, Math.round(rawProgress)));
     },
-    
+
+    /*
+     * LEVEL INFO
+     */
+
     getLevelName: function() {
-        var levelData = this.levels.find(function(l) { return l.level === this.level; }.bind(this));
+        var levelData = this.levels.find(function(l) {
+            return l.level === this.level;
+        }.bind(this));
         return levelData ? levelData.name : 'مبتدئ';
     },
-    
+
     getLevelIcon: function() {
-        var levelData = this.levels.find(function(l) { return l.level === this.level; }.bind(this));
+        var levelData = this.levels.find(function(l) {
+            return l.level === this.level;
+        }.bind(this));
         return levelData ? levelData.icon : 'fa-seedling';
     },
-    
+
     getStats: function() {
         return {
             level: this.level,
@@ -116,11 +169,17 @@ var XPSystem = {
             icon: this.getLevelIcon()
         };
     },
-    
+
+    /*
+     * LEVEL UP ANIMATION
+     */
+
     _showLevelUp: function() {
-        var levelData = this.levels.find(function(l) { return l.level === this.level; }.bind(this));
+        var levelData = this.levels.find(function(l) {
+            return l.level === this.level;
+        }.bind(this));
         var icon = levelData ? levelData.icon : 'fa-star';
-        
+
         var modal = document.createElement('div');
         modal.className = 'modal-overlay';
         modal.style.zIndex = '9999';
@@ -137,9 +196,9 @@ var XPSystem = {
             </div>
         `;
         document.body.appendChild(modal);
-        
+
         setTimeout(function() { modal.remove(); }, 5000);
-        
+
         if (!document.getElementById('levelup-styles')) {
             var style = document.createElement('style');
             style.id = 'levelup-styles';
@@ -160,5 +219,7 @@ var XPSystem = {
 };
 
 document.addEventListener('DOMContentLoaded', function() {
-    setTimeout(function() { XPSystem.init(); }, 500);
+    setTimeout(function() {
+        XPSystem.init();
+    }, 500);
 });

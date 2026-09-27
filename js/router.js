@@ -36,6 +36,7 @@ class Router {
         'journal',
         'breath',
         'habit-detail', // Keep habit details uncached to avoid stale live data when navigating back.
+        'relapse-analysis',
         '21-day'
     ];
 
@@ -64,6 +65,7 @@ class Router {
         exercises: 'renderExercisesPage',
         'food-conflicts': 'renderFoodConflictsPage',
         '21-day': 'renderTwentyOneDayPage',
+        'relapse-analysis': 'renderRelapseAnalysisPage',
 
         // Optional page added by the prayer-assistant feature.
         // It is harmless if the render function is not loaded yet.

@@ -3656,9 +3656,7 @@ body.theme-dark .quiz-history-comparison:hover i {
     color: #90CAF9 !important;
 }
 
-/*
-   Taeafi - 21 Day Challenge
- */
+/* Taeafi - 21 Day Challenge */
 
 .twenty-one-page {
     width: 100%;
@@ -3668,9 +3666,7 @@ body.theme-dark .quiz-history-comparison:hover i {
 }
 
 
-/*
-   Hero
- */
+/* Hero */
 
 .twenty-one-hero {
     position: relative;
@@ -3756,9 +3752,7 @@ body.theme-dark .quiz-history-comparison:hover i {
 }
 
 
-/*
-   Introduction
- */
+/* Introduction */
 
 .twenty-one-intro-card {
     display: flex;
@@ -3798,9 +3792,7 @@ body.theme-dark .quiz-history-comparison:hover i {
 }
 
 
-/*
-   Chapters
- */
+/* Chapters */
 
 .twenty-one-chapters {
     display: grid;
@@ -3856,9 +3848,7 @@ body.theme-dark .quiz-history-comparison:hover i {
 }
 
 
-/*
-   Quote
- */
+/* Quote */
 
 .twenty-one-quote {
     margin: 20px 0;
@@ -3887,9 +3877,7 @@ body.theme-dark .quiz-history-comparison:hover i {
 }
 
 
-/*
-   Warning
- */
+/* Warning */
 
 .twenty-one-warning {
     display: flex;
@@ -3926,9 +3914,7 @@ body.theme-dark .quiz-history-comparison:hover i {
 }
 
 
-/*
-   Consent
- */
+/* Consent */
 
 .twenty-one-consent {
     text-align: center;
@@ -3962,9 +3948,7 @@ body.theme-dark .quiz-history-comparison:hover i {
 }
 
 
-/*
-   Dashboard Header
- */
+/* Dashboard Header */
 
 .twenty-one-dashboard-header {
     display: flex;
@@ -4009,9 +3993,7 @@ body.theme-dark .quiz-history-comparison:hover i {
 }
 
 
-/*
-   Main Progress
- */
+/* Main Progress */
 
 .twenty-one-main-progress {
     padding: 20px;
@@ -4066,9 +4048,7 @@ body.theme-dark .quiz-history-comparison:hover i {
 }
 
 
-/*
-   Statistics
- */
+/* Statistics */
 
 .twenty-one-stats-grid {
     display: grid;
@@ -4111,9 +4091,7 @@ body.theme-dark .quiz-history-comparison:hover i {
 }
 
 
-/*
-   Today's Card
- */
+/* Today's Card */
 
 .twenty-one-today-card {
     margin-bottom: 18px;
@@ -4174,9 +4152,7 @@ body.theme-dark .quiz-history-comparison:hover i {
 }
 
 
-/*
-   Sections
- */
+/* Sections */
 
 .twenty-one-section {
     padding: 18px 0;
@@ -4216,9 +4192,7 @@ body.theme-dark .quiz-history-comparison:hover i {
 }
 
 
-/*
-   Tasks
- */
+/* Tasks */
 
 .twenty-one-task-list {
     display: grid;
@@ -4290,9 +4264,7 @@ body.theme-dark .quiz-history-comparison:hover i {
 }
 
 
-/*
-   Actions
- */
+/* Actions */
 
 .twenty-one-actions {
     display: flex;
@@ -4329,7 +4301,7 @@ body.theme-dark .quiz-history-comparison:hover i {
 
 /*
  * Message
-*/
+ */
 
 .twenty-one-message-card {
     margin-bottom: 18px;
@@ -4360,7 +4332,7 @@ body.theme-dark .quiz-history-comparison:hover i {
 
 /*
  * History
-*/
+ */
 
 .twenty-one-history-card {
     padding: 22px;
@@ -4454,7 +4426,7 @@ body.theme-dark .quiz-history-comparison:hover i {
 
 /*
  * Dark Mode
-*/
+ */
 
 body.theme-dark .twenty-one-hero {
     box-shadow: var(--card-shadow);
@@ -4479,7 +4451,7 @@ body.theme-dark .twenty-one-history-item {
 
 /*
  * Responsive
-*/
+ */
 
 @media (max-width: 800px) {
 
@@ -4549,4 +4521,1075 @@ body.theme-dark .twenty-one-history-item {
         min-width: 0;
     }
 
+}
+
+/* Modal: Ask for Relapse Details */
+
+.relapse-analysis-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    animation: relapseFadeIn 0.3s ease;
+    overflow-y: auto;
+}
+
+@keyframes relapseFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.relapse-analysis-card {
+    background: var(--surface);
+    border-radius: 24px;
+    padding: 24px;
+    max-width: 520px;
+    width: 100%;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    animation: relapseScaleIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+@keyframes relapseScaleIn {
+    from { transform: scale(0.9); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.relapse-analysis-header {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.relapse-analysis-icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 12px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #F44336, #EF5350);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 26px;
+    box-shadow: 0 8px 24px rgba(244, 67, 54, 0.3);
+}
+
+.relapse-analysis-header h3 {
+    margin: 0 0 4px;
+    color: var(--text-primary);
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.relapse-analysis-header p {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+.relapse-step {
+    margin-bottom: 20px;
+}
+
+.relapse-step-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.relapse-step-number {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--primary-light);
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 800;
+    flex-shrink: 0;
+}
+
+.relapse-triggers-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
+
+.relapse-trigger-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 12px 6px;
+    border: 2px solid var(--border-light);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: var(--surface);
+    text-align: center;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.relapse-trigger-option:hover {
+    border-color: var(--primary);
+    background: var(--primary-light);
+    transform: translateY(-2px);
+}
+
+.relapse-trigger-option.selected {
+    border-color: var(--primary);
+    background: var(--primary-light);
+    box-shadow: 0 0 0 3px rgba(var(--primary-rgb), 0.15);
+    transform: translateY(-2px);
+}
+
+.relapse-trigger-option i {
+    font-size: 18px;
+    color: var(--primary);
+}
+
+.relapse-trigger-option span {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1.3;
+}
+
+.relapse-feelings-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+}
+
+.relapse-feeling-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 12px;
+    border: 2px solid var(--border-light);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: var(--surface);
+    -webkit-tap-highlight-color: transparent;
+}
+
+.relapse-feeling-option:hover {
+    border-color: var(--feeling-color);
+    transform: translateY(-2px);
+}
+
+.relapse-feeling-option.selected {
+    border-color: var(--feeling-color);
+    background: color-mix(in srgb, var(--feeling-color) 15%, transparent);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--feeling-color) 20%, transparent);
+}
+
+.relapse-feeling-option i {
+    font-size: 20px;
+    color: var(--feeling-color);
+}
+
+.relapse-feeling-option span {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.relapse-step textarea {
+    width: 100%;
+    min-height: 80px;
+    padding: 12px;
+    border-radius: 12px;
+    border: 2px solid var(--border);
+    background: var(--input-bg);
+    color: var(--text-primary);
+    font-family: var(--font-primary);
+    font-size: 13px;
+    line-height: 1.7;
+    resize: vertical;
+    transition: border-color 0.2s;
+}
+
+.relapse-step textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(var(--primary-rgb), 0.1);
+}
+
+.relapse-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.relapse-actions .btn {
+    flex: 1;
+}
+
+/* Page: Report */
+
+.relapse-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.relapse-summary-card {
+    background: var(--surface);
+    border-radius: 16px;
+    padding: 18px 12px;
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-light);
+}
+
+.relapse-summary-card i {
+    font-size: 24px;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.relapse-summary-number {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--text-primary);
+    display: block;
+    margin-bottom: 4px;
+    line-height: 1.2;
+}
+
+.relapse-summary-label {
+    font-size: 11px;
+    color: var(--text-tertiary);
+    display: block;
+}
+
+/* Bars */
+
+.relapse-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.relapse-bar-row {
+    display: grid;
+    grid-template-columns: 160px 1fr 60px;
+    align-items: center;
+    gap: 12px;
+}
+
+.relapse-bar-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.relapse-bar-label i {
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+.relapse-bar-track {
+    height: 12px;
+    background: var(--surface-variant);
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+}
+
+.relapse-bar-fill {
+    height: 100%;
+    border-radius: 6px;
+    transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    min-width: 4px;
+}
+
+.relapse-bar-stats {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    justify-content: flex-end;
+}
+
+.relapse-bar-stats strong {
+    font-size: 14px;
+    color: var(--text-primary);
+}
+
+.relapse-bar-stats small {
+    font-size: 11px;
+    color: var(--text-tertiary);
+}
+
+/* Hours */
+
+.relapse-hours-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+.relapse-hour-card {
+    background: var(--surface-variant);
+    border-radius: 14px;
+    padding: 16px 8px;
+    text-align: center;
+    transition: all 0.25s ease;
+    border: 2px solid transparent;
+}
+
+.relapse-hour-card.is-top {
+    background: linear-gradient(135deg, rgba(156, 39, 176, 0.12), rgba(233, 30, 99, 0.08));
+    border-color: #9C27B0;
+    transform: scale(1.03);
+}
+
+.relapse-hour-card i {
+    font-size: 20px;
+    margin-bottom: 6px;
+    display: block;
+}
+
+.relapse-hour-card strong {
+    font-size: 20px;
+    display: block;
+    color: var(--text-primary);
+    margin-bottom: 2px;
+}
+
+.relapse-hour-label {
+    display: block;
+    font-size: 11px;
+    color: var(--text-secondary);
+    margin-bottom: 4px;
+    font-weight: 600;
+}
+
+.relapse-hour-percent {
+    display: block;
+    font-size: 11px;
+    color: var(--text-tertiary);
+}
+
+/* Days */
+
+.relapse-days-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+    align-items: end;
+}
+
+.relapse-day-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.relapse-day-bar-wrapper {
+    width: 100%;
+    height: 120px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    background: var(--surface-variant);
+    border-radius: 8px;
+    padding: 4px;
+}
+
+.relapse-day-bar {
+    width: 100%;
+    min-height: 4px;
+    background: linear-gradient(180deg, #2196F3, #64B5F6);
+    border-radius: 6px;
+    transition: height 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.relapse-day-bar.is-top {
+    background: linear-gradient(180deg, #F44336, #EF5350);
+    box-shadow: 0 0 12px rgba(244, 67, 54, 0.4);
+}
+
+.relapse-day-count {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.relapse-day-name {
+    font-size: 10px;
+    color: var(--text-tertiary);
+    font-weight: 500;
+}
+
+/* Feelings */
+
+.relapse-feelings-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.relapse-feeling-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background: var(--surface-variant);
+    border-radius: 12px;
+}
+
+.relapse-feeling-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+}
+
+.relapse-feeling-title {
+    flex: 1;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.relapse-feeling-count {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-primary);
+    min-width: 30px;
+    text-align: center;
+}
+
+.relapse-feeling-percent {
+    font-size: 13px;
+    font-weight: 700;
+    min-width: 44px;
+    text-align: left;
+}
+
+/* Lessons */
+
+.relapse-lessons-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.relapse-lesson-item {
+    background: var(--surface-variant);
+    border-right: 4px solid var(--primary);
+    border-radius: 12px;
+    padding: 14px;
+}
+
+.relapse-lesson-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.relapse-lesson-date {
+    font-size: 11px;
+    color: var(--text-tertiary);
+}
+
+.relapse-lesson-text {
+    font-size: 13px;
+    color: var(--text-primary);
+    line-height: 1.8;
+    margin: 0;
+    white-space: pre-wrap;
+}
+
+/* Filters */
+
+.relapse-filter-btn {
+    padding: 8px 16px;
+    border-radius: 20px;
+    border: 2px solid var(--border-light);
+    background: var(--surface);
+    color: var(--text-secondary);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: var(--font-primary);
+    -webkit-tap-highlight-color: transparent;
+}
+
+.relapse-filter-btn:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.relapse-filter-btn.active {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+/* Dark Mode */
+
+.theme-dark .relapse-analysis-card,
+.theme-dark .relapse-trigger-option,
+.theme-dark .relapse-feeling-option,
+.theme-dark .relapse-summary-card {
+    background: var(--surface);
+    border-color: var(--border);
+}
+
+.theme-dark .relapse-analysis-modal {
+    background: rgba(0, 0, 0, 0.85);
+}
+
+/* Responsive */
+
+@media (max-width: 720px) {
+    .relapse-summary-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .relapse-bar-row {
+        grid-template-columns: 120px 1fr 50px;
+        gap: 8px;
+    }
+
+    .relapse-bar-label span {
+        font-size: 12px;
+    }
+
+    .relapse-hours-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .relapse-analysis-card {
+        padding: 20px 16px;
+        border-radius: 20px;
+    }
+
+    .relapse-triggers-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .relapse-feelings-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .relapse-bar-row {
+        grid-template-columns: 1fr;
+        gap: 6px;
+    }
+
+    .relapse-bar-stats {
+        justify-content: flex-start;
+    }
+
+    .relapse-day-name {
+        font-size: 9px;
+    }
+
+    .relapse-day-bar-wrapper {
+        height: 90px;
+    }
+}
+
+/*  HABIT DEEP DIVE */
+
+.habit-deep-dive {
+    margin-top: 24px;
+}
+
+/* Streak Cards */
+
+.deep-dive-streak-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.deep-dive-streak-card {
+    background: var(--surface);
+    border-radius: 16px;
+    padding: 18px 12px;
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-light);
+    transition: all 0.25s ease;
+}
+
+.deep-dive-streak-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.deep-dive-streak-card i {
+    font-size: 24px;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.deep-dive-streak-number {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--text-primary);
+    display: block;
+    margin-bottom: 4px;
+    line-height: 1.2;
+}
+
+.deep-dive-streak-label {
+    font-size: 11px;
+    color: var(--text-tertiary);
+    display: block;
+}
+
+/* Heatmap */
+
+.deep-dive-heatmap-wrapper {
+    overflow-x: auto;
+    padding-bottom: 8px;
+    -webkit-overflow-scrolling: touch;
+}
+
+.deep-dive-heatmap {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 16px);
+    grid-auto-rows: 16px;
+    gap: 3px;
+    min-width: max-content;
+}
+
+.heatmap-box {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    cursor: help;
+    display: block;
+}
+
+.heatmap-box.clean {
+    background: linear-gradient(135deg, #4CAF50, #66BB6A);
+}
+
+.heatmap-box.relapse {
+    background: linear-gradient(135deg, #F44336, #EF5350);
+}
+
+.heatmap-box.empty {
+    background: var(--surface-variant);
+    border: 1px solid var(--border-light);
+}
+
+.heatmap-box.today {
+    box-shadow: 0 0 0 2px var(--primary);
+    animation: heatmapTodayPulse 2s ease-in-out infinite;
+}
+
+@keyframes heatmapTodayPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+}
+
+.heatmap-box:hover {
+    transform: scale(1.3);
+    z-index: 2;
+    position: relative;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+}
+
+.deep-dive-heatmap-legend {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 16px;
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.deep-dive-heatmap-legend > span {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.deep-dive-heatmap-legend .heatmap-box {
+    width: 14px;
+    height: 14px;
+}
+
+/* Hours */
+
+.deep-dive-hours-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+.deep-dive-hour-card {
+    background: var(--surface-variant);
+    border-radius: 14px;
+    padding: 16px 8px;
+    text-align: center;
+    transition: all 0.25s ease;
+    border: 2px solid transparent;
+}
+
+.deep-dive-hour-card.is-top {
+    background: linear-gradient(135deg, rgba(156, 39, 176, 0.12), rgba(233, 30, 99, 0.08));
+    border-color: #9C27B0;
+    transform: scale(1.03);
+}
+
+.deep-dive-hour-card i {
+    font-size: 20px;
+    margin-bottom: 6px;
+    display: block;
+}
+
+.deep-dive-hour-card strong {
+    font-size: 20px;
+    display: block;
+    color: var(--text-primary);
+    margin-bottom: 2px;
+}
+
+.deep-dive-hour-label {
+    display: block;
+    font-size: 11px;
+    color: var(--text-secondary);
+    margin-bottom: 4px;
+    font-weight: 600;
+}
+
+.deep-dive-hour-percent {
+    display: block;
+    font-size: 11px;
+    color: var(--text-tertiary);
+}
+
+/* Days */
+
+.deep-dive-days-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 8px;
+    align-items: end;
+}
+
+.deep-dive-day-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+}
+
+.deep-dive-day-bar-wrapper {
+    width: 100%;
+    height: 110px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    background: var(--surface-variant);
+    border-radius: 8px;
+    padding: 4px;
+}
+
+.deep-dive-day-bar {
+    width: 100%;
+    min-height: 4px;
+    background: linear-gradient(180deg, #2196F3, #64B5F6);
+    border-radius: 6px;
+    transition: height 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.deep-dive-day-bar.is-top {
+    background: linear-gradient(180deg, #F44336, #EF5350);
+    box-shadow: 0 0 12px rgba(244, 67, 54, 0.4);
+}
+
+.deep-dive-day-count {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.deep-dive-day-name {
+    font-size: 10px;
+    color: var(--text-tertiary);
+    font-weight: 500;
+}
+
+/* Comparison */
+
+.deep-dive-comparison-card {
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.deep-dive-comparison-card.trend-improved {
+    border-right: 4px solid #4CAF50;
+}
+
+.deep-dive-comparison-card.trend-worse {
+    border-right: 4px solid #F44336;
+}
+
+.deep-dive-comparison-card.trend-same {
+    border-right: 4px solid #FF9800;
+}
+
+.deep-dive-comparison-title {
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-primary);
+    font-size: var(--text-base);
+    font-weight: 700;
+}
+
+.deep-dive-comparison-card.trend-improved .deep-dive-comparison-title i {
+    color: #4CAF50;
+}
+
+.deep-dive-comparison-card.trend-worse .deep-dive-comparison-title i {
+    color: #F44336;
+}
+
+.deep-dive-comparison-card.trend-same .deep-dive-comparison-title i {
+    color: #FF9800;
+}
+
+.deep-dive-comparison {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 16px;
+    padding: 16px 0;
+}
+
+.deep-dive-comparison-item {
+    text-align: center;
+    flex: 1;
+}
+
+.deep-dive-comparison-label {
+    display: block;
+    font-size: 12px;
+    color: var(--text-tertiary);
+    margin-bottom: 6px;
+}
+
+.deep-dive-comparison-value {
+    display: block;
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--text-primary);
+}
+
+.deep-dive-comparison-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+}
+
+/* Light mode colors for the icon */
+.deep-dive-comparison-card.trend-improved .deep-dive-comparison-icon {
+    background: #E8F5E9;
+    color: #4CAF50;
+}
+
+.deep-dive-comparison-card.trend-worse .deep-dive-comparison-icon {
+    background: #FCE4EC;
+    color: #F44336;
+}
+
+.deep-dive-comparison-card.trend-same .deep-dive-comparison-icon {
+    background: #FFF3E0;
+    color: #FF9800;
+}
+
+/* Message box */
+.deep-dive-comparison-message {
+    text-align: center;
+    margin-top: 12px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 700;
+    transition: all 0.3s ease;
+}
+
+/* Light mode colors for the message */
+.deep-dive-comparison-card.trend-improved .deep-dive-comparison-message {
+    background: #E8F5E9;
+    color: #2E7D32;
+}
+
+.deep-dive-comparison-card.trend-worse .deep-dive-comparison-message {
+    background: #FCE4EC;
+    color: #C62828;
+}
+
+.deep-dive-comparison-card.trend-same .deep-dive-comparison-message {
+    background: #FFF3E0;
+    color: #E65100;
+}
+
+/*  DARK MODE — Comparison Card */
+
+.theme-dark .deep-dive-comparison-card.trend-improved .deep-dive-comparison-icon {
+    background: rgba(76, 175, 80, 0.15);
+    color: #81C784;
+}
+
+.theme-dark .deep-dive-comparison-card.trend-worse .deep-dive-comparison-icon {
+    background: rgba(244, 67, 54, 0.15);
+    color: #EF9A9A;
+}
+
+.theme-dark .deep-dive-comparison-card.trend-same .deep-dive-comparison-icon {
+    background: rgba(255, 152, 0, 0.15);
+    color: #FFB74D;
+}
+
+.theme-dark .deep-dive-comparison-card.trend-improved .deep-dive-comparison-message {
+    background: rgba(76, 175, 80, 0.15);
+    color: #A5D6A7;
+}
+
+.theme-dark .deep-dive-comparison-card.trend-worse .deep-dive-comparison-message {
+    background: rgba(244, 67, 54, 0.15);
+    color: #EF9A9A;
+}
+
+.theme-dark .deep-dive-comparison-card.trend-same .deep-dive-comparison-message {
+    background: rgba(255, 152, 0, 0.15);
+    color: #FFCC80;
+}
+
+.theme-dark .deep-dive-comparison-value {
+    color: var(--text-primary);
+}
+
+.theme-dark .deep-dive-comparison-label {
+    color: var(--text-tertiary);
+}
+
+/* Notes */
+
+.deep-dive-notes-input {
+    width: 100%;
+    min-height: 100px;
+    padding: 14px;
+    border-radius: 12px;
+    border: 2px solid var(--border);
+    background: var(--input-bg);
+    color: var(--text-primary);
+    font-family: var(--font-primary);
+    font-size: 14px;
+    line-height: 1.8;
+    resize: vertical;
+    transition: border-color 0.2s;
+}
+
+.deep-dive-notes-input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(var(--primary-rgb), 0.1);
+}
+
+/* Dark Mode */
+
+.theme-dark .deep-dive-streak-card,
+.theme-dark .deep-dive-heatmap-legend .heatmap-box.empty {
+    background: var(--surface);
+    border-color: var(--border);
+}
+
+.theme-dark .heatmap-box.empty {
+    background: var(--surface-variant);
+    border-color: var(--border);
+}
+
+/* Responsive */
+
+@media (max-width: 720px) {
+    .deep-dive-streak-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .deep-dive-hours-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .deep-dive-heatmap {
+        grid-template-columns: repeat(auto-fill, 14px);
+        grid-auto-rows: 14px;
+        gap: 2px;
+    }
+
+    .heatmap-box {
+        width: 14px;
+        height: 14px;
+    }
+
+    .deep-dive-day-name {
+        font-size: 9px;
+    }
+
+    .deep-dive-day-bar-wrapper {
+        height: 90px;
+    }
+
+    .deep-dive-comparison-value {
+        font-size: 24px;
+    }
+
+    .deep-dive-comparison-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+    }
 }

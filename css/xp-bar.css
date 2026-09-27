@@ -1,0 +1,205 @@
+/**
+ * Developer: Mohammed Al-Baqer
+ * Website: https://wsl-iq.github.io/teaafi/
+ * Copyright (c) 2026 Mohammed Al-Baqer
+ * Folder : css
+ * File   : xp-bar.css
+ * Type   : CSS
+ */
+
+/* XP BAR — INLINE (Below Search Bar) */
+
+.xp-bar-inline {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+    background: var(--surface);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 16px;
+    direction: rtl;
+    transition: all 0.3s ease;
+}
+
+/* Hidden on non-home pages (kept for safety) */
+.xp-bar-inline.xp-hidden {
+    display: none;
+}
+
+/* LEVEL ICON + NAME */
+
+.xp-bar-inline .xp-level-section {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.xp-bar-inline .xp-level-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    background: var(--primary-gradient);
+    color: white;
+    box-shadow: 0 2px 8px rgba(var(--primary-rgb), 0.3);
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+}
+
+.xp-bar-inline .xp-level-name {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-primary);
+    white-space: nowrap;
+    line-height: 1;
+}
+
+.xp-bar-inline .xp-level-number {
+    font-size: 10px;
+    color: var(--text-tertiary);
+    line-height: 1;
+    margin-top: 2px;
+}
+
+/* PROGRESS BAR */
+
+.xp-bar-inline .xp-progress-section {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.xp-bar-inline .xp-progress-track {
+    width: 100%;
+    height: 6px;
+    border-radius: 999px;
+    background: var(--surface-variant);
+    overflow: hidden;
+    position: relative;
+}
+
+.xp-bar-inline .xp-progress-fill {
+    height: 100%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #FFD700, #FFA000);
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    min-width: 6px;
+    position: relative;
+}
+
+.xp-bar-inline .xp-progress-fill::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    animation: xpShine 2.5s ease-in-out infinite;
+}
+
+@keyframes xpShine {
+    0% { transform: translateX(-100%); }
+    50%, 100% { transform: translateX(100%); }
+}
+
+/* POINTS */
+
+.xp-bar-inline .xp-points-section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    flex-shrink: 0;
+    gap: 2px;
+}
+
+.xp-bar-inline .xp-points-value {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+    direction: ltr;
+}
+
+.xp-bar-inline .xp-points-remaining {
+    font-size: 10px;
+    color: var(--text-tertiary);
+    line-height: 1;
+}
+
+/* LEVEL UP ANIMATION */
+
+.xp-bar-inline.xp-level-up {
+    animation: xpLevelUpGlow 1s ease;
+}
+
+@keyframes xpLevelUpGlow {
+    0%, 100% {
+        box-shadow: var(--shadow-sm);
+    }
+    50% {
+        box-shadow: 0 0 24px rgba(255, 215, 0, 0.6);
+        border-color: #FFD700;
+    }
+}
+
+/* DARK MODE */
+
+.theme-dark .xp-bar-inline {
+    background: var(--surface);
+    border-color: var(--border);
+    box-shadow: var(--shadow-sm);
+}
+
+.theme-dark .xp-bar-inline .xp-progress-track {
+    background: var(--surface-variant);
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 400px) {
+    .xp-bar-inline {
+        padding: 8px 12px;
+        gap: 8px;
+    }
+
+    .xp-bar-inline .xp-level-icon {
+        width: 28px;
+        height: 28px;
+        font-size: 12px;
+    }
+
+    .xp-bar-inline .xp-level-name {
+        font-size: 11px;
+    }
+
+    .xp-bar-inline .xp-level-number {
+        font-size: 9px;
+    }
+
+    .xp-bar-inline .xp-points-value {
+        font-size: 11px;
+    }
+
+    .xp-bar-inline .xp-points-remaining {
+        font-size: 9px;
+    }
+}
+
+/* REDUCED MOTION */
+
+@media (prefers-reduced-motion: reduce) {
+    .xp-bar-inline .xp-progress-fill::after {
+        animation: none;
+    }
+
+    .xp-bar-inline .xp-progress-fill {
+        transition: none;
+    }
+}
