@@ -7,6 +7,9 @@
  * Type: JavaScript
  */
 
+// start add policies (2026/7/23)
+// last update policies (2026/8/2)
+
 function renderPoliciesPage() {
     const mainContent = document.getElementById('main-content');
     

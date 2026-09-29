@@ -5,25 +5,17 @@
  * Folder : js
  * File   : xp-bar.js
  * Type   : JavaScript
- *
- * XP Bar — v2.0.1
- * Inline bar below the search bar. Auto-refreshes.
  */
 
 var XPBar = {
 
-    /* ============================================
-       STATE
-       ============================================ */
-
+    /* STATE */
     _lastLevel: 1,
     _lastXp: 0,
     _lastProgress: 0,
-    _interval: null, // ✅ أضف هذا إذا لم يكن موجوداً
+    _interval: null,
 
-    /* ============================================
-       HTML
-       ============================================ */
+    /* HTML */
 
     buildHTML: function () {
         return `
@@ -52,9 +44,7 @@ var XPBar = {
         `;
     },
 
-    /* ============================================
-       INJECT
-       ============================================ */
+    /* INJECT */
 
     inject: function () {
         // If already injected, just refresh
@@ -78,13 +68,11 @@ var XPBar = {
         // Force initial refresh
         this.refresh();
 
-        // ✅ Start interval-based auto-refresh
+        // Start interval-based auto-refresh
         this.startAutoRefresh();
     },
 
-    /* ============================================
-       AUTO REFRESH
-       ============================================ */
+    /* AUTO REFRESH */
 
     startAutoRefresh: function () {
         var self = this;
@@ -94,7 +82,7 @@ var XPBar = {
             clearInterval(this._interval);
         }
 
-        // ✅ Check every 1500ms — bar updates automatically
+        // Check every 1500ms — bar updates automatically
         this._interval = setInterval(function () {
             self.refresh();
         }, 1500);
@@ -107,9 +95,7 @@ var XPBar = {
         }
     },
 
-    /* ============================================
-       REFRESH (MAIN LOGIC)
-       ============================================ */
+    /* REFRESH (MAIN LOGIC) */
 
     refresh: function () {
         var el = document.getElementById('xp-bar-inline');
@@ -163,33 +149,33 @@ var XPBar = {
 
         if (!isFinite(nextLevelXp) || nextLevelXp < 100) nextLevelXp = 100;
 
-        // ✅ Update icon
+        // Update icon
         var iconEl = el.querySelector('#xp-level-icon');
         if (iconEl) {
             iconEl.innerHTML = '<i class="fas ' + icon + '"></i>';
         }
 
-        // ✅ Update level name
+        // Update level name
         var nameEl = el.querySelector('#xp-level-name');
         if (nameEl) nameEl.textContent = name;
 
-        // ✅ Update level number
+        // Update level number
         var numEl = el.querySelector('#xp-level-number');
         if (numEl) numEl.textContent = 'المستوى ' + level;
 
-        // ✅ Update progress bar width
+        // Update progress bar width
         var fillEl = el.querySelector('#xp-progress-fill');
         if (fillEl) {
             fillEl.style.width = progress + '%';
         }
 
-        // ✅ Update points value
+        // Update points value
         var valueEl = el.querySelector('#xp-points-value');
         if (valueEl) {
             valueEl.textContent = xp + ' / ' + nextLevelXp;
         }
 
-        // ✅ Update remaining
+        // Update remaining
         var remainingEl = el.querySelector('#xp-points-remaining');
         if (remainingEl) {
             if (xpToNext > 0) {
@@ -199,7 +185,7 @@ var XPBar = {
             }
         }
 
-        // ✅ Detect level up
+        // Detect level up
         if (level > this._lastLevel && this._lastLevel > 0) {
             this._animateLevelUp(el);
         }
@@ -217,5 +203,3 @@ var XPBar = {
         }, 1100);
     }
 };
-
-// inject

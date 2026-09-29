@@ -233,7 +233,7 @@ function recordDuaReading(category, id) {
     // Save data
     StorageManager.set(key, data);
     
-    // ✅ CRITICAL: Notify all systems about the update
+    // CRITICAL: Notify all systems about the update
     if (typeof DataUpdateManager !== 'undefined') {
         DataUpdateManager.notifyDataChanged(category === 'ziyarat' ? 'ziyarat' : 'dua', {
             id: id,
@@ -258,7 +258,7 @@ function recordDuaReading(category, id) {
         }));
     } catch (e) {}
     
-    showToast('✅ تم تسجيل قراءة ' + itemTitle);
+    showToast('تم تسجيل قراءة ' + itemTitle);
     
     // Refresh the page to show updated count
     renderDuaDetail(category, id);

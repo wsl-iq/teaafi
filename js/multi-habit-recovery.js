@@ -459,8 +459,7 @@ function clearAllRecoveryData() {
     function readDatabase() {
         const raw = readLocal(STORAGE_KEY);
         if (
-            isObject(raw) &&
-            isObject(raw.habits)
+            isObject(raw) && isObject(raw.habits)
         ) {
 
             return normalizeDatabase(

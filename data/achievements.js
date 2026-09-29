@@ -301,7 +301,7 @@ var AchievementsManager = {
                 this.unlocked
             );
 
-            // ✅ Ensure DataUpdateManager knows about the new achievement
+            // Ensure DataUpdateManager knows about the new achievement
             if (typeof DataUpdateManager !== 'undefined') {
                 DataUpdateManager._updatePersonalRecords();
             }
@@ -323,8 +323,7 @@ var AchievementsManager = {
             );
 
             /*
-            * حدث عام حتى الإحصائيات والـ leaderboard
-            * تعرف أن هناك إنجاز جديد.
+            * A general event, even statistics and leaderboard
             */
             window.dispatchEvent(
                 new CustomEvent(

@@ -360,6 +360,3 @@ statsStyles.textContent = `
     }
 `;
 document.head.appendChild(statsStyles);
-
-// getTasbihStats()
-// 

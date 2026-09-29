@@ -14,7 +14,7 @@ function renderLeaderboardPage() {
     var achievements = typeof AchievementsManager !== 'undefined' ? AchievementsManager.getUnlocked() : [];
     var journal = StorageManager.get('journal_entries') || [];
 
-    // ✅ Get the REAL tasbih total
+    // Get the REAL tasbih total
     var tasbihData = getTasbihStats();
     var tasbihTotal = tasbihData.totalCount;
 
@@ -24,13 +24,13 @@ function renderLeaderboardPage() {
     // Load personal records with SAFE defaults
     var records = StorageManager.get('personal_records') || {};
 
-    // ✅ Force all fields to be numbers (never undefined)
+    // Force all fields to be numbers (never undefined)
     records.longestStreak = Number(records.longestStreak || 0);
     records.mostTasbih = Number(records.mostTasbih || 0);
     records.bestQuiz = Number(records.bestQuiz || 0);
     records.achievements = Number(records.achievements || 0);
 
-    // ✅ Check the longest streak across ALL habits (multi-habit system)
+    // Check the longest streak across ALL habits (multi-habit system)
     if (typeof TaeafiMultiHabit !== 'undefined' && typeof TaeafiMultiHabit.getHabits === 'function') {
         var allHabits = TaeafiMultiHabit.getHabits() || [];
         allHabits.forEach(function (h) {
@@ -46,18 +46,18 @@ function renderLeaderboardPage() {
         });
     }
 
-    // ✅ Fallback: active habit streak
+    // Fallback: active habit streak
     var activeDays = Number((stats && stats.totalDays) || 0);
     if (activeDays > records.longestStreak) {
         records.longestStreak = activeDays;
     }
 
-    // ✅ Update mostTasbih
+    // Update mostTasbih
     if (tasbihTotal > records.mostTasbih) {
         records.mostTasbih = tasbihTotal;
     }
 
-    // ✅ Update bestQuiz
+    // Update bestQuiz
     var quizHistory = StorageManager.get('quiz_history') || [];
     var bestQuizScore = quizHistory.length > 0
         ? Math.max.apply(null, quizHistory.map(function (q) {
@@ -68,7 +68,7 @@ function renderLeaderboardPage() {
         records.bestQuiz = bestQuizScore;
     }
 
-    // ✅ Update achievements count
+    // Update achievements count
     if (achievements.length > records.achievements) {
         records.achievements = achievements.length;
     }
@@ -374,7 +374,7 @@ function updateLeaderboardRecords() {
 
         var records = StorageManager.get('personal_records') || {};
 
-        // ✅ Force numbers
+        // Force numbers
         records.longestStreak = Number(records.longestStreak || 0);
         records.mostTasbih = Number(records.mostTasbih || 0);
         records.achievements = Number(records.achievements || 0);

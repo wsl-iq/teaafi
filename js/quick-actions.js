@@ -5,18 +5,11 @@
  * Folder : js
  * File   : quick-actions.js
  * Type   : JavaScript
- *
- * Quick Actions — v2.0.1
- * ----------------------
- * Floating action button that appears only on the home page.
- * Fades out when scrolling down, returns when scrolling back to top.
  */
 
 var QuickActions = {
 
-    /* ============================================
-       STATE
-       ============================================ */
+    /* STATE */
 
     isOpen: false,
     container: null,
@@ -26,9 +19,7 @@ var QuickActions = {
     _routeHandler: null,
     _lastScrollY: 0,
 
-    /* ============================================
-       INITIALIZATION
-       ============================================ */
+    /* INITIALIZATION */
 
     init: function () {
         var self = this;
@@ -83,9 +74,7 @@ var QuickActions = {
         this._updateVisibility();
     },
 
-    /* ============================================
-       MARKUP
-       ============================================ */
+    /* MARKUP */
 
     _buildMarkup: function () {
         return `
@@ -131,9 +120,7 @@ var QuickActions = {
         `;
     },
 
-    /* ============================================
-       ROUTE + SCROLL VISIBILITY
-       ============================================ */
+    /* ROUTE + SCROLL VISIBILITY */
 
     _attachRouteListener: function () {
         var self = this;
@@ -212,9 +199,7 @@ var QuickActions = {
         }
     },
 
-    /* ============================================
-       OPEN / CLOSE
-       ============================================ */
+    /* OPEN / CLOSE */
 
     toggle: function () {
         if (this.isOpen) {
@@ -236,9 +221,7 @@ var QuickActions = {
         if (this.overlay) this.overlay.classList.remove('show');
     },
 
-    /* ============================================
-       RUN ACTION
-       ============================================ */
+    /* RUN ACTION */
 
     run: function (action) {
         switch (action) {
@@ -272,9 +255,7 @@ var QuickActions = {
         }
     },
 
-    /* ============================================
-       ACTION: QUICK NOTE
-       ============================================ */
+    /* ACTION: QUICK NOTE */
 
     _runQuickNote: function () {
         var selectedMood = 2;
@@ -365,9 +346,7 @@ var QuickActions = {
         });
     },
 
-    /* ============================================
-       ACTION: QUICK RELAPSE
-       ============================================ */
+    /* ACTION: QUICK RELAPSE */
 
     _runRelapse: function () {
         if (typeof TaeafiMultiHabit !== 'undefined' && typeof TaeafiMultiHabit.getActiveHabitId === 'function') {
@@ -395,9 +374,7 @@ var QuickActions = {
         if (typeof showToast === 'function') showToast('لا توجد رحلة تعافي نشطة');
     },
 
-    /* ============================================
-       ACTION: EMERGENCY MODE
-       ============================================ */
+    /* ACTION: EMERGENCY MODE */
 
     _runEmergency: function () {
         var duas = [
@@ -487,9 +464,7 @@ var QuickActions = {
     }
 };
 
-/* ============================================
-   HOOK ROUTER NAVIGATION
-   ============================================ */
+/* HOOK ROUTER NAVIGATION */
 
 (function hookRouterForQuickActions() {
     function tryHook() {
@@ -516,9 +491,7 @@ var QuickActions = {
     }
 })();
 
-/* ============================================
-   AUTO-INIT
-   ============================================ */
+/* AUTO-INIT */
 
 document.addEventListener('DOMContentLoaded', function () {
     setTimeout(function () {

@@ -13,8 +13,7 @@ var SmartNotifications = {
     interval: null,
 
     sendNotification: function(title, options) {
-        if (typeof NotificationService !== 'undefined' &&
-            typeof NotificationService.sendNotification === 'function') {
+        if (typeof NotificationService !== 'undefined' && typeof NotificationService.sendNotification === 'function') {
             NotificationService.sendNotification(title, options);
         }
     },
@@ -76,8 +75,9 @@ var SmartNotifications = {
             var stats = typeof RecoveryCounter !== 'undefined' ? 
                 RecoveryCounter.getRecoveryStats() : { totalDays: 0 };
             var msg = stats.totalDays > 0 ?
-                'أكملت ' + stats.totalDays + ' يوم في رحلة التعافي. استمر! 💪' :
-                'ابدأ رحلة التعافي اليوم - خطوة واحدة تغير حياتك 🌿';
+            // Updata just icons 
+                'أكملت ' + stats.totalDays + ' يوم في رحلة التعافي. استمر! <i class="fas fa-dumbbell" aria-hidden="true"></i>' :
+                'ابدأ رحلة التعافي اليوم - خطوة واحدة تغير حياتك <i class="fas fa-leaf" aria-hidden="true"></i>';
             
             this.sendNotification('تذكير التعافي', { body: msg });
         }

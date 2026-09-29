@@ -18,9 +18,7 @@ function renderHabitDetail(habitType) {
      */
 
     if (
-        !window.__taeafiRouterRenderingHabitDetail &&
-        typeof Router !== 'undefined' &&
-        typeof Router.openHabitDetail === 'function'
+        !window.__taeafiRouterRenderingHabitDetail && typeof Router !== 'undefined' && typeof Router.openHabitDetail === 'function'
     ) {
         return Router.openHabitDetail(habitType);
     }

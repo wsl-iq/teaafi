@@ -860,7 +860,7 @@ function renderHomePage() {
     if (dateInterval) clearInterval(dateInterval);
     startDateUpdates();
 
-    // ✅ Initialize XP bar
+    // Initialize XP bar
     if (typeof XPBar !== 'undefined') {
         if (typeof XPBar.inject === 'function') {
             // Ensure the bar exists in DOM

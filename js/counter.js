@@ -169,7 +169,7 @@ static init() {
         }
     }
     
-    // ==================== العادة السرية ====================
+    // Masturbation
     static #getMasturbationMessages(days, hours, minutes) {
         return {
             firstDay: [

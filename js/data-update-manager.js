@@ -42,26 +42,13 @@ var DataUpdateManager = {
         this._isUpdating = true;
         
         try {
-            // Step 1: Refresh data from storage if needed
-            this._refreshData(type);
-            
-            // Step 2: Check achievements
-            this._checkAchievements();
-            
-            // Step 3: Check challenges
-            this._checkChallenges();
-            
-            // Step 4: Update stats
-            this._updateStats();
-            
-            // Step 5: Update leaderboard
-            this._updateLeaderboard(type);
-            
-            // Step 6: Update UI if on relevant pages
-            this._updateUI(type);
-            
-            // Step 7: Dispatch global event
-            this._dispatchEvent(type, detail);
+            this._refreshData(type)                  // Step 1: Refresh data from storage if needed
+            this._checkAchievements();              // Step 2: Check achievements
+            this._checkChallenges();               // Step 3: Check challenges
+            this._updateStats();                  // Step 4: Update stats
+            this._updateLeaderboard(type);       // Step 5: Update leaderboard
+            this._updateUI(type);               // Step 6: Update UI if on relevant pages
+            this._dispatchEvent(type, detail); // Step 7: Dispatch global event
             
         } catch (error) {
             console.error('[DataUpdateManager] Error during update:', error);
@@ -100,13 +87,11 @@ var DataUpdateManager = {
      * Check and unlock achievements.
      */
     _checkAchievements: function() {
-        if (typeof AchievementsManager !== 'undefined' && 
-            typeof AchievementsManager.checkAll === 'function') {
+        if (typeof AchievementsManager !== 'undefined' && typeof AchievementsManager.checkAll === 'function') {
             try {
                 // Get fresh stats before checking
                 var stats = null;
-                if (typeof RecoveryCounter !== 'undefined' && 
-                    typeof RecoveryCounter.getRecoveryStats === 'function') {
+                if (typeof RecoveryCounter !== 'undefined' &&  typeof RecoveryCounter.getRecoveryStats === 'function') {
                     stats = RecoveryCounter.getRecoveryStats();
                 }
                 
@@ -122,8 +107,7 @@ var DataUpdateManager = {
      * Check and update challenges.
      */
     _checkChallenges: function() {
-        if (typeof ChallengesManager !== 'undefined' && 
-            typeof ChallengesManager.checkAll === 'function') {
+        if (typeof ChallengesManager !== 'undefined' && typeof ChallengesManager.checkAll === 'function') {
             try {
                 ChallengesManager.checkAll();
             } catch (error) {
@@ -162,14 +146,14 @@ var DataUpdateManager = {
             var achievements = typeof AchievementsManager !== 'undefined' ? 
                 AchievementsManager.getUnlocked() : [];
             
-            // ✅ Always recalculate total from counts
+            // Always recalculate total from counts
             var counts = tasbihData.counts || {};
             var calculatedTotal = Number(counts.allahuAkbar || 0) + 
                                  Number(counts.alhamdulillah || 0) + 
                                  Number(counts.subhanAllah || 0);
             var totalCount = Math.max(Number(tasbihData.totalCount || 0), calculatedTotal);
 
-            // ✅ If stored totalCount was stale, fix it permanently
+            // If stored totalCount was stale, fix it permanently
             if (tasbihData.totalCount !== totalCount) {
                 tasbihData.totalCount = totalCount;
                 StorageManager.set('tasbih_data', tasbihData);
@@ -192,7 +176,7 @@ var DataUpdateManager = {
                 updated = true;
             }
 
-            // ✅ Update bestQuiz
+            // Update bestQuiz
             var quizHistory = StorageManager.get('quiz_history') || [];
             var bestQuizScore = quizHistory.length > 0
                 ? Math.max.apply(null, quizHistory.map(function (q) {
@@ -278,7 +262,7 @@ var DataUpdateManager = {
         var calculated = Number(counts.allahuAkbar || 0) + 
                         Number(counts.alhamdulillah || 0) + 
                         Number(counts.subhanAllah || 0);
-        // ✅ Return max of the two — protects against stale totalCount
+        // Return max of the two — protects against stale totalCount
         return Math.max(total, calculated);
     },
     
@@ -350,7 +334,3 @@ window.addEventListener('taeafiDataUpdated', function(e) {
     // Update personal records on any data change
     DataUpdateManager._updatePersonalRecords();
 });
-
-// _updatePersonalRecords: function()
-// _updatePersonalRecords()
-// getTasbihTotal
