@@ -110,4 +110,12 @@ class NotificationService {
         
         console.log('[Notification] Daily reminder scheduled for: ' + (StorageManager.getSettings().reminderTime || '08:00'));
     }
+
+    static median_onesignal_push_opened(data) {
+        console.log('تم النقر على الإشعار:', data);
+
+        if (data && data.page && typeof navigateTo === 'function') {
+            navigateTo(data.page);
+        }
+    }
 }

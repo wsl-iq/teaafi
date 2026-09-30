@@ -860,19 +860,19 @@ function renderHomePage() {
     if (dateInterval) clearInterval(dateInterval);
     startDateUpdates();
 
-    // Initialize XP bar
+    // Initialize XP bar with auto-refresh
     if (typeof XPBar !== 'undefined') {
-        if (typeof XPBar.inject === 'function') {
-            // Ensure the bar exists in DOM
-            setTimeout(function () {
+        setTimeout(function () {
+            if (typeof XPBar.inject === 'function') {
                 XPBar.inject();
-            }, 100);
-        }
-        if (typeof XPBar.startAutoRefresh === 'function') {
-            setTimeout(function () {
+            }
+            if (typeof XPBar.startAutoRefresh === 'function') {
                 XPBar.startAutoRefresh();
-            }, 200);
-        }
+            }
+            if (typeof XPBar.refresh === 'function') {
+                XPBar.refresh();
+            }
+        }, 200);
     }
     
     /** 
@@ -1007,3 +1007,5 @@ function checkForUpdates(options) {
             console.warn('Update check failed:', err.message);
         });
 }
+
+// if (typeof XPBar !== 'undefined') {

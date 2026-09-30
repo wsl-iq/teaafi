@@ -73,7 +73,14 @@ var XPSystem = {
             this._showLevelUp();
         }
 
-        // Dispatch event to update XP bar immediately
+        // Force XP bar refresh immediately
+        if (typeof XPBar !== 'undefined' && typeof XPBar.refresh === 'function') {
+            try {
+                XPBar.refresh();
+            } catch (e) {}
+        }
+
+        // Also dispatch event for any listener
         try {
             window.dispatchEvent(new CustomEvent('taeafiXPUpdated', {
                 detail: {

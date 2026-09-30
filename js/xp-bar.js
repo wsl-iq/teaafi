@@ -9,7 +9,6 @@
 
 var XPBar = {
 
-    /* STATE */
     _lastLevel: 1,
     _lastXp: 0,
     _lastProgress: 0,
@@ -47,7 +46,7 @@ var XPBar = {
     /* INJECT */
 
     inject: function () {
-        // If already injected, just refresh
+        // If already injected, refresh and start auto-refresh
         if (document.getElementById('xp-bar-inline')) {
             this.refresh();
             this.startAutoRefresh();
@@ -65,10 +64,7 @@ var XPBar = {
             searchBar.parentNode.insertBefore(bar, searchBar.nextSibling);
         }
 
-        // Force initial refresh
         this.refresh();
-
-        // Start interval-based auto-refresh
         this.startAutoRefresh();
     },
 
@@ -77,12 +73,12 @@ var XPBar = {
     startAutoRefresh: function () {
         var self = this;
 
-        // Stop existing interval
+        // Clear any existing interval
         if (this._interval) {
             clearInterval(this._interval);
         }
 
-        // Check every 1500ms — bar updates automatically
+        // Refresh every 1500ms
         this._interval = setInterval(function () {
             self.refresh();
         }, 1500);

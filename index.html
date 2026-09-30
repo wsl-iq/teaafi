@@ -51,6 +51,16 @@
     <link rel="stylesheet" href="css/xp-bar.css">
     
     <link rel="manifest" href="manifest.json">
+    <!--OneSignal Keys & IDs-->
+        <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+        <script>
+            window.OneSignalDeferred = window.OneSignalDeferred || [];
+            OneSignalDeferred.push(async function(OneSignal) {
+                await OneSignal.init({
+                    appId: "ae3a0c1e-d973-46ee-9a50-2f1b91e4b3b3"
+                });
+            });
+        </script>
 </head>
 <body>
     <!-- Splash Screen -->
