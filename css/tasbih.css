@@ -1,0 +1,594 @@
+/**
+ * Developer: Mohammed Al-Baqer
+ * Website: https://wsl-iq.github.io/teaafi/
+ * Copyright (c) 2026 Mohammed Al-Baqer
+ * Folder : css
+ * File   : tasbih.css
+ * Type   : CSS
+ */
+
+/*
+ * TABS
+ */
+
+.tasbih-tabs {
+    display: flex;
+    gap: 6px;
+    background: var(--surface-variant);
+    padding: 6px;
+    border-radius: var(--radius-lg);
+    margin-bottom: 20px;
+}
+
+.tasbih-tab {
+    flex: 1;
+    padding: 14px 12px;
+    border: none;
+    background: transparent;
+    color: var(--text-secondary);
+    font-family: var(--font-primary);
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    -webkit-tap-highlight-color: transparent;
+    white-space: nowrap;
+}
+
+.tasbih-tab:hover {
+    background: rgba(var(--primary-rgb), 0.08);
+    color: var(--primary);
+}
+
+.tasbih-tab.active {
+    background: var(--primary-gradient);
+    color: white;
+    box-shadow: 0 4px 12px rgba(var(--primary-rgb), 0.3);
+}
+
+.tasbih-tab i {
+    font-size: 16px;
+}
+
+.tasbih-tab-content {
+    display: none;
+}
+
+.tasbih-tab-content.active {
+    display: block;
+    animation: tasbihFadeIn 0.3s ease;
+}
+
+@keyframes tasbihFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/*
+ * OPEN TASBIH TAB
+ */
+
+.open-tasbih-input-section {
+    background: var(--surface);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-xl);
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: var(--shadow-sm);
+}
+
+.open-tasbih-label {
+    display: block;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 10px;
+}
+
+.open-tasbih-label i {
+    color: var(--primary);
+    margin-left: 6px;
+}
+
+.open-tasbih-input {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--input-bg);
+    color: var(--text-primary);
+    font-family: var(--font-primary);
+    font-size: 16px;
+    text-align: center;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    margin-bottom: 12px;
+}
+
+.open-tasbih-input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(var(--primary-rgb), 0.1);
+}
+
+.open-tasbih-input::placeholder {
+    color: var(--text-disabled);
+}
+
+/* Suggestion chips */
+.open-tasbih-suggestions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.open-tasbih-chip {
+    padding: 8px 14px;
+    border: 1px solid var(--border-light);
+    border-radius: 20px;
+    background: var(--surface-variant);
+    color: var(--text-secondary);
+    font-family: var(--font-primary);
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.open-tasbih-chip:hover {
+    border-color: var(--primary);
+    background: var(--primary-light);
+    color: var(--primary);
+    transform: translateY(-1px);
+}
+
+/*
+ * OPEN COUNTER CARD
+ */
+
+.open-counter-card {
+    background: linear-gradient(135deg, #0D6B6E, #26A69A);
+    color: white;
+    border-radius: var(--radius-2xl);
+    padding: 32px 24px;
+    text-align: center;
+    box-shadow: var(--shadow-lg);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 20px;
+    transition: transform 0.15s ease;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+}
+
+.open-counter-card:active {
+    transform: scale(0.98);
+}
+
+.open-counter-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 60%);
+    animation: openCounterRotate 20s linear infinite;
+    pointer-events: none;
+}
+
+@keyframes openCounterRotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.open-counter-dhikr {
+    font-family: var(--font-quran);
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    position: relative;
+    z-index: 1;
+    min-height: 34px;
+    line-height: 1.4;
+}
+
+.open-counter-value {
+    font-size: 96px;
+    font-weight: 800;
+    line-height: 1;
+    margin: 16px 0;
+    position: relative;
+    z-index: 1;
+    font-variant-numeric: tabular-nums;
+    transition: transform 0.15s ease;
+}
+
+.open-counter-value.pulse {
+    transform: scale(1.15);
+}
+
+.open-counter-hint {
+    font-size: 13px;
+    opacity: 0.85;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.open-counter-hint i {
+    font-size: 14px;
+}
+
+/*
+ * OPEN COUNTER ACTIONS
+ */
+
+.open-counter-actions {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.open-counter-actions .btn {
+    flex: 1;
+}
+
+/*
+ * COMPLETION CELEBRATION MODAL
+ */
+
+.tasbih-complete-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    animation: tasbihCompleteFadeIn 0.3s ease;
+}
+
+@keyframes tasbihCompleteFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.tasbih-complete-card {
+    background: var(--surface);
+    border-radius: 28px;
+    padding: 40px 28px 28px;
+    max-width: 420px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 24px 72px rgba(0, 0, 0, 0.5);
+    position: relative;
+    overflow: hidden;
+    animation: tasbihCompleteBounce 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    border: 2px solid #4CAF50;
+}
+
+@keyframes tasbihCompleteBounce {
+    0% {
+        transform: scale(0.5) translateY(30px);
+        opacity: 0;
+    }
+    60% {
+        transform: scale(1.06) translateY(-6px);
+    }
+    100% {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Glowing icon */
+.tasbih-complete-icon {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #4CAF50, #8BC34A);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 46px;
+    box-shadow: 0 12px 32px rgba(76, 175, 80, 0.5);
+    position: relative;
+    animation: tasbihCompletePulse 2s ease-in-out infinite;
+}
+
+.tasbih-complete-icon::before {
+    content: '';
+    position: absolute;
+    inset: -10px;
+    border-radius: 50%;
+    border: 3px solid rgba(76, 175, 80, 0.3);
+    animation: tasbihCompleteRing 2s ease-out infinite;
+}
+
+.tasbih-complete-icon::after {
+    content: '';
+    position: absolute;
+    inset: -20px;
+    border-radius: 50%;
+    border: 2px solid rgba(76, 175, 80, 0.15);
+    animation: tasbihCompleteRing 2s ease-out infinite 0.6s;
+}
+
+@keyframes tasbihCompletePulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 12px 32px rgba(76, 175, 80, 0.5);
+    }
+    50% {
+        transform: scale(1.06);
+        box-shadow: 0 16px 44px rgba(76, 175, 80, 0.7);
+    }
+}
+
+@keyframes tasbihCompleteRing {
+    0% {
+        transform: scale(0.85);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1.4);
+        opacity: 0;
+    }
+}
+
+.tasbih-complete-card h2 {
+    font-size: 24px;
+    font-weight: 800;
+    color: #2E7D32;
+    margin: 0 0 12px;
+}
+
+.tasbih-complete-card .tasbih-complete-subtitle {
+    font-size: 16px;
+    color: var(--text-secondary);
+    line-height: 1.9;
+    margin: 0 0 20px;
+}
+
+.tasbih-complete-card .tasbih-complete-dua {
+    background: linear-gradient(135deg, rgba(76, 175, 80, 0.08), rgba(139, 195, 74, 0.08));
+    border-right: 4px solid #4CAF50;
+    padding: 16px;
+    border-radius: 14px;
+    margin-bottom: 24px;
+    font-size: 15px;
+    color: #2E7D32;
+    font-weight: 600;
+    line-height: 1.8;
+}
+
+/* Breakdown of the 100 tasbih */
+.tasbih-complete-breakdown {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 24px;
+    background: var(--surface-variant);
+    border-radius: 14px;
+    padding: 14px;
+}
+
+.tasbih-complete-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 6px 0;
+    font-size: 14px;
+    color: var(--text-primary);
+}
+
+.tasbih-complete-row:not(:last-child) {
+    border-bottom: 1px solid var(--border-light);
+}
+
+.tasbih-complete-row-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+}
+
+.tasbih-complete-row-label i {
+    width: 20px;
+    text-align: center;
+    color: #4CAF50;
+}
+
+.tasbih-complete-row-value {
+    font-weight: 800;
+    color: #2E7D32;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Buttons */
+.tasbih-complete-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.tasbih-complete-actions .btn {
+    flex: 1;
+}
+
+.tasbih-complete-actions .btn-primary {
+    background: linear-gradient(135deg, #4CAF50, #8BC34A);
+    border: none;
+    color: white;
+    font-weight: 700;
+    box-shadow: 0 4px 16px rgba(76, 175, 80, 0.3);
+}
+
+.tasbih-complete-actions .btn-primary:hover {
+    background: linear-gradient(135deg, #388E3C, #7CB342);
+    box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+}
+
+.tasbih-complete-actions .btn-outline {
+    border-color: var(--border);
+    color: var(--text-secondary);
+}
+
+/* Confetti dots */
+.tasbih-complete-confetti {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    border-radius: 28px;
+}
+
+.tasbih-complete-confetti span {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    opacity: 0.8;
+    animation: tasbihConfettiFall 3s ease-in infinite;
+}
+
+.tasbih-complete-confetti span:nth-child(1) { left: 10%; background: #FFD700; animation-delay: 0s; }
+.tasbih-complete-confetti span:nth-child(2) { left: 25%; background: #4CAF50; animation-delay: 0.4s; }
+.tasbih-complete-confetti span:nth-child(3) { left: 45%; background: #2196F3; animation-delay: 0.8s; }
+.tasbih-complete-confetti span:nth-child(4) { left: 65%; background: #FF9800; animation-delay: 1.2s; }
+.tasbih-complete-confetti span:nth-child(5) { left: 80%; background: #E91E63; animation-delay: 1.6s; }
+.tasbih-complete-confetti span:nth-child(6) { left: 90%; background: #9C27B0; animation-delay: 2s; }
+
+@keyframes tasbihConfettiFall {
+    0% {
+        top: -10%;
+        transform: rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    100% {
+        top: 110%;
+        transform: rotate(720deg);
+        opacity: 0;
+    }
+}
+
+/*
+ * DARK MODE
+ */
+
+.theme-dark .tasbih-tabs {
+    background: var(--surface-variant);
+}
+
+.theme-dark .tasbih-complete-card {
+    background: var(--surface);
+    border-color: #4CAF50;
+}
+
+.theme-dark .tasbih-complete-card h2 {
+    color: #81C784;
+}
+
+.theme-dark .tasbih-complete-card .tasbih-complete-dua {
+    background: rgba(76, 175, 80, 0.12);
+    color: #A5D6A7;
+}
+
+.theme-dark .tasbih-complete-row {
+    color: var(--text-primary);
+}
+
+.theme-dark .tasbih-complete-row-value {
+    color: #81C784;
+}
+
+.theme-dark .open-tasbih-input-section {
+    background: var(--surface);
+    border-color: var(--border);
+}
+
+/*
+ * RESPONSIVE
+ */
+
+@media (max-width: 480px) {
+    .tasbih-tab {
+        font-size: 12px;
+        padding: 12px 8px;
+    }
+
+    .tasbih-tab i {
+        font-size: 14px;
+    }
+
+    .open-counter-value {
+        font-size: 76px;
+    }
+
+    .open-counter-dhikr {
+        font-size: 18px;
+    }
+
+    .tasbih-complete-card {
+        padding: 32px 20px 20px;
+        border-radius: 22px;
+    }
+
+    .tasbih-complete-icon {
+        width: 80px;
+        height: 80px;
+        font-size: 38px;
+    }
+
+    .tasbih-complete-card h2 {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 360px) {
+    .tasbih-tab {
+        font-size: 11px;
+    }
+
+    .open-counter-value {
+        font-size: 64px;
+    }
+}
+
+/*
+ * REDUCED MOTION
+ */
+
+@media (prefers-reduced-motion: reduce) {
+    .open-counter-card::before,
+    .tasbih-complete-icon,
+    .tasbih-complete-icon::before,
+    .tasbih-complete-icon::after,
+    .tasbih-complete-confetti span,
+    .tasbih-complete-card {
+        animation: none !important;
+    }
+}

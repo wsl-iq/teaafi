@@ -3,11 +3,11 @@
  * Website: https://wsl-iq.github.io/teaafi/
  * Copyright (c) 2026 Mohammed Al-Baqer
  * Folder : Taafi
- * File   : sw.js
+ * File   : service-worker.js
  * Type: JavaScript
  */
 
-const CACHE_NAME = 'taafi-app-v2.0.0';
+const CACHE_NAME = 'taafi-app-v2.1.1';
 const DYNAMIC_CACHE = 'taafi-dynamic-v1';
 const STATIC_ASSETS = [
   '/',
@@ -29,6 +29,7 @@ const STATIC_ASSETS = [
   "/css/quick-actions.css",
   "/css/xp-bar.css",
   "/css/multi-habit.css",
+  "/css/tasbih.css",
 
   // JavaScript
   //js

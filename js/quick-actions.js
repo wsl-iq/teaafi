@@ -63,15 +63,10 @@ var QuickActions = {
                 self.close();
             }
         });
-
-        // Attach scroll listener
-        this._attachScrollListener();
-
-        // Attach route change listener
-        this._attachRouteListener();
-
-        // Initial visibility check
-        this._updateVisibility();
+        
+        this._attachScrollListener(); // Attach scroll listener
+        this._attachRouteListener(); // Attach route change listener
+        this._updateVisibility();   // Initial visibility check
     },
 
     /* MARKUP */
@@ -188,6 +183,7 @@ var QuickActions = {
             currentPage = Router.getCurrentPage() || 'home';
         }
 
+        // Show only on the home page; hide on tasbih, settings, and all other pages.
         if (currentPage === 'home') {
             this.container.classList.remove('qa-hidden');
             // Reset scroll state
@@ -349,29 +345,220 @@ var QuickActions = {
     /* ACTION: QUICK RELAPSE */
 
     _runRelapse: function () {
-        if (typeof TaeafiMultiHabit !== 'undefined' && typeof TaeafiMultiHabit.getActiveHabitId === 'function') {
-            var activeId = TaeafiMultiHabit.getActiveHabitId();
-            if (activeId && typeof TaeafiHabitControls !== 'undefined' && typeof TaeafiHabitControls.recordRelapse === 'function') {
-                TaeafiHabitControls.recordRelapse(activeId);
-                return;
-            }
-        }
+        var self = this;
 
-        if (typeof RecoveryCounter !== 'undefined' && typeof RecoveryCounter.getRecoveryStats === 'function') {
-            var stats = RecoveryCounter.getRecoveryStats();
-            if (stats && stats.isActive && typeof RecoveryCounter.addRelapse === 'function') {
-                if (confirm('هل تريد تسجيل انتكاسة؟')) {
-                    RecoveryCounter.addRelapse();
-                    if (typeof showToast === 'function') showToast('تم تسجيل الانتكاسة');
-                    if (typeof renderRecoveryPage === 'function' && typeof Router !== 'undefined' && Router.getCurrentPage() === 'recovery') {
-                        renderRecoveryPage();
+        // Check if there is a real active recovery journey
+        var hasActiveRecovery = false;
+        var activeHabitId = null;
+
+        // Check multi-habit system
+        if (typeof TaeafiMultiHabit !== 'undefined' &&
+            typeof TaeafiMultiHabit.getActiveHabitId === 'function') {
+
+            activeHabitId = TaeafiMultiHabit.getActiveHabitId();
+
+            if (activeHabitId) {
+                var habitExists = false;
+
+                if (typeof TaeafiMultiHabit.getHabit === 'function') {
+                    var habit = TaeafiMultiHabit.getHabit(activeHabitId);
+                    if (habit && (habit.startTimestamp || habit.startDate)) {
+                        habitExists = true;
                     }
                 }
-                return;
+
+                if (!habitExists && typeof TaeafiMultiHabit.getHabits === 'function') {
+                    var habits = TaeafiMultiHabit.getHabits() || [];
+                    for (var i = 0; i < habits.length; i++) {
+                        if (habits[i].habitType === activeHabitId &&
+                            (habits[i].startTimestamp || habits[i].startDate)) {
+                            habitExists = true;
+                            break;
+                        }
+                    }
+                }
+
+                if (habitExists) {
+                    hasActiveRecovery = true;
+                }
             }
         }
 
-        if (typeof showToast === 'function') showToast('لا توجد رحلة تعافي نشطة');
+        // Fallback: check old counter system
+        if (!hasActiveRecovery &&
+            typeof RecoveryCounter !== 'undefined' &&
+            typeof RecoveryCounter.getRecoveryStats === 'function') {
+            try {
+                var stats = RecoveryCounter.getRecoveryStats();
+                if (stats && stats.isActive === true && stats.habitType) {
+                    hasActiveRecovery = true;
+                }
+            } catch (e) {}
+        }
+
+        // If no active recovery, show a warning modal.
+        if (!hasActiveRecovery) {
+            this._showNoRecoveryWarning();
+            return;
+        }
+
+        // Record the relapse.
+        if (activeHabitId &&
+            typeof TaeafiHabitControls !== 'undefined' &&
+            typeof TaeafiHabitControls.recordRelapse === 'function') {
+            TaeafiHabitControls.recordRelapse(activeHabitId);
+            return;
+        }
+
+        // Fallback: old recovery system
+        if (typeof RecoveryCounter !== 'undefined' &&
+            typeof RecoveryCounter.addRelapse === 'function') {
+            if (confirm('هل تريد تسجيل انتكاسة؟')) {
+                RecoveryCounter.addRelapse();
+                if (typeof showToast === 'function') {
+                    showToast('تم تسجيل الانتكاسة');
+                }
+                if (typeof renderRecoveryPage === 'function' &&
+                    typeof Router !== 'undefined' &&
+                    Router.getCurrentPage() === 'recovery') {
+                    renderRecoveryPage();
+                }
+            }
+            return;
+        }
+    },
+
+    /*
+     * NO RECOVERY WARNING MODAL
+     */
+
+    _showNoRecoveryWarning: function () {
+        var self = this;
+
+        // Avoid duplicate modals.
+        var existing = document.querySelector('.no-recovery-modal');
+        if (existing) existing.remove();
+
+        var modal = document.createElement('div');
+        modal.className = 'no-recovery-modal';
+        modal.innerHTML = `
+            <div class="no-recovery-card">
+                <button class="no-recovery-close" id="no-recovery-close" aria-label="إغلاق">
+                    <i class="fas fa-times"></i>
+                </button>
+
+                <div class="no-recovery-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+
+                <h2>لا توجد رحلة تعافي</h2>
+
+                <p>
+                    لم تقم بعملية تعافي حتى الآن.
+                    <br>
+                    ابدأ رحلتك أولاً لتتمكن من تسجيل الانتكاسات.
+                </p>
+
+                <div class="no-recovery-hint">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>
+                        اذهب إلى صفحة <strong>رحلة التعافي</strong> وابدأ رحلة جديدة من العادات المتاحة.
+                    </span>
+                </div>
+
+                <div class="no-recovery-actions">
+                    <button class="btn btn-outline" id="no-recovery-cancel">
+                        إلغاء
+                    </button>
+                    <button class="btn btn-primary" id="no-recovery-start">
+                        <i class="fas fa-play"></i>
+                        ابدأ التعافي
+                    </button>
+                </div>
+
+                <div class="no-recovery-countdown" id="no-recovery-countdown">
+                    ستُغلق النافذة تلقائياً بعد 10 ثوانٍ
+                </div>
+
+                <div class="no-recovery-progress">
+                    <div class="no-recovery-progress-fill" id="no-recovery-progress-fill"></div>
+                </div>
+            </div>
+        `;
+
+        document.body.appendChild(modal);
+
+        modal.querySelector('#no-recovery-close').addEventListener('click', function () {
+            self._closeNoRecoveryWarning(modal, timerInterval, secondsLeft);
+        });
+
+        modal.querySelector('#no-recovery-cancel').addEventListener('click', function () {
+            self._closeNoRecoveryWarning(modal, timerInterval, secondsLeft);
+        });
+
+        modal.querySelector('#no-recovery-start').addEventListener('click', function () {
+            clearInterval(timerInterval);
+            document.removeEventListener('keydown', escHandler);
+            modal.remove();
+            if (typeof navigateTo === 'function') {
+                navigateTo('recovery');
+            }
+        });
+
+        modal.addEventListener('click', function (e) {
+            if (e.target === modal) {
+                self._closeNoRecoveryWarning(modal, timerInterval, secondsLeft);
+            }
+        });
+
+        var escHandler = function (e) {
+            if (e.key === 'Escape') {
+                document.removeEventListener('keydown', escHandler);
+                self._closeNoRecoveryWarning(modal, timerInterval, secondsLeft);
+            }
+        };
+        document.addEventListener('keydown', escHandler);
+
+        var totalSeconds = 10;
+        var secondsLeft = totalSeconds;
+        var progressFill = modal.querySelector('#no-recovery-progress-fill');
+        var countdownText = modal.querySelector('#no-recovery-countdown');
+
+        var timerInterval = setInterval(function () {
+            secondsLeft--;
+
+            if (countdownText) {
+                if (secondsLeft > 0) {
+                    countdownText.textContent = 'ستُغلق النافذة تلقائياً بعد ' + secondsLeft + ' ثوانٍ';
+                } else {
+                    countdownText.textContent = 'جاري الإغلاق...';
+                }
+            }
+
+            if (progressFill) {
+                var percent = (secondsLeft / totalSeconds) * 100;
+                progressFill.style.width = Math.max(0, percent) + '%';
+            }
+
+            if (secondsLeft <= 0) {
+                clearInterval(timerInterval);
+                document.removeEventListener('keydown', escHandler);
+                modal.style.animation = 'noRecoveryFadeIn 0.3s ease reverse';
+                setTimeout(function () {
+                    if (modal.parentNode) modal.remove();
+                }, 300);
+            }
+        }, 1000);
+    },
+
+    _closeNoRecoveryWarning: function (modal, timerInterval, secondsLeft) {
+        if (timerInterval) clearInterval(timerInterval);
+        if (modal && modal.parentNode) {
+            modal.style.animation = 'noRecoveryFadeIn 0.3s ease reverse';
+            setTimeout(function () {
+                if (modal.parentNode) modal.remove();
+            }, 300);
+        }
     },
 
     /* ACTION: EMERGENCY MODE */

@@ -921,6 +921,19 @@
             return;
         }
 
+        // Only render on the recovery page.
+        var currentPage = (typeof Router !== 'undefined' && typeof Router.getCurrentPage === 'function')
+            ? Router.getCurrentPage()
+            : null;
+
+        if (currentPage !== 'recovery') {
+            var existingPanel = document.getElementById(PANEL_ID);
+            if (existingPanel) existingPanel.remove();
+
+            stopTimer();
+            return;
+        }
+
         let habits = getHabits();
 
         /*
