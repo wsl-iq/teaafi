@@ -72,7 +72,8 @@ function renderRecoveryPage() {
                     </div>
                     
                     <div style="margin-top: 20px; display: flex; gap: 12px; justify-content: center; position: relative; z-index: 1;">
-                        <button class="btn" style="background: white; color: #0D6B6E; font-weight: 600;" onclick="handleRelapse()">
+                        <button class="btn" style="background: white; color: #0D6B6E; font-weight: 600;" onclick="
+                    handleRelapse ()">
                             <i class="fas fa-exclamation-triangle"></i> تسجيل انتكاسة
                         </button>
                         <button class="btn" style="background: rgba(255,255,255,0.2); color: white;" onclick="handleResetRecovery()">
@@ -253,16 +254,31 @@ function refreshMotivationalMessage() {
 }
 
 function handleRelapse() {
-    if (confirm('هل أنت متأكد من تسجيل انتكاسة؟ تذكر أن الانتكاسة جزء من رحلة التعافي وليست نهاية الطريق.')) {
+    taeafiConfirm({
+        type: 'warning',
+        icon: 'fa-exclamation-triangle',
+        title: 'تسجيل انتكاسة',
+        message: 'هل أنت متأكد من تسجيل انتكاسة؟\nتذكر أن الانتكاسة جزء من رحلة التعافي وليست نهاية الطريق.',
+        confirmText: 'تسجيل الانتكاسة',
+        cancelText: 'إلغاء'
+    }).then(function (ok) {
+        if (!ok) return;
         RecoveryCounter.addRelapse();
         showToast('تم تسجيل الانتكاسة.. استمر في المحاولة ولا تيأس');
         renderRecoveryPage();
-    }
+    });
 }
 
 function handleResetRecovery() {
-    if (confirm('هل أنت متأكد من إعادة تعيين عداد التعافي؟ سيتم حذف جميع بيانات التقدم.')) {
-        // Stop the counter before resetting
+    taeafiConfirm({
+        type: 'danger',
+        icon: 'fa-redo',
+        title: 'إعادة تعيين العداد',
+        message: 'هل أنت متأكد من إعادة تعيين عداد التعافي؟ سيتم حذف جميع بيانات التقدم.',
+        confirmText: 'إعادة التعيين',
+        cancelText: 'إلغاء'
+    }).then(function (ok) {
+        if (!ok) return;
         if (counterIntervalId) {
             clearInterval(counterIntervalId);
             counterIntervalId = null;
@@ -270,7 +286,7 @@ function handleResetRecovery() {
         RecoveryCounter.resetRecovery();
         showToast('تم إعادة تعيين العداد');
         renderRecoveryPage();
-    }
+    });
 }
 
 function getHabitNameInArabic(habitType) {

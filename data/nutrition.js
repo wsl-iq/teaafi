@@ -286,3 +286,4 @@ function findAlternative(mealText, budget) {
     
     return 'بديل مقترح: ' + randomAlt + ' (متوفر بتكلفة ' + (budget || 'اقتصادية') + ')';
 }
+ 

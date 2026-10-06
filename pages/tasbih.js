@@ -443,7 +443,16 @@ function decrementOpenTasbih() {
 }
 
 function resetOpenTasbih() {
-    if (confirm('هل أنت متأكد من تصفير العداد المفتوح؟')) {
+    taeafiConfirm({
+        type: 'warning',
+        icon: 'fa-redo',
+        title: 'تصفير العداد المفتوح',
+        message: 'هل أنت متأكد من تصفير العداد المفتوح؟',
+        confirmText: 'تصفير',
+        cancelText: 'إلغاء'
+    }).then(function (confirmed) {
+        if (!confirmed) return;
+
         // Save to history if significant
         if (openTasbihCount >= 33) {
             openTasbihHistory.push({
@@ -472,7 +481,7 @@ function resetOpenTasbih() {
         if (typeof showToast === 'function') {
             showToast('تم تصفير العداد المفتوح');
         }
-    }
+    });
 }
 
 function attachOpenCounterTouchHandler() {
@@ -589,6 +598,7 @@ function getCurrentProgress() {
     return Math.min(Math.round((count / target) * 100), 100);
 }
 
+
 function incrementTasbih() {
     // If current dhikr is already complete, advance
     if (tasbihCount[currentTasbih] >= tasbihTarget[currentTasbih]) {
@@ -611,12 +621,6 @@ function incrementTasbih() {
     vibrateDevice();
     updateTasbihDisplay();
     saveTasbihData();
-
-    // Auto-save history record every 100 total
-    if (tasbihTotalCount > 0 && tasbihTotalCount % 100 === 0) {
-        addHistoryRecord(tasbihTotalCount);
-        updateHistorySection();
-    }
 
     // Check if current dhikr is complete
     if (tasbihCount[currentTasbih] >= tasbihTarget[currentTasbih]) {
@@ -708,18 +712,36 @@ function switchTasbih(type) {
 }
 
 function resetCurrentTasbih() {
-    if (confirm(`هل أنت متأكد من تصفير عداد "${getCurrentDhikrLabel()}"؟`)) {
+    taeafiConfirm({
+        type: 'warning',
+        icon: 'fa-redo',
+        title: 'تصفير العداد الحالي',
+        message: `هل أنت متأكد من تصفير عداد "${getCurrentDhikrLabel()}"؟`,
+        confirmText: 'تصفير',
+        cancelText: 'إلغاء'
+    }).then(function (confirmed) {
+        if (!confirmed) return;
+
         tasbihTotalCount = Math.max(0, tasbihTotalCount - tasbihCount[currentTasbih]);
         tasbihCount[currentTasbih] = 0;
         updateTasbihDisplay();
         saveTasbihData();
         updateHistorySection();
         showToast('تم تصفير العداد الحالي');
-    }
+    });
 }
 
 function resetAllTasbih() {
-    if (confirm('هل أنت متأكد من تصفير جميع العدادات؟')) {
+    taeafiConfirm({
+        type: 'danger',
+        icon: 'fa-trash-alt',
+        title: 'تصفير جميع العدادات',
+        message: 'هل أنت متأكد من تصفير جميع العدادات؟',
+        confirmText: 'تصفير الكل',
+        cancelText: 'إلغاء'
+    }).then(function (confirmed) {
+        if (!confirmed) return;
+
         if (tasbihTotalCount >= 100) {
             var record = {
                 date: new Date().toLocaleDateString('ar-SA', {
@@ -747,7 +769,7 @@ function resetAllTasbih() {
         saveTasbihData();
         updateHistorySection();
         showToast('تم تصفير جميع العدادات');
-    }
+    });
 }
 
 function isAllTasbihComplete() {
@@ -769,7 +791,7 @@ function completeAllTasbih() {
             hour: '2-digit',
             minute: '2-digit'
         }),
-        total: 100,
+        total: Number(tasbihTotalCount || 100),   // ← المهم
         timestamp: Date.now(),
         type: 'complete'
     };
@@ -779,7 +801,6 @@ function completeAllTasbih() {
     saveTasbihData();
     updateHistorySection();
 
-    // Award XP
     if (typeof XPSystem !== 'undefined' && typeof XPSystem.addXP === 'function') {
         XPSystem.addXP('tasbih_100');
     }

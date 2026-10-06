@@ -127,8 +127,100 @@
         }
     }
 
-    function confirmAction(message) {
-        return window.confirm(message);
+    /**
+     * Show a CSS-designed confirmation modal.
+     * Returns a Promise<boolean>.
+     *
+     * @param {object} options
+     *   - type: 'danger' | 'warning' | 'info'
+     *   - icon: Font Awesome class
+     *   - title: main title (can include HTML)
+     *   - message: description
+     *   - habit: { title, icon } — optional habit info
+     *   - warning: optional warning text
+     *   - confirmText: button label
+     *   - cancelText: button label
+     */
+
+    function showConfirmModal(options) {
+        options = options || {};
+        return new Promise(function (resolve) {
+            const modal = document.createElement('div');
+            modal.className = 'action-confirm-modal';
+
+            const type = options.type || 'info';
+            const confirmBtnClass = type === 'danger' ? 'btn-danger'
+                : type === 'warning' ? 'btn-warning'
+                : 'btn-primary-action';
+
+            modal.innerHTML = `
+                <div class="action-confirm-card type-${type}" role="dialog" aria-modal="true" aria-labelledby="action-confirm-title">
+                    <div class="action-confirm-icon">
+                        <i class="fas ${options.icon || 'fa-question'}"></i>
+                    </div>
+                    <h2 id="action-confirm-title">${options.title || 'تأكيد'}</h2>
+                    <p>${options.message || ''}</p>
+                    ${options.habit ? `
+                        <div class="action-confirm-habit">
+                            <i class="fas ${options.habit.icon || 'fa-leaf'}"></i>
+                            <span>${escapeHtmlText(options.habit.title)}</span>
+                        </div>
+                    ` : ''}
+                    ${options.warning ? `
+                        <div class="action-confirm-warning">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <span>${options.warning}</span>
+                        </div>
+                    ` : ''}
+                    <div class="action-confirm-actions">
+                        <button type="button" class="btn btn-outline" data-action-cancel>
+                            ${options.cancelText || 'إلغاء'}
+                        </button>
+                        <button type="button" class="btn ${confirmBtnClass}" data-action-confirm>
+                            <i class="fas ${options.icon || 'fa-check'}"></i>
+                            ${options.confirmText || 'تأكيد'}
+                        </button>
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(modal);
+            let closed = false;
+
+            const escHandler = function (event) {
+                if (event.key === 'Escape') closeWith(false);
+            };
+            const closeWith = function (result) {
+                if (closed) return;
+                closed = true;
+                document.removeEventListener('keydown', escHandler);
+                modal.style.animation = 'actionConfirmFadeIn 0.25s ease reverse';
+                setTimeout(function () {
+                    if (modal.parentNode) modal.remove();
+                    resolve(result);
+                }, 220);
+            };
+
+            modal.querySelector('[data-action-confirm]').addEventListener('click', function () {
+                closeWith(true);
+            });
+            modal.querySelector('[data-action-cancel]').addEventListener('click', function () {
+                closeWith(false);
+            });
+            modal.addEventListener('click', function (event) {
+                if (event.target === modal) closeWith(false);
+            });
+            document.addEventListener('keydown', escHandler);
+        });
+    }
+
+    function escapeHtmlText(text) {
+        return String(text || '')
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
     }
 
     /*
@@ -479,7 +571,6 @@
             return false;
         }
 
-        // Read the data directly
         let database = null;
         try {
             const raw = localStorage.getItem('taeafi_multi_habit_recovery');
@@ -498,35 +589,46 @@
         }
 
         const name = getName(type);
-        if (!confirmAction(`هل تريد إعادة بداية "${name}"؟\n\nسيتم تصفير عداد هذه العادة والانتكاسات الخاصة بها فقط.`)) {
-            return false;
-        }
+        const icon = getIcon(type);
 
-        const now = Date.now();
-        const habit = database.habits[type];
+        // Show CSS confirmation modal
+        showConfirmModal({
+            type: 'warning',
+            icon: 'fa-redo',
+            title: 'إعادة بداية الرحلة',
+            message: 'هل تريد إعادة بداية هذه العادة؟',
+            habit: { title: name, icon: icon },
+            warning: 'سيتم تصفير عداد هذه العادة والانتكاسات الخاصة بها فقط.',
+            confirmText: 'إعادة البداية',
+            cancelText: 'إلغاء'
+        }).then(function (confirmed) {
+            if (!confirmed) return;
 
-        // Update time of this habit only
-        habit.startTimestamp = now;
-        habit.startDate = new Date(now).toISOString();
-        habit.relapses = [];
-        habit.updatedAt = now;
-        database.activeHabitId = type;
-        database.updatedAt = now;
+            const now = Date.now();
+            const habit = database.habits[type];
 
-        // Save directly to localStorage
-        try {
-            localStorage.setItem('taeafi_multi_habit_recovery', JSON.stringify({
-                value: database,
-                timestamp: now
-            }));
-        } catch (e) {
-            toast('تعذر حفظ إعادة البداية');
-            return false;
-        }
+            habit.startTimestamp = now;
+            habit.startDate = new Date(now).toISOString();
+            habit.relapses = [];
+            habit.updatedAt = now;
+            database.activeHabitId = type;
+            database.updatedAt = now;
 
-        emitUpdate('habit-reset');
-        toast(`تمت إعادة بداية ${name}`);
-        refresh();
+            try {
+                localStorage.setItem('taeafi_multi_habit_recovery', JSON.stringify({
+                    value: database,
+                    timestamp: now
+                }));
+            } catch (e) {
+                toast('تعذر حفظ إعادة البداية');
+                return;
+            }
+
+            emitUpdate('habit-reset');
+            toast('تمت إعادة بداية ' + name);
+            refresh();
+        });
+
         return true;
     }
 
@@ -543,7 +645,6 @@
             return false;
         }
 
-        // Read the data directly
         let database = null;
         try {
             const raw = localStorage.getItem('taeafi_multi_habit_recovery');
@@ -562,48 +663,59 @@
         }
 
         const name = getName(type);
-        if (!confirmAction(`هل تريد تسجيل انتكاسة في "${name}"؟`)) {
-            return false;
-        }
+        const icon = getIcon(type);
 
-        const now = Date.now();
-        const habit = database.habits[type];
+        // Show CSS confirmation modal
+        showConfirmModal({
+            type: 'warning',
+            icon: 'fa-exclamation-triangle',
+            title: 'تسجيل انتكاسة',
+            message: 'هل تريد تسجيل انتكاسة في هذه العادة؟',
+            habit: { title: name, icon: icon },
+            warning: 'سيتم تسجيل انتكاسة جديدة وإعادة بداية العداد.',
+            confirmText: 'تسجيل الانتكاسة',
+            cancelText: 'إلغاء'
+        }).then(function (confirmed) {
+            if (!confirmed) return;
 
-        if (!Array.isArray(habit.relapses)) {
-            habit.relapses = [];
-        }
+            const now = Date.now();
+            const habit = database.habits[type];
 
-        // Recording a relapse of this habit only
-        habit.relapses.push({
-            date: new Date(now).toISOString().slice(0, 10),
-            timestamp: now
-        });
+            if (!Array.isArray(habit.relapses)) {
+                habit.relapses = [];
+            }
 
-        habit.updatedAt = now;
-        database.activeHabitId = type;
-        database.updatedAt = now;
-
-        try {
-            localStorage.setItem('taeafi_multi_habit_recovery', JSON.stringify({
-                value: database,
+            habit.relapses.push({
+                date: new Date(now).toISOString().slice(0, 10),
                 timestamp: now
-            }));
-        } catch (e) {
-            toast('تعذر حفظ الانتكاسة');
-            return false;
-        }
-
-        emitUpdate('relapse');
-        toast(`تم تسجيل انتكاسة في ${name}`);
-        refresh();
-
-        // Show analysis modal (optional — user can skip)
-        if (typeof window.showRelapseAnalysisModal === 'function') {
-            window.showRelapseAnalysisModal(type, function () {
-                // Callback after analysis is saved or skipped
-                console.log('[Relapse] Analysis completed for:', type);
             });
-        }
+
+            habit.startTimestamp = now;
+            habit.startDate = new Date(now).toISOString();
+            habit.updatedAt = now;
+            database.activeHabitId = type;
+            database.updatedAt = now;
+
+            try {
+                localStorage.setItem('taeafi_multi_habit_recovery', JSON.stringify({
+                    value: database,
+                    timestamp: now
+                }));
+            } catch (e) {
+                toast('تعذر حفظ الانتكاسة');
+                return;
+            }
+
+            emitUpdate('relapse');
+            toast('تم تسجيل انتكاسة في ' + name);
+            refresh();
+
+            if (typeof window.showRelapseAnalysisModal === 'function') {
+                window.showRelapseAnalysisModal(type, function () {
+                    console.log('[Relapse] Analysis completed for:', type);
+                });
+            }
+        });
 
         return true;
     }
@@ -636,35 +748,45 @@
         }
 
         const name = getName(type);
-        if (!confirmAction(`حذف "${name}"؟\n\nسيتم حذف جميع بيانات هذه العادة فقط.`)) {
-            return false;
-        }
+        const icon = getIcon(type);
 
-        // Just eliminate this habit
-        delete database.habits[type];
+        // Show CSS confirmation modal
+        showConfirmModal({
+            type: 'danger',
+            icon: 'fa-trash-alt',
+            title: 'حذف العادة',
+            message: 'سيتم حذف جميع بيانات هذه العادة نهائياً.',
+            habit: { title: name, icon: icon },
+            warning: 'لا يمكن التراجع عن هذا الإجراء. العداد والانتكاسات والسجل ستُحذف.',
+            confirmText: 'حذف نهائي',
+            cancelText: 'إلغاء'
+        }).then(function (confirmed) {
+            if (!confirmed) return;
 
-        // If the deleted habit is the active one, choose another habit.
-        if (database.activeHabitId === type) {
-            const remaining = Object.keys(database.habits);
-            database.activeHabitId = remaining.length ? remaining[0] : null;
-        }
+            delete database.habits[type];
 
-        database.updatedAt = Date.now();
+            if (database.activeHabitId === type) {
+                const remaining = Object.keys(database.habits);
+                database.activeHabitId = remaining.length ? remaining[0] : null;
+            }
 
-        try {
-            localStorage.setItem('taeafi_multi_habit_recovery', JSON.stringify({
-                value: database,
-                timestamp: Date.now()
-            }));
+            database.updatedAt = Date.now();
 
-        } catch (e) {
-            toast('تعذر حذف العادة');
-            return false;
-        }
+            try {
+                localStorage.setItem('taeafi_multi_habit_recovery', JSON.stringify({
+                    value: database,
+                    timestamp: Date.now()
+                }));
+            } catch (e) {
+                toast('تعذر حذف العادة');
+                return;
+            }
 
-        emitUpdate('habit-removed');
-        toast(`تم حذف ${name} وبياناتها`);
-        refresh();
+            emitUpdate('habit-removed');
+            toast('تم حذف ' + name + ' وبياناتها');
+            refresh();
+        });
+
         return true;
     }
 
@@ -1532,5 +1654,163 @@
         updateAllTimers,
         refresh
     };
+    
 
+})();
+
+/*
+ * TAEAFI UNIFIED CONFIRM / ALERT DIALOG
+ * Replaces native window.confirm() and window.alert() everywhere.
+ * Uses the existing .action-confirm-modal CSS.
+ * Returns a Promise.
+ **/
+
+(function () {
+    'use strict';
+
+    function _esc(text) {
+        return String(text == null ? '' : text)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
+    }
+
+    function _fmt(message) {
+        return _esc(message).replace(/\n/g, '<br>');
+    }
+
+    function _iconFor(type, fallback) {
+        if (fallback) return fallback;
+        if (type === 'danger')  return 'fa-trash-alt';
+        if (type === 'warning') return 'fa-exclamation-triangle';
+        if (type === 'success') return 'fa-check-circle';
+        return 'fa-question-circle';
+    }
+
+    function _btnClass(type) {
+        if (type === 'danger')  return 'btn-danger';
+        if (type === 'warning') return 'btn-warning';
+        if (type === 'success') return 'btn-primary-action';
+        return 'btn-primary-action';
+    }
+
+    /**
+     * Unified confirm dialog.
+     * @returns {Promise<boolean>}
+     */
+    function taeafiConfirm(options) {
+        if (typeof options === 'string') options = { message: options };
+        options = options || {};
+
+        return new Promise(function (resolve) {
+            var type = options.type || 'info';
+            var icon = _iconFor(type, options.icon);
+
+            var modal = document.createElement('div');
+            modal.className = 'action-confirm-modal';
+            modal.innerHTML =
+                '<div class="action-confirm-card type-' + type + '" role="dialog" aria-modal="true">' +
+                    '<div class="action-confirm-icon"><i class="fas ' + icon + '"></i></div>' +
+                    '<h2>' + _esc(options.title || 'تأكيد') + '</h2>' +
+                    '<p>' + _fmt(options.message || '') + '</p>' +
+                    '<div class="action-confirm-actions">' +
+                        '<button type="button" class="btn btn-outline" data-action-cancel>' +
+                            _esc(options.cancelText || 'إلغاء') +
+                        '</button>' +
+                        '<button type="button" class="btn ' + _btnClass(type) + '" data-action-confirm>' +
+                            '<i class="fas ' + icon + '"></i> ' +
+                            _esc(options.confirmText || 'تأكيد') +
+                        '</button>' +
+                    '</div>' +
+                '</div>';
+
+            document.body.appendChild(modal);
+
+            var closed = false;
+
+            function closeWith(result) {
+                if (closed) return;
+                closed = true;
+                document.removeEventListener('keydown', escHandler);
+                modal.style.animation = 'actionConfirmFadeIn 0.25s ease reverse';
+                setTimeout(function () {
+                    if (modal.parentNode) modal.remove();
+                    resolve(result);
+                }, 220);
+            }
+
+            function escHandler(e) {
+                if (e.key === 'Escape') closeWith(false);
+            }
+
+            modal.querySelector('[data-action-confirm]').addEventListener('click', function () { closeWith(true); });
+            modal.querySelector('[data-action-cancel]').addEventListener('click', function () { closeWith(false); });
+
+            modal.addEventListener('click', function (e) {
+                if (e.target === modal) closeWith(false);
+            });
+
+            document.addEventListener('keydown', escHandler);
+        });
+    }
+
+    /**
+     * Unified alert dialog (single button).
+     * @returns {Promise<void>}
+     */
+    function taeafiAlert(options) {
+        if (typeof options === 'string') options = { message: options };
+        options = options || {};
+
+        return new Promise(function (resolve) {
+            var type = options.type || 'info';
+            var icon = _iconFor(type, options.icon);
+
+            var modal = document.createElement('div');
+            modal.className = 'action-confirm-modal';
+            modal.innerHTML =
+                '<div class="action-confirm-card type-' + type + '" role="dialog" aria-modal="true">' +
+                    '<div class="action-confirm-icon"><i class="fas ' + icon + '"></i></div>' +
+                    (options.title
+                        ? '<h2>' + _esc(options.title) + '</h2>'
+                        : '') +
+                    '<p>' + _fmt(options.message || '') + '</p>' +
+                    '<div class="action-confirm-actions single">' +
+                        '<button type="button" class="btn ' + _btnClass(type) + '" data-action-confirm>' +
+                            _esc(options.confirmText || 'حسناً') +
+                        '</button>' +
+                    '</div>' +
+                '</div>';
+
+            document.body.appendChild(modal);
+
+            var closed = false;
+
+            function closeWith() {
+                if (closed) return;
+                closed = true;
+                document.removeEventListener('keydown', escHandler);
+                modal.style.animation = 'actionConfirmFadeIn 0.25s ease reverse';
+                setTimeout(function () {
+                    if (modal.parentNode) modal.remove();
+                    resolve();
+                }, 220);
+            }
+
+            function escHandler(e) {
+                if (e.key === 'Escape') closeWith();
+            }
+
+            modal.querySelector('[data-action-confirm]').addEventListener('click', closeWith);
+            modal.addEventListener('click', function (e) {
+                if (e.target === modal) closeWith();
+            });
+            document.addEventListener('keydown', escHandler);
+        });
+    }
+
+    window.taeafiConfirm = taeafiConfirm;
+    window.taeafiAlert = taeafiAlert;
 })();

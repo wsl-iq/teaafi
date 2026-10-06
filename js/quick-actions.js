@@ -32,7 +32,7 @@ var QuickActions = {
         });
         document.body.appendChild(this.overlay);
 
-        // Create container
+        // Create container — start hidden by default
         this.container = document.createElement('div');
         this.container.className = 'quick-actions-container qa-hidden';
         this.container.innerHTML = this._buildMarkup();
@@ -63,10 +63,27 @@ var QuickActions = {
                 self.close();
             }
         });
-        
-        this._attachScrollListener(); // Attach scroll listener
-        this._attachRouteListener(); // Attach route change listener
-        this._updateVisibility();   // Initial visibility check
+
+        // Scroll listener
+        this._attachScrollListener();
+
+        // Route change listener
+        this._attachRouteListener();
+
+        // Listen for welcome screen being hidden (user completed onboarding)
+        var welcomeScreen = document.getElementById('welcome-screen');
+        if (welcomeScreen) {
+            var observer = new MutationObserver(function () {
+                self._updateVisibility();
+            });
+            observer.observe(welcomeScreen, {
+                attributes: true,
+                attributeFilter: ['class', 'style']
+            });
+        }
+
+        // Initial check
+        this._updateVisibility();
     },
 
     /* MARKUP */
@@ -177,16 +194,40 @@ var QuickActions = {
     _updateVisibility: function () {
         if (!this.container) return;
 
+        // Hide during onboarding / welcome screen.
+        var welcomeScreen = document.getElementById('welcome-screen');
+        if (welcomeScreen && !welcomeScreen.classList.contains('hidden')) {
+            this.container.classList.add('qa-hidden');
+            this.close();
+            return;
+        }
+
+        // Check whether the user has completed onboarding.
+        var user = null;
+        try {
+            if (typeof UserManager !== 'undefined' && typeof UserManager.get === 'function') {
+                user = UserManager.get();
+            } else {
+                var raw = localStorage.getItem('taafi_user_data');
+                if (raw) user = JSON.parse(raw).value;
+            }
+        } catch (e) {}
+
+        if (!user || !user.gender || !user.age) {
+            this.container.classList.add('qa-hidden');
+            this.close();
+            return;
+        }
+
         var currentPage = 'home';
 
         if (typeof Router !== 'undefined' && typeof Router.getCurrentPage === 'function') {
             currentPage = Router.getCurrentPage() || 'home';
         }
 
-        // Show only on the home page; hide on tasbih, settings, and all other pages.
+        // Show only on the home page.
         if (currentPage === 'home') {
             this.container.classList.remove('qa-hidden');
-            // Reset scroll state
             this._lastScrollY = 0;
             this.container.classList.remove('qa-scrolled');
         } else {
@@ -685,3 +726,6 @@ document.addEventListener('DOMContentLoaded', function () {
         QuickActions.init();
     }, 1500);
 });
+
+//  _updateVisibility: function () {
+// init

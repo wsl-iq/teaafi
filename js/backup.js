@@ -11,7 +11,7 @@ var BackupManager = {
     exportData: function() {
         try {
             var data = {
-                version: '2.1.1',
+                version: '3.0.0',
                 exportDate: new Date().toISOString(),
                 user: StorageManager.getUser(),
                 recovery: StorageManager.getRecoveryData(),
@@ -80,9 +80,16 @@ var BackupManager = {
     },
     
     showExportDialog: function() {
-        if (confirm('هل تريد تصدير جميع بياناتك؟\n\nسيتم حفظ: الإعدادات، تقدم التعافي، التسبيح، الإنجازات')) {
-            this.exportData();
-        }
+        taeafiConfirm({
+            type: 'info',
+            icon: 'fa-cloud-arrow-up',
+            title: 'تصدير البيانات',
+            message: 'هل تريد تصدير جميع بياناتك؟\n\nسيتم حفظ: الإعدادات، تقدم التعافي، التسبيح، الإنجازات.',
+            confirmText: 'تصدير',
+            cancelText: 'إلغاء'
+        }).then(function (ok) {
+            if (ok) BackupManager.exportData();
+        });
     },
     
     showImportDialog: function() {
@@ -94,10 +101,17 @@ var BackupManager = {
             if (!file) return;
             
             var reader = new FileReader();
-            reader.onload = function(event) {
-                if (confirm('سيتم استبدال جميع بياناتك الحالية. هل أنت متأكد؟')) {
-                    BackupManager.importData(event.target.result);
-                }
+            reader.onload = function (event) {
+                taeafiConfirm({
+                    type: 'danger',
+                    icon: 'fa-cloud-arrow-down',
+                    title: 'استيراد نسخة احتياطية',
+                    message: 'سيتم استبدال جميع بياناتك الحالية. هل أنت متأكد؟',
+                    confirmText: 'استبدال',
+                    cancelText: 'إلغاء'
+                }).then(function (ok) {
+                    if (ok) BackupManager.importData(event.target.result);
+                });
             };
             reader.readAsText(file);
         };

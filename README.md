@@ -1,4 +1,4 @@
-# Taeafi (تعافي) - Recovery & Spiritual Wellness App
+### *Taeafi* **(تعافي)** — *Recovery & Spiritual Wellness App*
 
 <p align="center">
   <img src="icon.png" alt="Taeafi Icon" width="120" />
@@ -6,346 +6,373 @@
 
 **Your Journey to Recovery, Healing, and Spiritual Growth**
 
-[About](#-about) • [Features](#-features) • [Tech Stack](#-tech-stack) • [Installation](#-installation) • [Project Structure](#-project-structure) • [Pages Overview](#-pages-overview) • [Contributing](#-contributing) • [License](#-license)
+[About](#-about) • [Features](#-features) • [How It Works](#-how-it-works) • [Tech Stack](#-tech-stack) • [Installation](#-installation) • [Project Structure](#-project-structure) • [Pages Overview](#-pages-overview) • [Privacy](#-privacy-and-security) • [Contributing](#-contributing) • [License](#-license)
 
-![Version](https://img.shields.io/badge/version-2.0.1-blue.svg) ![License](https://img.shields.io/badge/license-MIT-green.svg) ![Platform](https://img.shields.io/badge/platform-web%20%7C%20mobile%20%7C%20desktop-orange.svg) ![PWA](https://img.shields.io/badge/PWA-ready-purple.svg) ![Language](https://img.shields.io/badge/language-Arabic%20%7C%20RTL-red.svg)
+![License](https://img.shields.io/badge/license-MIT-green.svg)
+![Platform](https://img.shields.io/badge/platform-web%20%7C%20mobile%20%7C%20desktop-orange.svg)
+![PWA](https://img.shields.io/badge/PWA-ready-purple.svg)
+![Language](https://img.shields.io/badge/language-English%20%7C%20Arabic%20%7C%20RTL-red.svg)
 
 ---
 
-# *About*
+## About
 
-**Taeafi** (تعافي) — Arabic for **"Recovery"** — is a comprehensive Progressive Web Application (PWA) designed to help individuals overcome harmful habits and build a healthier, more fulfilling lifestyle.
+**Taeafi (تعافي)** — Arabic for **"Recovery"** — is a comprehensive Progressive Web Application (PWA) designed to help individuals overcome harmful habits and build a healthier, more fulfilling lifestyle.
 
 The application combines:
-- **Scientifically-backed information**
-- **Psychological & behavioral support**
-- **Spiritual strengthening**
-- **Complete privacy** (all data stored locally)
 
-# *Mission*
+- Scientifically backed information
+- Psychological and behavioral support
+- Spiritual strengthening
+- Complete privacy, with all personal data stored locally
 
-To provide a **safe, private, and effective digital companion** for anyone seeking to break free from destructive habits — offering evidence-based content, progress tracking, and spiritual fortification.
+### Mission
 
-# *Core Philosophy*
+To provide a safe, private, and effective digital companion for anyone seeking to break free from destructive habits — offering evidence-based content, progress tracking, and spiritual fortification.
+
+### Core Philosophy
 
 | Principle | Description |
-|-----------|-------------|
-| **Science-Based** | All health & psychological information is documented and referenced |
-| **Compassionate** | Calm, respectful language — no fear-mongering or shaming |
-| **Holistic** | Addresses psychological, physical, social, and spiritual dimensions |
-| **Private** | All data stored locally — nothing leaves your device |
-| **Inclusive** | Content tailored for both men and women |
-| **Open Source** | Transparent, auditable, community-driven |
+| :-------- | :---------- |
+| Science-Based | Health and psychological information is documented and referenced |
+| Compassionate | Calm, respectful language — no fear-mongering or shaming |
+| Holistic | Addresses psychological, physical, social, and spiritual dimensions |
+| Private | All personal data is stored locally — nothing leaves your device |
+| Inclusive | Content tailored for both men and women |
+| Open Source | Transparent, auditable, community-driven |
 
 ---
 
-# *Features*
+## What Taeafi Is
+
+Taeafi is not a single-purpose tool. It is a complete environment for someone who is walking a recovery journey. Every screen, every action, and every piece of content is designed around one goal: helping the user understand their habit, track their progress, and stay on the path.
+
+The application serves three audiences at once:
+
+1. **Someone who wants to understand a habit.** Taeafi explains what the habit is, how it affects the body and mind, what the scientific and religious positions are, and how to begin recovery. The content covers 22 habits across three categories:
+   - Physical health (smoking, alcohol, drugs, poor nutrition, inactivity, sleep disorders, caffeine)
+   - Psychological and behavioral health (masturbation, pornography, gaming, social media, smartphone, procrastination, gambling, nail biting, adultery)
+   - Social habits (lying, anger, bullying, overspending, isolation)
+
+2. **Someone who is actively recovering.** Taeafi provides a live counter that runs every second, a milestone system that shows what to expect at each stage, relapse tracking with a full analysis engine, a 21-day discipline challenge, an XP and leveling system, achievements, and a leaderboard of personal records.
+
+3. **Someone who wants spiritual support.** Taeafi includes Quranic verses, sayings of the Prophet Muhammad (PBUH) and his household, supplications from Ahlulbayt (AS), morning and evening adhkar, a digital tasbih in two modes, a personal prayer box, and a prayer assistant.
+
+Everything is available in one place, with a consistent design, full Arabic RTL support, and complete privacy.
+
+---
+
+## Features
 
 ### Core Features
 
 | Category | Features |
-|----------|----------|
-| **Habit Education** | Detailed info on masturbation, pornography, and smoking |
-| **Gender-Specific** | Separate health content for males and females |
-| **Recovery Tracker** | Live counter (seconds → years) with motivational messages |
-| **Milestone System** | Stage-by-stage recovery improvements & challenges |
-| **Spiritual Section** | Quranic verses, supplications, Ahlulbayt (AS) teachings |
-| **Digital Tasbih** | Interactive Tasbih of Fatima Al-Zahra (AS) counter |
-| **Theme Support** | Light / Dark / Auto |
-| **Notifications** | Optional daily reminders & motivational alerts |
-| **Cross-Device** | Responsive for mobile, tablet, and desktop |
-| **Offline Ready** | Full PWA with Service Worker caching |
+| :------- | :------- |
+| Habit Education | Detailed, referenced information on 22 harmful habits |
+| Gender-Specific Content | Separate health content for males and females, with a toggle to switch views |
+| Multi-Habit Recovery | Independent counters, relapses, and statistics for up to 4 habits simultaneously |
+| Recovery Tracker | Live counter (seconds to years) with motivational messages that change with progress |
+| Milestone System | Stage-by-stage improvements and challenges from day one to one year |
+| Relapse Analysis | Optional modal on each relapse collecting trigger, feeling, and lesson, with a full report page |
+| Habit Deep Dive | 60-day heatmap, dangerous hours, dangerous days, monthly comparison, and personal notes per habit |
+| Spiritual Section | Quranic verses, Prophet's sayings, Imam Ali's wisdom, Ahlulbayt duas, morning and evening adhkar |
+| Digital Tasbih | Two modes: Tasbih of Fatima Al-Zahra (34 + 33 + 33) and Open Tasbih with custom dhikr |
+| XP System | 10 levels with an inline progress bar and rewards for recovery actions |
+| Quick Actions | Floating button with 5 quick actions: tasbih, quick note, breathing exercise, relapse log, emergency mode |
+| 21-Day Challenge | Structured daily discipline program with tasks, scoring, history, and relapse tracking |
+| Journal | Daily mood tracking and free-form notes with statistics |
+| Quiz | 100-question self-assessment with random selection, category breakdown, and history |
+| Calendar | Monthly visual view of clean days and relapses |
+| Nutrition and Exercise | Daily meal plans, weekly exercise routines, and a food conflict checker |
+| Prayer Assistant | Step-by-step prayer tracker for recording rukuh and sujud |
+| Prayer Box | Save personal duas and revisit them anytime |
+| Leaderboard | Personal records, weekly challenges, and level progress |
+| Duas and Ziyarat | A library of classic supplications and pilgrimages |
+| Themes | 5 themes (green, pink, desert, ocean, ramadan) with light, dark, and auto modes |
+| App Lock | 6-digit PIN with encrypted recovery code |
+| Notifications | Optional daily reminders and motivational alerts |
+| Backup and Restore | Export and import all user data as a JSON file |
+| Search | Full-text search across habits, duas, adhkar, and verses |
+| Cross-Device | Responsive for mobile, tablet, and desktop |
+| Offline Ready | Full PWA with Service Worker caching |
 
-# *Technical Features*
+### Technical Features
 
 | Feature | Implementation |
-|---------|---------------|
-| **PWA** | Installable, works offline |
-| **Service Worker** | Caching + push notifications |
-| **LocalStorage** | All data stored locally |
-| **No Dependencies** | Pure HTML5, CSS3, vanilla JavaScript ES6+ |
-| **RTL Support** | Full right-to-left Arabic |
-| **Touch Optimized** | Mobile-first design |
-| **Responsive** | 3 breakpoints (mobile, tablet, desktop) |
+| :------ | :------------- |
+| PWA | Installable and works offline |
+| Service Worker | Caching and push notifications |
+| LocalStorage | All primary application data is stored locally |
+| IndexedDB | Backup persistence for user data |
+| WebAssembly Module | Optional optimization module: memory pool, RLE compression, binary search, quick sort, hashing, and LRU cache |
+| Unified Dialog System | All confirmations and alerts use a single CSS-based dialog engine |
+| No Dependencies | Pure HTML5, CSS3, and vanilla JavaScript ES6+ |
+| RTL Support | Full right-to-left Arabic interface |
+| Touch Optimized | Mobile-first design |
+| Responsive | 3 breakpoints (mobile, tablet, desktop) |
 
 ---
 
-# *Tech Stack*
+## How It Works
+
+### Onboarding
+
+When a user opens Taeafi for the first time, they are guided through a short onboarding flow that asks for a name (optional), age, gender, and the first habit they want to recover from. They also pick a theme and accept a recovery pact. All of this information stays on the device and can be edited later from settings.
+
+### Daily Use
+
+The home screen is the central hub. From there the user can:
+
+- See how long they have been in recovery.
+- Check their XP and level.
+- Open any section of the app.
+- Use the Quick Actions button for immediate support.
+
+### Recovery Tracking
+
+When a user starts a recovery journey, a live counter begins. It runs continuously and shows the elapsed time from seconds to years. If a user records a relapse, the counter resets and a new journey begins, while the previous journey is preserved in the statistics and relapse analysis.
+
+Multiple habits can be tracked at once. Each habit has its own counter, relapses, and analytics.
+
+### Relapse Analysis
+
+When a relapse occurs, the user is offered a short optional modal that asks three questions:
+
+1. What triggered the relapse (12 options including stress, loneliness, boredom, late night, phone, family, financial, provocative content, sleep loss, anger, sadness, and other).
+2. How they feel now (regret, frustrated, neutral, determined).
+3. What lesson they learned (free text, optional).
+
+The analysis page then shows a full report with summary cards, bar charts for triggers and hours, a distribution of feelings, and the lessons learned. The purpose is not to judge, but to help the user identify personal patterns.
+
+### Habit Deep Dive
+
+Every habit page includes a Deep Dive section at the bottom. It shows a 60-day heatmap of clean days and relapses, the hours of the day when relapses are most common, the days of the week when they are most common, a comparison with the previous month, and a personal notes area with auto-save. This turns a habit page into a personal analytical dashboard.
+
+### Spiritual Support
+
+The spiritual section is designed to strengthen the user's inner resolve through content from the Quran, the Prophet Muhammad (PBUH) and his household, and classical supplications. The tasbih counter provides a tactile way to engage with dhikr, and the two-mode design (Tasbih of Fatima and Open Tasbih) lets the user either follow the classical practice or freely count any dhikr they choose.
+
+### Progression
+
+The XP system rewards the user for recovery actions such as writing a journal entry, completing a quiz, reading duas, completing breathing exercises, or unlocking achievements. XP accumulates into 10 levels, from beginner to a top tier. Achievements unlock automatically based on real data, and the leaderboard tracks personal records rather than competition with other users.
+
+### Privacy
+
+Every action happens locally. No account is required. No personal data is sent anywhere. The user can export all their data as a JSON file and import it later. The user can also wipe all data with a single button, and the app lock can protect access with a 6-digit PIN.
+
+---
+
+## Tech Stack
 
 | Technology | Usage |
-|------------|-------|
-| **HTML5** | Semantic markup, PWA manifest, metadata |
-| **CSS3** | Custom properties, Flexbox, Grid, animations |
-| **JavaScript ES6+** | Classes, LocalStorage API, Notification API |
-| **Font Awesome 6.5** | UI icons |
-| **Google Fonts** | Amiri, Cairo, Tajawal |
-| **JSON** | Content data & settings storage |
-| **Service Worker** | Offline caching, push notifications |
+| :--------- | :---- |
+| HTML5 | Semantic markup, PWA manifest, metadata |
+| CSS3 | Custom properties, Flexbox, Grid, animations |
+| JavaScript ES6+ | Classes, LocalStorage API, Notification API, Promises |
+| WebAssembly (Emscripten) | Optional optimization module |
+| Font Awesome 6.5 | UI icons |
+| Google Fonts | Amiri, Cairo, Tajawal |
+| JSON | Content data and settings storage |
+| Service Worker | Offline caching and push notifications |
 
-# *Browser Support*
+### Browser Support
 
 | Browser | Status |
-|---------|--------|
-| Chrome | ✅ Full |
-| Firefox | ✅ Full |
-| Safari | ✅ Full (iOS 12+) |
-| Edge | ✅ Full |
-| Samsung Internet | ✅ Full |
-| Opera | ✅ Full |
+| :------ | :----- |
+| Chrome | Full |
+| Firefox | Full |
+| Safari | Full (iOS 12+) |
+| Edge | Full |
+| Samsung Internet | Full |
+| Opera | Full |
 
 ---
 
-# *Installation*
+## Installation
 
 ### Method 1: Direct Use (Recommended)
 
-1. Visit: `https://username.github.io/taeafi/`
-2. Click **"Install"** or **"Add to Home Screen"**
-3. App installs as standalone PWA
+1. Visit: `https://wsl-iq.github.io/teaafi/`
+2. Click **Install** or **Add to Home Screen**.
+3. The app installs as a standalone PWA.
 
 ### Method 2: Local Installation
 
 ```bash
-# Clone repository
-git clone https://github.com/username/taeafi.git
+# Clone the repository
+git clone https://github.com/wsl-iq/teaafi.git
 
-# Navigate to folder
+# Navigate into the folder
 cd taeafi
 
-# Serve locally
-# Python
+# Serve locally with Python
 python -m http.server 8000
 
-# Node.js
+# Or use Node.js
 npx http-server
 
-# VS Code
-# Right-click index.html → "Open with Live Server"
+# Or use VS Code Live Server
 ```
 
-### Method 3: GitHub Pages
+---
 
-1. Fork repository
-2. Go to Settings → Pages
-3. Set Branch: `main` and Folder: `/ (root)`
-4. Click Save
+## Project Structure
+
+```text
+taeafi/
+├── css/
+│   ├── components.css
+│   └── ...
+├── data/
+│   ├── ...
+│   └── content data and application resources
+├── js/
+│   ├── backup.js
+│   ├── habit-controls.js
+│   ├── multi-habit-recovery.js
+│   ├── quick-actions.js
+│   └── ...
+├── pages/
+│   ├── 21-day.js
+│   ├── Forgetfulness.js
+│   ├── habit-detail.js
+│   ├── home.js
+│   ├── journal.js
+│   ├── nutrition.js
+│   ├── prayer-box.js
+│   ├── recovery.js
+│   ├── settings.js
+│   ├── tasbih.js
+│   └── ...
+├── wasm/
+│   ├── ...
+│   └── WebAssembly optimization sources
+├── index.html
+├── manifest.json
+├── service-worker.js
+├── version.txt
+├── Note.md
+├── CONTRIBUTING.md
+├── SECURITY.md
+└── README.md
+```
 
 ---
 
 ## Pages Overview
 
-1. **Splash Screen**
-   - Animated welcome screen with logo and loading indicator.
-
-2. **Welcome Screen (First Run)**
-   - Three-step onboarding:
-     - Name (optional, alias accepted)
-     - Age (for content customization)
-     - Gender (for personalized health info)
-
-3. **Home Dashboard**
-   - Personalized greeting
-   - Active recovery counter
-   - Quick access cards
-
-4. **Habits Section**
-   - Habit: Masturbation, Pornography, Smoking
-   - Icon, content, and recovery guidance
-
-   **Gender-Specific Content**
-
-   | Habit | Male Focus | Female Focus |
-   |-------|------------|--------------|
-   | Masturbation | Prostate health, testosterone, erectile function | Menstrual cycle, pelvic health, female hormones |
-   | Pornography | Performance anxiety, body comparison | Body image, self-esteem, expectations |
-   | Smoking | Sperm quality, testosterone | Fertility, pregnancy risks, early menopause |
-
-   - Toggle feature: Users can switch between male/female content for educational purposes.
-
-5. **Spiritual Section (التحصين الإيماني)**
-
-   | Section | Content |
-   |---------|---------|
-   | Prophet's Sayings | Hadith from Prophet Muhammad (PBUH & his household) |
-   | Imam Ali's Wisdom | Sayings from Nahj al-Balagha |
-   | Ahlulbayt Duas | Supplications from Sahifa al-Sajjadiyya & others |
-   | Quranic Verses | Key verses with sources |
-   | Morning Adhkar | Daily morning remembrances |
-   | Evening Adhkar | Daily evening remembrances |
-   | Repentance Duas | Prayers for forgiveness |
-   | Steadfastness Duas | Prayers for firmness in faith |
-   | Protection Duas | Prayers for divine protection |
-   | Willpower Tips | Practical advice from Ahlulbayt teachings |
-
-6. **Digital Tasbih (التسبيح)**
-
-   Tasbih of Fatima Al-Zahra (AS):
-
-   | Dhikr | Count | Color |
-   |-------|-------|-------|
-   | Allahu Akbar (الله أكبر) | 34 | 🟢 Green |
-   | Alhamdulillah (الحمد لله) | 33 | 🔵 Blue |
-   | Subhan Allah (سبحان الله) | 33 | 🟠 Orange |
-
-   - Tap counter (mobile vibration support)
-   - Auto-advance to next dhikr
-   - Visual progress bar
-   - Completion celebration
-   - Reset/undo options
-   - History log (last 10 completions)
-
-7. **Recovery Tracker**
-
-   - Live counter display: seconds, minutes, hours, days, weeks, months, years
-   - Total hours elapsed
-   - Motivational system with messages changing based on recovery duration
-   - Separate message sets for each habit type
-   - Manual refresh for new message
-
-   **Recovery Stages**
-
-   | Stage | Time | Key Improvements |
-   |-------|------|------------------|
-   | 🚀 Beginning | Day 1 | Decision to change |
-   | 🔥 Critical Phase | Day 3 | Peak withdrawal |
-   | 🏆 First Victory | Week 1 | Improved mood & focus |
-   | 📈 Stability | Week 2 | Withdrawal symptoms fade |
-   | 🥇 Month 1 | 30 days | Psychological stability |
-   | 💎 Advanced | 60 days | New positive habits |
-   | 👑 Full Recovery | 90 days | Complete behavioral freedom |
-   | 🌟 Milestone | 180 days | New identity formed |
-   | 🎖️ Annual | 365 days | One year of freedom |
-
-8. **Policies Page**
-   - Privacy Policy — Data handling & user rights
-   - Terms of Service — Usage rules & disclaimers
-   - MIT License — Open source terms
-   - Code of Conduct — Community standards
-   - Contributing Guide — How to help
-   - Security Policy — Vulnerability reporting
-
-9. **Settings**
-
-   - Theme: Light / Dark / Auto
-   - Notifications: Enable/disable + daily reminders
-   - About App: Mission & goals
-   - About Developer: Mohammed Al-Baqer + social links
-   - Danger Zone: Reset/delete all data
-
-   **Theme System**
-
-   | Theme | Best For | Preview |
-   |-------|----------|---------|
-   | Light | Daytime, bright environments | White backgrounds, dark text |
-   | Dark | Night, low light, battery saving | Dark backgrounds, light text |
-   | Auto | Follows system preference | Automatic switching |
-
-   ```css
-   /* Theme implementation via CSS custom properties */
-   :root {
-       --surface: #FFFFFF;
-       --background: #F0F2F5;
-       --text-primary: #1A1C1E;
-   }
-
-   .theme-dark {
-       --surface: #1E1E1E;
-       --background: #121212;
-       --text-primary: #E0E0E0;
-   }
-   ```
+1. **Splash Screen** — Animated welcome screen with logo and loading indicator.
+2. **Welcome Screen (First Run)** — A 9-step onboarding flow that includes intro, name, age, gender, first habit, review, theme picker, recovery pact, and a final success screen.
+3. **Home Dashboard** — Personalized greeting, active recovery counter, XP bar, dual date display (Hijri and Gregorian), and quick access to every feature.
+4. **Habits Section** — 22 habits organized into physical, psychological, and social categories. Each habit page includes common content, gender-specific content, and a Habit Deep Dive section.
+5. **Spiritual Section** — Prophet's sayings, Imam Ali's wisdom, Ahlulbayt supplications, Quranic verses, morning and evening adhkar, repentance and steadfastness duas, protection duas, and willpower tips.
+6. **Digital Tasbih** — Two tabs:
+   - Tasbih of Fatima Al-Zahra (34 + 33 + 33) with progress bar, auto-advance, and a completion modal.
+   - Open Tasbih with a custom dhikr input, suggestion chips, an unlimited counter, and a reset with history.
+7. **Recovery Tracker** — Live counter, motivational messages, recovery milestones, and per-habit statistics.
+8. **Relapse Analysis** — Summary cards, bar charts for triggers and hours, feelings distribution, lessons learned, and filters by habit and period.
+9. **Habit Deep Dive** — Streak cards, 60-day heatmap, dangerous hours, dangerous days, month comparison, and personal notes.
+10. **21-Day Challenge** — Introduction, dashboard, daily tasks, relapse tracking, progress, and history.
+11. **Nutrition and Exercise** — Daily meal plans, weekly exercise routines, and a food conflict checker.
+12. **Leaderboard** — Personal records, weekly challenges, and level progress.
+13. **Journal** — Daily mood tracking and personal notes.
+14. **Quiz** — 100 questions with random selection, category breakdown, and history.
+15. **Prayer Box** — Save personal duas and revisit them.
+16. **Prayer Assistant** — Step-by-step tracker for recording rukuh and sujud during prayer.
+17. **Calendar** — Monthly view of clean days and relapses.
+18. **Settings** — Themes, notifications, app lock, profile editing, updates, rating, changelog, and data management.
+19. **Policies** — Privacy policy, terms of service, MIT license, code of conduct, contributing guide, and security policy.
 
 ---
 
-## Privacy & Security
+## Privacy and Security
 
-**Data Storage Philosophy**
+### Data Storage Philosophy
 
-"Your data never leaves your device."
+> **"Your data never leaves your device."**
 
-| Aspect | Implementation |
-|--------|----------------|
-| Storage | Browser LocalStorage only |
-| External Servers | None — zero data transmission |
-| Analytics | No tracking scripts |
-| Cookies | None (except essential storage) |
-| Offline | Fully functional without internet |
+| **Aspect**       | **Implementation**                 |
+| :--------------- | :--------------------------------- |
+| Storage          | Browser LocalStorage and IndexedDB |
+| External Servers | None — zero personal data transmission |
+| Analytics        | No tracking scripts                |
+| Cookies          | None, except essential browser storage |
+| Offline          | Fully functional without internet  |
 
-**Data Collected**
+### Data Collected
 
-| Data | Purpose | Required |
-|------|---------|----------|
-| Name | Personalization | ❌ No (alias OK) |
-| Age | Content tailoring | ❌ No |
-| Gender | Health content | ❌ No |
-| Recovery Date | Progress tracking | For recovery feature |
-| Tasbih Count | Spiritual tracking | For tasbih feature |
-| Theme | UI preference | Auto (default: light) |
+| **Data**      | **Purpose**        | **Required**          |
+| :------------ | :----------------- | :-------------------- |
+| Name          | Personalization    | No (alias accepted)   |
+| Age           | Content tailoring  | No                    |
+| Gender        | Health content     | No                    |
+| Recovery Date | Progress tracking  | For recovery feature  |
+| Tasbih Count  | Spiritual tracking | For tasbih feature    |
+| Theme         | UI preference      | Auto (default: light) |
 
-**What We NEVER Collect**
+### What Taeafi Never Collects
 
-- ❌ Location
-- ❌ Browsing history
-- ❌ Contacts
-- ❌ Device info
-- ❌ IP address
-- ❌ Any identifiers
+- Location
+- Browsing history
+- Contacts
+- Device identifiers
+- IP address
 
-**User Rights**
+### User Rights
 
-| Right | How | Access |
-|-------|-----|--------|
-| All data visible | In app |
-| Correct | Edit from settings |
-| Delete | One-click data wipe |
-| Refuse | Decline notifications, use alias |
-| Audit | Full source code available |
+| **Right**     | **How**                             |
+| :------------ | :---------------------------------- |
+| View all data | Directly in the app                 |
+| Correct       | Edit from settings                  |
+| Delete        | One-click data wipe                 |
+| Refuse        | Decline notifications, use an alias |
+| Audit         | Full source code available          |
 
 ---
 
 ## Contributing
 
-We welcome contributions! See `CONTRIBUTING.md` for full guidelines.
+We welcome contributions. See `CONTRIBUTING.md` for full guidelines.
 
 ### Quick Start
 
 ```bash
-# Fork & clone
+# Fork and clone
 git clone https://github.com/your-username/taeafi.git
 
-# Create branch
+# Create a branch
 git checkout -b feature/amazing-feature
 
 # Commit changes
-git commit -m 'إضافة: وصف الميزة'
+git commit -m "Add: describe the feature"
 
 # Push
 git push origin feature/amazing-feature
 
-# Open Pull Request
+# Open a Pull Request
 ```
 
 ### Contribution Areas
 
-| Area | Examples |
-|------|----------|
-| 🐛 Bugs | Report & fix issues |
-| ✨ Features | New functionality |
-| 📝 Content | Improve accuracy, add references |
-| 🎨 UI/UX | Design improvements |
-| 🌍 Translation | Add language support |
-| ♿ Accessibility | Improve a11y |
-| ⚡ Performance | Optimize code |
+| **Area**      | **Examples**                        |
+| :------------ | :---------------------------------- |
+| Bugs          | Report and fix issues               |
+| Features      | New functionality                   |
+| Content       | Improve accuracy and add references |
+| UI and UX     | Design improvements                 |
+| Translation   | Add language support                |
+| Accessibility | Improve accessibility               |
+| Performance   | Optimize code                       |
 
 ### Commit Convention
 
-| Prefix | Meaning |
-|--------|---------|
-| إضافة: | New feature |
-| تصحيح: | Bug fix |
-| تحديث: | Update |
-| تحسين: | Improvement |
-| توثيق: | Documentation |
+| **Prefix** | **Meaning**      |
+| :--------- | :--------------- |
+| `Add:`     | New feature      |
+| `Fix:`     | Bug fix          |
+| `Update:`  | Update           |
+| `Improve:` | Improvement      |
+| `Docs:`    | Documentation     |
 
 ---
 
@@ -353,6 +380,7 @@ git push origin feature/amazing-feature
 
 This project is licensed under the MIT License.
 
+```text
 MIT License
 
 Copyright (c) 2026 Mohammed Al-Baqer
@@ -374,16 +402,17 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+```
 
-| Permissions | Action | Status |
-|-------------|--------|--------|
-| Commercial use | ✅ Allowed |
-| Modification | ✅ Allowed |
-| Distribution | ✅ Allowed |
-| Private use | ✅ Allowed |
-| Sublicensing | ✅ Allowed |
-| Liability | ❌ None |
-| Warranty | ❌ None |
+| **Permissions** | **Action** | **Status** |
+| :-------------- | :--------- | :--------- |
+| Commercial use  | Allowed    | Yes        |
+| Modification    | Allowed    | Yes        |
+| Distribution    | Allowed    | Yes        |
+| Private use     | Allowed    | Yes        |
+| Sublicensing    | Allowed    | Yes        |
+| Liability       | None       | No         |
+| Warranty        | None       | No         |
 
 ---
 
@@ -391,8 +420,9 @@ SOFTWARE.
 
 **Mohammed Al-Baqer**
 
-_Software Developer | Desktop & Web Applications_
+*Software Developer | Desktop, Web, and Mobile Applications*
 
+- [Website](https://wsl-iq.github.io/)
 - [Instagram](https://www.instagram.com/g6xs0r/)
 - [Telegram](https://t.me/wsl_iq)
 - [GitHub](https://github.com/wsl-iq)
@@ -401,60 +431,28 @@ _Software Developer | Desktop & Web Applications_
 
 ## Dedication
 
-> This application was created as an ongoing charity (صدقة جارية) for myself and my parents. I ask Allah to benefit everyone who uses it and to make it a means of guidance, reformation, and assistance in abandoning harmful habits.
-
----
-
-## Screenshots
-
-- Mobile
-- Tablet
-- Desktop
-
-Home • Dashboard
-Habits • Sidebar
-Recovery • Content
-Settings • Settings
-
-Screenshots coming soon
-
----
-
-## Changelog
-
-**v1.0.0 (2026) — Initial Release**
-
-- ✅ Complete habit information system
-- ✅ Recovery tracker with live counter
-- ✅ Spiritual content section
-- ✅ Digital tasbih counter
-- ✅ Dark/light/auto theme support
-- ✅ PWA with offline functionality
-- ✅ Responsive design (mobile/tablet/desktop)
-- ✅ Notification system
-- ✅ Privacy controls
-- ✅ Gender-specific content
-- ✅ Motivational message system
+> This application was created as an ongoing charitable work for myself and my parents. I ask Allah to benefit everyone who uses it and to make it a means of guidance, self-improvement, and assistance in abandoning harmful habits.
 
 ---
 
 ## Acknowledgments
 
-### Resource Usage
+### Resources
 
 - Font Awesome — Icon library
-- Google Fonts — Amiri, Cairo, Tajawal fonts
-- Ahlulbayt (AS) — Spiritual teachings & supplications
-- All Contributors — Helping improve this app
+- Google Fonts — Amiri, Cairo, and Tajawal fonts
+- Emscripten — WebAssembly toolchain
+- Ahlulbayt (AS) — Spiritual teachings and supplications
+- All contributors — Helping improve this app
 
 ### Support
 
-- Bug Reports: GitHub Issues
+- Bug reports: GitHub Issues
 - Discussions: GitHub Discussions
 - Security: See `SECURITY.md`
 
-If you find this project useful, please consider giving it a star ⭐
+If you find this project useful, please consider giving it a star.
 
-**Made with ❤️ for the betterment of humanity**
+**Made for the betterment of humanity**
 
 © 2026 Mohammed Al-Baqer. All rights reserved.

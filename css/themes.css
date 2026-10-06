@@ -338,3 +338,94 @@ input:checked + .toggle-slider { background-color: var(--primary) !important; }
 
 .modal-container { background: var(--surface) !important; }
 .toast { background: var(--text-primary) !important; color: var(--surface) !important; }
+
+
+/* ============================================================
+ * CUSTOM THEME
+ * Uses CSS variables set dynamically by ThemesManager.
+ * Falls back to the default green palette if unset.
+ * ============================================================ */
+
+:root {
+    --custom-primary: #0D6B6E;
+    --custom-primary-dark: #094C4F;
+    --custom-primary-light: #E0F2F1;
+    --custom-secondary: #26A69A;
+    --custom-primary-rgb: 13, 107, 110;
+}
+
+.theme-custom:not(.theme-dark) {
+    --primary: var(--custom-primary);
+    --primary-dark: var(--custom-primary-dark);
+    --primary-light: var(--custom-primary-light);
+    --primary-gradient: linear-gradient(135deg, var(--custom-primary), var(--custom-secondary));
+    --primary-rgb: var(--custom-primary-rgb);
+
+    --surface: #FFFFFF;
+    --surface-variant: #F5F7F8;
+    --background: #F0F2F5;
+
+    --text-primary: #1A1C1E;
+    --text-secondary: #44474E;
+    --text-tertiary: #6B7280;
+    --text-disabled: #9CA3AF;
+
+    --border: #D1D5DB;
+    --border-light: #E5E7EB;
+
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.1);
+    --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+    --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+
+    --nav-bg: rgba(255,255,255,0.95);
+    --card-hover: #F9FAFB;
+    --input-bg: #FFFFFF;
+    --toggle-bg: #D1D5DB;
+}
+
+.theme-custom.theme-dark {
+    --primary: var(--custom-primary);
+    --primary-dark: var(--custom-primary-dark);
+    --primary-light: var(--custom-primary-light);
+    --primary-gradient: linear-gradient(135deg, var(--custom-primary), var(--custom-secondary));
+    --primary-rgb: var(--custom-primary-rgb);
+
+    --surface: #1E1E1E;
+    --surface-variant: #2D2D2D;
+    --background: #121212;
+
+    --text-primary: #E0E0E0;
+    --text-secondary: #B0B0B0;
+    --text-tertiary: #808080;
+    --text-disabled: #606060;
+
+    --border: #3D3D3D;
+    --border-light: #2D2D2D;
+
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.4);
+    --shadow-md: 0 4px 6px rgba(0,0,0,0.5);
+    --shadow-lg: 0 10px 15px rgba(0,0,0,0.6);
+
+    --nav-bg: rgba(30,30,30,0.95);
+    --card-hover: #252525;
+    --input-bg: #2D2D2D;
+    --toggle-bg: #3D3D3D;
+}
+
+/* Custom theme swatch preview in settings */
+.theme-swatch.custom-swatch {
+    position: relative;
+    overflow: hidden;
+}
+
+.theme-swatch.custom-swatch::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg,
+        var(--custom-primary) 0%,
+        var(--custom-primary) 45%,
+        var(--custom-secondary) 55%,
+        var(--custom-secondary) 100%);
+    border-radius: 50%;
+}

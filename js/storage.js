@@ -146,4 +146,15 @@ class StorageManager {
     static saveSettings(settings) {
         return this.set(this.#keys.SETTINGS, settings);
     }
+
+    /**
+     * Reset the internal state of StorageManager.
+     * Called after a full data wipe.
+     */
+    static reset() {
+        // Nothing cached internally at the moment, but keep for future use
+        console.log('[StorageManager] Reset called');
+    }
 }
+
+// StorageManager

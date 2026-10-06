@@ -15,7 +15,7 @@
  * Default fallback version (must match the current release)
  */
 
-let ApplicationVersion = '2.1.1';
+let ApplicationVersion = '3.0.0';
 
 (function loadAppVersionFromFile() {
     try {
@@ -194,7 +194,7 @@ function renderSettingsPage() {
                     ${ThemesManager.getCurrent() === 'ocean' ? '<i class="fas fa-check-circle" style="color: var(--primary);"></i>' : '<i class="far fa-circle" style="color: var(--text-disabled);"></i>'}
                 </div>
                 
-                <div class="settings-item" onclick="ThemesManager.setTheme('ramadan')" style="cursor: pointer; border-bottom: none;">
+                <div class="settings-item" onclick="ThemesManager.setTheme('ramadan')" style="cursor: pointer;">
                     <div style="display: flex; align-items: center; gap: 12px;">
                         <div style="width: 44px; height: 44px; border-radius: 12px; background: linear-gradient(135deg, #4A148C, #FFD700); display: flex; align-items: center; justify-content: center; border: 2px solid ${ThemesManager.getCurrent() === 'ramadan' ? 'var(--primary)' : 'var(--border-light)'};">
                             <i class="fas fa-star-and-crescent" style="color: white; font-size: 18px;"></i>
@@ -206,6 +206,20 @@ function renderSettingsPage() {
                     </div>
                     ${ThemesManager.getCurrent() === 'ramadan' ? '<i class="fas fa-check-circle" style="color: var(--primary);"></i>' : '<i class="far fa-circle" style="color: var(--text-disabled);"></i>'}
                 </div>
+
+                <div class="settings-item" onclick="openCustomThemeDialog()" style="cursor: pointer; border-bottom: none;">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div style="width: 44px; height: 44px; border-radius: 12px; position: relative; overflow: hidden; border: 2px solid ${ThemesManager.getCurrent() === 'custom' ? 'var(--primary)' : 'var(--border-light)'}; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--custom-primary), var(--custom-secondary));">
+                            <i class="fas fa-palette" style="color: white; font-size: 18px; line-height: 1;"></i>
+                        </div>
+                        <div>
+                            <span style="font-weight: 600;">ثيم مخصص</span>
+                            <p style="font-size: 11px; color: var(--text-tertiary);">اختر ألوانك الخاصة</p>
+                        </div>
+                    </div>
+                    ${ThemesManager.getCurrent() === 'custom' ? '<i class="fas fa-check-circle" style="color: var(--primary);"></i>' : '<i class="far fa-circle" style="color: var(--text-disabled);"></i>'}
+                </div>
+                
             </div>
 
                 <div class="settings-item">
@@ -608,27 +622,51 @@ function renderSettingsPage() {
                         </div>
                     </div>
                     <div style="display: flex; align-items: center; gap: 8px;">
-                        <span style="font-size: 11px; color: #E91E63; background: #FCE4EC; padding: 4px 10px; border-radius: 20px; font-weight: 500;">14 مميزات</span>
+                        <span style="font-size: 11px; color: #E91E63; background: #FCE4EC; padding: 4px 10px; border-radius: 20px; font-weight: 500;">13 مميزات من</span>
                         <i class="fas fa-chevron-down" id="changelog-arrow" style="color: var(--text-tertiary); font-size: 14px; transition: transform 0.3s ease;"></i>
                     </div>
                 </div>
                 
                 <div id="changelog-content" style="display: none; padding: 16px 24px; border-top: 1px solid var(--border-light);">
-                    <ul style="line-height: 2.2; padding-right: 20px; color: var(--text-secondary); font-size: 14px; list-style: none;">
-                        <li>1- إعادة بناء نظام التسجيل بالكامل (9 خطوات مع تحقق فوري)</li>
-                        <li>2- شاشة ترحيب جديدة مع استيراد نسخة احتياطية واختيار العادة الأولى</li>
-                        <li>3- شاشة مراجعة وعهد التعافي واختيار الثيم أثناء التسجيل</li>
-                        <li>4- حفظ بيانات المستخدم في IndexedDB + localStorage وإمكانية تحريرها من الإعدادات</li>
-                        <li>5- Quick Actions: زر عائم بـ 5 إجراءات سريعة (تسبيح، مذكرة، تنفس، انتكاسة، طوارئ)</li>
-                        <li>6- Relapse Analysis: نافذة تحليل عند كل انتكاسة (محفز + شعور + درس)</li>
-                        <li>7- صفحة تحليل الانتكاسات مع رسوم بيانية وفلاتر حسب العادة والمدة</li>
-                        <li>8- Habit Deep Dive: تحليل تفصيلي لكل عادة مع خريطة حرارية لـ 60 يوم</li>
-                        <li>9- مقارنة شهرية وملاحظات شخصية مع حفظ تلقائي لكل عادة</li>
-                        <li>10- XP Bar: شريط نقاط تحت شريط البحث مع 10 مستويات وتحديث تلقائي</li>
-                        <li>11- تبويبان في التسبيح: تسبيح فاطمة الزهراء + التسبيح المفتوح</li>
-                        <li>12- نافذة احتفال عند إكمال 100 تسبيحة مع "تقبل الله منكم صالح الأعمال"</li>
-                        <li>13- التسبيح المفتوح: حقل ذكر مخصص + اقتراحات جاهزة + عداد لا نهائي</li>
-                        <li>14- نافذة "لا توجد رحلة تعافي" مع زر "ابدأ التعافي" وعداد 10 ثوانٍ</li>
+                    <h4 style="margin: 0 0 10px; font-size: 13px; color: var(--primary); display: flex; align-items: center; gap: 6px;">
+                        <i class="fas fa-window-restore"></i>
+                        توحيد نوافذ التأكيد والتنبيه
+                    </h4>
+
+                    <ul style="line-height: 2.2; padding-right: 20px; color: var(--text-secondary); font-size: 14px; list-style: none; margin-bottom: 18px;">
+                        <li>1- استبدال جميع نوافذ المتصفح البدائية (alert / confirm) بنوافذ CSS موحّدة</li>
+                        <li>2- تصميم موحّد لأنواع النوافذ الثلاثة: info / warning / danger</li>
+                        <li>3- أيقونة متحركة، عنوان، ورسالة داخل كل نافذة</li>
+                        <li>4- زرّان واضحان (إلغاء / تأكيد) مع تمييز لوني حسب نوع الإجراء</li>
+                        <li>5- دعم إغلاق النافذة بـ Escape أو بالنقر خارجها</li>
+                        <li>6- توافق كامل مع الوضع الداكن وكل الثيمات الخمسة</li>
+                        <li>7- دعم prefers-reduced-motion لمن يفضّل حركة أقل</li>
+                        <li>8- تحسين وصولية لوحة المفاتيح (Focus outline واضح)</li>
+                        <li>9- تصميم يمتد على كامل الشاشة مع خلفية ضبابية (backdrop blur)</li>
+                        <li>10- نافذة احتفال عند إكمال التسبيح بموحّد جديد</li>
+                        <li>11- نافذة تأكيد عند تصفير العدادات (الحالي / الكل / المفتوح)</li>
+                        <li>12- نافذة تأكيد عند حذف العادات والمذكرات والأدعية وتحدي 21 يوم</li>
+                        <li>13- إضافة الثيم المخصص لأختيار المستخدم (Custom Theme) في نوافذ التأكيد والتنبيه</li>
+                    </ul>
+
+                    <h4 style="margin: 18px 0 10px; font-size: 13px; color: var(--text-tertiary); display: flex; align-items: center; gap: 6px;">
+                        <i class="fas fa-history"></i>
+                        الميزات الأساسية المضافة في الإصدار السابق
+                    </h4>
+
+                    <ul style="line-height: 2.2; padding-right: 20px; color: var(--text-tertiary); font-size: 13px; list-style: none;">
+                        <li>• إعادة بناء نظام التسجيل بالكامل (9 خطوات مع تحقق فوري)</li>
+                        <li>• شاشة ترحيب جديدة مع استيراد نسخة احتياطية واختيار العادة الأولى</li>
+                        <li>• شاشة مراجعة وعهد التعافي واختيار الثيم أثناء التسجيل</li>
+                        <li>• حفظ بيانات المستخدم في IndexedDB + localStorage مع إمكانية التحرير</li>
+                        <li>• Quick Actions: زر عائم بـ 5 إجراءات سريعة</li>
+                        <li>• Relapse Analysis: نافذة تحليل عند كل انتكاسة</li>
+                        <li>• صفحة تحليل الانتكاسات مع رسوم بيانية وفلاتر</li>
+                        <li>• Habit Deep Dive: خريطة حرارية لـ 60 يوماً لكل عادة</li>
+                        <li>• XP Bar: شريط نقاط مع 10 مستويات وتحديث تلقائي</li>
+                        <li>• تبويبان في التسبيح: تسبيح فاطمة + التسبيح المفتوح</li>
+                        <li>• نافذة احتفال عند إكمال 100 تسبيحة</li>
+                        <li>• نافذة "لا توجد رحلة تعافي" مع عداد 10 ثوانٍ</li>
                     </ul>
                 </div>
             </div>
@@ -756,14 +794,219 @@ function updateSetting(key, value) {
     StorageManager.saveSettings(settings);
 }
 
+/**
+ * Clear all user data with a two-step CSS-designed confirmation flow.
+ */
 function clearAllUserData() {
-    if (confirm('تحذير: سيتم حذف جميع بياناتك بما في ذلك معلومات الحساب وتقدم التعافي. هل أنت متأكد؟')) {
-        if (confirm('تأكيد نهائي: لا يمكن التراجع عن هذا الإجراء. هل تريد المتابعة؟')) {
-            StorageManager.clear();
-            showToast('تم حذف جميع البيانات');
-            setTimeout(() => {
-                location.reload();
-            }, 1000);
+    // Step 1: First confirmation
+    showDangerConfirmModal({
+        step: 1,
+        total: 2,
+        title: 'حذف جميع البيانات',
+        message: 'سيتم حذف جميع بياناتك نهائياً، بما في ذلك:',
+        list: [
+            'معلومات الحساب (الاسم، العمر، الجنس)',
+            'تقدم التعافي وجميع العادات',
+            'الإنجازات والنقاط والتحديات',
+            'المذكرات والأدعية المحفوظة',
+            'الإعدادات والثيمات'
+        ],
+        confirmText: 'نعم، احذف الكل',
+        cancelText: 'إلغاء',
+        onConfirm: function () {
+            // Step 2: Final confirmation
+            showDangerConfirmModal({
+                step: 2,
+                total: 2,
+                title: 'تأكيد نهائي',
+                message: 'لا يمكن التراجع عن هذا الإجراء. جميع بياناتك ستُحذف نهائياً من هذا الجهاز.',
+                list: [
+                    'لا يمكن استرجاع البيانات بعد الحذف',
+                    'سيعود التطبيق لحالة أول استخدام',
+                    'ستحتاج لإعادة التسجيل من جديد'
+                ],
+                confirmText: 'حذف نهائي',
+                cancelText: 'تراجع',
+                onConfirm: function () {
+                    performFullDataWipe();
+                }
+            });
+        }
+    });
+}
+
+/**
+ * Show a CSS-designed danger confirmation modal.
+ */
+function showDangerConfirmModal(options) {
+    // Avoid duplicates
+    var existing = document.querySelector('.danger-confirm-modal');
+    if (existing) existing.remove();
+
+    var modal = document.createElement('div');
+    modal.className = 'danger-confirm-modal';
+    modal.innerHTML = `
+        <div class="danger-confirm-card">
+            ${options.total > 1 ? `<div class="danger-confirm-step">${options.step} / ${options.total}</div>` : ''}
+
+            <div class="danger-confirm-icon">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+
+            <h2>${options.title}</h2>
+            <p>${options.message}</p>
+
+            ${options.list && options.list.length ? `
+                <div class="danger-confirm-list">
+                    <h4>
+                        <i class="fas fa-times-circle"></i>
+                        سيتم حذف:
+                    </h4>
+                    <ul>
+                        ${options.list.map(function (item) {
+                            return '<li>' + item + '</li>';
+                        }).join('')}
+                    </ul>
+                </div>
+            ` : ''}
+
+            <div class="danger-confirm-actions">
+                <button class="btn btn-outline" id="danger-cancel">
+                    ${options.cancelText || 'إلغاء'}
+                </button>
+                <button class="btn btn-danger" id="danger-confirm">
+                    <i class="fas fa-trash"></i>
+                    ${options.confirmText || 'تأكيد'}
+                </button>
+            </div>
+
+            ${options.step === 2 ? `
+                <div class="danger-confirm-countdown">
+                    <div class="danger-confirm-countdown-fill"></div>
+                </div>
+            ` : ''}
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    // Cancel button
+    modal.querySelector('#danger-cancel').addEventListener('click', function () {
+        modal.style.animation = 'dangerFadeIn 0.3s ease reverse';
+        setTimeout(function () { modal.remove(); }, 250);
+    });
+
+    // Confirm button
+    modal.querySelector('#danger-confirm').addEventListener('click', function () {
+        modal.style.animation = 'dangerFadeIn 0.3s ease reverse';
+        setTimeout(function () {
+            modal.remove();
+            if (typeof options.onConfirm === 'function') {
+                options.onConfirm();
+            }
+        }, 250);
+    });
+
+    // ESC to close
+    var escHandler = function (e) {
+        if (e.key === 'Escape') {
+            document.removeEventListener('keydown', escHandler);
+            modal.remove();
+        }
+    };
+    document.addEventListener('keydown', escHandler);
+
+    // Overlay click to close
+    modal.addEventListener('click', function (e) {
+        if (e.target === modal) {
+            modal.remove();
+        }
+    });
+
+    // Countdown for step 2 — auto-cancel after 30s
+    if (options.step === 2) {
+        var fill = modal.querySelector('.danger-confirm-countdown-fill');
+        var seconds = 30;
+        var interval = setInterval(function () {
+            seconds--;
+            if (fill) fill.style.width = ((seconds / 30) * 100) + '%';
+            if (seconds <= 0) {
+                clearInterval(interval);
+                modal.remove();
+            }
+        }, 1000);
+    }
+}
+
+/**
+ * Perform the full data wipe.
+ */
+function performFullDataWipe() {
+    try {
+        // 1. Clear localStorage keys with the app prefix
+        var keysToRemove = [];
+        for (var i = 0; i < localStorage.length; i++) {
+            var key = localStorage.key(i);
+            if (key && (key.indexOf('taafi_') === 0 || key.indexOf('taeafi_') === 0)) {
+                keysToRemove.push(key);
+            }
+        }
+        keysToRemove.forEach(function (key) {
+            try { localStorage.removeItem(key); } catch (e) {}
+        });
+
+        // 2. Clear IndexedDB
+        if (typeof UserManager !== 'undefined' && typeof UserManager.clear === 'function') {
+            try { UserManager.clear(); } catch (e) {}
+        }
+        try {
+            var deleteRequest = indexedDB.deleteDatabase('taafi_user_db');
+            deleteRequest.onsuccess = function () {
+                console.log('[Cleanup] IndexedDB deleted');
+            };
+        } catch (e) {
+            console.warn('[Cleanup] IndexedDB delete failed:', e);
+        }
+
+        // 3. Clear session storage
+        try { sessionStorage.clear(); } catch (e) {}
+
+        // 4. Clear Service Worker caches
+        if ('caches' in window) {
+            caches.keys().then(function (names) {
+                return Promise.all(
+                    names.map(function (name) {
+                        return caches.delete(name);
+                    })
+                );
+            }).catch(function () {});
+        }
+
+        // 5. Clear StorageManager internal cache
+        try {
+            if (typeof StorageManager !== 'undefined') {
+                // Reset storage manager state if it has a reset method
+                if (typeof StorageManager.reset === 'function') {
+                    StorageManager.reset();
+                }
+            }
+        } catch (e) {}
+
+        // 6. Show success message
+        if (typeof showToast === 'function') {
+            showToast('تم حذف جميع البيانات بنجاح');
+        }
+
+        // 7. Reload after a short delay
+        setTimeout(function () {
+            // Force reload from server (clear all caches)
+            window.location.href = window.location.pathname + '?t=' + Date.now();
+        }, 1200);
+
+    } catch (error) {
+        console.error('[Cleanup] Full wipe failed:', error);
+        if (typeof showToast === 'function') {
+            showToast('حدث خطأ أثناء الحذف');
         }
     }
 }
@@ -1038,17 +1281,26 @@ function loadPreviousRating() {
 }
 
 function resetRating() {
-    if (confirm('هل أنت متأكد من إعادة تعيين تقييمك؟')) {
+    taeafiConfirm({
+        type: 'warning',
+        icon: 'fa-undo',
+        title: 'إعادة تعيين التقييم',
+        message: 'هل أنت متأكد من إعادة تعيين تقييمك؟',
+        confirmText: 'إعادة تعيين',
+        cancelText: 'إلغاء'
+    }).then(function (confirmed) {
+        if (!confirmed) return;
+
         appRated = false;
         currentRating = 0;
         StorageManager.set('app_rated', false);
         StorageManager.set('app_rating_value', 0);
         StorageManager.remove('app_rating_message');
-        
+
         // Delete the saved message from local storage
         const messageEl = document.getElementById('rating-message');
         if (messageEl) messageEl.value = '';
-        
+
         // Reset the stars to default state
         const stars = document.querySelectorAll('.rating-star');
         stars.forEach(star => {
@@ -1057,21 +1309,21 @@ function resetRating() {
             star.classList.add('far');
             star.style.cursor = 'pointer';
         });
-        
+
         const thankYouMessage = document.getElementById('thank-you-message');
         if (thankYouMessage) thankYouMessage.style.display = 'none';
-        
+
         const resetContainer = document.getElementById('reset-rating-container');
         if (resetContainer) resetContainer.style.display = 'none';
-        
+
         const ratingText = document.getElementById('rating-text');
         if (ratingText) {
             ratingText.textContent = '';
             ratingText.style.color = 'var(--text-tertiary)';
         }
-        
+
         showToast('تم إعادة تعيين التقييم');
-    }
+    });
 }
 
 // Effects for star rating hover and click.
@@ -1271,7 +1523,7 @@ function showUpdateAvailable(latestVersion, downloadUrl, silent) {
     if (updateMessage) {
         updateMessage.innerHTML = `
             <div style="color: var(--text-primary); margin-bottom: 8px;">
-                📦 <strong style="color: #FF9800;">الإصدار v${latestVersion}</strong> متاح الآن
+                <i class="fas fa-box-open" aria-hidden="true"></i> <strong style="color: #FF9800;">الإصدار v${latestVersion}</strong> متاح الآن
             </div>
             <div style="color: var(--text-secondary); font-size: 13px;">
                 أنت تستخدم الإصدار <strong>v${ApplicationVersion}</strong>
@@ -1287,7 +1539,7 @@ function showUpdateAvailable(latestVersion, downloadUrl, silent) {
     if (updateInfo) updateInfo.style.display = 'block';
     
     if (!silent && typeof showToast === 'function') {
-        showToast('📦 يوجد تحديث جديد! v' + latestVersion);
+        showToast('<i class="fas fa-box-open" aria-hidden="true"></i> يوجد تحديث جديد! v' + latestVersion);
     }
     
     StorageManager.set('update_available', { version: latestVersion, date: Date.now() });
@@ -1824,7 +2076,6 @@ function saveProfileEdit() {
     var ageEl = document.getElementById('edit-age');
     var genderEl = document.getElementById('edit-gender');
     var errorEl = document.getElementById('edit-profile-error');
-
     var name = nameEl ? nameEl.value.trim() : '';
     var age = ageEl ? parseInt(ageEl.value, 10) : 0;
     var gender = genderEl ? genderEl.value : '';
@@ -1877,4 +2128,454 @@ function escapeHtmlAttr(text) {
         .replace(/"/g, '&quot;')
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;');
+}
+
+/*
+ * CUSTOM THEME DIALOG
+ **/
+
+/*
+ * CUSTOM COLOR PICKER COMPONENT
+ **/
+
+var CustomColorPicker = (function () {
+    'use strict';
+
+    var PRESETS = [
+        '#0D6B6E', '#E91E63', '#BF360C', '#01579B', '#4A148C',
+        '#FF9800', '#4CAF50', '#2196F3', '#9C27B0', '#F44336',
+        '#7C4DFF', '#00BCD4', '#8BC34A', '#FFC107', '#795548',
+        '#607D8B', '#000000', '#FFFFFF'
+    ];
+
+    /* Color conversion helpers */
+
+    function hexToRgb(hex) {
+        hex = String(hex).replace('#', '');
+        if (hex.length === 3) hex = hex.split('').map(function (c) { return c + c; }).join('');
+        var num = parseInt(hex, 16);
+        return {
+            r: (num >> 16) & 255,
+            g: (num >> 8) & 255,
+            b: num & 255
+        };
+    }
+
+    function rgbToHex(r, g, b) {
+        r = Math.max(0, Math.min(255, Math.round(r)));
+        g = Math.max(0, Math.min(255, Math.round(g)));
+        b = Math.max(0, Math.min(255, Math.round(b)));
+        return '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase();
+    }
+
+    function rgbToHsv(r, g, b) {
+        r /= 255; g /= 255; b /= 255;
+        var max = Math.max(r, g, b), min = Math.min(r, g, b);
+        var h, s, v = max;
+        var d = max - min;
+        s = max === 0 ? 0 : d / max;
+        if (max === min) {
+            h = 0;
+        } else {
+            switch (max) {
+                case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+                case g: h = (b - r) / d + 2; break;
+                case b: h = (r - g) / d + 4; break;
+            }
+            h /= 6;
+        }
+        return { h: h * 360, s: s * 100, v: v * 100 };
+    }
+
+    function hsvToRgb(h, s, v) {
+        h = ((h % 360) + 360) % 360;
+        s = Math.max(0, Math.min(100, s)) / 100;
+        v = Math.max(0, Math.min(100, v)) / 100;
+        var c = v * s;
+        var x = c * (1 - Math.abs(((h / 60) % 2) - 1));
+        var m = v - c;
+        var r, g, b;
+        if (h < 60)      { r = c; g = x; b = 0; }
+        else if (h < 120){ r = x; g = c; b = 0; }
+        else if (h < 180){ r = 0; g = c; b = x; }
+        else if (h < 240){ r = 0; g = x; b = c; }
+        else if (h < 300){ r = x; g = 0; b = c; }
+        else             { r = c; g = 0; b = x; }
+        return {
+            r: (r + m) * 255,
+            g: (g + m) * 255,
+            b: (b + m) * 255
+        };
+    }
+
+    function hsvToHex(h, s, v) {
+        var rgb = hsvToRgb(h, s, v);
+        return rgbToHex(rgb.r, rgb.g, rgb.b);
+    }
+
+    /* Component factory */
+
+    /**
+     * Creates a custom color picker.
+     * @param {object} options
+     *   - value: initial hex (e.g. '#7C4DFF')
+     *   - onChange: function(hex) — called whenever color changes
+     * @returns {HTMLElement}
+     */
+    function create(options) {
+        options = options || {};
+        var initial = options.value || '#7C4DFF';
+        var onChange = typeof options.onChange === 'function' ? options.onChange : function () {};
+
+        // Internal state
+        var rgb = hexToRgb(initial);
+        var hsv = rgbToHsv(rgb.r, rgb.g, rgb.b);
+        var currentHex = initial.toUpperCase();
+
+        // Build DOM
+        var root = document.createElement('div');
+        root.className = 'color-picker';
+        root.innerHTML =
+            '<div class="color-picker-sv" data-sv>' +
+                '<div class="color-picker-cursor" data-sv-cursor></div>' +
+            '</div>' +
+            '<div class="color-picker-hue" data-hue>' +
+                '<div class="color-picker-hue-cursor" data-hue-cursor></div>' +
+            '</div>' +
+            '<div class="color-picker-row">' +
+                '<div class="color-picker-preview" data-preview></div>' +
+                '<input type="text" class="color-picker-hex" data-hex maxlength="7" value="' + currentHex + '">' +
+                '<button type="button" class="color-picker-icon-btn" data-eyedropper title="اقتطاع لون">' +
+                    '<i class="fas fa-eye-dropper"></i>' +
+                '</button>' +
+            '</div>' +
+            '<div class="color-picker-presets" data-presets></div>';
+
+        var svEl = root.querySelector('[data-sv]');
+        var svCursor = root.querySelector('[data-sv-cursor]');
+        var hueEl = root.querySelector('[data-hue]');
+        var hueCursor = root.querySelector('[data-hue-cursor]');
+        var previewEl = root.querySelector('[data-preview]');
+        var hexInput = root.querySelector('[data-hex]');
+        var eyedropperBtn = root.querySelector('[data-eyedropper]');
+        var presetsEl = root.querySelector('[data-presets]');
+
+        /* Presets */
+        PRESETS.forEach(function (p) {
+            var b = document.createElement('button');
+            b.type = 'button';
+            b.className = 'color-picker-preset';
+            b.style.background = p;
+            b.setAttribute('data-color', p);
+            b.title = p;
+            b.addEventListener('click', function () {
+                setFromHex(p, true);
+            });
+            presetsEl.appendChild(b);
+        });
+
+        /* Rendering */
+
+        function render() {
+            // SV background shows hue
+            var hueHex = hsvToHex(hsv.h, 100, 100);
+            svEl.style.background = hueHex;
+
+            // Update cursors
+            svCursor.style.left = hsv.s + '%';
+            svCursor.style.top = (100 - hsv.v) + '%';
+
+            hueCursor.style.left = (hsv.h / 360 * 100) + '%';
+
+            // Preview
+            currentHex = hsvToHex(hsv.h, hsv.s, hsv.v).toUpperCase();
+            previewEl.style.background = currentHex;
+
+            // Hex input (only if not focused)
+            if (document.activeElement !== hexInput) {
+                hexInput.value = currentHex;
+                hexInput.classList.remove('invalid');
+            }
+
+            // Preset active states
+            Array.prototype.forEach.call(presetsEl.children, function (b) {
+                var isActive = b.getAttribute('data-color').toUpperCase() === currentHex;
+                b.classList.toggle('active', isActive);
+            });
+        }
+
+        /* SV box drag */
+
+        function handleSvMove(clientX, clientY) {
+            var rect = svEl.getBoundingClientRect();
+            var x = Math.max(0, Math.min(rect.width, clientX - rect.left));
+            var y = Math.max(0, Math.min(rect.height, clientY - rect.top));
+            hsv.s = (x / rect.width) * 100;
+            hsv.v = 100 - (y / rect.height) * 100;
+            render();
+            onChange(currentHex);
+        }
+
+        function attachSvDrag() {
+            var dragging = false;
+
+            function onDown(e) {
+                dragging = true;
+                e.preventDefault();
+                var point = e.touches ? e.touches[0] : e;
+                handleSvMove(point.clientX, point.clientY);
+            }
+            function onMove(e) {
+                if (!dragging) return;
+                var point = e.touches ? e.touches[0] : e;
+                handleSvMove(point.clientX, point.clientY);
+            }
+            function onUp() { dragging = false; }
+
+            svEl.addEventListener('mousedown', onDown);
+            svEl.addEventListener('touchstart', onDown, { passive: false });
+            document.addEventListener('mousemove', onMove);
+            document.addEventListener('touchmove', onMove, { passive: false });
+            document.addEventListener('mouseup', onUp);
+            document.addEventListener('touchend', onUp);
+        }
+
+        /* Hue drag */
+
+        function handleHueMove(clientX) {
+            var rect = hueEl.getBoundingClientRect();
+            var x = Math.max(0, Math.min(rect.width, clientX - rect.left));
+            hsv.h = (x / rect.width) * 360;
+            render();
+            onChange(currentHex);
+        }
+
+        function attachHueDrag() {
+            var dragging = false;
+
+            function onDown(e) {
+                dragging = true;
+                e.preventDefault();
+                var point = e.touches ? e.touches[0] : e;
+                handleHueMove(point.clientX);
+            }
+            function onMove(e) {
+                if (!dragging) return;
+                var point = e.touches ? e.touches[0] : e;
+                handleHueMove(point.clientX);
+            }
+            function onUp() { dragging = false; }
+
+            hueEl.addEventListener('mousedown', onDown);
+            hueEl.addEventListener('touchstart', onDown, { passive: false });
+            document.addEventListener('mousemove', onMove);
+            document.addEventListener('touchmove', onMove, { passive: false });
+            document.addEventListener('mouseup', onUp);
+            document.addEventListener('touchend', onUp);
+        }
+
+        /* Hex input */
+
+        function setFromHex(hex, triggerChange) {
+            if (!/^#[0-9A-Fa-f]{6}$/.test(hex)) return false;
+            rgb = hexToRgb(hex);
+            hsv = rgbToHsv(rgb.r, rgb.g, rgb.b);
+            render();
+            if (triggerChange) onChange(currentHex);
+            return true;
+        }
+
+        hexInput.addEventListener('input', function () {
+            var v = this.value.trim();
+            if (!v.startsWith('#')) v = '#' + v;
+            if (/^#[0-9A-Fa-f]{6}$/.test(v)) {
+                this.classList.remove('invalid');
+                setFromHex(v, true);
+            } else {
+                this.classList.add('invalid');
+            }
+        });
+
+        hexInput.addEventListener('blur', function () {
+            var v = this.value.trim();
+            if (!/^#[0-9A-Fa-f]{6}$/.test(v)) {
+                this.value = currentHex;
+                this.classList.remove('invalid');
+            }
+        });
+
+        /* Eyedropper */
+
+        eyedropperBtn.addEventListener('click', function () {
+            if ('EyeDropper' in window) {
+                try {
+                    var dropper = new window.EyeDropper();
+                    dropper.open().then(function (result) {
+                        setFromHex(result.sRGBHex, true);
+                    }).catch(function () { /* cancelled */ });
+                } catch (e) {
+                    if (typeof showToast === 'function') {
+                        showToast('تعذر تشغيل قَطّاف الألوان');
+                    }
+                }
+            } else {
+                eyedropperBtn.disabled = true;
+                if (typeof showToast === 'function') {
+                    showToast('قَطّاف الألوان غير مدعوم في هذا المتصفح');
+                }
+            }
+        });
+
+        /* Init */
+
+        attachSvDrag();
+        attachHueDrag();
+        render();
+
+        /* Public API exposed on the element */
+        root.getValue = function () { return currentHex; };
+        root.setValue = function (hex) { setFromHex(hex, false); };
+
+        return root;
+    }
+
+    return { create: create };
+})();
+
+function openCustomThemeDialog(onAfterApply) {
+    var current = ThemesManager.getCustomTheme();
+    var afterApplyCallback = typeof onAfterApply === 'function' ? onAfterApply : null;
+
+    var modal = document.createElement('div');
+    modal.className = 'modal-overlay';
+    modal.style.zIndex = '99999';
+    modal.innerHTML =
+        '<div class="modal-container" style="max-width: 460px; text-align: right; max-height: 92vh; overflow-y: auto;">' +
+
+            '<div style="text-align: center; margin-bottom: 20px;">' +
+                '<div style="width: 64px; height: 64px; margin: 0 auto 12px; border-radius: 50%; background: var(--primary-light); display: flex; align-items: center; justify-content: center; color: var(--primary); font-size: 26px;">' +
+                    '<i class="fas fa-palette"></i>' +
+                '</div>' +
+                '<h3 style="margin: 0;">ثيم مخصص</h3>' +
+                '<p style="color: var(--text-secondary); font-size: 13px; margin-top: 4px;">اختر ألوانك المفضلة</p>' +
+            '</div>' +
+
+            '<div class="form-group">' +
+                '<label class="form-label">اللون الأساسي</label>' +
+                '<div data-picker="primary"></div>' +
+            '</div>' +
+
+            '<div class="form-group">' +
+                '<label class="form-label">اللون الثانوي</label>' +
+                '<div data-picker="secondary"></div>' +
+            '</div>' +
+
+            '<div class="form-group">' +
+                '<div style="display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; background: var(--surface-variant); border-radius: 12px;">' +
+                    '<div style="display: flex; align-items: center; gap: 10px;">' +
+                        '<i class="fas fa-moon" style="color: var(--text-secondary);"></i>' +
+                        '<span style="font-weight: 600;">الوضع الداكن</span>' +
+                    '</div>' +
+                    '<label class="toggle-switch" style="margin: 0;">' +
+                        '<input type="checkbox" id="custom-dark" ' + (current.dark ? 'checked' : '') + '>' +
+                        '<span class="toggle-slider"></span>' +
+                    '</label>' +
+                '</div>' +
+            '</div>' +
+
+            '<p id="custom-theme-error" style="color: var(--accent-red); font-size: 12px; min-height: 18px; text-align: center; margin-bottom: 10px;"></p>' +
+
+            '<div style="display: flex; gap: 10px;">' +
+                '<button class="btn btn-outline" data-action="reset" style="flex: 1;">' +
+                    '<i class="fas fa-undo"></i> إعادة تعيين' +
+                '</button>' +
+                '<button class="btn btn-primary" data-action="apply" style="flex: 1;">' +
+                    '<i class="fas fa-save"></i> تطبيق' +
+                '</button>' +
+            '</div>' +
+
+        '</div>';
+
+    document.body.appendChild(modal);
+
+    // Event listeners for buttons
+    modal.querySelector('[data-action="apply"]').addEventListener('click', function () {
+        applyCustomThemeFromDialog(this, afterApplyCallback);
+    });
+
+    modal.querySelector('[data-action="reset"]').addEventListener('click', function () {
+        resetCustomThemeFromDialog(this, afterApplyCallback);
+    });
+
+    /* Mount custom color pickers */
+    var primaryHost = modal.querySelector('[data-picker="primary"]');
+    var secondaryHost = modal.querySelector('[data-picker="secondary"]');
+
+    var primaryPicker = CustomColorPicker.create({
+        value: current.primary
+    });
+
+    var secondaryPicker = CustomColorPicker.create({
+        value: current.secondary
+    });
+
+    primaryHost.appendChild(primaryPicker);
+    secondaryHost.appendChild(secondaryPicker);
+}
+
+function applyCustomThemeFromDialog(btn, callback) {
+    var modal = btn.closest('.modal-overlay');
+    var errorEl = modal.querySelector('#custom-theme-error');
+
+    var primaryHost = modal.querySelector('[data-picker="primary"]');
+    var secondaryHost = modal.querySelector('[data-picker="secondary"]');
+
+    var primaryPicker = primaryHost.querySelector('.color-picker');
+    var secondaryPicker = secondaryHost.querySelector('.color-picker');
+
+    var primary = primaryPicker ? primaryPicker.getValue() : null;
+    var secondary = secondaryPicker ? secondaryPicker.getValue() : null;
+    var dark = modal.querySelector('#custom-dark').checked;
+
+    var hexRegex = /^#[0-9A-Fa-f]{6}$/;
+    if (!primary || !hexRegex.test(primary)) {
+        errorEl.textContent = 'اللون الأساسي غير صالح';
+        return;
+    }
+    if (!secondary || !hexRegex.test(secondary)) {
+        errorEl.textContent = 'اللون الثانوي غير صالح';
+        return;
+    }
+
+    errorEl.textContent = '';
+
+    ThemesManager.setCustomColor(primary, secondary);
+    ThemesManager.setCustomDark(dark);
+
+    modal.remove();
+
+    if (typeof callback === 'function') {
+        callback();
+    }
+
+    // Refresh settings page if currently on settings
+    if (typeof Router !== 'undefined' && Router.getCurrentPage() === 'settings') {
+        renderSettingsPage();
+    }
+}
+
+// applyCustomThemeFromDialog
+function resetCustomThemeFromDialog(btn, callback) {
+    ThemesManager.resetCustomTheme();
+
+    var modal = btn.closest('.modal-overlay');
+    if (modal) modal.remove();
+
+    if (typeof callback === 'function') {
+        callback();
+    }
+
+    if (typeof Router !== 'undefined' && Router.getCurrentPage() === 'settings') {
+        renderSettingsPage();
+    }
 }

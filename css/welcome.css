@@ -483,11 +483,11 @@
     color: white;
 }
 
-/* THEME PICKER (NEW) */
+/* THEME PICKER */
 
 .theme-picker {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: var(--space-2);
     margin-bottom: var(--space-5);
 }
@@ -503,6 +503,7 @@
     cursor: pointer;
     transition: all 0.25s ease;
     background: var(--surface);
+    overflow: hidden;
     -webkit-tap-highlight-color: transparent;
 }
 
@@ -517,9 +518,15 @@
     transform: translateY(-3px);
 }
 
+/* Theme swatch — fixed size circle */
 .theme-swatch {
+    position: relative;
     width: 38px;
     height: 38px;
+    min-width: 38px;
+    min-height: 38px;
+    max-width: 38px;
+    max-height: 38px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -528,6 +535,9 @@
     font-size: 16px;
     border: 3px solid rgba(255, 255, 255, 0.4);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    flex-shrink: 0;
+    box-sizing: border-box;
+    overflow: hidden;
 }
 
 .theme-swatch.green   { background: linear-gradient(135deg, #0D6B6E, #26A69A); }
@@ -535,6 +545,16 @@
 .theme-swatch.desert  { background: linear-gradient(135deg, #BF360C, #FF7043); }
 .theme-swatch.ocean   { background: linear-gradient(135deg, #01579B, #03A9F4); }
 .theme-swatch.ramadan { background: linear-gradient(135deg, #4A148C, #FFD700); }
+
+.theme-swatch.custom {
+    background: linear-gradient(
+        135deg,
+        var(--custom-primary, #7C4DFF) 0%,
+        var(--custom-primary, #7C4DFF) 45%,
+        var(--custom-secondary, #B388FF) 55%,
+        var(--custom-secondary, #B388FF) 100%
+    );
+}
 
 .theme-choice-label {
     font-size: 10px;

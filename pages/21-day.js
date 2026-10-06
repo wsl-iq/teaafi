@@ -726,17 +726,20 @@ function startTwentyOneDayChallenge() {
 function confirmTwentyOneDayStart() {
     const pronouns = twentyOneDayGetPronouns();
 
-    const accepted = confirm(
+    taeafiConfirm({
+        type: 'info',
+        icon: 'fa-hand-pointer',
+        title: 'بدء تحدي 21 يوم',
+        message:
             `موافقتك تعني أنك ${pronouns.ready} للالتزام بتسجيل تقدمك يوميًا.\n\n` +
             'أي انتكاسة تقوم بتسجيلها ستؤثر على تقييم اليوم والتقييم العام.\n\n' +
-            'هل أنت متأكد من بدء تحدي 21 يوم؟'
-        );
-
-    if (!accepted) {
-        return;
-    }
-
-    startTwentyOneDayChallenge();
+            'هل أنت متأكد من بدء تحدي 21 يوم؟',
+        confirmText: 'أوافق وأبدأ',
+        cancelText: 'إلغاء'
+    }).then(function (accepted) {
+        if (!accepted) return;
+        startTwentyOneDayChallenge();
+    });
 }
 
 
@@ -777,7 +780,7 @@ function toggleTwentyOneDayTask(dayNumber, taskId) {
 
 /* 
  * Relapse
- *  */
+ **/
 
 function recordTwentyOneDayRelapse() {
     const data = twentyOneDayLoad();
@@ -789,27 +792,31 @@ function recordTwentyOneDayRelapse() {
     const currentDay = twentyOneDayGetCurrentDay(data);
     const dayData = twentyOneDayGetDayData(data, currentDay);
     const pronouns = twentyOneDayGetPronouns();
-    const confirmed =
-        confirm(
+
+    taeafiConfirm({
+        type: 'warning',
+        icon: 'fa-exclamation-triangle',
+        title: 'تسجيل انتكاسة',
+        message:
             `هل تريد تسجيل ${pronouns.relapse} اليوم؟\n\n` +
             'سيؤثر تسجيل الانتكاسة على تقييم اليوم والتقييم العام.\n\n' +
-            'التسجيل ليس للحكم عليك، بل لمساعدتك على معرفة مسار التحدي بصدق.'
-        );
+            'التسجيل ليس للحكم عليك، بل لمساعدتك على معرفة مسار التحدي بصدق.',
+        confirmText: 'تسجيل الانتكاسة',
+        cancelText: 'إلغاء'
+    }).then(function (confirmed) {
+        if (!confirmed) return;
 
-    if (!confirmed) {
-        return;
-    }
+        dayData.relapse = true;
+        dayData.relapseCount = Number(dayData.relapseCount || 0) + 1;
+        data.totalRelapses = Number(data.totalRelapses || 0) + 1;
+        dayData.score = twentyOneDayCalculateDayScore(dayData);
+        dayData.updatedAt = Date.now();
 
-    dayData.relapse = true;
-    dayData.relapseCount = Number(dayData.relapseCount || 0) + 1;
-    data.totalRelapses = Number(data.totalRelapses || 0) + 1;
-    dayData.score = twentyOneDayCalculateDayScore(dayData);
-    dayData.updatedAt = Date.now();
-
-    twentyOneDayRefreshStatistics(data);
-    twentyOneDaySave(data);
-    updateTwentyOneDayUI();
-    showToast('تم تسجيل الانتكاسة وتحديث التقييم');
+        twentyOneDayRefreshStatistics(data);
+        twentyOneDaySave(data);
+        updateTwentyOneDayUI();
+        showToast('تم تسجيل الانتكاسة وتحديث التقييم');
+    });
 }
 
 function undoTwentyOneDayRelapse() {
@@ -826,29 +833,34 @@ function undoTwentyOneDayRelapse() {
         return;
     }
 
-    const confirmed = confirm('هل تريد إلغاء تسجيل الانتكاسة لهذا اليوم؟');
+    taeafiConfirm({
+        type: 'warning',
+        icon: 'fa-undo',
+        title: 'إلغاء انتكاسة اليوم',
+        message: 'هل تريد إلغاء تسجيل الانتكاسة لهذا اليوم؟',
+        confirmText: 'إلغاء الانتكاسة',
+        cancelText: 'رجوع'
+    }).then(function (confirmed) {
+        if (!confirmed) return;
 
-    if (!confirmed) {
-        return;
-    }
+        dayData.relapse = false;
 
-    dayData.relapse = false;
+        if (dayData.relapseCount > 0) {
+            dayData.relapseCount--;
+        }
 
-    if (dayData.relapseCount > 0) {
-        dayData.relapseCount--;
-    }
+        if (data.totalRelapses > 0) {
+            data.totalRelapses--;
+        }
 
-    if (data.totalRelapses > 0) {
-        data.totalRelapses--;
-    }
+        dayData.score = twentyOneDayCalculateDayScore(dayData);
+        dayData.updatedAt = Date.now();
 
-    dayData.score = twentyOneDayCalculateDayScore(dayData);
-    dayData.updatedAt = Date.now();
-
-    twentyOneDayRefreshStatistics(data);
-    twentyOneDaySave(data);
-    updateTwentyOneDayUI();
-    showToast('تم إلغاء انتكاسة اليوم');
+        twentyOneDayRefreshStatistics(data);
+        twentyOneDaySave(data);
+        updateTwentyOneDayUI();
+        showToast('تم إلغاء انتكاسة اليوم');
+    });
 }
 
 
@@ -868,29 +880,44 @@ function completeTwentyOneDay() {
     const completedTasks = twentyOneDayGetCompletedTaskCount(dayData);
     const totalTasks = twentyOneDayCountTasks();
 
-    if (completedTasks < totalTasks) {
-        const confirmed = confirm('لم تكمل جميع مهام اليوم.\n\n' + 'هل تريد إنهاء اليوم بهذا التقييم؟');
-        if (!confirmed) {
-            return;
+    /* العملية الفعلية للحفظ — تُستدعى بعد التأكيد */
+    function saveAndFinish() {
+        dayData.score = twentyOneDayCalculateDayScore(dayData);
+        dayData.completed = true;
+        dayData.updatedAt = Date.now();
+
+        if (currentDay >= 21) {
+            data.completed = true;
         }
-    }
 
-    dayData.score = twentyOneDayCalculateDayScore(dayData);
-    dayData.completed = true;
-    dayData.updatedAt = Date.now();
+        twentyOneDayRefreshStatistics(data);
+        twentyOneDaySave(data);
+        updateTwentyOneDayUI();
 
-    if ( currentDay >= 21) {
-        data.completed = true;
-    }
-
-    twentyOneDayRefreshStatistics(data);
-    twentyOneDaySave(data);
-    updateTwentyOneDayUI();
-
-    showToast(currentDay >= 21
+        showToast(currentDay >= 21
             ? 'مبروك! أكملت تحدي 21 يوم'
             : 'تم حفظ تقييم اليوم'
-    );
+        );
+    }
+
+    /* إذا لم تُكمل كل المهام — اطلب تأكيداً أولاً */
+    if (completedTasks < totalTasks) {
+        taeafiConfirm({
+            type: 'info',
+            icon: 'fa-save',
+            title: 'إنهاء اليوم',
+            message: 'لم تكمل جميع مهام اليوم.\n\nهل تريد إنهاء اليوم بهذا التقييم؟',
+            confirmText: 'إنهاء اليوم',
+            cancelText: 'متابعة'
+        }).then(function (confirmed) {
+            if (!confirmed) return;
+            saveAndFinish();
+        });
+        return;
+    }
+
+    /* إذا أكملت كل المهام — احفظ مباشرة */
+    saveAndFinish();
 }
 
 
@@ -1366,9 +1393,7 @@ function renderTwentyOneDayDashboard(data) {
                         <i class="fas fa-save"></i>
                         حفظ تقييم اليوم
                     </button>
-                    <div
-                        data-21-relapse-action
-                    >
+                    <div data-21-relapse-action>
                         ${
                             dayData.relapse
                                 ? `
@@ -1738,25 +1763,31 @@ function renderTwentyOneDayPage() {
  **/
 
 function resetTwentyOneDayChallenge() {
-    const confirmed = confirm('هل تريد حذف تحدي 21 يوم بالكامل؟\n\n' + 'سيتم حذف جميع الأيام والتقييمات والانتكاسات.');
+    taeafiConfirm({
+        type: 'danger',
+        icon: 'fa-trash-alt',
+        title: 'حذف تحدي 21 يوم',
+        message:
+            'هل تريد حذف تحدي 21 يوم بالكامل؟\n\n' +
+            'سيتم حذف جميع الأيام والتقييمات والانتكاسات.',
+        confirmText: 'حذف نهائي',
+        cancelText: 'إلغاء'
+    }).then(function (confirmed) {
+        if (!confirmed) return;
 
-    if (!confirmed) {
-        return;
-    }
-
-    try {
-        if (typeof StorageManager !== 'undefined' && typeof StorageManager.remove === 'function') {
-            StorageManager.remove(TWENTY_ONE_DAY_STORAGE_KEY);
-        } else {
-            localStorage.removeItem(TWENTY_ONE_DAY_STORAGE_KEY);
+        try {
+            if (typeof StorageManager !== 'undefined' && typeof StorageManager.remove === 'function') {
+                StorageManager.remove(TWENTY_ONE_DAY_STORAGE_KEY);
+            } else {
+                localStorage.removeItem(TWENTY_ONE_DAY_STORAGE_KEY);
+            }
+        } catch (error) {
+            console.error('Failed to reset 21-Day Challenge:', error);
         }
 
-    } catch (error) {
-        console.error('Failed to reset 21-Day Challenge:', error);
-    }
-
-    showToast('تم حذف تحدي 21 يوم');
-    renderTwentyOneDayPage();
+        showToast('تم حذف تحدي 21 يوم');
+        renderTwentyOneDayPage();
+    });
 }
 
 /* 

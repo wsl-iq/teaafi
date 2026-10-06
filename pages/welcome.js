@@ -95,7 +95,8 @@ var WELCOME_THEMES = [
     { id: 'pink',    name: 'الوردي',     icon: 'fa-heart' },
     { id: 'desert',  name: 'الصحراوي',   icon: 'fa-sun' },
     { id: 'ocean',   name: 'المحيط',     icon: 'fa-water' },
-    { id: 'ramadan', name: 'الرمضاني',   icon: 'fa-star-and-crescent' }
+    { id: 'ramadan', name: 'الرمضاني',   icon: 'fa-star-and-crescent' },
+    { id: 'custom',  name: 'مخصص',       icon: 'fa-palette' }
 ];
 
 /*
@@ -488,6 +489,38 @@ function welcomeReviewNext() {
  */
 
 function welcomeSelectTheme(themeId) {
+    /* The Custom Theme */
+    if (themeId === 'custom') {
+        // if the custom theme dialog is available, open it
+        if (typeof openCustomThemeDialog === 'function') {
+            openCustomThemeDialog(function onApplied() {
+                // After applying colors from the dialog:
+                // 1) Set the theme to 'custom' in state
+                WelcomeState.data.theme = 'custom';
+
+                // 2) Re-render the theme picker to reflect the custom theme
+                var themePicker = document.getElementById('theme-picker');
+                if (themePicker) themePicker.innerHTML = '';
+                welcomeInitUI();
+
+                // 3) Mark the custom theme as selected
+                document.querySelectorAll('.theme-choice').forEach(function (el) {
+                    el.classList.remove('selected');
+                    if (el.dataset.themeId === 'custom') el.classList.add('selected');
+                });
+
+                // 4) Apply the custom theme preview
+                applyWelcomeThemePreview('custom'); // Apply the custom theme preview on the welcome screen
+            });
+        } else {
+            // احتياطي: إن لم تكن الدالة متوفرة، فقط طبّق المخصص
+            WelcomeState.data.theme = 'custom';
+            applyWelcomeThemePreview('custom');
+        }
+        return;
+    }
+
+    /* The Default Themes */
     WelcomeState.data.theme = themeId;
 
     document.querySelectorAll('.theme-choice').forEach(function (el) {
@@ -495,14 +528,43 @@ function welcomeSelectTheme(themeId) {
         if (el.dataset.themeId === themeId) el.classList.add('selected');
     });
 
-    // Apply preview live
-    if (typeof ThemesManager !== 'undefined' && typeof ThemesManager.setTheme === 'function') {
-        // Just preview visually without saving
-        document.body.classList.remove(
-            'theme-green', 'theme-pink', 'theme-desert', 'theme-ocean', 'theme-ramadan'
-        );
-        document.body.classList.add('theme-' + themeId);
+    applyWelcomeThemePreview(themeId);
+}
+
+/**
+ * Apply the selected theme preview on the welcome screen.
+ * (This does not save the theme yet; it only updates the preview.)
+ */
+function applyWelcomeThemePreview(themeId) {
+    var ws = document.getElementById('welcome-screen');
+    if (!ws) return;
+
+    // Remove all theme classes first
+    ws.classList.remove(
+        'theme-green',
+        'theme-pink',
+        'theme-desert',
+        'theme-ocean',
+        'theme-ramadan',
+        'theme-custom',
+        'theme-dark'
+    );
+
+    if (themeId === 'custom') {
+        if (typeof ThemesManager !== 'undefined' && typeof ThemesManager._applyCustom === 'function') {
+            var custom = ThemesManager.getCustomTheme();
+            ThemesManager._applyCustom(custom);
+
+            ws.classList.add('theme-custom');
+
+            if (custom.dark) {
+                ws.classList.add('theme-dark');
+            }
+        }
+        return;
     }
+
+    ws.classList.add('theme-' + themeId);
 }
 
 function welcomeThemeNext() {
@@ -636,7 +698,16 @@ function welcomeComplete() {
 
     // Apply theme
     if (typeof ThemesManager !== 'undefined' && typeof ThemesManager.setTheme === 'function') {
-        ThemesManager.setTheme(WelcomeState.data.theme || 'green');
+        var chosenTheme = WelcomeState.data.theme || 'green';
+
+        if (chosenTheme === 'custom') {
+            // اختيار الثيم المخصص يُطبّق الألوان المحفوظة
+            var custom = ThemesManager.getCustomTheme();
+            ThemesManager.setCustomColor(custom.primary, custom.secondary);
+            ThemesManager.setCustomDark(custom.dark);
+        } else {
+            ThemesManager.setTheme(chosenTheme);
+        }
     }
 
     // Update settings
@@ -834,7 +905,7 @@ function welcomeInitUI() {
 
     // Populate themes picker (Step 6)
     var themePicker = document.getElementById('theme-picker');
-    if (themePicker && themePicker.children.length === 0) {
+    if (themePicker && themePicker.children.length !== WELCOME_THEMES.length) {
         var themesHtml = '';
         WELCOME_THEMES.forEach(function (t) {
             themesHtml +=

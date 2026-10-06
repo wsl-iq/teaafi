@@ -1336,22 +1336,26 @@ function clearAllRecoveryData() {
 
                 if (action === 'remove') {
                     const name = getHabitName(type);
-                    if (
-                        !confirm(
-                            `هل تريد حذف رحلة ${name}؟\n\nسيتم حذف بيانات هذه العادة فقط.`
-                        )
-                    ) {
-                        return;
-                    }
 
-                    removeHabit(type);
+                    taeafiConfirm({
+                        type: 'danger',
+                        icon: 'fa-trash-alt',
+                        title: 'حذف العادة',
+                        message:
+                            `هل تريد حذف رحلة "${name}"؟\n\n` +
+                            'سيتم حذف بيانات هذه العادة فقط.',
+                        confirmText: 'حذف',
+                        cancelText: 'إلغاء'
+                    }).then(function (confirmed) {
+                        if (!confirmed) return;
 
-                    if (typeof showToast === 'function') {
-                        showToast(
-                            `تم حذف ${name}`
-                        );
-                    }
-                    refreshRecoveryPage();
+                        removeHabit(type);
+
+                        if (typeof showToast === 'function') {
+                            showToast(`تم حذف ${name}`);
+                        }
+                        refreshRecoveryPage();
+                    });
                 }
             }
         );
@@ -1547,17 +1551,28 @@ function clearAllRecoveryData() {
                 return false;
             }
             const name = getHabitName(type);
-            if (
-                !confirm(`هل تريد حذف رحلة ${name}؟\n\nسيتم حذف بيانات هذه العادة فقط.`)) {
-                return false;
-            }
-            const result = removeHabit(type);
 
-            if (result &&typeof showToast === 'function') {
-                showToast(`تم حذف ${name}`);
-            }
-            refreshRecoveryPage();
-            return result;
+            taeafiConfirm({
+                type: 'danger',
+                icon: 'fa-trash-alt',
+                title: 'حذف العادة',
+                message:
+                    `هل تريد حذف رحلة "${name}"؟\n\n` +
+                    'سيتم حذف بيانات هذه العادة فقط.',
+                confirmText: 'حذف',
+                cancelText: 'إلغاء'
+            }).then(function (confirmed) {
+                if (!confirmed) return;
+
+                const result = removeHabit(type);
+
+                if (result && typeof showToast === 'function') {
+                    showToast(`تم حذف ${name}`);
+                }
+                refreshRecoveryPage();
+            });
+
+            return true;
         };
 
     /* 

@@ -137,13 +137,21 @@ function saveJournalEntry() {
 }
 
 function deleteJournalEntry(date) {
-    if (confirm('هل أنت متأكد من حذف هذه المذكرة؟')) {
+    taeafiConfirm({
+        type: 'danger',
+        icon: 'fa-trash-alt',
+        title: 'حذف المذكرة',
+        message: 'هل أنت متأكد من حذف هذه المذكرة؟',
+        confirmText: 'حذف',
+        cancelText: 'إلغاء'
+    }).then(function (ok) {
+        if (!ok) return;
         var entries = StorageManager.get('journal_entries') || [];
-        entries = entries.filter(function(e) { return e.date !== date; });
+        entries = entries.filter(function (e) { return e.date !== date; });
         StorageManager.set('journal_entries', entries);
         if (typeof showToast === 'function') showToast('<i class="fas fa-trash"></i> تم الحذف');
         renderJournalPage();
-    }
+    });
 }
 
 function formatDate(dateStr) {

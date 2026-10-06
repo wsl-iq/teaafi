@@ -113,7 +113,15 @@ function savePrayer() {
 }
 
 function deletePrayer(index) {
-    if (confirm('هل أنت متأكد من حذف هذا الدعاء؟')) {
+    taeafiConfirm({
+        type: 'danger',
+        icon: 'fa-trash-alt',
+        title: 'حذف الدعاء',
+        message: 'هل أنت متأكد من حذف هذا الدعاء؟',
+        confirmText: 'حذف',
+        cancelText: 'إلغاء'
+    }).then(function (ok) {
+        if (!ok) return;
         var prayers = StorageManager.get('my_prayers') || [];
         prayers.splice(index, 1);
         StorageManager.set('my_prayers', prayers);
@@ -121,5 +129,5 @@ function deletePrayer(index) {
         if (typeof showToast === 'function') {
             showToast('<i class="fas fa-trash"></i> تم حذف الدعاء');
         }
-    }
+    });
 }

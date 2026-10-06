@@ -120,18 +120,22 @@ function switchNutritionView(gender) {
 
 function showAlternative(mealText, budget) {
     var alt = findAlternative(mealText, budget);
+
     if (alt) {
-        if (typeof showToast === 'function') {
-            showToast(alt);
-        } else {
-            alert(alt);
-        }
+        taeafiAlert({
+            type: 'success',
+            icon: 'fa-utensils',
+            title: 'بديل مقترح',
+            message: alt,
+            confirmText: 'حسناً'
+        });
     } else {
-        if (typeof showToast === 'function') {
-            showToast('لا يوجد بديل مقترح حالياً');
-        } else {
-            alert('لا يوجد بديل مقترح حالياً');
-        }
+        taeafiAlert({
+            type: 'info',
+            icon: 'fa-circle-info',
+            title: 'لا يوجد بديل',
+            message: 'لا يوجد بديل مقترح حالياً.',
+            confirmText: 'حسناً'
+        });
     }
 }
-

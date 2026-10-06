@@ -5593,3 +5593,317 @@ body.theme-dark .twenty-one-history-item {
         font-size: 16px;
     }
 }
+
+/* 
+ * TAEAFI UNIFIED CONFIRM / ALERT DIALOG
+ * Extension for .action-confirm-modal
+ * Adds success type + long-message layout + mobile tweaks
+ **/
+
+/* Success type */
+.action-confirm-card.type-success {
+    border: 2px solid #4CAF50;
+}
+
+.action-confirm-card.type-success .action-confirm-icon {
+    background: linear-gradient(135deg, #4CAF50, #8BC34A);
+    box-shadow: 0 8px 24px rgba(76, 175, 80, 0.4);
+}
+
+.action-confirm-card.type-success h2 .highlight {
+    color: #2E7D32;
+}
+
+/* Info type (already exists for cards with type-info) */
+.action-confirm-card.type-info h2 .highlight {
+    color: #1565C0;
+}
+
+/* Long message layout (multi-line) */
+.action-confirm-card p {
+    white-space: normal;
+    word-break: break-word;
+}
+
+.action-confirm-card p br {
+    content: '';
+    display: block;
+    margin-bottom: 4px;
+}
+
+/* Alert variant (single button) */
+.action-confirm-actions.single {
+    justify-content: center;
+}
+
+.action-confirm-actions.single .btn {
+    max-width: 220px;
+}
+
+/* Better focus outline for accessibility */
+.action-confirm-card [data-action-confirm]:focus-visible,
+.action-confirm-card [data-action-cancel]:focus-visible {
+    outline: 3px solid var(--primary);
+    outline-offset: 2px;
+}
+
+/* Prevent modal from being too tall on small screens */
+.action-confirm-card {
+    max-height: 92vh;
+    overflow-y: auto;
+    scrollbar-width: thin;
+}
+
+.action-confirm-card::-webkit-scrollbar {
+    width: 6px;
+}
+
+.action-confirm-card::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 3px;
+}
+
+/* When message is long, reduce icon margin */
+.action-confirm-card p:not(:empty) + .action-confirm-actions {
+    margin-top: 4px;
+}
+
+/* Dark mode: success */
+.theme-dark .action-confirm-card.type-success {
+    border-color: #4CAF50;
+}
+
+.theme-dark .action-confirm-card.type-success h2 .highlight {
+    color: #81C784;
+}
+
+/* Dark mode: alert text color consistency */
+.theme-dark .action-confirm-card p {
+    color: #B0B0B0;
+}
+
+.theme-dark .action-confirm-card h2 {
+    color: #E0E0E0;
+}
+
+/* Reduced motion: close animation */
+@media (prefers-reduced-motion: reduce) {
+    .action-confirm-modal,
+    .action-confirm-card,
+    .action-confirm-icon {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+
+/* 
+ * CUSTOM COLOR PICKER
+ * Replaces the native <input type="color">
+ **/
+
+.color-picker {
+    background: var(--surface-variant);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    position: relative;
+}
+
+/* Saturation / Value box */
+.color-picker-sv {
+    position: relative;
+    width: 100%;
+    height: 160px;
+    border-radius: 12px;
+    cursor: crosshair;
+    overflow: hidden;
+    box-shadow: inset 0 0 0 1px var(--border-light);
+    touch-action: none;
+    user-select: none;
+}
+
+.color-picker-sv::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, #fff, transparent);
+}
+
+.color-picker-sv::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, #000, transparent);
+}
+
+.color-picker-cursor {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.4), 0 2px 6px rgba(0,0,0,0.3);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    top: 0;
+    left: 0;
+    z-index: 2;
+}
+
+/* Hue slider */
+.color-picker-hue {
+    position: relative;
+    width: 100%;
+    height: 14px;
+    border-radius: 7px;
+    cursor: pointer;
+    background: linear-gradient(
+        to right,
+        #FF0000 0%,
+        #FFFF00 17%,
+        #00FF00 33%,
+        #00FFFF 50%,
+        #0000FF 67%,
+        #FF00FF 83%,
+        #FF0000 100%
+    );
+    box-shadow: inset 0 0 0 1px var(--border-light);
+    touch-action: none;
+    user-select: none;
+}
+
+.color-picker-hue-cursor {
+    position: absolute;
+    top: 50%;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #fff;
+    border: 2px solid #fff;
+    box-shadow: 0 0 0 2px rgba(0,0,0,0.25), 0 2px 6px rgba(0,0,0,0.3);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    left: 0;
+    z-index: 2;
+}
+
+/* Input row */
+.color-picker-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.color-picker-preview {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    border: 2px solid var(--border-light);
+    flex-shrink: 0;
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.05);
+}
+
+.color-picker-hex {
+    flex: 1;
+    min-width: 0;
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 2px solid var(--border-light);
+    background: var(--input-bg);
+    color: var(--text-primary);
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    text-align: center;
+    letter-spacing: 1px;
+    direction: ltr;
+    text-transform: uppercase;
+    transition: border-color 0.2s;
+}
+
+.color-picker-hex:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(var(--primary-rgb), 0.1);
+}
+
+.color-picker-hex.invalid {
+    border-color: var(--accent-red);
+    box-shadow: 0 0 0 4px rgba(244, 67, 54, 0.1);
+}
+
+/* Icon button (eyedropper etc.) */
+.color-picker-icon-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    border: 2px solid var(--border-light);
+    background: var(--surface);
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.color-picker-icon-btn:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    background: var(--primary-light);
+}
+
+.color-picker-icon-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* Presets */
+.color-picker-presets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding-top: 4px;
+    border-top: 1px solid var(--border-light);
+}
+
+.color-picker-preset {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 2px solid var(--border-light);
+    cursor: pointer;
+    transition: transform 0.15s ease, border-color 0.15s ease;
+    flex-shrink: 0;
+}
+
+.color-picker-preset:hover {
+    transform: scale(1.15);
+    border-color: var(--primary);
+}
+
+.color-picker-preset.active {
+    border-color: var(--text-primary);
+    box-shadow: 0 0 0 2px var(--surface-variant), 0 0 0 4px var(--primary);
+}
+
+/* Responsive */
+@media (max-width: 400px) {
+    .color-picker-sv {
+        height: 130px;
+    }
+    .color-picker-preset {
+        width: 22px;
+        height: 22px;
+    }
+}
+
+/* Dark mode adjustments */
+.theme-dark .color-picker {
+    background: var(--surface);
+    border-color: var(--border);
+}
