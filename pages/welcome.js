@@ -96,7 +96,8 @@ var WELCOME_THEMES = [
     { id: 'desert',  name: 'الصحراوي',   icon: 'fa-sun' },
     { id: 'ocean',   name: 'المحيط',     icon: 'fa-water' },
     { id: 'ramadan', name: 'الرمضاني',   icon: 'fa-star-and-crescent' },
-    { id: 'custom',  name: 'مخصص',       icon: 'fa-palette' }
+    { id: 'custom',  name: 'مخصص',       icon: 'fa-palette' },
+    { id: 'liquid', name: 'الزجاج السائل', icon: 'fa-droplet' }
 ];
 
 /*

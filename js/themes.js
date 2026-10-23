@@ -14,7 +14,8 @@ var ThemesManager = {
         desert:  { id: 'desert',  name: 'الصحراوي',     icon: 'fa-sun',               color: '#BF360C' },
         ocean:   { id: 'ocean',   name: 'المحيط',       icon: 'fa-water',             color: '#01579B' },
         ramadan: { id: 'ramadan', name: 'الرمضاني',     icon: 'fa-star-and-crescent', color: '#4A148C' },
-        custom:  { id: 'custom',  name: 'مخصص', icon: 'fa-palette', color: '#7C4DFF' }
+        custom:  { id: 'custom',  name: 'مخصص', icon: 'fa-palette', color: '#7C4DFF' },
+        liquid: { id: 'liquid', name: 'الزجاج السائل', icon: 'fa-droplet', color: '#0D6B6E' }
     },
     currentTheme: 'green',
     isDarkMode: false,
@@ -259,6 +260,82 @@ var ThemesManager = {
      * APPLY + SAVE
      **/
 
+    /* ============================================================
+     * LIQUID GLASS FILTER (Real SVG Displacement)
+     * Technique from Jhey (https://jhey.dev)
+     * ========================================================== */
+
+    _ensureLiquidFilter: function() {
+        if (document.getElementById('liquid-glass-svg')) return;
+
+        var width = 400;
+        var height = 400;
+        var radius = 40;
+        var border = 10;
+
+        var svgMap =
+            '<svg class="displacement-image" viewBox="0 0 ' + width + ' ' + height + '" ' +
+                 'xmlns="http://www.w3.org/2000/svg">' +
+                '<defs>' +
+                    '<linearGradient id="red" x1="100%" y1="0%" x2="0%" y2="0%">' +
+                        '<stop offset="0%" stop-color="#000"/>' +
+                        '<stop offset="100%" stop-color="red"/>' +
+                    '</linearGradient>' +
+                    '<linearGradient id="blue" x1="0%" y1="0%" x2="0%" y2="100%">' +
+                        '<stop offset="0%" stop-color="#000"/>' +
+                        '<stop offset="100%" stop-color="blue"/>' +
+                    '</linearGradient>' +
+                '</defs>' +
+                '<rect x="0" y="0" width="' + width + '" height="' + height + '" fill="black"></rect>' +
+                '<rect x="0" y="0" width="' + width + '" height="' + height + '" rx="' + radius + '" fill="url(#red)" />' +
+                '<rect x="0" y="0" width="' + width + '" height="' + height + '" rx="' + radius + '" fill="url(#blue)" style="mix-blend-mode: difference" />' +
+                '<rect x="' + border + '" y="' + border + '" ' +
+                      'width="' + (width - border * 2) + '" ' +
+                      'height="' + (height - border * 2) + '" ' +
+                      'rx="' + radius + '" ' +
+                      'fill="hsl(0 0% 50% / 0.93)" ' +
+                      'style="filter:blur(11px)" />' +
+            '</svg>';
+
+        var dataUri = 'data:image/svg+xml,' + encodeURIComponent(svgMap);
+        var filterSvg =
+            '<svg id="liquid-glass-svg" xmlns="http://www.w3.org/2000/svg">' +
+                '<defs>' +
+                    '<filter id="liquid-glass-filter" color-interpolation-filters="sRGB">' +
+                        '<feImage x="0" y="0" width="100%" height="100%" ' +
+                                'result="map" href="' + dataUri + '"></feImage>' +
+                        '<feDisplacementMap in="SourceGraphic" in2="map" ' +
+                                           'xChannelSelector="R" yChannelSelector="G" ' +
+                                           'scale="60" result="dispRed"/>' +
+                        '<feColorMatrix in="dispRed" type="matrix" ' +
+                                       'values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="red"/>' +
+                        '<feDisplacementMap in="SourceGraphic" in2="map" ' +
+                                           'xChannelSelector="R" yChannelSelector="G" ' +
+                                           'scale="60" result="dispGreen"/>' +
+                        '<feColorMatrix in="dispGreen" type="matrix" ' +
+                                       'values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0" result="green"/>' +
+                        '<feDisplacementMap in="SourceGraphic" in2="map" ' +
+                                           'xChannelSelector="R" yChannelSelector="G" ' +
+                                           'scale="60" result="dispBlue"/>' +
+                        '<feColorMatrix in="dispBlue" type="matrix" ' +
+                                       'values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0" result="blue"/>' +
+                        '<feBlend in="red" in2="green" mode="screen" result="rg"/>' +
+                        '<feBlend in="rg" in2="blue" mode="screen" result="output"/>' +
+                        '<feGaussianBlur in="output" stdDeviation="0.5"/>' +
+                    '</filter>' +
+                '</defs>' +
+            '</svg>';
+
+        var wrapper = document.createElement('div');
+        wrapper.innerHTML = filterSvg;
+        document.body.appendChild(wrapper.firstElementChild);
+    },
+
+    _removeLiquidFilter: function() {
+        var svg = document.getElementById('liquid-glass-svg');
+        if (svg) svg.remove();
+    },
+
     _apply: function() {
         var body = document.body;
         var root = document.documentElement;
@@ -277,6 +354,13 @@ var ThemesManager = {
 
         // Add the theme class
         body.classList.add('theme-' + this.currentTheme);
+
+        // Apply or remove the liquid-glass SVG filter.
+        if (this.currentTheme === 'liquid') {
+            this._ensureLiquidFilter();
+        } else {
+            this._removeLiquidFilter();
+        }
 
         // Dark mode handling
         var darkActive = this.isDarkMode;
@@ -408,3 +492,4 @@ function switchTheme(t) { applyTheme(t); }
 ThemesManager.isNightMode = function() {
     return StorageManager.get('night_mode_schedule') === true;
 };
+

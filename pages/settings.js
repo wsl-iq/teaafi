@@ -207,6 +207,19 @@ function renderSettingsPage() {
                     ${ThemesManager.getCurrent() === 'ramadan' ? '<i class="fas fa-check-circle" style="color: var(--primary);"></i>' : '<i class="far fa-circle" style="color: var(--text-disabled);"></i>'}
                 </div>
 
+                <div class="settings-item" onclick="ThemesManager.setTheme('liquid')" style="cursor: pointer;">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div style="width: 44px; height: 44px; border-radius: 12px; background: linear-gradient(135deg, rgba(13,107,110,0.8), rgba(38,166,154,0.6), rgba(224,242,241,0.9)); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; border: 2px solid ${ThemesManager.getCurrent() === 'liquid' ? 'var(--primary)' : 'rgba(255,255,255,0.5)'}; box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);">
+                            <i class="fas fa-droplet" style="color: white; font-size: 18px; text-shadow: 0 1px 2px rgba(0,0,0,0.2);"></i>
+                        </div>
+                        <div>
+                            <span style="font-weight: 600;">الزجاج السائل</span>
+                            <p style="font-size: 11px; color: var(--text-tertiary);">تأثير شفاف بتصميم iOS — يتطلب متصفحاً حديثاً</p>
+                        </div>
+                    </div>
+                    ${ThemesManager.getCurrent() === 'liquid' ? '<i class="fas fa-check-circle" style="color: var(--primary);"></i>' : '<i class="far fa-circle" style="color: var(--text-disabled);"></i>'}
+                </div>
+
                 <div class="settings-item" onclick="openCustomThemeDialog()" style="cursor: pointer; border-bottom: none;">
                     <div style="display: flex; align-items: center; gap: 12px;">
                         <div style="width: 44px; height: 44px; border-radius: 12px; position: relative; overflow: hidden; border: 2px solid ${ThemesManager.getCurrent() === 'custom' ? 'var(--primary)' : 'var(--border-light)'}; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--custom-primary), var(--custom-secondary));">
@@ -2638,3 +2651,5 @@ function handleResetOnboardingTips() {
         }, 800);
     });
 }
+
+// الثيمات

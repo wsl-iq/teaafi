@@ -32,6 +32,7 @@ const STATIC_ASSETS = [
   '/css/tasbih.css',
   '/css/menstrual-cycle-women.css',
   '/css/hormonal-wellness-men.css',
+  '/css/liquid-glass.css',
 
   // JavaScript
   //js
