@@ -23,6 +23,12 @@ var RelapseAnalysisPage = {
 
         mainContent.innerHTML = this._buildHTML();
         this._attachEvents();
+
+        if (typeof OnboardingTips !== 'undefined') {
+            setTimeout(function () {
+                OnboardingTips.show('relapse-analysis');
+            }, 800);
+        }
     },
 
     /*
@@ -396,6 +402,8 @@ var RelapseAnalysisPage = {
             });
         });
     }
+
+    
 };
 
 /*
@@ -556,3 +564,5 @@ window.renderRelapseAnalysisPage = function () {
 window.showRelapseAnalysisModal = function (habitType, onComplete) {
     RelapseAnalysisModal.show(habitType, onComplete);
 };
+
+// RelapseAnalysisPage

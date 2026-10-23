@@ -1,0 +1,642 @@
+/**
+ * Developer: Mohammed Al-Baqer
+ * Website: https://wsl-iq.github.io/teaafi/
+ * Copyright (c) 2026 Mohammed Al-Baqer
+ * Folder : css
+ * File   : menstrual-cycle-women.css
+ * Type   : CSS
+ */
+
+/*
+ * MENSTRUAL CYCLE — BASE
+ **/
+
+.mcw-page {
+    max-width: 780px;
+    margin: 0 auto;
+    padding-bottom: 32px;
+    direction: rtl;
+}
+
+.mcw-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.mcw-header-icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 12px;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #FCE4EC, #F8BBD0);
+    color: #C2185B;
+    font-size: 26px;
+}
+
+.mcw-subtitle {
+    max-width: 560px;
+    margin: 8px auto 0;
+    color: var(--text-secondary);
+    line-height: 1.9;
+    font-size: 14px;
+}
+
+/*
+ * SUMMARY CARDS
+ **/
+
+.mcw-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-bottom: 18px;
+}
+
+.mcw-summary-card {
+    background: var(--surface);
+    border: 1px solid var(--border-light);
+    border-radius: 14px;
+    padding: 14px 10px;
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.2s ease;
+}
+
+.mcw-summary-card:hover {
+    transform: translateY(-2px);
+}
+
+.mcw-summary-card i {
+    font-size: 20px;
+    margin-bottom: 6px;
+    display: block;
+}
+
+.mcw-summary-value {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--text-primary);
+    display: block;
+    line-height: 1.2;
+}
+
+.mcw-summary-label {
+    display: block;
+    margin-top: 4px;
+    font-size: 11px;
+    color: var(--text-tertiary);
+}
+
+/*
+ * CYCLE STATUS BANNER
+ **/
+
+.mcw-status-banner {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 16px;
+    border-radius: 14px;
+    margin-bottom: 18px;
+    border-right: 4px solid var(--primary);
+    background: var(--surface-variant);
+}
+
+.mcw-status-banner.type-info {
+    border-right-color: #2196F3;
+    background: rgba(33, 150, 243, 0.08);
+}
+
+.mcw-status-banner.type-warning {
+    border-right-color: #FF9800;
+    background: rgba(255, 152, 0, 0.08);
+}
+
+.mcw-status-banner.type-danger {
+    border-right-color: #F44336;
+    background: rgba(244, 67, 54, 0.08);
+}
+
+.mcw-status-banner.type-success {
+    border-right-color: #4CAF50;
+    background: rgba(76, 175, 80, 0.08);
+}
+
+.mcw-status-banner i {
+    font-size: 18px;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.mcw-status-banner p {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.8;
+    color: var(--text-primary);
+}
+
+/*
+ * SECTION CARDS
+ **/
+
+.mcw-section {
+    margin-bottom: 18px;
+}
+
+.mcw-section-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+}
+
+.mcw-section-title i {
+    color: var(--primary);
+}
+
+.mcw-card {
+    background: var(--surface);
+    border: 1px solid var(--border-light);
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: var(--shadow-sm);
+}
+
+/*
+ * FORM ROWS
+ **/
+
+.mcw-field {
+    margin-bottom: 14px;
+}
+
+.mcw-field:last-child {
+    margin-bottom: 0;
+}
+
+.mcw-label {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+}
+
+.mcw-label small {
+    font-weight: 400;
+    color: var(--text-tertiary);
+    font-size: 11px;
+    margin-right: 4px;
+}
+
+.mcw-input,
+.mcw-select,
+.mcw-textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 12px;
+    border: 2px solid var(--border);
+    background: var(--input-bg);
+    color: var(--text-primary);
+    font-family: var(--font-primary);
+    font-size: 14px;
+    transition: border-color 0.2s;
+}
+
+.mcw-input:focus,
+.mcw-select:focus,
+.mcw-textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(var(--primary-rgb), 0.1);
+}
+
+.mcw-textarea {
+    min-height: 80px;
+    resize: vertical;
+    line-height: 1.7;
+}
+
+.mcw-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+/*
+ * PAIN / MOOD / FLOW SELECTORS
+ **/
+
+.mcw-options {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.mcw-option {
+    flex: 1;
+    min-width: 70px;
+    padding: 10px 8px;
+    border-radius: 10px;
+    border: 2px solid var(--border-light);
+    background: var(--surface);
+    color: var(--text-secondary);
+    font-size: 12px;
+    font-weight: 600;
+    font-family: var(--font-primary);
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s ease;
+}
+
+.mcw-option:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.mcw-option.selected {
+    background: var(--primary-light);
+    border-color: var(--primary);
+    color: var(--primary);
+    transform: scale(1.03);
+}
+
+.mcw-option.pain-0.selected { background: rgba(76, 175, 80, 0.12); border-color: #4CAF50; color: #2E7D32; }
+.mcw-option.pain-1.selected { background: rgba(255, 193, 7, 0.12); border-color: #FFC107; color: #F57F17; }
+.mcw-option.pain-2.selected { background: rgba(255, 152, 0, 0.15); border-color: #FF9800; color: #E65100; }
+.mcw-option.pain-3.selected { background: rgba(244, 67, 54, 0.15); border-color: #F44336; color: #C62828; }
+
+/*
+ * SYMPTOM CHIPS
+ **/
+
+.mcw-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.mcw-chip {
+    padding: 7px 12px;
+    border-radius: 20px;
+    border: 2px solid var(--border-light);
+    background: var(--surface);
+    color: var(--text-secondary);
+    font-size: 12px;
+    font-weight: 500;
+    font-family: var(--font-primary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.mcw-chip:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.mcw-chip.selected {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+/*
+ * ACTION BUTTONS
+ **/
+
+.mcw-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 18px;
+}
+
+.mcw-actions .btn {
+    flex: 1;
+}
+
+/*
+ * CYCLE HISTORY LIST
+ **/
+
+.mcw-history {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.mcw-history-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    border-radius: 12px;
+    background: var(--surface-variant);
+    border: 1px solid var(--border-light);
+    transition: background 0.2s ease;
+}
+
+.mcw-history-item:hover {
+    background: var(--surface);
+}
+
+.mcw-history-icon {
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #FCE4EC, #F8BBD0);
+    color: #C2185B;
+    font-size: 16px;
+}
+
+.mcw-history-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.mcw-history-info strong {
+    display: block;
+    font-size: 13px;
+    color: var(--text-primary);
+    margin-bottom: 2px;
+}
+
+.mcw-history-info small {
+    display: block;
+    color: var(--text-tertiary);
+    font-size: 11px;
+}
+
+.mcw-history-score {
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--primary);
+}
+
+.mcw-history-delete {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    border: 1px solid var(--border-light);
+    background: var(--surface);
+    color: var(--text-tertiary);
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mcw-history-delete:hover {
+    background: #FCE4EC;
+    color: #F44336;
+    border-color: #F44336;
+}
+
+/*
+ * CHARTS (simple CSS bars)
+ **/
+
+.mcw-chart {
+    display: flex;
+    align-items: flex-end;
+    gap: 6px;
+    height: 140px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.mcw-chart-bar-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    height: 100%;
+    justify-content: flex-end;
+}
+
+.mcw-chart-bar {
+    width: 100%;
+    min-height: 6px;
+    border-radius: 6px 6px 0 0;
+    background: linear-gradient(180deg, #E91E63, #F06292);
+    transition: height 0.4s ease, background 0.2s;
+    position: relative;
+}
+
+.mcw-chart-bar:hover {
+    background: linear-gradient(180deg, #C2185B, #E91E63);
+}
+
+.mcw-chart-bar.is-outlier {
+    background: linear-gradient(180deg, #FF9800, #FFC107);
+}
+
+.mcw-chart-bar.is-critical {
+    background: linear-gradient(180deg, #F44336, #EF5350);
+}
+
+.mcw-chart-label {
+    font-size: 10px;
+    color: var(--text-tertiary);
+    text-align: center;
+    white-space: nowrap;
+}
+
+.mcw-chart-value {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+/*
+ * SYMPTOM HEATMAP
+ **/
+
+.mcw-heatmap {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 6px;
+    margin-top: 10px;
+}
+
+.mcw-heatmap-cell {
+    padding: 8px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 600;
+    color: white;
+    transition: transform 0.2s;
+}
+
+.mcw-heatmap-cell:hover {
+    transform: scale(1.05);
+}
+
+/*
+ * MEDICAL WARNING
+ **/
+
+.mcw-warning {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 14px 16px;
+    border-radius: 14px;
+    background: rgba(255, 152, 0, 0.08);
+    border: 1px solid #FF9800;
+    margin-bottom: 18px;
+}
+
+.mcw-warning i {
+    color: #E65100;
+    font-size: 18px;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.mcw-warning p {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.8;
+    color: var(--text-primary);
+}
+
+.mcw-warning strong {
+    color: #E65100;
+}
+
+/*
+ * EMPTY STATE
+ **/
+
+.mcw-empty {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--text-tertiary);
+}
+
+.mcw-empty i {
+    font-size: 40px;
+    margin-bottom: 12px;
+    display: block;
+    opacity: 0.4;
+}
+
+.mcw-empty p {
+    font-size: 13px;
+    margin: 0 0 4px;
+}
+
+.mcw-empty small {
+    font-size: 11px;
+}
+
+/*
+ * DARK MODE
+ **/
+
+.theme-dark .mcw-summary-card,
+.theme-dark .mcw-card,
+.theme-dark .mcw-history-item {
+    background: var(--surface);
+    border-color: var(--border);
+}
+
+.theme-dark .mcw-history-item:hover {
+    background: var(--surface-variant);
+}
+
+.theme-dark .mcw-status-banner.type-info {
+    background: rgba(33, 150, 243, 0.12);
+}
+
+.theme-dark .mcw-status-banner.type-warning {
+    background: rgba(255, 152, 0, 0.12);
+}
+
+.theme-dark .mcw-status-banner.type-danger {
+    background: rgba(244, 67, 54, 0.12);
+}
+
+.theme-dark .mcw-status-banner.type-success {
+    background: rgba(76, 175, 80, 0.12);
+}
+
+.theme-dark .mcw-warning {
+    background: rgba(255, 152, 0, 0.12);
+}
+
+.theme-dark .mcw-history-delete:hover {
+    background: #3D1F28;
+    color: #EF9A9A;
+}
+
+.theme-dark .mcw-chart-bar {
+    background: linear-gradient(180deg, #F06292, #F48FB1);
+}
+
+/*
+ * RESPONSIVE
+ **/
+
+@media (max-width: 700px) {
+    .mcw-summary-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .mcw-row {
+        grid-template-columns: 1fr;
+    }
+
+    .mcw-option {
+        min-width: 60px;
+        font-size: 11px;
+        padding: 8px 6px;
+    }
+}
+
+@media (max-width: 400px) {
+    .mcw-summary-value {
+        font-size: 17px;
+    }
+
+    .mcw-header-icon {
+        width: 54px;
+        height: 54px;
+        font-size: 22px;
+    }
+
+    .mcw-history-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 14px;
+    }
+}
+
+/*
+ * REDUCED MOTION
+ **/
+
+@media (prefers-reduced-motion: reduce) {
+    .mcw-summary-card,
+    .mcw-option,
+    .mcw-chip,
+    .mcw-chart-bar,
+    .mcw-heatmap-cell,
+    .mcw-history-item {
+        transition: none !important;
+    }
+}

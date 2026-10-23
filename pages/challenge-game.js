@@ -461,4 +461,10 @@ function renderBreathGamePage() {
         `;
         document.head.appendChild(style);
     }
+
+    if (typeof OnboardingTips !== 'undefined') {
+        setTimeout(function () {
+            OnboardingTips.show('challenge-game');
+        }, 800);
+    }
 }

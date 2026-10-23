@@ -1756,6 +1756,12 @@ function renderTwentyOneDayPage() {
     twentyOneDaySave(data);
     renderTwentyOneDayDashboard(data);
     mainContent.scrollTop = 0;
+
+    if (typeof OnboardingTips !== 'undefined') {
+        setTimeout(function () {
+            OnboardingTips.show('21-day');
+        }, 800);
+    }
 }
 
 /* 
@@ -1767,9 +1773,7 @@ function resetTwentyOneDayChallenge() {
         type: 'danger',
         icon: 'fa-trash-alt',
         title: 'حذف تحدي 21 يوم',
-        message:
-            'هل تريد حذف تحدي 21 يوم بالكامل؟\n\n' +
-            'سيتم حذف جميع الأيام والتقييمات والانتكاسات.',
+        message: 'هل تريد حذف تحدي 21 يوم بالكامل؟\n\n' + 'سيتم حذف جميع الأيام والتقييمات والانتكاسات.',
         confirmText: 'حذف نهائي',
         cancelText: 'إلغاء'
     }).then(function (confirmed) {

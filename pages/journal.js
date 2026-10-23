@@ -90,6 +90,12 @@ function renderJournalPage() {
             </div>
         </div>
     `;
+
+    if (typeof OnboardingTips !== 'undefined') {
+        setTimeout(function () {
+            OnboardingTips.show('journal');
+        }, 800);
+    }
 }
 
 var currentMood = 2;
@@ -189,3 +195,4 @@ function getAverageMoodColor(entries) {
     var colors = ['#4CAF50','#8BC34A','#FFC107','#FF9800','#F44336'];
     return colors[avg] || '#FFC107';
 }
+

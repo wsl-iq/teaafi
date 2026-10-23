@@ -198,3 +198,4 @@ var ChallengesManager = {
         return Math.round((done / total) * 100);
     }
 };
+

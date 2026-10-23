@@ -188,6 +188,12 @@ function renderRecoveryPage() {
     if (stats.isActive) {
         startLiveCounter();
     }
+
+    if (typeof OnboardingTips !== 'undefined') {
+        setTimeout(function () {
+            OnboardingTips.show('recovery');
+        }, 800);
+    }
 }
 
 // Start live counter
@@ -323,3 +329,4 @@ function cleanupCounter() {
         counterIntervalId = null;
     }
 }
+

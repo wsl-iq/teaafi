@@ -92,6 +92,12 @@ function renderDuasPage() {
             </div>
         </div>
     `;
+
+    if (typeof OnboardingTips !== 'undefined') {
+        setTimeout(function () {
+            OnboardingTips.show('duas');
+        }, 800);
+    }
 }
 
 function renderDuaDetail(category, id) {
@@ -331,3 +337,4 @@ function resetDuaFontSize() {
 function recordSpiritualReading(category, id) {
     return recordDuaReading(category, id);
 }
+

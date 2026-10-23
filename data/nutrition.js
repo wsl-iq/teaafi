@@ -286,4 +286,11 @@ function findAlternative(mealText, budget) {
     
     return 'بديل مقترح: ' + randomAlt + ' (متوفر بتكلفة ' + (budget || 'اقتصادية') + ')';
 }
- 
+
+if (typeof OnboardingTips !== 'undefined') {
+    setTimeout(function () {
+        OnboardingTips.show('nutrition');
+    }, 800);
+}
+
+

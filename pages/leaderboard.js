@@ -173,6 +173,12 @@ function renderLeaderboardPage() {
             </div>
         </div>
     `;
+
+    if (typeof OnboardingTips !== 'undefined') {
+        setTimeout(function () {
+            OnboardingTips.show('leaderboard');
+        }, 800);
+    }
 }
 
 /**
@@ -396,3 +402,5 @@ function updateLeaderboardRecords() {
         console.warn('[Leaderboard] Update failed:', error);
     }
 }
+
+

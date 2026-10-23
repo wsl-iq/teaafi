@@ -414,6 +414,24 @@ if (!window.__taeafiRecoveryHomeListener) {
     });
 }
 
+function handleUpdateBarClick() {
+    if (typeof navigateTo === 'function') {
+        navigateTo('settings');
+    }
+
+    setTimeout(function () {
+        var el = document.getElementById('update-status');
+        if (el && el.scrollIntoView) {
+            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            el.style.transition = 'box-shadow 0.3s ease';
+            el.style.boxShadow = '0 0 0 4px var(--primary-light)';
+            setTimeout(function () {
+                el.style.boxShadow = '';
+            }, 1800);
+        }
+    }, 500);
+}
+
 function renderHomePage() {
     const mainContent = document.getElementById('main-content');
     if (!mainContent) return;
@@ -429,54 +447,62 @@ function renderHomePage() {
         ? RecoveryCounter.getRecoveryStats() : null;
     const recoveryStats = stats || { isActive: false, days: 0, weeks: 0, months: 0, years: 0 };
 
-    // Check for updates
-    let hasUpdate = false;
-    let updateVersion = '';
+    // Check for update
+    var hasUpdate = false;
+    var updateVersion = '';
+    
 
-    // Fetch the current version of (localStorage) directly
-    const storedVersion = localStorage.getItem('app_version') ||  (typeof APP_VERSION !== 'undefined' ? APP_VERSION : null);
+    // Read current app version from version.txt (loaded by settings.js)
+    var storedVersion =
+        (typeof ApplicationVersion !== 'undefined' ? ApplicationVersion : null) ||
+        localStorage.getItem('app_version') ||
+        null;
 
-    if (typeof StorageManager !== 'undefined' && typeof StorageManager.get === 'function') {
-        const stored = StorageManager.get('update_available');
-        
-        if (stored) {
-            let updateData = null;
-            if (typeof stored === 'string') {
-                try {
-                    updateData = JSON.parse(stored);
-                } catch (e) {
-                    updateData = { version: stored.trim() };
-                }
-            } else if (typeof stored === 'object' && stored !== null) {
-                updateData = stored;
-            }
-            
-            // ust make sure the stored version exists.
-            if (updateData && updateData.version) {
-                // If (APP_VERSION) is not defined or different
-                if (!storedVersion || updateData.version !== storedVersion) {
-                    hasUpdate = true;
-                    updateVersion = updateData.version;
-                }
+    // Read stored update flag
+    var storedUpdate = null;
+    try {
+        storedUpdate = (typeof StorageManager !== 'undefined' && typeof StorageManager.get === 'function')
+            ? StorageManager.get('update_available')
+            : null;
+    } catch (e) {}
+
+    // Normalize stored value: it might be object, string-JSON, or plain string
+    var updateData = null;
+    if (storedUpdate) {
+        if (typeof storedUpdate === 'object' && storedUpdate !== null) {
+            updateData = storedUpdate;
+        } else if (typeof storedUpdate === 'string') {
+            try {
+                updateData = JSON.parse(storedUpdate);
+            } catch (e) {
+                updateData = { version: storedUpdate.trim() };
             }
         }
     }
 
-    //If there is still no update, try (localStorage) directly.
-    if (!hasUpdate) {
+    // Validate and set flags
+    if (updateData && updateData.version) {
+        // Show only if the remote version is different from what we know locally
+        if (!storedVersion || updateData.version !== storedVersion) {
+            hasUpdate = true;
+            updateVersion = updateData.version;
+        }
+    }
+
+    // Suppress the bar if user dismissed it recently (within 3 days)
+    if (hasUpdate) {
         try {
-            const raw = localStorage.getItem('update_available');
-            if (raw && raw !== 'null') {
-                const parsed = JSON.parse(raw);
-                if (parsed && parsed.version) {
-                    if (!storedVersion || parsed.version !== storedVersion) {
-                        hasUpdate = true;
-                        updateVersion = parsed.version;
-                    }
+            var lastDismissed = StorageManager.get('update_notification_dismissed');
+            if (lastDismissed && (Date.now() - Number(lastDismissed)) < 3 * 86400000) {
+                // But if the version is NEWER than the one dismissed, show it anyway
+                var dismissedVersion = StorageManager.get('update_dismissed_version');
+                if (dismissedVersion === updateVersion) {
+                    hasUpdate = false;
                 }
             }
         } catch (e) {}
     }
+    // End update check
 
     // Container creation
     const container = document.createElement('div');
@@ -497,25 +523,13 @@ function renderHomePage() {
                 margin-bottom:12px;
             }
             .update-dot{ width:10px; height:10px; background:#ff3b30; border-radius:50%; flex:0 0 auto; }
-            .update-text{ display:flex; align-items:center; gap:8px; font-size:13px; color:#3b3b3b; }
-            .update-text i{ opacity:0.7 }
+            .update-text{ display:flex; flex-direction:column; gap:2px; flex:1; font-size:13px; color:#3b3b3b; }
+            .update-text small{ color:#666; font-size:11px; }
+            .update-arrow{ font-size:12px; opacity:0.7; }
             .update-close-btn{ background:transparent; border:none; color:#666; cursor:pointer; padding:6px; border-radius:6px }
             .update-close-btn i{ font-size:12px }
             .update-notification-bar:hover{ box-shadow:0 4px 12px rgba(0,0,0,0.08) }
         </style>
-
-        ${hasUpdate ? `
-            <div class="update-notification-bar" onclick="navigateTo('settings'); setTimeout(function() { var el = document.getElementById('update-status'); if (el) el.scrollIntoView({ behavior: 'smooth' }); }, 500);">
-                <div class="update-dot"></div>
-                <div class="update-text">
-                    <span>يوجد تحديث جديد v${updateVersion}</span>
-                    <i class="fas fa-arrow-left" style="font-size: 12px;"></i>
-                </div>
-                <button class="update-close-btn" onclick="event.stopPropagation(); dismissUpdateNotification();">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-        ` : ''}
 
         <div class="mb-6">
             <h1 class="font-bold">مرحباً ${user?.name || ''}</h1>
@@ -531,6 +545,20 @@ function renderHomePage() {
         </div>
 
         ${(typeof XPBar !== 'undefined' && typeof XPBar.buildHTML === 'function') ? XPBar.buildHTML() : ''}
+
+        ${hasUpdate ? `
+            <div class="update-notification-bar" id="update-notification-bar" onclick="handleUpdateBarClick()">
+                <span class="update-dot"></span>
+                <div class="update-text">
+                    <strong>يوجد تحديث جديد — v${updateVersion}</strong>
+                    <small>اضغط للاطلاع على التفاصيل</small>
+                </div>
+                <i class="fas fa-arrow-left update-arrow"></i>
+                <button type="button" class="update-close-btn" onclick="event.stopPropagation(); dismissUpdateNotification();" aria-label="إغلاق">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        ` : ''}
 
         <div class="dual-date-container" id="dual-date">
             <div class="date-header">
@@ -837,6 +865,21 @@ function renderHomePage() {
                     </div>
                     <p class="card-description">اكتشف محفزاتك وأوقاتك الخطرة لتجنبها</p>
                 </div>
+
+                <div class="card" onclick="openHormonalMonitor()">
+                    <div class="card-header">
+                        <div class="card-icon" style="background: #FCE4EC; color: #E91E63;">
+                            <i class="fas fa-heartbeat"></i>
+                        </div>
+                        <div>
+                            <h3 class="card-title">مراقبة التغيرات الهرمونية</h3>
+                            <p class="text-sm text-secondary">تتبع دورتك / مؤشراتك</p>
+                        </div>
+                    </div>
+                    <p class="card-description">
+                        سجل التغيرات الهرمونية وتحليل الأنماط برسوم بيانية وتقارير احتمالية
+                    </p>
+                </div>
                 
                 <div class="card" onclick="navigateTo('breath')">
                     <div class="card-header">
@@ -887,15 +930,38 @@ function renderHomePage() {
     }
 }
 
-// Function to hide update notification
+/**
+ * Dismiss the update notification bar.
+ * Smoothly animates it out, then removes it.
+ * Persists a dismissal timestamp (used for "remind me after X days").
+ */
 function dismissUpdateNotification() {
-    var bar = document.querySelector('.update-notification-bar');
-    if (bar) {
-        bar.style.animation = 'slideUpOut 0.3s ease forwards';
-        setTimeout(function() { bar.remove(); }, 300);
-    }
+    var bar = document.getElementById('update-notification-bar');
+    if (!bar) return;
+
+    bar.classList.add('dismissing');
+
+    setTimeout(function () {
+        if (bar.parentNode) bar.parentNode.removeChild(bar);
+    }, 320);
+
     if (typeof StorageManager !== 'undefined' && typeof StorageManager.set === 'function') {
         StorageManager.set('update_notification_dismissed', Date.now());
+
+        // Store the version so we can show the bar again if a newer version arrives
+        var stored = typeof StorageManager.get === 'function'
+            ? StorageManager.get('update_available') : null;
+        var version = null;
+        if (stored) {
+            if (typeof stored === 'object' && stored.version) {
+                version = stored.version;
+            } else if (typeof stored === 'string') {
+                try { version = JSON.parse(stored).version; } catch (e) { version = stored.trim(); }
+            }
+        }
+        if (version) {
+            StorageManager.set('update_dismissed_version', version);
+        }
     }
 }
 
@@ -925,87 +991,161 @@ function handleBackup() {
     }
 }
 
+/**
+ * Open the hormonal monitor appropriate for the user's gender.
+ */
+function openHormonalMonitor() {
+    var user = null;
+    try {
+        user = (typeof UserManager !== 'undefined' && typeof UserManager.get === 'function')
+            ? UserManager.get()
+            : null;
+    } catch (e) {}
+
+    var gender = (user && user.gender) || 'male';
+
+    if (gender === 'female') {
+        if (typeof navigateTo === 'function') navigateTo('menstrual-cycle-women');
+    } else {
+        if (typeof navigateTo === 'function') navigateTo('hormonal-wellness-men');
+    }
+}
+
 function checkForUpdates(options) {
     options = options || {};
     var remoteUrl = options.remoteUrl || 'https://raw.githubusercontent.com/wsl-iq/teaafi/refs/heads/main/version.txt';
-    var localUrl = options.localUrl || './version.txt';
-    
+    var localUrl  = options.localUrl  || './version.txt';
+    var silent    = options.silent === true;
+
+    /**
+     * Parse version from raw text.
+     * Accepts either:
+     *   - plain text: "3.0.1"
+     *   - JSON:       {"version":"3.0.1"}
+     */
     function parseVersion(text) {
         if (!text) return null;
-        text = text.trim();
+        var t = String(text).trim();
+        if (!t) return null;
+
+        // Try JSON first
         try {
-            var data = JSON.parse(text);
-            if (data && data.version) return data.version.trim();
+            var data = JSON.parse(t);
+            if (data && typeof data.version === 'string') {
+                return data.version.trim();
+            }
         } catch (e) {
-            // Perhaps the version as a live text
-            return text;
+            // Not JSON — treat as plain text
         }
+
+        // Plain text — accept only version-like formats
+        if (/^\d+(\.\d+){0,3}$/.test(t)) {
+            return t;
+        }
+
         return null;
     }
-    
-    var localVersion = null;
-    var remoteVersion = null;
-    
-    //Bring the local version
+
+    /**
+     * Compare two version strings.
+     * Returns:  1 if a > b
+     *           0 if equal
+     *          -1 if a < b
+     */
+    function compareVersions(a, b) {
+        var pa = String(a).split('.').map(function (x) { return parseInt(x, 10) || 0; });
+        var pb = String(b).split('.').map(function (x) { return parseInt(x, 10) || 0; });
+        var len = Math.max(pa.length, pb.length);
+        for (var i = 0; i < len; i++) {
+            var na = pa[i] || 0;
+            var nb = pb[i] || 0;
+            if (na > nb) return 1;
+            if (na < nb) return -1;
+        }
+        return 0;
+    }
+
+    /**
+     * Clear the stored update flag.
+     */
+    function clearUpdate() {
+        if (typeof StorageManager !== 'undefined' && typeof StorageManager.set === 'function') {
+            StorageManager.set('update_available', null);
+        }
+    }
+
+    /**
+     * Store the update flag.
+     */
+    function storeUpdate(version) {
+        if (typeof StorageManager !== 'undefined' && typeof StorageManager.set === 'function') {
+            StorageManager.set('update_available', JSON.stringify({ version: version }));
+        }
+    }
+
+    // Guard: don't run multiple checks concurrently
+    if (window.__taeafiUpdateCheckRunning) return;
+    window.__taeafiUpdateCheckRunning = true;
+
+    // Fetch local version
     fetch(localUrl, { cache: 'no-cache' })
-        .then(function(res) {
-            if (!res.ok) throw new Error('Local version not found');
+        .then(function (res) {
+            if (!res.ok) throw new Error('Local version file not found');
             return res.text();
         })
-        .then(function(text) {
-            localVersion = parseVersion(text);
-            
-            // Bring the remote version
-            return fetch(remoteUrl, { cache: 'no-cache' });
-        })
-        .then(function(res) {
-            if (!res.ok) throw new Error('Remote version not found');
-            return res.text();
-        })
-        .then(function(text) {
-            remoteVersion = parseVersion(text);
-            
-    
-            /** 
-             * Comparison
-             */
-    
-            if (!localVersion || !remoteVersion) {
-                // There is insufficient data.
-                if (typeof StorageManager !== 'undefined' && typeof StorageManager.set === 'function') {
-                    StorageManager.set('update_available', null);
-                }
-                return;
+        .then(function (text) {
+            var localVersion = parseVersion(text);
+            if (!localVersion) {
+                throw new Error('Invalid local version format');
             }
-            
-            if (localVersion !== remoteVersion) {
-                // here is an update
-                var updateData = { version: remoteVersion };
-                
-                // save as in Storage
-                if (typeof StorageManager !== 'undefined' && typeof StorageManager.set === 'function') {
-                    StorageManager.set('update_available', JSON.stringify(updateData));
+
+            // Fetch remote version
+            return fetch(remoteUrl, { cache: 'no-cache' })
+                .then(function (res) {
+                    if (!res.ok) throw new Error('Remote version file not found (HTTP ' + res.status + ')');
+                    return res.text();
+                })
+                .then(function (remoteText) {
+                    var remoteVersion = parseVersion(remoteText);
+                    if (!remoteVersion) {
+                        throw new Error('Invalid remote version format');
+                    }
+
+                    return { local: localVersion, remote: remoteVersion };
+                });
+        })
+        .then(function (versions) {
+            var local  = versions.local;
+            var remote = versions.remote;
+
+            if (compareVersions(remote, local) > 0) {
+                // Update is available
+                storeUpdate(remote);
+
+                if (!silent) {
+                    console.log('[Update] Available: local=' + local + ', remote=' + remote);
+
+                    // Refresh home page if visible
+                    var mainContent = document.getElementById('main-content');
+                    if (mainContent && typeof Router !== 'undefined' &&
+                        typeof Router.getCurrentPage === 'function' &&
+                        Router.getCurrentPage() === 'home') {
+                        renderHomePage();
+                    }
                 }
-                
-                console.log('Update available: v' + remoteVersion);
-                
-                // Update the interface if we are on the homepage
-                var mainContent = document.getElementById('main-content');
-                if (mainContent && Router.getCurrentPage() === 'home') {
-                    renderHomePage(); // Rebuild the page to show the refresh bar
-                }
-                
             } else {
                 // No update
-                if (typeof StorageManager !== 'undefined' && typeof StorageManager.set === 'function') {
-                    StorageManager.set('update_available', null);
+                clearUpdate();
+                if (!silent) {
+                    console.log('[Update] Up to date: v' + local);
                 }
-                console.log('App is up to date: v' + localVersion);
             }
         })
-        .catch(function(err) {
-            console.warn('Update check failed:', err.message);
+        .catch(function (err) {
+            console.warn('[Update] Check failed:', err.message);
+            // Do NOT clear the update flag on network error
+        })
+        .then(function () {
+            window.__taeafiUpdateCheckRunning = false;
         });
 }
-
-// if (typeof XPBar !== 'undefined') {

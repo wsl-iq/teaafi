@@ -294,6 +294,19 @@ function renderSettingsPage() {
                             <i class="fas fa-chevron-left" style="color: var(--primary); font-size: 14px;"></i>
                         </div>
                     </div>
+
+                    <div class="settings-item" onclick="handleResetOnboardingTips()" style="cursor: pointer; border-bottom: none;">
+                        <div style="display: flex; align-items: center; gap: 12px;">
+                            <div style="width: 44px; height: 44px; border-radius: 12px; background: #E3F2FD; display: flex; align-items: center; justify-content: center;">
+                                <i class="fas fa-lightbulb" style="font-size: 18px; color: #1976D2;"></i>
+                            </div>
+                            <div>
+                                <span style="font-weight: 600;">إعادة عرض التلميحات</span>
+                                <p style="font-size: 11px; color: var(--text-tertiary);">ستظهر لك التلميحات مرة أخرى</p>
+                            </div>
+                        </div>
+                        <i class="fas fa-chevron-left" style="color: var(--text-tertiary); font-size: 14px;"></i>
+                    </div>
                 </div>
             </div>
 
@@ -622,7 +635,7 @@ function renderSettingsPage() {
                         </div>
                     </div>
                     <div style="display: flex; align-items: center; gap: 8px;">
-                        <span style="font-size: 11px; color: #E91E63; background: #FCE4EC; padding: 4px 10px; border-radius: 20px; font-weight: 500;">13 مميزات من</span>
+                        <span style="font-size: 11px; color: #E91E63; background: #FCE4EC; padding: 4px 10px; border-radius: 20px; font-weight: 500;">18 مميزات من</span>
                         <i class="fas fa-chevron-down" id="changelog-arrow" style="color: var(--text-tertiary); font-size: 14px; transition: transform 0.3s ease;"></i>
                     </div>
                 </div>
@@ -647,6 +660,12 @@ function renderSettingsPage() {
                         <li>11- نافذة تأكيد عند تصفير العدادات (الحالي / الكل / المفتوح)</li>
                         <li>12- نافذة تأكيد عند حذف العادات والمذكرات والأدعية وتحدي 21 يوم</li>
                         <li>13- إضافة الثيم المخصص لأختيار المستخدم (Custom Theme) في نوافذ التأكيد والتنبيه</li>
+                        <li>14-توحيد نوافذ التأكيد والتنبيه</li>
+                        <li>15- تحديث واجهة تقويم التعافي التفاعلي</li>
+                        <li>16- أعادة بناء محرّك البحث المتقدم</li>
+                        <li>17- تحسين واجهة صفحة تحليل الانتكاسات</li>
+                        <li>18- أضافة ميزة تتبع التغيرات الهرمونية للرجال والنساء وتحليل مفصل مبني على الاحتمالات الموصوفة من المستخدمين</li>
+
                     </ul>
 
                     <h4 style="margin: 18px 0 10px; font-size: 13px; color: var(--text-tertiary); display: flex; align-items: center; gap: 6px;">
@@ -2578,4 +2597,44 @@ function resetCustomThemeFromDialog(btn, callback) {
     if (typeof Router !== 'undefined' && Router.getCurrentPage() === 'settings') {
         renderSettingsPage();
     }
+}
+
+// حول
+
+/**
+ * Reset all onboarding tips with a confirmation dialog.
+ * After reset, takes the user to the home page where
+ * the next tip will be triggered.
+ */
+function handleResetOnboardingTips() {
+    taeafiConfirm({
+        type: 'warning',
+        icon: 'fa-lightbulb',
+        title: 'إعادة عرض التلميحات',
+        message: 'سيتم إعادة تعيين جميع التلميحات، وستظهر لك مرة أخرى عند فتح كل ميزة.\n\nهل تريد المتابعة؟',
+        confirmText: 'إعادة العرض',
+        cancelText: 'إلغاء'
+    }).then(function (confirmed) {
+        if (!confirmed) return;
+
+        if (typeof OnboardingTips === 'undefined') {
+            if (typeof showToast === 'function') {
+                showToast('نظام التلميحات غير متوفر');
+            }
+            return;
+        }
+
+        OnboardingTips.reset();
+
+        if (typeof showToast === 'function') {
+            showToast('تمت إعادة تعيين التلميحات');
+        }
+
+        // خذ المستخدم للصفحة الرئيسية حيث تظهر تلميحات جديدة عند فتح الميزات
+        setTimeout(function () {
+            if (typeof navigateTo === 'function') {
+                navigateTo('home');
+            }
+        }, 800);
+    });
 }

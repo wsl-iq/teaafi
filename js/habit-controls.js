@@ -1655,7 +1655,6 @@
         refresh
     };
     
-
 })();
 
 /*
@@ -1814,3 +1813,180 @@
     window.taeafiConfirm = taeafiConfirm;
     window.taeafiAlert = taeafiAlert;
 })();
+
+/*
+ * ONBOARDING TIPS
+ * Shows a small bottom tip once per feature.
+ **/
+
+var OnboardingTips = (function () {
+    'use strict';
+
+    var STORAGE_KEY = 'onboarding_tips_seen';
+
+    /**
+     * The tip definitions.
+     * Each tip is shown only once, unless reset.
+     */
+    var TIPS = {
+        tasbih: {
+            icon: 'fa-fingerprint',
+            title: 'تلميح سريع',
+            message: 'اضغط على الدائرة للعدّ، ويمكنك التبديل بين الذكر الحالي والذي يليه من البطاقات الصغيرة.'
+        },
+        'relapse-analysis': {
+            icon: 'fa-chart-pie',
+            title: 'تحليل الانتكاسات',
+            message: 'سجّل انتكاسة أولاً لتظهر لك التحليلات والرسوم البيانية. كل انتكاسة تُساعدك على فهم نمطك.'
+        },
+        '21-day': {
+            icon: 'fa-fire',
+            title: 'تحدي 21 يوم',
+            message: 'أكمل مهامك اليومية واحصل على تقييم في نهاية اليوم. المهام تُحفظ تلقائياً، ولا تحتاج ضغط زر حفظ.'
+        },
+        journal: {
+            icon: 'fa-pen-fancy',
+            title: 'مذكراتي',
+            message: 'اكتب ما يدور في بالك، واختر مزاجك. المذكرة تُحفظ مرة واحدة لكل يوم.'
+        },
+        leaderboard: {
+            icon: 'fa-crown',
+            title: 'لوحة المتصدرين',
+            message: 'هنا تُقارن نفسك مع نفسك فقط — لا مع الآخرين. كل سجل يمثل أفضل ما أنجزته.'
+        },
+        duas: {
+            icon: 'fa-book-open',
+            title: 'الأدعية والزيارات',
+            message: 'يمكنك تكبير الخط من الشريط العلوي. كل قراءة تُسجَّل تلقائياً في إحصائياتك.'
+        },
+        recovery: {
+            icon: 'fa-chart-line',
+            title: 'رحلة التعافي',
+            message: 'العداد يعمل مباشرة. يمكنك تسجيل انتكاسة أو إعادة بداية الرحلة من الأزرار في الأسفل.'
+        },
+        'food-conflicts': {
+            icon: 'fa-skull-crossbones',
+            title: 'فحص تعارضات الطعام',
+            message: 'أضف مكونين على الأقل ثم اضغط "تحليل الوجبة". ستظهر لك التعارضات والتركيبات الآمنة.'
+        },
+        nutrition: {
+            icon: 'fa-utensils',
+            title: 'التغذية الصحية',
+            message: 'يمكنك التبديل بين محتوى الرجال والنساء من الأعلى. اطّلع على الوجبات وقائمة الممنوعات.'
+        },
+        breath: {
+            icon: 'fa-wind',
+            title: 'تحدي النفس',
+            message: 'اتبع الدائرة: شهيق 4 ثوان، احبس 7، زفير 8. خمس جولات تكفي.'
+        },
+        calendar: {
+            icon: 'fa-calendar-check',
+            title: 'روزنامة التعافي',
+            message: 'اضغط على أي يوم لعرض حالته وإضافة ملاحظة سريعة. الأيام الخضراء نظيفة، والحمراء انتكاسات.'
+        }
+    };
+
+    /* State */
+
+    function getSeen() {
+        try {
+            var data = StorageManager.get(STORAGE_KEY);
+            return Array.isArray(data) ? data : [];
+        } catch (e) {
+            return [];
+        }
+    }
+
+    function markSeen(id) {
+        var seen = getSeen();
+        if (seen.indexOf(id) === -1) {
+            seen.push(id);
+            StorageManager.set(STORAGE_KEY, seen);
+        }
+    }
+
+    function hasSeen(id) {
+        return getSeen().indexOf(id) !== -1;
+    }
+
+    /* Rendering */
+
+    function buildTipElement(tip) {
+        var el = document.createElement('div');
+        el.className = 'onboarding-tip';
+        el.innerHTML =
+            '<div class="onboarding-tip-icon"><i class="fas ' + tip.icon + '"></i></div>' +
+            '<div class="onboarding-tip-content">' +
+                '<div class="onboarding-tip-title">' + tip.title + '</div>' +
+                '<p class="onboarding-tip-message">' + tip.message + '</p>' +
+            '</div>' +
+            '<button type="button" class="onboarding-tip-close" aria-label="إغلاق">' +
+                '<i class="fas fa-times"></i>' +
+            '</button>';
+        return el;
+    }
+
+    function dismiss(el, id) {
+        el.classList.remove('show');
+        setTimeout(function () {
+            if (el.parentNode) el.parentNode.removeChild(el);
+        }, 400);
+        if (id) markSeen(id);
+    }
+
+    /**
+     * Show a tip by id, if not already seen.
+     */
+    function show(id) {
+        if (!id || !TIPS[id]) return;
+        if (hasSeen(id)) return;
+        if (document.querySelector('.onboarding-tip')) return;
+
+        var tip = TIPS[id];
+        var el = buildTipElement(tip);
+        document.body.appendChild(el);
+
+        // Trigger animation
+        requestAnimationFrame(function () {
+            el.classList.add('show');
+        });
+
+        // Close button
+        el.querySelector('.onboarding-tip-close').addEventListener('click', function () {
+            dismiss(el, id);
+        });
+
+        // Auto-dismiss after 8 seconds (marks as seen)
+        var auto = setTimeout(function () {
+            dismiss(el, id);
+        }, 8000);
+
+        // Cancel auto if user closes manually
+        el.querySelector('.onboarding-tip-close').addEventListener('click', function () {
+            clearTimeout(auto);
+        });
+    }
+
+    /**
+     * Reset one tip or all tips.
+     */
+    function reset(id) {
+        if (!id) {
+            StorageManager.remove(STORAGE_KEY);
+            return;
+        }
+        var seen = getSeen().filter(function (x) { return x !== id; });
+        StorageManager.set(STORAGE_KEY, seen);
+    }
+
+    /* Public API */
+
+    return {
+        show: show,
+        reset: reset,
+        hasSeen: hasSeen,
+        TIPS: TIPS
+    };
+})();
+
+window.OnboardingTips = OnboardingTips;

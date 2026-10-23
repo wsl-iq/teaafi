@@ -12,25 +12,18 @@
  */
 
 let tasbihCount = {
-    allahuAkbar: 0,
-    alhamdulillah: 0,
-    subhanAllah: 0
+    allahuAkbar: 0, alhamdulillah: 0, subhanAllah: 0
 };
 
 let tasbihTarget = {
-    allahuAkbar: 34,
-    alhamdulillah: 33,
-    subhanAllah: 33
+    allahuAkbar: 34, alhamdulillah: 33, subhanAllah: 33
 };
 
 let currentTasbih = 'allahuAkbar';
 let tasbihTotalCount = 0;
 let tasbihHistory = [];
 let tasbihSession = {
-    startTime: Date.now(),
-    todayCount: 0,
-    weeklyCount: 0,
-    totalSessions: 0
+    startTime: Date.now(), todayCount: 0, weeklyCount: 0, totalSessions: 0
 };
 
 /*
@@ -51,9 +44,7 @@ let activeTasbihTab = 'fatima';
  * Get the real total count — never stale.
  */
 function getRealTasbihTotal() {
-    var calculated = Number(tasbihCount?.allahuAkbar || 0) +
-                    Number(tasbihCount?.alhamdulillah || 0) +
-                    Number(tasbihCount?.subhanAllah || 0);
+    var calculated = Number(tasbihCount?.allahuAkbar || 0) + Number(tasbihCount?.alhamdulillah || 0) + Number(tasbihCount?.subhanAllah || 0);
     return Math.max(Number(tasbihTotalCount || 0), calculated);
 }
 
@@ -103,6 +94,13 @@ function renderTasbihPage() {
 
     attachTasbihTouchHandler();
     attachOpenCounterTouchHandler();
+
+    // Show tip for the first time
+    if (typeof OnboardingTips !== 'undefined') {
+        setTimeout(function () {
+            OnboardingTips.show('tasbih');
+        }, 800);
+    }
 }
 
 /*
@@ -1047,15 +1045,13 @@ function saveTasbihData() {
 }
 
 function checkAchievementsAndChallenges() {
-    if (typeof AchievementsManager !== 'undefined' &&
-        typeof AchievementsManager.checkAll === 'function') {
+    if (typeof AchievementsManager !== 'undefined' && typeof AchievementsManager.checkAll === 'function') {
         try {
             AchievementsManager.checkAll();
         } catch (e) {}
     }
 
-    if (typeof ChallengesManager !== 'undefined' &&
-        typeof ChallengesManager.checkAll === 'function') {
+    if (typeof ChallengesManager !== 'undefined' && typeof ChallengesManager.checkAll === 'function') {
         try {
             ChallengesManager.checkAll();
         } catch (e) {}

@@ -2535,95 +2535,6 @@ i:not(.fa):not(.fas):not(.far):not(.fab):not(.fal) {
     box-shadow: var(--shadow-md);
 }
 
-.update-notification-bar {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    background: #FFF8E1;
-    border: 1px solid #FFC107;
-    border-radius: 14px;
-    padding: 12px 16px;
-    margin-bottom: 16px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    animation: slideDownIn 0.4s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-.update-notification-bar:hover {
-    background: #FFF3C4;
-    box-shadow: 0 2px 8px rgba(255, 193, 7, 0.2);
-    transform: translateY(-1px);
-}
-
-.update-dot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: #FF9800;
-    flex-shrink: 0;
-    animation: updatePulse 2s infinite;
-}
-
-.update-text {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-size: 14px;
-    font-weight: 600;
-    color: #E65100;
-}
-
-.update-close-btn {
-    background: none;
-    border: none;
-    color: #BF360C;
-    cursor: pointer;
-    font-size: 16px;
-    padding: 4px 8px;
-    border-radius: 50%;
-    transition: all 0.2s;
-    flex-shrink: 0;
-}
-
-.update-close-btn:hover {
-    background: rgba(191, 54, 12, 0.1);
-}
-
-@keyframes slideDownIn {
-    from { opacity: 0; transform: translateY(-20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes slideUpOut {
-    from { opacity: 1; transform: translateY(0); }
-    to { opacity: 0; transform: translateY(-20px); }
-}
-
-@keyframes updatePulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.5; transform: scale(1.5); }
-}
-
-.theme-dark .update-notification-bar {
-    background: #3E2E1A;
-    border-color: #FF9800;
-}
-
-.theme-dark .update-notification-bar:hover {
-    background: #4E3E2A;
-}
-
-.theme-dark .update-text {
-    color: #FFB74D;
-}
-
-.theme-dark .update-close-btn {
-    color: #FFB74D;
-}
-
 /* Nutrition & Exercise */
 .nutrition-meal-card {
     border-right: 4px solid var(--primary);
@@ -5906,4 +5817,738 @@ body.theme-dark .twenty-one-history-item {
 .theme-dark .color-picker {
     background: var(--surface);
     border-color: var(--border);
+}
+
+/*
+Feature — Interactive Tips (Onboarding Tips)
+Overview
+A simple system that displays a small window only once—upon the first visit to each feature.
+The "tip displayed" status is stored in `StorageManager` using a single key: 
+`onboarding_tips_seen` (an array of identifiers).
+*/
+
+/*
+ * ONBOARDING TIPS
+ * Small bottom-sheet tip shown once per feature.
+ **/
+
+.onboarding-tip {
+    position: fixed;
+    left: 50%;
+    bottom: 90px;
+    transform: translateX(-50%) translateY(120%);
+    background: var(--surface);
+    color: var(--text-primary);
+    border-radius: 20px;
+    padding: 16px 18px;
+    max-width: 440px;
+    width: calc(100% - 32px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+    border: 1px solid var(--border-light);
+    z-index: 99998;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    opacity: 0;
+    transition: transform 0.4s cubic-bezier(0.34, 1.4, 0.64, 1),
+                opacity 0.3s ease;
+    direction: rtl;
+}
+
+.onboarding-tip.show {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+}
+
+.onboarding-tip-icon {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--primary-light);
+    color: var(--primary);
+    font-size: 18px;
+}
+
+.onboarding-tip-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.onboarding-tip-title {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    color: var(--text-primary);
+}
+
+.onboarding-tip-message {
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+.onboarding-tip-close {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: none;
+    background: var(--surface-variant);
+    color: var(--text-secondary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    transition: all 0.2s ease;
+}
+
+.onboarding-tip-close:hover {
+    background: var(--primary-light);
+    color: var(--primary);
+    transform: rotate(90deg);
+}
+
+.onboarding-tip-actions {
+    margin-top: 10px;
+    display: flex;
+    gap: 8px;
+}
+
+.onboarding-tip-actions .btn {
+    min-height: 36px;
+    padding: 6px 14px;
+    font-size: 12px;
+}
+
+/* Dark mode */
+.theme-dark .onboarding-tip {
+    background: #1E1E1E;
+    border-color: #3D3D3D;
+}
+
+.theme-dark .onboarding-tip-close {
+    background: #2D2D2D;
+    color: #B0B0B0;
+}
+
+@media (max-width: 480px) {
+    .onboarding-tip {
+        bottom: 80px;
+        padding: 14px 14px;
+        border-radius: 16px;
+    }
+
+    .onboarding-tip-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 16px;
+    }
+
+    .onboarding-tip-title {
+        font-size: 13px;
+    }
+
+    .onboarding-tip-message {
+        font-size: 12px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .onboarding-tip {
+        transition: opacity 0.2s ease;
+        transform: translateX(-50%);
+    }
+}
+
+
+/*
+
+Feature — Interactive Recovery Calendar
+Overview
+View daily data upon tapping.
+Quick note for each day.
+Visual distinction for weeks and months.
+Export monthly data (optional).
+New Structure
+We are adding a new store, `calendar_daily_notes`:
+
+{
+    "2026-10-12": {
+    note: "Good day",
+    mood: 1,
+    updatedAt: 1234567890
+    },
+    ...
+}
+
+*/
+
+/*
+ * INTERACTIVE CALENDAR
+ * */
+
+.calendar-interactive {
+    background: var(--surface);
+    border-radius: var(--radius-xl);
+    padding: 16px;
+    border: 1px solid var(--border-light);
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 16px;
+}
+
+.calendar-header-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.calendar-header-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-primary);
+    text-align: center;
+    flex: 1;
+}
+
+.calendar-nav-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    border: 1px solid var(--border-light);
+    background: var(--surface);
+    color: var(--text-secondary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.calendar-nav-btn:hover {
+    background: var(--primary-light);
+    color: var(--primary);
+    border-color: var(--primary);
+}
+
+.calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    margin-bottom: 6px;
+}
+
+.calendar-weekday {
+    text-align: center;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-tertiary);
+    padding: 6px 0;
+}
+
+.calendar-grid-interactive {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+}
+
+.calendar-cell {
+    aspect-ratio: 1;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    background: var(--surface-variant);
+    color: var(--text-secondary);
+    transition: all 0.15s ease;
+    position: relative;
+    user-select: none;
+    border: 2px solid transparent;
+}
+
+.calendar-cell.empty {
+    background: transparent;
+    cursor: default;
+}
+
+.calendar-cell.clean {
+    background: linear-gradient(135deg, #4CAF50, #66BB6A);
+    color: white;
+}
+
+.calendar-cell.relapse {
+    background: linear-gradient(135deg, #F44336, #EF5350);
+    color: white;
+}
+
+.calendar-cell.today {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+.calendar-cell.has-note::after {
+    content: '';
+    position: absolute;
+    bottom: 3px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: currentColor;
+}
+
+.calendar-cell:hover:not(.empty) {
+    transform: scale(1.08);
+    z-index: 2;
+}
+
+.calendar-cell.selected {
+    border-color: var(--primary);
+    background: var(--primary-light);
+    color: var(--primary);
+}
+
+/* Month / week separators */
+.calendar-month-marker {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 12px 0 4px;
+    color: var(--text-tertiary);
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.calendar-month-marker::before,
+.calendar-month-marker::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border-light);
+}
+
+/* Day detail panel */
+.calendar-day-detail {
+    margin-top: 16px;
+    padding: 16px;
+    border-radius: var(--radius-lg);
+    background: var(--surface-variant);
+    border: 1px solid var(--border-light);
+    animation: calendarDetailIn 0.25s ease;
+}
+
+@keyframes calendarDetailIn {
+    from { opacity: 0; transform: translateY(-6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.calendar-day-detail-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.calendar-day-detail-status {
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-weight: 700;
+}
+
+.calendar-day-detail-status.clean {
+    background: #E8F5E9;
+    color: #2E7D32;
+}
+
+.calendar-day-detail-status.relapse {
+    background: #FCE4EC;
+    color: #C62828;
+}
+
+.calendar-day-detail-status.neutral {
+    background: var(--surface);
+    color: var(--text-tertiary);
+}
+
+.calendar-note-input {
+    width: 100%;
+    min-height: 70px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: var(--input-bg);
+    color: var(--text-primary);
+    font-family: var(--font-primary);
+    font-size: 13px;
+    line-height: 1.7;
+    resize: vertical;
+    transition: border-color 0.2s;
+}
+
+.calendar-note-input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(var(--primary-rgb), 0.1);
+}
+
+.calendar-mood-row {
+    display: flex;
+    gap: 8px;
+    margin: 10px 0;
+}
+
+.calendar-mood-icon {
+    font-size: 22px;
+    padding: 6px;
+    border-radius: 10px;
+    cursor: pointer;
+    opacity: 0.45;
+    transition: all 0.2s ease;
+}
+
+.calendar-mood-icon:hover {
+    opacity: 0.9;
+    transform: scale(1.1);
+}
+
+.calendar-mood-icon.selected {
+    opacity: 1;
+    background: var(--primary-light);
+    transform: scale(1.12);
+}
+
+.calendar-detail-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.calendar-legend {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 14px;
+    font-size: 11px;
+    color: var(--text-secondary);
+}
+
+.calendar-legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.calendar-legend-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 4px;
+}
+
+.calendar-legend-dot.clean {
+    background: linear-gradient(135deg, #4CAF50, #66BB6A);
+}
+
+.calendar-legend-dot.relapse {
+    background: linear-gradient(135deg, #F44336, #EF5350);
+}
+
+.calendar-legend-dot.neutral {
+    background: var(--surface-variant);
+    border: 1px solid var(--border-light);
+}
+
+.calendar-month-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-top: 16px;
+}
+
+.calendar-month-stat {
+    padding: 12px 8px;
+    border-radius: 12px;
+    text-align: center;
+    background: var(--surface-variant);
+}
+
+.calendar-month-stat-value {
+    display: block;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--text-primary);
+}
+
+.calendar-month-stat-label {
+    display: block;
+    font-size: 11px;
+    color: var(--text-tertiary);
+    margin-top: 4px;
+}
+
+/* Dark mode */
+.theme-dark .calendar-cell.empty {
+    background: transparent;
+}
+
+.theme-dark .calendar-day-detail {
+    background: #252525;
+    border-color: #3D3D3D;
+}
+
+.theme-dark .calendar-day-detail-status.neutral {
+    background: #2D2D2D;
+}
+
+.theme-dark .calendar-month-stat {
+    background: #252525;
+}
+
+@media (max-width: 480px) {
+    .calendar-cell {
+        font-size: 12px;
+        border-radius: 8px;
+    }
+
+    .calendar-mood-icon {
+        font-size: 18px;
+    }
+
+    .calendar-month-stat-value {
+        font-size: 17px;
+    }
+}
+
+/*
+ * UPDATE NOTIFICATION BAR
+ * Placed directly below the XP bar.
+ * Only rendered when an update is available.
+ * Safe against Quick Actions button (top-left).
+ **/
+
+.update-notification-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    margin-bottom: 14px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #FFF8E1, #FFF3C4);
+    border: 1px solid #FFC107;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.25s ease;
+    animation: updateBarSlideIn 0.35s cubic-bezier(0.34, 1.4, 0.64, 1);
+    direction: rtl;
+}
+
+.update-notification-bar:hover {
+    background: linear-gradient(135deg, #FFF3C4, #FFECB3);
+    box-shadow: 0 4px 14px rgba(255, 193, 7, 0.25);
+    transform: translateY(-1px);
+}
+
+.update-notification-bar:active {
+    transform: translateY(0);
+}
+
+/* The colored dot with pulse */
+.update-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #FF9800;
+    flex-shrink: 0;
+    animation: updateDotPulse 2s ease-in-out infinite;
+}
+
+@keyframes updateDotPulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(255, 152, 0, 0.5);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 8px rgba(255, 152, 0, 0);
+    }
+}
+
+/* Text block */
+.update-text {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    text-align: right;
+}
+
+.update-text strong {
+    font-size: 13px;
+    font-weight: 700;
+    color: #E65100;
+    line-height: 1.4;
+}
+
+.update-text small {
+    font-size: 11px;
+    color: #BF360C;
+    opacity: 0.85;
+    line-height: 1.4;
+}
+
+/* Arrow icon on the left */
+.update-arrow {
+    flex-shrink: 0;
+    color: #E65100;
+    font-size: 13px;
+    transition: transform 0.25s ease;
+}
+
+.update-notification-bar:hover .update-arrow {
+    transform: translateX(-3px);
+}
+
+/* Close button on the right */
+.update-close-btn {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 193, 7, 0.25);
+    color: #BF360C;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    transition: all 0.2s ease;
+}
+
+.update-close-btn:hover {
+    background: rgba(191, 54, 12, 0.15);
+    color: #8D2600;
+    transform: rotate(90deg);
+}
+
+/* Dismiss animation */
+.update-notification-bar.dismissing {
+    animation: updateBarSlideUp 0.3s ease forwards;
+    pointer-events: none;
+}
+
+@keyframes updateBarSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes updateBarSlideUp {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+        max-height: 100px;
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-12px);
+        max-height: 0;
+        margin-bottom: 0;
+        padding-top: 0;
+        padding-bottom: 0;
+        border-width: 0;
+    }
+}
+
+/* Dark mode */
+
+.theme-dark .update-notification-bar {
+    background: linear-gradient(135deg, #3E2E1A, #4E3E2A);
+    border-color: #FF9800;
+}
+
+.theme-dark .update-notification-bar:hover {
+    background: linear-gradient(135deg, #4E3E2A, #5E4E3A);
+    box-shadow: 0 4px 14px rgba(255, 152, 0, 0.2);
+}
+
+.theme-dark .update-text strong {
+    color: #FFB74D;
+}
+
+.theme-dark .update-text small {
+    color: #FFCC80;
+}
+
+.theme-dark .update-arrow {
+    color: #FFB74D;
+}
+
+.theme-dark .update-close-btn {
+    background: rgba(255, 152, 0, 0.2);
+    color: #FFCC80;
+}
+
+.theme-dark .update-close-btn:hover {
+    background: rgba(255, 152, 0, 0.3);
+    color: #FFE082;
+}
+
+/* Responsive */
+
+@media (max-width: 400px) {
+    .update-notification-bar {
+        padding: 10px 12px;
+        gap: 10px;
+    }
+
+    .update-text strong {
+        font-size: 12px;
+    }
+
+    .update-text small {
+        font-size: 10px;
+    }
+
+    .update-close-btn {
+        width: 24px;
+        height: 24px;
+        font-size: 11px;
+    }
+}
+
+/* Reduced motion */
+
+@media (prefers-reduced-motion: reduce) {
+    .update-notification-bar,
+    .update-dot,
+    .update-arrow,
+    .update-close-btn {
+        animation: none !important;
+        transition: none !important;
+    }
 }

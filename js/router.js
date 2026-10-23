@@ -37,7 +37,9 @@ class Router {
         'breath',
         'habit-detail', // Keep habit details uncached to avoid stale live data when navigating back.
         'relapse-analysis',
-        '21-day'
+        '21-day',
+        'menstrual-cycle-women',
+        'hormonal-wellness-men'
     ];
 
     // Page cache storage.
@@ -69,7 +71,9 @@ class Router {
 
         // Optional page added by the prayer-assistant feature.
         // It is harmless if the render function is not loaded yet.
-        forgetfulness: 'renderForgetfulnessPage'
+        forgetfulness: 'renderForgetfulnessPage',
+        'menstrual-cycle-women': 'renderMenstrualCyclePage',
+        'hormonal-wellness-men': 'renderHormonalWellnessPage'
     };
 
 
@@ -678,3 +682,5 @@ if (document.readyState === 'loading') {
 } else {
     Router.init();
 }
+
+// #noCachePages

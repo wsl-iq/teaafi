@@ -11,7 +11,7 @@ var BackupManager = {
     exportData: function() {
         try {
             var data = {
-                version: '3.0.0',
+                version: '3.0.1',
                 exportDate: new Date().toISOString(),
                 user: StorageManager.getUser(),
                 recovery: StorageManager.getRecoveryData(),
@@ -63,7 +63,6 @@ var BackupManager = {
             if (data.ratingMessage) StorageManager.set('app_rating_message', data.ratingMessage);
             if (data.achievements) StorageManager.set('achievements', data.achievements);
             if (data.habitsHistory) StorageManager.set('habits_history', data.habitsHistory);
-            
             if (typeof showToast === 'function') {
                 showToast('تم استيراد البيانات بنجاح');
             }

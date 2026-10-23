@@ -90,6 +90,12 @@ function renderFoodConflictsPage() {
             </div>
         </div>
     `;
+
+    if (typeof OnboardingTips !== 'undefined') {
+        setTimeout(function () {
+            OnboardingTips.show('food-conflicts');
+        }, 800);
+    }
 }
 
 var mealIngredients = [];
@@ -360,3 +366,4 @@ foodConflictStyles.textContent = `
     }
 `;
 document.head.appendChild(foodConflictStyles);
+

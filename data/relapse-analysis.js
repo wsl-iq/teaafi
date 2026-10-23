@@ -221,7 +221,6 @@ var RelapseAnalysisStorage = {
         var triggers = this.getTopTriggers(habitType);
         var hours = this.getDangerousHours(habitType);
         var days = this.getDangerousDays(habitType);
-
         var topTrigger = triggers.length > 0 ? triggers[0].id : null;
         var dangerousHour = Object.keys(hours).reduce(function (max, key) {
             return hours[key].count > hours[max].count ? key : max;

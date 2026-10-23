@@ -146,11 +146,75 @@ function checkResponsive() {
     if (w >= 1024) {
         if (s) s.style.display = 'flex';
         if (b) b.style.display = 'none';
+    } else if (w >= 768) {
+        if (s) s.style.display = 'flex';
+        if (b) b.style.display = 'none';
+    } else if (w >= 480) {
+        if (s) s.style.display = 'none';
+        if (b) b.style.display = 'flex';
+    } else if (w >= 320) {
+        if (s) s.style.display = 'none';
+        if (b) b.style.display = 'flex';
     } else {
         if (s) s.style.display = 'none';
         if (b) b.style.display = 'flex';
     }
 }
+
+/*
+ * GLOBAL TOAST — robust against re-renders
+ **/
+
+(function () {
+    'use strict';
+
+    // Ensure a dedicated container exists under <body>, not inside #app
+    function ensureContainer() {
+        var container = document.getElementById('toast-container');
+        if (!container) {
+            container = document.createElement('div');
+            container.id = 'toast-container';
+            document.body.appendChild(container);
+        }
+        container.className = 'toast-container';
+        // Remove from any nested parent if it ended up inside main
+        if (container.parentNode !== document.body) {
+            document.body.appendChild(container);
+        }
+        return container;
+    }
+
+    /**
+     * Show a toast message.
+     * Robust: works even if main-content is rebuilt right after.
+     * @param {string} message
+     * @param {number} duration (ms)
+     */
+    window.showToast = function (message, duration) {
+        duration = duration || 2500;
+        var container = ensureContainer();
+
+        var toast = document.createElement('div');
+        toast.className = 'toast';
+        toast.innerHTML = String(message || '');
+
+        container.appendChild(toast);
+
+        // Force reflow so the animation starts
+        void toast.offsetWidth;
+
+        toast.style.opacity = '1';
+        toast.style.transform = 'translateY(0)';
+
+        setTimeout(function () {
+            toast.style.opacity = '0';
+            toast.style.transform = 'translateY(-10px)';
+            setTimeout(function () {
+                if (toast.parentNode) toast.parentNode.removeChild(toast);
+            }, 300);
+        }, duration);
+    };
+})();
 
 document.addEventListener('DOMContentLoaded', function () {
     setTimeout(initApp, 100);
