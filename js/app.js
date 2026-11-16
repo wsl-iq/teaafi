@@ -9,9 +9,69 @@
 
 var _appStarted = false;
 
+/*
+ * Splash: load version from ./version.txt
+ **/
+
+function splashLoadVersion() {
+    var versionEl = document.getElementById('splash-version-text');
+    if (!versionEl) return;
+
+    // Fallback while loading
+    versionEl.textContent = 'جاري التحميل...';
+
+    function normalizeVersion(raw) {
+        var v = String(raw || '').trim();
+
+        // Support JSON: {"version":"3.0.1"}
+        try {
+            var parsed = JSON.parse(v);
+            if (parsed && parsed.version) v = String(parsed.version).trim();
+        } catch (e) { /* not JSON, ok */ }
+
+        // Strip leading "v" or "V"
+        v = v.replace(/^[vV]/, '').trim();
+
+        // Validate: digits and dots only (1.2.3 or 1.2.3.4)
+        if (!/^\d+(\.\d+){0,3}$/.test(v)) return null;
+        return v;
+    }
+
+    function applyVersion(v) {
+        if (!v) {
+            versionEl.textContent = 'الإصدار v3.0.1';
+            return;
+        }
+        // "الإصدار v3.0.1" — same Arabic numerals, RTL handled by CSS
+        versionEl.textContent = 'الإصدار v' + v;
+    }
+
+    try {
+        fetch('./version.txt', { cache: 'no-cache' })
+            .then(function (res) {
+                if (!res.ok) throw new Error('version.txt not found');
+                return res.text();
+            })
+            .then(function (text) {
+                var v = normalizeVersion(text);
+                if (!v) throw new Error('invalid version');
+                applyVersion(v);
+            })
+            .catch(function () {
+                // Silent fallback
+                applyVersion(null);
+            });
+    } catch (e) {
+        applyVersion(null);
+    }
+}
+
 function initApp() {
     if (_appStarted) return;
     _appStarted = true;
+
+    // Load version immediately so it appears on the splash screen
+    splashLoadVersion();
 
     try {
         if (typeof StorageManager !== 'undefined' && typeof StorageManager.init === 'function') {
@@ -219,3 +279,10 @@ function checkResponsive() {
 document.addEventListener('DOMContentLoaded', function () {
     setTimeout(initApp, 100);
 });
+
+// Kick off version loading as early as possible
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', splashLoadVersion, { once: true });
+} else {
+    splashLoadVersion();
+}

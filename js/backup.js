@@ -11,7 +11,7 @@ var BackupManager = {
     exportData: function() {
         try {
             var data = {
-                version: '3.0.1',
+                version: '3.1.2',
                 exportDate: new Date().toISOString(),
                 user: StorageManager.getUser(),
                 recovery: StorageManager.getRecoveryData(),

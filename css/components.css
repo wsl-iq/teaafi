@@ -465,6 +465,13 @@ Developer: Mohammed Al-Baqer
 
 .splash-content {
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    width: 100%;
+    max-width: 420px;
 }
 
 .splash-icon-wrapper {
@@ -475,29 +482,100 @@ Developer: Mohammed Al-Baqer
     font-size: 80px;
     color: white;
     animation: splashPulse 2s infinite;
+    display: inline-block;
+    filter: drop-shadow(0 6px 18px rgba(0, 0, 0, 0.25));
 }
 
 @keyframes splashPulse {
     0%, 100% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.1); opacity: 0.8; }
+    50% { transform: scale(1.1); opacity: 0.85; }
 }
 
 .splash-text {
     color: white;
     margin-bottom: var(--space-8);
+    width: 100%;
 }
 
 .splash-title {
+    font-family: var(--font-heading);
     font-size: 40px;
     font-weight: 800;
     margin-bottom: var(--space-2);
+    letter-spacing: -0.5px;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
 .splash-subtitle {
+    font-family: var(--font-primary);
     font-size: var(--text-lg);
+    font-weight: 500;
+    opacity: 0.92;
+    margin-bottom: var(--space-4);
+}
+
+/*
+ * Version badge — same font as the rest of the app
+ **/
+.splash-version {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 8px 18px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.16);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    color: #ffffff;
+
+    /* نفس خط التطبيق الأساسي */
+    font-family: var(--font-primary);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0;
+    direction: rtl;
+
+    min-height: 34px;
+    transition: opacity 0.3s ease;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.35),
+        0 2px 8px rgba(0, 0, 0, 0.12);
+}
+
+.splash-version i {
+    font-size: 13px;
     opacity: 0.9;
 }
 
+.splash-version #splash-version-text {
+    font-family: inherit;
+    font-weight: 600;
+    direction: rtl;
+    unicode-bidi: plaintext;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Footer */
+.splash-footer {
+    position: absolute;
+    bottom: 24px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.78);
+    font-family: var(--font-primary);
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 1.8;
+    padding: 0 16px;
+    letter-spacing: 0;
+    direction: ltr;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+}
+
+/* Loader */
 .splash-loader {
     width: 200px;
     height: 3px;
@@ -1502,7 +1580,7 @@ input:checked + .toggle-slider:before {
     font-style: normal !important;
 }
 
-/* السماح بالميلان فقط للعناصر المخصصة */
+/* Allow tilting only for designated elements */
 .fa,
 .fas,
 .far,
@@ -6550,5 +6628,308 @@ We are adding a new store, `calendar_daily_notes`:
     .update-close-btn {
         animation: none !important;
         transition: none !important;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ============================================================
+ * LIQUID THEME WARNING MODAL
+ * Used by: confirmLiquidTheme() in settings.js
+ *          showLiquidThemeWarning() in welcome.js
+ * ============================================================ */
+
+.liquid-warning-card {
+    max-width: 440px;
+    text-align: center;
+    padding: 28px 24px 24px;
+    animation: scaleIn 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+/* --- Warning icon --- */
+.liquid-warning-icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 16px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #FF9800, #F57C00);
+    box-shadow: 0 8px 24px rgba(255, 152, 0, 0.35);
+    color: white;
+    font-size: 36px;
+    position: relative;
+    animation: liquidWarningPulse 2.4s ease-in-out infinite;
+}
+
+.liquid-warning-icon::before {
+    content: '';
+    position: absolute;
+    inset: -8px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 152, 0, 0.25);
+    animation: liquidWarningRing 2.4s ease-out infinite;
+    pointer-events: none;
+}
+
+@keyframes liquidWarningPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+@keyframes liquidWarningRing {
+    0% { transform: scale(0.85); opacity: 0.6; }
+    100% { transform: scale(1.35); opacity: 0; }
+}
+
+/* --- Title & description --- */
+.liquid-warning-title {
+    margin: 0 0 8px;
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--text-primary);
+    line-height: 1.4;
+}
+
+.liquid-warning-subtitle {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin: 0 0 20px;
+    line-height: 1.8;
+}
+
+/* --- "قد يسبب" warning box --- */
+.liquid-warning-effects {
+    background: linear-gradient(135deg, #FFF3E0, #FFF8E1);
+    border-right: 4px solid #FF9800;
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 16px;
+    text-align: right;
+}
+
+.liquid-warning-effects-title {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #E65100;
+    margin: 0 0 8px;
+}
+
+.liquid-warning-effects-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 12px;
+    color: #BF360C;
+    line-height: 1.9;
+}
+
+.liquid-warning-effects-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    padding: 2px 0;
+}
+
+.liquid-warning-effects-list li::before {
+    content: '•';
+    font-weight: 900;
+    flex-shrink: 0;
+    color: #E65100;
+}
+
+.liquid-warning-effects-list strong {
+    color: #BF360C;
+    font-weight: 700;
+}
+
+/* --- "يُنصح به" success box --- */
+.liquid-warning-recommend {
+    background: #E8F5E9;
+    border-right: 4px solid #4CAF50;
+    border-radius: 12px;
+    padding: 12px 14px;
+    margin-bottom: 20px;
+    text-align: right;
+}
+
+.liquid-warning-recommend p {
+    font-size: 12px;
+    color: #2E7D32;
+    line-height: 1.7;
+    margin: 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 4px;
+}
+
+.liquid-warning-recommend i {
+    color: #4CAF50;
+    margin-top: 2px;
+    flex-shrink: 0;
+}
+
+.liquid-warning-recommend strong {
+    color: #1B5E20;
+    font-weight: 700;
+}
+
+/* --- Actions --- */
+.liquid-warning-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.liquid-warning-actions .btn {
+    flex: 1;
+    min-height: 46px;
+    font-weight: 700;
+}
+
+.liquid-warning-actions .btn-outline {
+    border-color: var(--border);
+    color: var(--text-secondary);
+    background: transparent;
+}
+
+.liquid-warning-actions .btn-outline:hover {
+    background: var(--surface-variant);
+    color: var(--text-primary);
+}
+
+.liquid-warning-actions .btn-warning {
+    background: linear-gradient(135deg, #FF9800, #F57C00);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    color: white;
+    box-shadow:
+        0 4px 12px rgba(255, 152, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.liquid-warning-actions .btn-warning:hover {
+    background: linear-gradient(135deg, #F57C00, #E65100);
+    box-shadow: 0 6px 16px rgba(255, 152, 0, 0.4);
+}
+
+/* --- Footer note --- */
+.liquid-warning-note {
+    font-size: 11px;
+    color: var(--text-tertiary);
+    margin: 12px 0 0;
+    line-height: 1.6;
+}
+
+/* ============================================================
+ * DARK MODE — no color clash
+ * ============================================================ */
+
+.theme-dark .liquid-warning-effects {
+    background: rgba(255, 152, 0, 0.12);
+    border-right-color: #FF9800;
+}
+
+.theme-dark .liquid-warning-effects-title {
+    color: #FFB74D;
+}
+
+.theme-dark .liquid-warning-effects-list {
+    color: #FFCC80;
+}
+
+.theme-dark .liquid-warning-effects-list li::before {
+    color: #FFB74D;
+}
+
+.theme-dark .liquid-warning-effects-list strong {
+    color: #FFE0B2;
+}
+
+.theme-dark .liquid-warning-recommend {
+    background: rgba(76, 175, 80, 0.12);
+    border-right-color: #4CAF50;
+}
+
+.theme-dark .liquid-warning-recommend p {
+    color: #A5D6A7;
+}
+
+.theme-dark .liquid-warning-recommend i {
+    color: #66BB6A;
+}
+
+.theme-dark .liquid-warning-recommend strong {
+    color: #C8E6C9;
+}
+
+.theme-dark .liquid-warning-title {
+    color: var(--text-primary);
+}
+
+.theme-dark .liquid-warning-subtitle {
+    color: var(--text-secondary);
+}
+
+.theme-dark .liquid-warning-note {
+    color: var(--text-tertiary);
+}
+
+.theme-dark .liquid-warning-actions .btn-outline {
+    border-color: var(--border);
+    color: var(--text-secondary);
+    background: transparent;
+}
+
+.theme-dark .liquid-warning-actions .btn-outline:hover {
+    background: var(--surface-variant);
+    color: var(--text-primary);
+}
+
+/* --- Responsive --- */
+@media (max-width: 400px) {
+    .liquid-warning-card {
+        padding: 22px 16px 18px;
+        border-radius: 20px;
+    }
+
+    .liquid-warning-icon {
+        width: 68px;
+        height: 68px;
+        font-size: 30px;
+        margin-bottom: 14px;
+    }
+
+    .liquid-warning-title {
+        font-size: 17px;
+    }
+
+    .liquid-warning-subtitle {
+        font-size: 12px;
+    }
+
+    .liquid-warning-actions {
+        flex-direction: column;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .liquid-warning-icon,
+    .liquid-warning-icon::before {
+        animation: none !important;
     }
 }

@@ -7,7 +7,7 @@
  * Type: JavaScript
  */
 
-const CACHE_NAME = 'taafi-app-v3.0.1';
+const CACHE_NAME = 'taafi-app-v3.1.2';
 const DYNAMIC_CACHE = 'taafi-dynamic-v1';
 const STATIC_ASSETS = [
   '/',

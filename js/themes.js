@@ -79,6 +79,29 @@ var ThemesManager = {
         this._save();
 
         if (typeof showToast === 'function') showToast(this.themes[id].name);
+        if (id === 'liquid' && typeof showToast === 'function') {
+            setTimeout(function () {
+                var card = document.createElement('div');
+                card.setAttribute('role', 'status');
+                card.dir = 'rtl';
+                card.style.cssText = 'position:fixed;top:24px;left:50%;transform:translateX(-50%);z-index:9999;display:flex;align-items:center;gap:12px;max-width:calc(100% - 32px);padding:14px 18px;background:#fff;color:#263238;border:1px solid #e0e0e0;border-radius:14px;box-shadow:0 8px 28px rgba(0,0,0,.18);font:500 14px/1.6 sans-serif;';
+
+                var icon = document.createElement('i');
+                icon.className = 'fas fa-lightbulb';
+                icon.setAttribute('aria-hidden', 'true');
+                icon.style.cssText = 'color:#0D6B6E;font-size:20px;flex:0 0 auto;';
+
+                var message = document.createElement('span');
+                message.textContent = 'إذا لاحظت بطئاً أو سخونة، عُد للثيم الأخضر';
+
+                card.appendChild(icon);
+                card.appendChild(message);
+                document.body.appendChild(card);
+                setTimeout(function () {
+                    if (card.parentNode) card.parentNode.removeChild(card);
+                }, 5000);
+            }, 1200);
+        }
         if (typeof renderSettingsPage === 'function') renderSettingsPage();
     },
 
@@ -260,22 +283,24 @@ var ThemesManager = {
      * APPLY + SAVE
      **/
 
-    /* ============================================================
-     * LIQUID GLASS FILTER (Real SVG Displacement)
-     * Technique from Jhey (https://jhey.dev)
-     * ========================================================== */
+    /*
+     * LIQUID GLASS SVG FILTERS
+     * Three filters (same technique as Quick Actions):
+     *   - #liquid-glass-filter       → large cards / modals (400×400)
+     *   - #liquid-glass-filter-fab   → circular FAB (56×56)
+     *   - #liquid-glass-filter-pill  → pill buttons (300×56)
+     * Each filter uses DIFFERENT scale per RGB channel to produce
+     * real chromatic aberration (colored fringes on edges).
+     */
 
-    _ensureLiquidFilter: function() {
-        if (document.getElementById('liquid-glass-svg')) return;
+    _buildDisplacementFilter: function (filterId, width, height, radius) {
+        if (document.querySelector('filter#' + filterId)) return; // already built
 
-        var width = 400;
-        var height = 400;
-        var radius = 40;
-        var border = 10;
+        var border = Math.min(width, height) * 0.12;
 
+        // Displacement map: red gradient left→right, blue top→bottom
         var svgMap =
-            '<svg class="displacement-image" viewBox="0 0 ' + width + ' ' + height + '" ' +
-                 'xmlns="http://www.w3.org/2000/svg">' +
+            '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ' + width + ' ' + height + '">' +
                 '<defs>' +
                     '<linearGradient id="red" x1="100%" y1="0%" x2="0%" y2="0%">' +
                         '<stop offset="0%" stop-color="#000"/>' +
@@ -286,42 +311,44 @@ var ThemesManager = {
                         '<stop offset="100%" stop-color="blue"/>' +
                     '</linearGradient>' +
                 '</defs>' +
-                '<rect x="0" y="0" width="' + width + '" height="' + height + '" fill="black"></rect>' +
-                '<rect x="0" y="0" width="' + width + '" height="' + height + '" rx="' + radius + '" fill="url(#red)" />' +
-                '<rect x="0" y="0" width="' + width + '" height="' + height + '" rx="' + radius + '" fill="url(#blue)" style="mix-blend-mode: difference" />' +
+                '<rect x="0" y="0" width="' + width + '" height="' + height + '" fill="black"/>' +
+                '<rect x="0" y="0" width="' + width + '" height="' + height + '" rx="' + radius + '" fill="url(#red)"/>' +
+                '<rect x="0" y="0" width="' + width + '" height="' + height + '" rx="' + radius + '" fill="url(#blue)" style="mix-blend-mode: difference"/>' +
                 '<rect x="' + border + '" y="' + border + '" ' +
                       'width="' + (width - border * 2) + '" ' +
                       'height="' + (height - border * 2) + '" ' +
-                      'rx="' + radius + '" ' +
-                      'fill="hsl(0 0% 50% / 0.93)" ' +
-                      'style="filter:blur(11px)" />' +
+                      'rx="' + radius + '" fill="hsl(0 0% 50% / 0.93)" ' +
+                      'style="filter:blur(11px)"/>' +
             '</svg>';
 
         var dataUri = 'data:image/svg+xml,' + encodeURIComponent(svgMap);
+
+
+        // Chromatic aberration:
+        //   Red    : scale 50  (least displacement)
+        //   Green  : scale 58  (mid, reference)
+        //   Blue   : scale 68  (max displacement)
+        // The 10–18px difference produces colored fringes on edges.
+
+
         var filterSvg =
-            '<svg id="liquid-glass-svg" xmlns="http://www.w3.org/2000/svg">' +
+            '<svg xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:0;height:0;overflow:hidden" aria-hidden="true">' +
                 '<defs>' +
-                    '<filter id="liquid-glass-filter" color-interpolation-filters="sRGB">' +
-                        '<feImage x="0" y="0" width="100%" height="100%" ' +
-                                'result="map" href="' + dataUri + '"></feImage>' +
-                        '<feDisplacementMap in="SourceGraphic" in2="map" ' +
-                                           'xChannelSelector="R" yChannelSelector="G" ' +
-                                           'scale="60" result="dispRed"/>' +
-                        '<feColorMatrix in="dispRed" type="matrix" ' +
-                                       'values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="red"/>' +
-                        '<feDisplacementMap in="SourceGraphic" in2="map" ' +
-                                           'xChannelSelector="R" yChannelSelector="G" ' +
-                                           'scale="60" result="dispGreen"/>' +
-                        '<feColorMatrix in="dispGreen" type="matrix" ' +
-                                       'values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0" result="green"/>' +
-                        '<feDisplacementMap in="SourceGraphic" in2="map" ' +
-                                           'xChannelSelector="R" yChannelSelector="G" ' +
-                                           'scale="60" result="dispBlue"/>' +
-                        '<feColorMatrix in="dispBlue" type="matrix" ' +
-                                       'values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0" result="blue"/>' +
+                    '<filter id="' + filterId + '" color-interpolation-filters="sRGB">' +
+                        '<feImage x="0" y="0" width="100%" height="100%" result="map" href="' + dataUri + '"/>' +
+
+                        '<feDisplacementMap in="SourceGraphic" in2="map" xChannelSelector="R" yChannelSelector="G" scale="50" result="dispRed"/>' +
+                        '<feColorMatrix in="dispRed" type="matrix" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" result="red"/>' +
+
+                        '<feDisplacementMap in="SourceGraphic" in2="map" xChannelSelector="R" yChannelSelector="G" scale="58" result="dispGreen"/>' +
+                        '<feColorMatrix in="dispGreen" type="matrix" values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0" result="green"/>' +
+
+                        '<feDisplacementMap in="SourceGraphic" in2="map" xChannelSelector="R" yChannelSelector="G" scale="68" result="dispBlue"/>' +
+                        '<feColorMatrix in="dispBlue" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0" result="blue"/>' +
+
                         '<feBlend in="red" in2="green" mode="screen" result="rg"/>' +
                         '<feBlend in="rg" in2="blue" mode="screen" result="output"/>' +
-                        '<feGaussianBlur in="output" stdDeviation="0.5"/>' +
+                        '<feGaussianBlur in="output" stdDeviation="0.4"/>' +
                     '</filter>' +
                 '</defs>' +
             '</svg>';
@@ -331,9 +358,31 @@ var ThemesManager = {
         document.body.appendChild(wrapper.firstElementChild);
     },
 
+    /**
+     * Ensure ALL three liquid-glass filters exist on the page.
+     * Safe to call multiple times (idempotent).
+     */
+    _ensureAllLiquidFilters: function () {
+        // Large cards / modals — 400×400, radius 40
+        this._buildDisplacementFilter('liquid-glass-filter', 400, 400, 40);
+
+        // Circular FAB — 56×56, radius 28
+        this._buildDisplacementFilter('liquid-glass-filter-fab', 56, 56, 28);
+
+        // Pill buttons — 300×56, radius 28
+        this._buildDisplacementFilter('liquid-glass-filter-pill', 300, 56, 28);
+    },
+
     _removeLiquidFilter: function() {
-        var svg = document.getElementById('liquid-glass-svg');
-        if (svg) svg.remove();
+        ['liquid-glass-filter', 'liquid-glass-filter-fab', 'liquid-glass-filter-pill']
+            .forEach(function (id) {
+                var f = document.querySelector('filter#' + id);
+                if (f && f.parentNode && f.parentNode.parentNode) {
+                    f.parentNode.parentNode.remove();
+                }
+            });
+        var legacy = document.getElementById('liquid-glass-svg');
+        if (legacy) legacy.remove();
     },
 
     _apply: function() {
@@ -357,7 +406,7 @@ var ThemesManager = {
 
         // Apply or remove the liquid-glass SVG filter.
         if (this.currentTheme === 'liquid') {
-            this._ensureLiquidFilter();
+            this._ensureAllLiquidFilters();
         } else {
             this._removeLiquidFilter();
         }
@@ -492,4 +541,3 @@ function switchTheme(t) { applyTheme(t); }
 ThemesManager.isNightMode = function() {
     return StorageManager.get('night_mode_schedule') === true;
 };
-

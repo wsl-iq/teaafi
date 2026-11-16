@@ -97,7 +97,7 @@ var WELCOME_THEMES = [
     { id: 'ocean',   name: 'المحيط',     icon: 'fa-water' },
     { id: 'ramadan', name: 'الرمضاني',   icon: 'fa-star-and-crescent' },
     { id: 'custom',  name: 'مخصص',       icon: 'fa-palette' },
-    { id: 'liquid', name: 'الزجاج السائل', icon: 'fa-droplet' }
+    // { id: 'liquid', name: 'الزجاج السائل', icon: 'fa-check-circle' } // Hide for page welcome.js, only in settings 
 ];
 
 /*
@@ -514,10 +514,23 @@ function welcomeSelectTheme(themeId) {
                 applyWelcomeThemePreview('custom'); // Apply the custom theme preview on the welcome screen
             });
         } else {
-            // احتياطي: إن لم تكن الدالة متوفرة، فقط طبّق المخصص
+            // Fallback: If the function is not available, simply apply the override.
             WelcomeState.data.theme = 'custom';
             applyWelcomeThemePreview('custom');
         }
+        return;
+    }
+
+    /* Liquid Glass — require confirmation */
+    if (themeId === 'liquid') {
+        showLiquidThemeWarning(function () {
+            WelcomeState.data.theme = 'liquid';
+            document.querySelectorAll('.theme-choice').forEach(function (el) {
+                el.classList.remove('selected');
+                if (el.dataset.themeId === 'liquid') el.classList.add('selected');
+            });
+            applyWelcomeThemePreview('liquid');
+        });
         return;
     }
 
@@ -702,7 +715,7 @@ function welcomeComplete() {
         var chosenTheme = WelcomeState.data.theme || 'green';
 
         if (chosenTheme === 'custom') {
-            // اختيار الثيم المخصص يُطبّق الألوان المحفوظة
+            // Selecting the custom theme applies the saved colors.
             var custom = ThemesManager.getCustomTheme();
             ThemesManager.setCustomColor(custom.primary, custom.secondary);
             ThemesManager.setCustomDark(custom.dark);
@@ -851,6 +864,66 @@ function welcomeReset() {
 
     // Go to step 0
     welcomeGoTo(0, 'back');
+}
+
+/**
+ * Show a confirmation warning before applying the Liquid Glass theme
+ * on the welcome screen.
+ */
+function showLiquidThemeWarning(onConfirm) {
+    var modal = document.createElement('div');
+    modal.className = 'modal-overlay';
+    modal.style.zIndex = '99999';
+    modal.innerHTML = `
+        <div class="modal-container liquid-warning-card">
+
+            <div class="liquid-warning-icon" style="width: 72px; height: 72px; font-size: 32px; margin-bottom: 14px;">
+                <i class="fas fa-triangle-exclamation"></i>
+            </div>
+
+            <h3 class="liquid-warning-title" style="font-size: 18px;">الزجاج السائل ثقيل</h3>
+            <p class="liquid-warning-subtitle">
+                قد يؤثر هذا الثيم على أداء الجهاز.
+            </p>
+
+            <div class="liquid-warning-effects">
+                <ul class="liquid-warning-effects-list">
+                    <li>بطء في الاستجابة والتمرير</li>
+                    <li>ارتفاع حرارة الجهاز</li>
+                    <li>استهلاك أعلى للبطارية</li>
+                </ul>
+            </div>
+
+            <div class="liquid-warning-recommend">
+                <p>
+                    <i class="fas fa-circle-check"></i>
+                    <span>يُنصح به للأجهزة الرائدة فقط. يمكنك تغيير الثيم لاحقاً من الإعدادات.</span>
+                </p>
+            </div>
+
+            <div class="liquid-warning-actions">
+                <button class="btn btn-outline" id="liquid-theme-cancel">اختر غيره</button>
+                <button class="btn btn-warning" id="liquid-theme-confirm">
+                    <i class="fas fa-check"></i>
+                    موافق
+                </button>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+
+    modal.querySelector('#liquid-theme-cancel').addEventListener('click', function () {
+        modal.remove();
+    });
+
+    modal.querySelector('#liquid-theme-confirm').addEventListener('click', function () {
+        modal.remove();
+        if (typeof onConfirm === 'function') onConfirm();
+    });
+
+    modal.addEventListener('click', function (e) {
+        if (e.target === modal) modal.remove();
+    });
 }
 
 /*

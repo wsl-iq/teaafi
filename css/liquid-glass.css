@@ -1,6 +1,11 @@
-/*
- * THEME VARIABLES
- **/
+/* 
+Developer: Mohammed Al-Baqer
+ * Website: https://wsl-iq.github.io/teaafi/
+ * Copyright (c) 2026 Mohammed Al-Baqer
+    * Folder : CSS
+    * File   : liquid-glass.css
+    * Type: CSS
+*/
 
 /* 
  * LIQUID GLASS — LIGHT MODE
@@ -119,7 +124,7 @@
 }
 
 /*
- * CARDS — REAL REFRACTION
+ * CARDS — REAL REFRACTION (matched to Quick Actions)
  **/
 
 .theme-liquid .card,
@@ -131,64 +136,150 @@
 .theme-liquid .tasbih-complete-card,
 .theme-liquid .relapse-analysis-card,
 .theme-liquid .emergency-card {
-    background: var(--surface);
-    backdrop-filter: url(#liquid-glass-filter) blur(0.5px) saturate(180%);
-    -webkit-backdrop-filter: url(#liquid-glass-filter) blur(0.5px) saturate(180%);
-    border: 1px solid var(--border-light);
+    /* More transparent — matches Quick Actions */
+    background: rgba(255, 255, 255, 0.18);
+
+    /* Real refraction with chromatic aberration */
+    backdrop-filter: url(#liquid-glass-filter) blur(1.5px) saturate(180%) brightness(1.05);
+    -webkit-backdrop-filter: url(#liquid-glass-filter) blur(1.5px) saturate(180%) brightness(1.05);
+
+    border: 1px solid rgba(255, 255, 255, 0.6);
     border-radius: 24px;
+
     box-shadow:
-        var(--shadow-md),
-        inset 0 1px 0 rgba(255, 255, 255, 0.5);
+        0 8px 32px rgba(13, 107, 110, 0.12),
+        0 2px 8px rgba(0, 0, 0, 0.06),
+        inset 0 1px 0 rgba(255, 255, 255, 0.85),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.06),
+        inset 0 0 20px rgba(255, 255, 255, 0.1),
+        inset 0 0 0 0.5px rgba(255, 255, 255, 0.5);
+
     position: relative;
     overflow: hidden;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     color: var(--text-primary);
 }
 
-/* Shine on light mode */
-.theme-liquid:not(.theme-dark) .card::before,
-.theme-liquid:not(.theme-dark) .modal-container::before {
+.theme-liquid.theme-dark .card,
+.theme-liquid.theme-dark .modal-container,
+.theme-liquid.theme-dark .settings-group,
+.theme-liquid.theme-dark .search-container,
+.theme-liquid.theme-dark .action-confirm-card,
+.theme-liquid.theme-dark .danger-confirm-card,
+.theme-liquid.theme-dark .tasbih-complete-card,
+.theme-liquid.theme-dark .relapse-analysis-card,
+.theme-liquid.theme-dark .emergency-card {
+    background: rgba(30, 30, 30, 0.35);
+    border-color: rgba(255, 255, 255, 0.22);
+    box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.35),
+        0 2px 8px rgba(0, 0, 0, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.25),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.35),
+        inset 0 0 20px rgba(255, 255, 255, 0.06),
+        inset 0 0 0 0.5px rgba(255, 255, 255, 0.12);
+}
+
+/*
+ * Specular top edge — the bright "shine" line on real glass
+ **/
+
+.theme-liquid .card::before,
+.theme-liquid .modal-container::before,
+.theme-liquid .settings-group::before,
+.theme-liquid .search-container::before,
+.theme-liquid .action-confirm-card::before,
+.theme-liquid .danger-confirm-card::before,
+.theme-liquid .tasbih-complete-card::before,
+.theme-liquid .relapse-analysis-card::before,
+.theme-liquid .emergency-card::before {
     content: '';
     position: absolute;
-    top: 0;
-    left: 8%;
-    right: 8%;
+    top: 1px;
+    left: 15%;
+    right: 15%;
     height: 1px;
     background: linear-gradient(
         90deg,
         transparent 0%,
-        rgba(255, 255, 255, 0.9) 30%,
-        rgba(255, 255, 255, 1) 50%,
-        rgba(255, 255, 255, 0.9) 70%,
+        rgba(255, 255, 255, 0.95) 50%,
         transparent 100%
     );
     pointer-events: none;
-    z-index: 2;
+    z-index: 5;
+    filter: blur(0.3px);
 }
 
 .theme-liquid.theme-dark .card::before,
-.theme-liquid.theme-dark .modal-container::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 8%;
-    right: 8%;
-    height: 1px;
+.theme-liquid.theme-dark .modal-container::before,
+.theme-liquid.theme-dark .settings-group::before,
+.theme-liquid.theme-dark .search-container::before,
+.theme-liquid.theme-dark .action-confirm-card::before,
+.theme-liquid.theme-dark .danger-confirm-card::before,
+.theme-liquid.theme-dark .tasbih-complete-card::before,
+.theme-liquid.theme-dark .relapse-analysis-card::before,
+.theme-liquid.theme-dark .emergency-card::before {
     background: linear-gradient(
         90deg,
         transparent 0%,
-        rgba(255, 255, 255, 0.4) 30%,
-        rgba(255, 255, 255, 0.6) 50%,
-        rgba(255, 255, 255, 0.4) 70%,
+        rgba(255, 255, 255, 0.5) 50%,
         transparent 100%
     );
+}
+
+/* Soft inner glow — simulates light refraction inside the glass */
+.theme-liquid .card::after,
+.theme-liquid .modal-container::after,
+.theme-liquid .settings-group::after,
+.theme-liquid .search-container::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(
+        ellipse at 20% 0%,
+        rgba(255, 255, 255, 0.35) 0%,
+        rgba(255, 255, 255, 0.05) 35%,
+        transparent 65%
+    );
     pointer-events: none;
-    z-index: 2;
+    z-index: 1;
+    mix-blend-mode: screen;
+}
+
+.theme-liquid.theme-dark .card::after,
+.theme-liquid.theme-dark .modal-container::after,
+.theme-liquid.theme-dark .settings-group::after,
+.theme-liquid.theme-dark .search-container::after {
+    background: radial-gradient(
+        ellipse at 20% 0%,
+        rgba(255, 255, 255, 0.15) 0%,
+        rgba(255, 255, 255, 0.02) 35%,
+        transparent 65%
+    );
 }
 
 .theme-liquid .card:hover {
-    background: var(--card-hover);
+    background: rgba(255, 255, 255, 0.28);
     transform: translateY(-2px);
+}
+
+.theme-liquid.theme-dark .card:hover {
+    background: rgba(38, 166, 154, 0.18);
+}
+
+/* Ensure card content stays above the shine layers */
+.theme-liquid .card > *,
+.theme-liquid .modal-container > *,
+.theme-liquid .settings-group > *,
+.theme-liquid .search-container > *,
+.theme-liquid .action-confirm-card > *,
+.theme-liquid .danger-confirm-card > *,
+.theme-liquid .tasbih-complete-card > *,
+.theme-liquid .relapse-analysis-card > *,
+.theme-liquid .emergency-card > * {
+    position: relative;
+    z-index: 3;
 }
 
 /*
@@ -414,27 +505,42 @@
 }
 
 /*
- * QUICK ACTIONS
+ * QUICK ACTIONS — matched to cards
  **/
 
 .theme-liquid .quick-actions-fab {
-    background: var(--primary-gradient);
-    backdrop-filter: url(#liquid-glass-filter) blur(0.5px) saturate(200%);
-    -webkit-backdrop-filter: url(#liquid-glass-filter) blur(0.5px) saturate(200%);
-    border: 1px solid rgba(255, 255, 255, 0.4);
+    background: rgba(13, 107, 110, 0.55);
+    backdrop-filter: url(#liquid-glass-filter-fab) blur(1px) saturate(180%) brightness(1.05);
+    -webkit-backdrop-filter: url(#liquid-glass-filter-fab) blur(1px) saturate(180%) brightness(1.05);
+    border: 1px solid rgba(255, 255, 255, 0.55);
     box-shadow:
-        0 8px 32px rgba(var(--primary-rgb), 0.4),
-        inset 0 1px 0 rgba(255, 255, 255, 0.5);
+        0 6px 20px rgba(13, 107, 110, 0.35),
+        0 2px 6px rgba(0, 0, 0, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.7),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.2),
+        inset 0 0 20px rgba(255, 255, 255, 0.1),
+        inset 0 0 0 0.5px rgba(255, 255, 255, 0.5);
     color: white;
 }
 
 .theme-liquid .quick-action-item {
-    background: var(--surface);
-    backdrop-filter: url(#liquid-glass-filter) blur(0.5px) saturate(180%);
-    -webkit-backdrop-filter: url(#liquid-glass-filter) blur(0.5px) saturate(180%);
-    border: 1px solid var(--border-light);
+    background: rgba(255, 255, 255, 0.18);
+    backdrop-filter: url(#liquid-glass-filter-pill) blur(1.5px) saturate(180%) brightness(1.05);
+    -webkit-backdrop-filter: url(#liquid-glass-filter-pill) blur(1.5px) saturate(180%) brightness(1.05);
+    border: 1px solid rgba(255, 255, 255, 0.6);
     color: var(--text-primary);
-    box-shadow: var(--shadow-md);
+    box-shadow:
+        0 4px 16px rgba(0, 0, 0, 0.15),
+        0 1px 4px rgba(0, 0, 0, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.85),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.08),
+        inset 0 0 14px rgba(255, 255, 255, 0.12),
+        inset 0 0 0 0.5px rgba(255, 255, 255, 0.6);
+}
+
+.theme-liquid.theme-dark .quick-action-item {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.25);
 }
 
 /*
@@ -505,4 +611,12 @@
     .theme-liquid body::before {
         animation: none !important;
     }
+}
+
+/* Warning modal — also glassy in liquid theme */
+.theme-liquid .liquid-warning-card {
+    background: var(--surface);
+    backdrop-filter: url(#liquid-glass-filter) blur(0.5px) saturate(180%);
+    -webkit-backdrop-filter: url(#liquid-glass-filter) blur(0.5px) saturate(180%);
+    border: 1px solid var(--border-light);
 }

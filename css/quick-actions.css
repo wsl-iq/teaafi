@@ -7,10 +7,15 @@
  * Type   : CSS
  */
 
-/* 
- * QUICK ACTIONS — FLOATING BUTTON (TOP LEFT)
- * Visible only on home page.
- * Fades out when scrolling down.
+/* ============================================================
+ * QUICK ACTIONS — LIQUID GLASS (Real SVG Displacement)
+ * ============================================================
+ * Technique: Jhey's CSS backdrop displacement
+ * - Real refraction via feDisplacementMap
+ * - Chromatic aberration on RGB channels
+ * - Specular highlight (top edge)
+ * - Frost blur (saturate + blur)
+ * - Fully transparent base so the backdrop is visible
  */
 
 .quick-actions-container {
@@ -21,11 +26,9 @@
     pointer-events: none;
     opacity: 1;
     transform: translateY(0);
-    transition: opacity 0.35s ease,
-                transform 0.35s ease;
+    transition: opacity 0.35s ease, transform 0.35s ease;
 }
 
-/* Hidden by default (non-home pages) */
 .quick-actions-container.qa-hidden {
     opacity: 0;
     transform: translateY(-20px);
@@ -36,7 +39,6 @@
     pointer-events: none;
 }
 
-/* Fade out on scroll down */
 .quick-actions-container.qa-scrolled {
     opacity: 0;
     transform: translateY(-20px);
@@ -51,52 +53,124 @@
     pointer-events: none;
 }
 
-/*  MAIN FAB (Floating Action Button) */
+/* ============================================================
+ * MAIN FAB — LIQUID GLASS ORB
+ * ============================================================
+ * The background MUST be mostly transparent, otherwise
+ * the displacement filter has nothing to refract.
+ * The color comes from the SVG filter's "blend" + a subtle tint.
+ */
 
 .quick-actions-fab {
     width: 56px;
     height: 56px;
     border-radius: 50%;
-    background: var(--primary-gradient);
     color: white;
-    border: none;
+    border: 1px solid rgba(255, 255, 255, 0.55);
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 6px 20px rgba(var(--primary-rgb), 0.4);
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
-                background 0.3s ease,
-                box-shadow 0.3s ease;
-    -webkit-tap-highlight-color: transparent;
     position: relative;
     overflow: hidden;
+    -webkit-tap-highlight-color: transparent;
     animation: quickActionsFloat 3s ease-in-out infinite;
+
+    /* --- THE LIQUID GLASS CORE --- */
+    background: rgba(13, 107, 110, 0.55);
+    backdrop-filter: url(#liquid-glass-filter-fab) blur(1px) saturate(180%) brightness(1.05);
+    -webkit-backdrop-filter: url(#liquid-glass-filter-fab) blur(1px) saturate(180%) brightness(1.05);
+
+    box-shadow:
+        0 6px 20px rgba(13, 107, 110, 0.35),
+        0 2px 6px rgba(0, 0, 0, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.75),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.2),
+        inset 0 0 20px rgba(255, 255, 255, 0.1),
+        inset 0 0 0 0.5px rgba(255, 255, 255, 0.5);
+
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.3s ease,
+                background 0.3s ease;
+}
+
+/* Specular highlight — fine, neutral, no color cast */
+.quick-actions-fab::before {
+    content: '';
+    position: absolute;
+    top: 1.5px;
+    left: 18%;
+    right: 18%;
+    height: 1px;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.85) 30%,
+        rgba(255, 255, 255, 1) 50%,
+        rgba(255, 255, 255, 0.85) 70%,
+        transparent 100%
+    );
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 5;
+}
+
+/* Soft inner glow — simulates the "light refraction" inside */
+.quick-actions-fab::after {
+    content: '';
+    position: absolute;
+    inset: 2px;
+    border-radius: 50%;
+    background:
+        radial-gradient(
+            circle at 30% 25%,
+            rgba(255, 255, 255, 0.45) 0%,
+            rgba(255, 255, 255, 0.1) 25%,
+            transparent 55%
+        ),
+        radial-gradient(
+            circle at 70% 80%,
+            rgba(0, 0, 0, 0.15) 0%,
+            transparent 50%
+        );
+    pointer-events: none;
+    z-index: 2;
+    mix-blend-mode: screen;
 }
 
 @keyframes quickActionsFloat {
     0%, 100% {
         transform: translateY(0);
-        box-shadow: 0 6px 20px rgba(var(--primary-rgb), 0.4);
+        box-shadow:
+            0 6px 20px rgba(13, 107, 110, 0.35),
+            0 2px 6px rgba(0, 0, 0, 0.15),
+            inset 0 1px 0 rgba(255, 255, 255, 0.75),
+            inset 0 -1px 0 rgba(0, 0, 0, 0.2),
+            inset 0 0 20px rgba(255, 255, 255, 0.1),
+            inset 0 0 0 0.5px rgba(255, 255, 255, 0.5);
     }
     50% {
         transform: translateY(-4px);
-        box-shadow: 0 10px 24px rgba(var(--primary-rgb), 0.5);
+        box-shadow:
+            0 10px 26px rgba(13, 107, 110, 0.45),
+            0 3px 8px rgba(0, 0, 0, 0.18),
+            inset 0 1px 0 rgba(255, 255, 255, 0.8),
+            inset 0 -1px 0 rgba(0, 0, 0, 0.2),
+            inset 0 0 24px rgba(255, 255, 255, 0.15),
+            inset 0 0 0 0.5px rgba(255, 255, 255, 0.5);
     }
 }
 
 .quick-actions-fab:hover {
     animation-play-state: paused;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(var(--primary-rgb), 0.5);
+    transform: translateY(-2px) scale(1.04);
 }
 
 .quick-actions-fab:active {
     transform: scale(0.92);
 }
 
-/* HAMBURGER ICON (Three Lines) */
-
+/* Hamburger icon — layered above the glass */
 .quick-actions-fab .fab-icon {
     position: relative;
     width: 22px;
@@ -105,6 +179,8 @@
     flex-direction: column;
     justify-content: space-between;
     transition: all 0.3s ease;
+    z-index: 4;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.4));
 }
 
 .quick-actions-fab .fab-line {
@@ -115,12 +191,19 @@
     border-radius: 2px;
     transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     transform-origin: center;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
 }
 
-/* Open State — Lines become X */
+/* Open state — turn FAB into X and change color */
 .quick-actions-container.open .quick-actions-fab {
-    background: linear-gradient(135deg, #EF5350, #E53935);
-    box-shadow: 0 6px 20px rgba(239, 83, 80, 0.5);
+    background: rgba(239, 83, 80, 0.55);
+    box-shadow:
+        0 6px 20px rgba(239, 83, 80, 0.5),
+        0 2px 6px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.7),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.25),
+        inset 0 0 20px rgba(255, 255, 255, 0.1),
+        inset 0 0 0 0.5px rgba(255, 255, 255, 0.5);
     animation: none;
     transform: rotate(180deg);
 }
@@ -138,7 +221,9 @@
     transform: translateY(-7.5px) rotate(-45deg);
 }
 
-/*  ACTIONS MENU */
+/* ============================================================
+ * ACTIONS MENU
+ * ============================================================ */
 
 .quick-actions-menu {
     position: absolute;
@@ -161,23 +246,84 @@
     pointer-events: auto;
 }
 
-/* ACTION ITEM */
+/* ============================================================
+ * ACTION ITEM — LIQUID GLASS PILL
+ * ============================================================ */
 
 .quick-action-item {
     display: flex;
     align-items: center;
     gap: 12px;
-    background: var(--surface);
     border-radius: 28px;
-    padding: 8px 20px 8px 8px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    padding: 8px 22px 8px 8px;
     cursor: pointer;
-    transition: all 0.2s ease;
-    border: 1px solid var(--border-light);
     white-space: nowrap;
     -webkit-tap-highlight-color: transparent;
     opacity: 0;
     transform: translateX(-20px);
+    position: relative;
+    overflow: hidden;
+
+    /* --- THE LIQUID GLASS CORE --- */
+    background: rgba(255, 255, 255, 0.18);
+    backdrop-filter: url(#liquid-glass-filter-pill) blur(1.5px) saturate(180%) brightness(1.05);
+    -webkit-backdrop-filter: url(#liquid-glass-filter-pill) blur(1.5px) saturate(180%) brightness(1.05);
+
+    border: 1px solid rgba(255, 255, 255, 0.6);
+
+    box-shadow:
+        0 4px 16px rgba(0, 0, 0, 0.15),
+        0 1px 4px rgba(0, 0, 0, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.85),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.08),
+        inset 0 0 14px rgba(255, 255, 255, 0.12),
+        inset 0 0 0 0.5px rgba(255, 255, 255, 0.6);
+
+    transition: transform 0.25s ease,
+                box-shadow 0.25s ease,
+                background 0.25s ease,
+                border-color 0.25s ease,
+                opacity 0.3s ease;
+}
+
+/* Pill specular */
+.quick-action-item::before {
+    content: '';
+    position: absolute;
+    top: 1.5px;
+    left: 18%;
+    right: 18%;
+    height: 1px;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.85) 50%,
+        transparent 100%
+    );
+    pointer-events: none;
+    z-index: 5;
+}
+
+/* Soft inner glow */
+.quick-action-item::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(
+        ellipse at 20% 0%,
+        rgba(255, 255, 255, 0.4) 0%,
+        rgba(255, 255, 255, 0.05) 35%,
+        transparent 65%
+    );
+    pointer-events: none;
+    z-index: 1;
+    mix-blend-mode: screen;
+}
+
+.quick-action-item > * {
+    position: relative;
+    z-index: 3;
 }
 
 .quick-actions-container.open .quick-action-item {
@@ -193,14 +339,23 @@
 
 .quick-action-item:hover {
     transform: translateX(4px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.18);
-    background: var(--primary-light);
-    border-color: var(--primary);
+    background: rgba(255, 255, 255, 0.28);
+    border-color: rgba(13, 107, 110, 0.55);
+    box-shadow:
+        0 8px 22px rgba(0, 0, 0, 0.18),
+        0 0 0 1px rgba(13, 107, 110, 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.95),
+        inset 0 0 18px rgba(255, 255, 255, 0.15),
+        inset 0 0 0 0.5px rgba(255, 255, 255, 0.6);
 }
 
 .quick-action-item:active {
     transform: scale(0.96);
 }
+
+/* ============================================================
+ * ACTION ICON — GLASS CHIP
+ * ============================================================ */
 
 .quick-action-icon {
     width: 40px;
@@ -212,24 +367,53 @@
     color: white;
     font-size: 16px;
     flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.7),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.25),
+        0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.quick-action-icon::before {
+    content: '';
+    position: absolute;
+    top: 1px;
+    left: 20%;
+    right: 20%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.95), transparent);
+    pointer-events: none;
+    z-index: 2;
+    filter: blur(0.3px);
+}
+
+.quick-action-icon i {
+    position: relative;
+    z-index: 1;
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.35));
 }
 
 .quick-action-label {
     font-size: 14px;
-    font-weight: 600;
+    font-weight: 700;
     color: var(--text-primary);
     padding-right: 4px;
     padding-left: 4px;
+    text-shadow: 0 1px 2px rgba(255, 255, 255, 0.5);
 }
 
-/* OVERLAY */
+/* ============================================================
+ * OVERLAY
+ * ============================================================ */
 
 .quick-actions-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(2px);
-    -webkit-backdrop-filter: blur(2px);
+    background: rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
     z-index: 9997;
     opacity: 0;
     visibility: hidden;
@@ -243,12 +427,92 @@
     pointer-events: auto;
 }
 
-/* EMERGENCY MODAL */
+/* ============================================================
+ * DARK MODE
+ * ============================================================ */
+
+.theme-dark .quick-action-item {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.25);
+    box-shadow:
+        0 4px 16px rgba(0, 0, 0, 0.45),
+        0 1px 4px rgba(0, 0, 0, 0.25),
+        inset 0 1px 0 rgba(255, 255, 255, 0.35),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.3),
+        inset 0 0 14px rgba(255, 255, 255, 0.08),
+        inset 0 0 0 0.5px rgba(255, 255, 255, 0.6);
+}
+
+.theme-dark .quick-action-item::before {
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+}
+
+.theme-dark .quick-action-item::after {
+    background: radial-gradient(
+        ellipse at 20% 0%,
+        rgba(255, 255, 255, 0.18) 0%,
+        rgba(255, 255, 255, 0.02) 35%,
+        transparent 65%
+    );
+}
+
+.theme-dark .quick-action-item:hover {
+    background: rgba(38, 166, 154, 0.18);
+    border-color: rgba(38, 166, 154, 0.6);
+}
+
+.theme-dark .quick-action-label {
+    color: #F5F5F5;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+.theme-dark .quick-actions-overlay {
+    background: rgba(0, 0, 0, 0.65);
+}
+
+/* ============================================================
+ * RESPONSIVE
+ * ============================================================ */
+
+@media (min-width: 1024px) {
+    .quick-actions-container { top: 24px; left: 24px; }
+}
+
+@media (max-width: 400px) {
+    .quick-actions-container { top: 14px; left: 14px; }
+    .quick-actions-fab { width: 52px; height: 52px; }
+    .quick-actions-fab .fab-icon { width: 20px; height: 16px; }
+    .quick-action-icon { width: 36px; height: 36px; font-size: 14px; }
+    .quick-action-label { font-size: 13px; }
+    .quick-action-item { padding: 6px 16px 6px 6px; }
+}
+
+/* ============================================================
+ * REDUCED MOTION
+ * ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+    .quick-actions-fab,
+    .quick-action-item,
+    .emergency-icon,
+    .emergency-card { animation: none !important; }
+
+    .quick-actions-fab {
+        transition: background 0.2s ease, box-shadow 0.2s ease;
+    }
+    .quick-actions-container {
+        transition: opacity 0.2s ease;
+    }
+}
+
+/* ============================================================
+ * EMERGENCY MODAL — LIQUID GLASS
+ * ============================================================ */
 
 .emergency-modal {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.75);
+    background: rgba(0, 0, 0, 0.55);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     z-index: 99999;
@@ -265,15 +529,38 @@
 }
 
 .emergency-card {
-    background: var(--surface);
     border-radius: 24px;
     padding: 32px 24px;
     max-width: 420px;
     width: 100%;
     text-align: center;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    position: relative;
+    overflow: hidden;
+
+    background: rgba(255, 255, 255, 0.18);
+    backdrop-filter: url(#liquid-glass-filter-pill) blur(2px) saturate(180%) brightness(1.05);
+    -webkit-backdrop-filter: url(#liquid-glass-filter-pill) blur(2px) saturate(180%) brightness(1.05);
+
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.85),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.08);
+
     animation: emergencyScaleIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    border: 2px solid var(--primary);
+}
+
+.emergency-card::before {
+    content: '';
+    position: absolute;
+    top: 1px;
+    left: 10%;
+    right: 10%;
+    height: 1.5px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.95), transparent);
+    pointer-events: none;
+    z-index: 5;
+    filter: blur(0.3px);
 }
 
 @keyframes emergencyScaleIn {
@@ -286,14 +573,34 @@
     height: 80px;
     margin: 0 auto 20px;
     border-radius: 50%;
-    background: var(--primary-gradient);
+    background: rgba(13, 107, 110, 0.7);
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
     font-size: 36px;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.6);
     animation: emergencyPulse 2s ease-in-out infinite;
-    box-shadow: 0 8px 24px rgba(var(--primary-rgb), 0.35);
+    backdrop-filter: url(#liquid-glass-filter-fab) blur(1px) saturate(180%);
+    -webkit-backdrop-filter: url(#liquid-glass-filter-fab) blur(1px) saturate(180%);
+    box-shadow:
+        0 8px 24px rgba(13, 107, 110, 0.45),
+        inset 0 1px 0 rgba(255, 255, 255, 0.7),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+}
+
+.emergency-icon::before {
+    content: '';
+    position: absolute;
+    top: 1px;
+    left: 20%;
+    right: 20%;
+    height: 1.5px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.95), transparent);
+    pointer-events: none;
+    z-index: 3;
 }
 
 @keyframes emergencyPulse {
@@ -306,17 +613,21 @@
     color: var(--text-primary);
     margin-bottom: 12px;
     font-weight: 800;
+    position: relative;
+    z-index: 3;
 }
 
 .emergency-card p {
     font-size: 15px;
     line-height: 1.9;
-    color: var(--text-secondary);
+    color: var(--text-primary);
     margin-bottom: 20px;
+    position: relative;
+    z-index: 3;
 }
 
 .emergency-dua {
-    background: var(--primary-light);
+    background: rgba(224, 242, 241, 0.55);
     border-right: 4px solid var(--primary);
     padding: 16px;
     border-radius: 12px;
@@ -326,33 +637,41 @@
     line-height: 2.2;
     color: var(--text-primary);
     text-align: right;
+    position: relative;
+    z-index: 3;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
 }
 
 .emergency-actions {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    position: relative;
+    z-index: 3;
 }
 
-.emergency-actions .btn {
-    width: 100%;
-}
+.emergency-actions .btn { width: 100%; }
 
 .emergency-countdown {
     font-size: 12px;
     color: var(--text-tertiary);
     margin-top: 12px;
     min-height: 18px;
+    position: relative;
+    z-index: 3;
 }
 
-/* QUICK NOTE MODAL */
+/* ============================================================
+ * QUICK NOTE MODAL — LIQUID GLASS
+ * ============================================================ */
 
 .quick-note-modal {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     z-index: 99999;
     display: flex;
     align-items: center;
@@ -362,14 +681,39 @@
 }
 
 .quick-note-card {
-    background: var(--surface);
     border-radius: 20px;
     padding: 24px;
     max-width: 460px;
     width: 100%;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    position: relative;
+    overflow: hidden;
+
+    background: rgba(255, 255, 255, 0.18);
+    backdrop-filter: url(#liquid-glass-filter-pill) blur(2px) saturate(180%) brightness(1.05);
+    -webkit-backdrop-filter: url(#liquid-glass-filter-pill) blur(2px) saturate(180%) brightness(1.05);
+
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.85);
+
     animation: emergencyScaleIn 0.3s ease;
 }
+
+.quick-note-card::before {
+    content: '';
+    position: absolute;
+    top: 1px;
+    left: 10%;
+    right: 10%;
+    height: 1.5px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.95), transparent);
+    pointer-events: none;
+    z-index: 5;
+    filter: blur(0.3px);
+}
+
+.quick-note-card > * { position: relative; z-index: 3; }
 
 .quick-note-card h3 {
     margin: 0 0 16px;
@@ -385,8 +729,8 @@
     min-height: 120px;
     padding: 14px;
     border-radius: 12px;
-    border: 2px solid var(--border);
-    background: var(--input-bg);
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    background: rgba(255, 255, 255, 0.4);
     color: var(--text-primary);
     font-family: var(--font-primary);
     font-size: 14px;
@@ -394,12 +738,14 @@
     resize: vertical;
     margin-bottom: 16px;
     transition: border-color 0.2s;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
 }
 
 .quick-note-card textarea:focus {
     outline: none;
     border-color: var(--primary);
-    box-shadow: 0 0 0 4px rgba(var(--primary-rgb), 0.1);
+    box-shadow: 0 0 0 4px rgba(13, 107, 110, 0.15);
 }
 
 .quick-note-mood {
@@ -425,99 +771,45 @@
 
 .quick-note-mood-icon.selected {
     opacity: 1;
-    background: var(--primary-light);
+    background: rgba(13, 107, 110, 0.2);
     transform: scale(1.15);
 }
 
-/* DARK MODE */
-
-.theme-dark .quick-action-item {
-    background: var(--surface);
-    border-color: var(--border);
-}
-
-.theme-dark .quick-action-item:hover {
-    background: var(--primary-light);
-    border-color: var(--primary);
-}
+/* ============================================================
+ * DARK MODE — MODALS
+ * ============================================================ */
 
 .theme-dark .emergency-card,
 .theme-dark .quick-note-card {
-    background: var(--surface);
-    border-color: var(--border);
+    background: rgba(30, 30, 30, 0.35);
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.6),
+        inset 0 1px 0 rgba(255, 255, 255, 0.25);
 }
 
-.theme-dark .quick-actions-overlay {
-    background: rgba(0, 0, 0, 0.6);
+.theme-dark .emergency-card::before,
+.theme-dark .quick-note-card::before {
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.45), transparent);
 }
 
-/* RESPONSIVE */
-
-@media (min-width: 1024px) {
-    .quick-actions-container {
-        top: 24px;
-        left: 24px;
-    }
+.theme-dark .emergency-dua {
+    background: rgba(26, 58, 60, 0.55);
 }
 
-@media (max-width: 400px) {
-    .quick-actions-container {
-        top: 14px;
-        left: 14px;
-    }
-
-    .quick-actions-fab {
-        width: 52px;
-        height: 52px;
-    }
-
-    .quick-actions-fab .fab-icon {
-        width: 20px;
-        height: 16px;
-    }
-
-    .quick-action-icon {
-        width: 36px;
-        height: 36px;
-        font-size: 14px;
-    }
-
-    .quick-action-label {
-        font-size: 13px;
-    }
-
-    .quick-action-item {
-        padding: 6px 16px 6px 6px;
-    }
+.theme-dark .quick-note-card textarea {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.18);
 }
 
-/* REDUCED MOTION */
-
-@media (prefers-reduced-motion: reduce) {
-    .quick-actions-fab,
-    .quick-action-item,
-    .emergency-icon,
-    .emergency-card {
-        animation: none !important;
-    }
-
-    .quick-actions-fab {
-        transition: background 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .quick-actions-container {
-        transition: opacity 0.2s ease;
-    }
-}
-
-/*
-   NO RECOVERY WARNING MODAL
- */
+/* ============================================================
+ * NO RECOVERY WARNING MODAL — LIQUID GLASS
+ * ============================================================ */
 
 .no-recovery-modal {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.55);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     z-index: 99999;
@@ -534,88 +826,83 @@
 }
 
 .no-recovery-card {
-    background: var(--surface);
     border-radius: 24px;
     padding: 32px 24px 24px;
     max-width: 420px;
     width: 100%;
     text-align: center;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-    border: 2px solid #FF9800;
     position: relative;
     overflow: hidden;
+
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: url(#liquid-glass-filter-pill) blur(2px) saturate(180%) brightness(1.05);
+    -webkit-backdrop-filter: url(#liquid-glass-filter-pill) blur(2px) saturate(180%) brightness(1.05);
+
+    border: 1px solid rgba(255, 152, 0, 0.7);
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.85);
+
     animation: noRecoverySlideIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
-@keyframes noRecoverySlideIn {
-    0% {
-        transform: scale(0.7) translateY(30px);
-        opacity: 0;
-    }
-    60% {
-        transform: scale(1.05) translateY(-5px);
-    }
-    100% {
-        transform: scale(1) translateY(0);
-        opacity: 1;
-    }
+.no-recovery-card::before {
+    content: '';
+    position: absolute;
+    top: 1px;
+    left: 10%;
+    right: 10%;
+    height: 1.5px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.95), transparent);
+    pointer-events: none;
+    z-index: 5;
+    filter: blur(0.3px);
 }
 
-/* Animated warning icon */
+@keyframes noRecoverySlideIn {
+    0% { transform: scale(0.7) translateY(30px); opacity: 0; }
+    60% { transform: scale(1.05) translateY(-5px); }
+    100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+
 .no-recovery-icon {
     width: 88px;
     height: 88px;
     margin: 0 auto 20px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #FF9800, #F57C00);
+    background: rgba(255, 152, 0, 0.7);
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
     font-size: 42px;
-    box-shadow: 0 8px 24px rgba(255, 152, 0, 0.4);
-    animation: noRecoveryPulse 2s ease-in-out infinite;
     position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    box-shadow:
+        0 8px 24px rgba(255, 152, 0, 0.45),
+        inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    animation: noRecoveryPulse 2s ease-in-out infinite;
+    backdrop-filter: url(#liquid-glass-filter-fab) blur(1px) saturate(180%);
+    -webkit-backdrop-filter: url(#liquid-glass-filter-fab) blur(1px) saturate(180%);
+    z-index: 3;
 }
 
 .no-recovery-icon::before {
     content: '';
     position: absolute;
-    inset: -8px;
-    border-radius: 50%;
-    border: 3px solid rgba(255, 152, 0, 0.3);
-    animation: noRecoveryRing 2s ease-out infinite;
-}
-
-.no-recovery-icon::after {
-    content: '';
-    position: absolute;
-    inset: -16px;
-    border-radius: 50%;
-    border: 2px solid rgba(255, 152, 0, 0.15);
-    animation: noRecoveryRing 2s ease-out infinite 0.5s;
+    top: 1px;
+    left: 20%;
+    right: 20%;
+    height: 1.5px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.95), transparent);
+    pointer-events: none;
+    z-index: 3;
 }
 
 @keyframes noRecoveryPulse {
-    0%, 100% {
-        transform: scale(1);
-        box-shadow: 0 8px 24px rgba(255, 152, 0, 0.4);
-    }
-    50% {
-        transform: scale(1.08);
-        box-shadow: 0 12px 36px rgba(255, 152, 0, 0.6);
-    }
-}
-
-@keyframes noRecoveryRing {
-    0% {
-        transform: scale(0.8);
-        opacity: 1;
-    }
-    100% {
-        transform: scale(1.3);
-        opacity: 0;
-    }
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.08); }
 }
 
 .no-recovery-card h2 {
@@ -623,13 +910,17 @@
     color: var(--text-primary);
     margin: 0 0 12px;
     font-weight: 800;
+    position: relative;
+    z-index: 3;
 }
 
 .no-recovery-card p {
     font-size: 15px;
     line-height: 1.9;
-    color: var(--text-secondary);
+    color: var(--text-primary);
     margin: 0 0 20px;
+    position: relative;
+    z-index: 3;
 }
 
 .no-recovery-card p strong {
@@ -637,21 +928,17 @@
     font-weight: 700;
 }
 
-/* Divider */
-.no-recovery-divider {
-    height: 1px;
-    background: var(--border-light);
-    margin: 20px 0;
-}
-
-/* Action hint */
 .no-recovery-hint {
-    background: #FFF3E0;
+    background: rgba(255, 243, 224, 0.6);
     border-right: 4px solid #FF9800;
     padding: 12px 16px;
     border-radius: 12px;
     margin-bottom: 20px;
     text-align: right;
+    position: relative;
+    z-index: 3;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
 }
 
 .no-recovery-hint i {
@@ -667,35 +954,34 @@
     font-weight: 500;
 }
 
-/* Buttons */
 .no-recovery-actions {
     display: flex;
     gap: 10px;
+    position: relative;
+    z-index: 3;
 }
 
-.no-recovery-actions .btn {
-    flex: 1;
-}
+.no-recovery-actions .btn { flex: 1; }
 
 .no-recovery-actions .btn-primary {
     background: linear-gradient(135deg, #FF9800, #F57C00);
-    border: none;
+    border: 1px solid rgba(255, 255, 255, 0.35);
     color: white;
     font-weight: 700;
+    box-shadow: 0 4px 12px rgba(255, 152, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
 .no-recovery-actions .btn-primary:hover {
     background: linear-gradient(135deg, #F57C00, #E65100);
 }
 
-/* Countdown progress bar */
 .no-recovery-progress {
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
     height: 4px;
-    background: var(--surface-variant);
+    background: rgba(0, 0, 0, 0.1);
     overflow: hidden;
 }
 
@@ -707,7 +993,6 @@
     border-radius: 0 0 0 24px;
 }
 
-/* Close button (top-right) */
 .no-recovery-close {
     position: absolute;
     top: 12px;
@@ -715,8 +1000,8 @@
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    background: var(--surface-variant);
-    border: 1px solid var(--border-light);
+    background: rgba(255, 255, 255, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.4);
     color: var(--text-secondary);
     display: flex;
     align-items: center;
@@ -724,7 +1009,9 @@
     cursor: pointer;
     font-size: 14px;
     transition: all 0.2s ease;
-    z-index: 2;
+    z-index: 5;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
 }
 
 .no-recovery-close:hover {
@@ -734,87 +1021,52 @@
     transform: rotate(90deg);
 }
 
-/* Countdown text */
 .no-recovery-countdown {
     font-size: 11px;
     color: var(--text-tertiary);
     margin-top: 12px;
     text-align: center;
     min-height: 16px;
+    position: relative;
+    z-index: 3;
 }
 
-/*
-   DARK MODE
- */
-
 .theme-dark .no-recovery-card {
-    background: var(--surface);
-    border-color: #FF9800;
+    background: rgba(30, 30, 30, 0.4);
+    border-color: rgba(255, 152, 0, 0.7);
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.6),
+        inset 0 1px 0 rgba(255, 255, 255, 0.25);
 }
 
 .theme-dark .no-recovery-hint {
-    background: rgba(255, 152, 0, 0.15);
+    background: rgba(255, 152, 0, 0.2);
 }
 
-.theme-dark .no-recovery-hint span {
-    color: #FFB74D;
-}
-
-.theme-dark .no-recovery-progress {
-    background: var(--surface-variant);
-}
-
-/*
-   RESPONSIVE
- */
+.theme-dark .no-recovery-hint span { color: #FFB74D; }
 
 @media (max-width: 400px) {
-    .no-recovery-card {
-        padding: 24px 16px 20px;
-        border-radius: 20px;
-    }
-
-    .no-recovery-icon {
-        width: 72px;
-        height: 72px;
-        font-size: 34px;
-        margin-bottom: 16px;
-    }
-
-    .no-recovery-card h2 {
-        font-size: 18px;
-    }
-
-    .no-recovery-card p {
-        font-size: 14px;
-    }
-
-    .no-recovery-actions {
-        flex-direction: column;
-    }
+    .no-recovery-card { padding: 24px 16px 20px; border-radius: 20px; }
+    .no-recovery-icon { width: 72px; height: 72px; font-size: 34px; margin-bottom: 16px; }
+    .no-recovery-card h2 { font-size: 18px; }
+    .no-recovery-card p { font-size: 14px; }
+    .no-recovery-actions { flex-direction: column; }
 }
-
-/*
-   REDUCED MOTION
- */
 
 @media (prefers-reduced-motion: reduce) {
     .no-recovery-icon,
     .no-recovery-icon::before,
-    .no-recovery-icon::after,
-    .no-recovery-card {
-        animation: none !important;
-    }
+    .no-recovery-card { animation: none !important; }
 }
 
-/*
-   DANGER ZONE CONFIRMATION MODAL
- */
+/* ============================================================
+ * DANGER CONFIRM — LIQUID GLASS
+ * ============================================================ */
 
 .danger-confirm-modal {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 0.65);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     z-index: 99999;
@@ -831,88 +1083,83 @@
 }
 
 .danger-confirm-card {
-    background: var(--surface);
     border-radius: 24px;
     padding: 32px 24px 24px;
     max-width: 420px;
     width: 100%;
     text-align: center;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-    border: 2px solid #F44336;
     position: relative;
     overflow: hidden;
+
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: url(#liquid-glass-filter-pill) blur(2px) saturate(180%) brightness(1.05);
+    -webkit-backdrop-filter: url(#liquid-glass-filter-pill) blur(2px) saturate(180%) brightness(1.05);
+
+    border: 1px solid rgba(244, 67, 54, 0.7);
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.85);
+
     animation: dangerSlideIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
-@keyframes dangerSlideIn {
-    0% {
-        transform: scale(0.7) translateY(30px);
-        opacity: 0;
-    }
-    60% {
-        transform: scale(1.04) translateY(-4px);
-    }
-    100% {
-        transform: scale(1) translateY(0);
-        opacity: 1;
-    }
+.danger-confirm-card::before {
+    content: '';
+    position: absolute;
+    top: 1px;
+    left: 10%;
+    right: 10%;
+    height: 1.5px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.95), transparent);
+    pointer-events: none;
+    z-index: 5;
+    filter: blur(0.3px);
 }
 
-/* Warning icon */
+@keyframes dangerSlideIn {
+    0% { transform: scale(0.7) translateY(30px); opacity: 0; }
+    60% { transform: scale(1.04) translateY(-4px); }
+    100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+
 .danger-confirm-icon {
     width: 88px;
     height: 88px;
     margin: 0 auto 20px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #F44336, #D32F2F);
+    background: rgba(244, 67, 54, 0.7);
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
     font-size: 42px;
-    box-shadow: 0 8px 24px rgba(244, 67, 54, 0.5);
     position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    box-shadow:
+        0 8px 24px rgba(244, 67, 54, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.7);
     animation: dangerPulse 2s ease-in-out infinite;
+    backdrop-filter: url(#liquid-glass-filter-fab) blur(1px) saturate(180%);
+    -webkit-backdrop-filter: url(#liquid-glass-filter-fab) blur(1px) saturate(180%);
+    z-index: 3;
 }
 
 .danger-confirm-icon::before {
     content: '';
     position: absolute;
-    inset: -8px;
-    border-radius: 50%;
-    border: 3px solid rgba(244, 67, 54, 0.3);
-    animation: dangerRing 2s ease-out infinite;
-}
-
-.danger-confirm-icon::after {
-    content: '';
-    position: absolute;
-    inset: -16px;
-    border-radius: 50%;
-    border: 2px solid rgba(244, 67, 54, 0.15);
-    animation: dangerRing 2s ease-out infinite 0.5s;
+    top: 1px;
+    left: 20%;
+    right: 20%;
+    height: 1.5px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.95), transparent);
+    pointer-events: none;
+    z-index: 3;
 }
 
 @keyframes dangerPulse {
-    0%, 100% {
-        transform: scale(1);
-        box-shadow: 0 8px 24px rgba(244, 67, 54, 0.5);
-    }
-    50% {
-        transform: scale(1.06);
-        box-shadow: 0 12px 36px rgba(244, 67, 54, 0.7);
-    }
-}
-
-@keyframes dangerRing {
-    0% {
-        transform: scale(0.8);
-        opacity: 1;
-    }
-    100% {
-        transform: scale(1.3);
-        opacity: 0;
-    }
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.06); }
 }
 
 .danger-confirm-card h2 {
@@ -920,28 +1167,32 @@
     color: #D32F2F;
     margin: 0 0 12px;
     font-weight: 800;
+    position: relative;
+    z-index: 3;
 }
 
 .danger-confirm-card p {
     font-size: 15px;
     line-height: 1.9;
-    color: var(--text-secondary);
+    color: var(--text-primary);
     margin: 0 0 16px;
+    position: relative;
+    z-index: 3;
 }
 
-.danger-confirm-card p strong {
-    color: #D32F2F;
-    font-weight: 700;
-}
+.danger-confirm-card p strong { color: #D32F2F; font-weight: 700; }
 
-/* Warning list */
 .danger-confirm-list {
-    background: #FFEBEE;
+    background: rgba(255, 235, 238, 0.6);
     border-right: 4px solid #F44336;
     padding: 14px 16px;
     border-radius: 12px;
     margin-bottom: 20px;
     text-align: right;
+    position: relative;
+    z-index: 3;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
 }
 
 .danger-confirm-list h4 {
@@ -954,11 +1205,7 @@
     gap: 6px;
 }
 
-.danger-confirm-list ul {
-    margin: 0;
-    padding-right: 20px;
-    list-style: disc;
-}
+.danger-confirm-list ul { margin: 0; padding-right: 20px; list-style: disc; }
 
 .danger-confirm-list li {
     font-size: 12px;
@@ -966,22 +1213,21 @@
     line-height: 1.9;
 }
 
-/* Actions */
 .danger-confirm-actions {
     display: flex;
     gap: 10px;
+    position: relative;
+    z-index: 3;
 }
 
-.danger-confirm-actions .btn {
-    flex: 1;
-}
+.danger-confirm-actions .btn { flex: 1; }
 
 .danger-confirm-actions .btn-danger {
     background: linear-gradient(135deg, #F44336, #D32F2F);
     color: white;
-    border: none;
+    border: 1px solid rgba(255, 255, 255, 0.3);
     font-weight: 700;
-    box-shadow: 0 4px 12px rgba(244, 67, 54, 0.3);
+    box-shadow: 0 4px 12px rgba(244, 67, 54, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
 .danger-confirm-actions .btn-danger:hover {
@@ -994,7 +1240,6 @@
     color: var(--text-secondary);
 }
 
-/* Step indicator (1 of 2) */
 .danger-confirm-step {
     position: absolute;
     top: 12px;
@@ -1005,16 +1250,17 @@
     font-weight: 700;
     padding: 4px 10px;
     border-radius: 20px;
+    box-shadow: 0 2px 8px rgba(244, 67, 54, 0.4);
+    z-index: 5;
 }
 
-/* Countdown bar (for destructive confirm) */
 .danger-confirm-countdown {
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
     height: 4px;
-    background: var(--surface-variant);
+    background: rgba(0, 0, 0, 0.1);
     overflow: hidden;
 }
 
@@ -1025,71 +1271,37 @@
     transition: width 1s linear;
 }
 
-/*
-   DARK MODE
- */
-
 .theme-dark .danger-confirm-card {
-    background: var(--surface);
-    border-color: #F44336;
+    background: rgba(30, 30, 30, 0.4);
+    border-color: rgba(244, 67, 54, 0.7);
 }
 
-.theme-dark .danger-confirm-list {
-    background: rgba(244, 67, 54, 0.12);
-}
-
+.theme-dark .danger-confirm-list { background: rgba(244, 67, 54, 0.2); }
 .theme-dark .danger-confirm-list h4,
-.theme-dark .danger-confirm-list li {
-    color: #EF9A9A;
-}
-
-/*
-   RESPONSIVE
- */
+.theme-dark .danger-confirm-list li { color: #EF9A9A; }
 
 @media (max-width: 400px) {
-    .danger-confirm-card {
-        padding: 24px 16px 20px;
-        border-radius: 20px;
-    }
-
-    .danger-confirm-icon {
-        width: 72px;
-        height: 72px;
-        font-size: 34px;
-        margin-bottom: 16px;
-    }
-
-    .danger-confirm-card h2 {
-        font-size: 18px;
-    }
-
-    .danger-confirm-card p {
-        font-size: 14px;
-    }
-
-    .danger-confirm-actions {
-        flex-direction: column;
-    }
+    .danger-confirm-card { padding: 24px 16px 20px; border-radius: 20px; }
+    .danger-confirm-icon { width: 72px; height: 72px; font-size: 34px; margin-bottom: 16px; }
+    .danger-confirm-card h2 { font-size: 18px; }
+    .danger-confirm-card p { font-size: 14px; }
+    .danger-confirm-actions { flex-direction: column; }
 }
 
 @media (prefers-reduced-motion: reduce) {
     .danger-confirm-icon,
     .danger-confirm-icon::before,
-    .danger-confirm-icon::after,
-    .danger-confirm-card {
-        animation: none !important;
-    }
+    .danger-confirm-card { animation: none !important; }
 }
 
-/*
-   ACTION CONFIRMATION MODAL
- */
+/* ============================================================
+ * ACTION CONFIRM — LIQUID GLASS
+ * ============================================================ */
 
 .action-confirm-modal {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.55);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     z-index: 99999;
@@ -1106,46 +1318,49 @@
 }
 
 .action-confirm-card {
-    background: var(--surface);
     border-radius: 24px;
     padding: 28px 24px 24px;
     max-width: 400px;
     width: 100%;
     text-align: center;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
     position: relative;
     overflow: hidden;
+
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: url(#liquid-glass-filter-pill) blur(2px) saturate(180%) brightness(1.05);
+    -webkit-backdrop-filter: url(#liquid-glass-filter-pill) blur(2px) saturate(180%) brightness(1.05);
+
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.85);
+
     animation: actionConfirmSlideIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 }
 
+.action-confirm-card::before {
+    content: '';
+    position: absolute;
+    top: 1px;
+    left: 10%;
+    right: 10%;
+    height: 1.5px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.95), transparent);
+    pointer-events: none;
+    z-index: 5;
+    filter: blur(0.3px);
+}
+
+.action-confirm-card.type-danger { border: 2px solid rgba(244, 67, 54, 0.75); }
+.action-confirm-card.type-warning { border: 2px solid rgba(255, 152, 0, 0.75); }
+.action-confirm-card.type-info { border: 2px solid rgba(33, 150, 243, 0.75); }
+
 @keyframes actionConfirmSlideIn {
-    0% {
-        transform: scale(0.7) translateY(30px);
-        opacity: 0;
-    }
-    60% {
-        transform: scale(1.04) translateY(-4px);
-    }
-    100% {
-        transform: scale(1) translateY(0);
-        opacity: 1;
-    }
+    0% { transform: scale(0.7) translateY(30px); opacity: 0; }
+    60% { transform: scale(1.04) translateY(-4px); }
+    100% { transform: scale(1) translateY(0); opacity: 1; }
 }
 
-/* Types: danger (red), warning (orange), info (blue) */
-.action-confirm-card.type-danger {
-    border: 2px solid #F44336;
-}
-
-.action-confirm-card.type-warning {
-    border: 2px solid #FF9800;
-}
-
-.action-confirm-card.type-info {
-    border: 2px solid #2196F3;
-}
-
-/* Icon */
 .action-confirm-icon {
     width: 80px;
     height: 80px;
@@ -1157,32 +1372,37 @@
     color: white;
     font-size: 36px;
     position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.55);
     animation: actionConfirmPulse 2s ease-in-out infinite;
-}
-
-.action-confirm-card.type-danger .action-confirm-icon {
-    background: linear-gradient(135deg, #F44336, #D32F2F);
-    box-shadow: 0 8px 24px rgba(244, 67, 54, 0.4);
-}
-
-.action-confirm-card.type-warning .action-confirm-icon {
-    background: linear-gradient(135deg, #FF9800, #F57C00);
-    box-shadow: 0 8px 24px rgba(255, 152, 0, 0.4);
-}
-
-.action-confirm-card.type-info .action-confirm-icon {
-    background: linear-gradient(135deg, #2196F3, #1976D2);
-    box-shadow: 0 8px 24px rgba(33, 150, 243, 0.4);
+    backdrop-filter: url(#liquid-glass-filter-fab) blur(1px) saturate(180%);
+    -webkit-backdrop-filter: url(#liquid-glass-filter-fab) blur(1px) saturate(180%);
+    z-index: 3;
 }
 
 .action-confirm-icon::before {
     content: '';
     position: absolute;
-    inset: -6px;
-    border-radius: 50%;
-    border: 3px solid currentColor;
-    opacity: 0.2;
-    animation: actionConfirmRing 2s ease-out infinite;
+    top: 1px;
+    left: 20%;
+    right: 20%;
+    height: 1.5px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.95), transparent);
+    pointer-events: none;
+    z-index: 3;
+}
+
+.action-confirm-card.type-danger .action-confirm-icon {
+    background: rgba(244, 67, 54, 0.7);
+    box-shadow: 0 8px 24px rgba(244, 67, 54, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+.action-confirm-card.type-warning .action-confirm-icon {
+    background: rgba(255, 152, 0, 0.7);
+    box-shadow: 0 8px 24px rgba(255, 152, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+.action-confirm-card.type-info .action-confirm-icon {
+    background: rgba(33, 150, 243, 0.7);
+    box-shadow: 0 8px 24px rgba(33, 150, 243, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 
 @keyframes actionConfirmPulse {
@@ -1190,80 +1410,63 @@
     50% { transform: scale(1.06); }
 }
 
-@keyframes actionConfirmRing {
-    0% {
-        transform: scale(0.85);
-        opacity: 0.4;
-    }
-    100% {
-        transform: scale(1.3);
-        opacity: 0;
-    }
-}
-
-/* Title */
 .action-confirm-card h2 {
     font-size: 20px;
     color: var(--text-primary);
     margin: 0 0 10px;
     font-weight: 800;
     line-height: 1.4;
+    position: relative;
+    z-index: 3;
 }
 
-.action-confirm-card h2 .highlight {
-    color: var(--primary);
-}
+.action-confirm-card h2 .highlight { color: var(--primary); }
+.action-confirm-card.type-danger h2 .highlight { color: #D32F2F; }
+.action-confirm-card.type-warning h2 .highlight { color: #E65100; }
 
-.action-confirm-card.type-danger h2 .highlight {
-    color: #D32F2F;
-}
-
-.action-confirm-card.type-warning h2 .highlight {
-    color: #E65100;
-}
-
-/* Message */
 .action-confirm-card p {
     font-size: 14px;
     line-height: 1.8;
-    color: var(--text-secondary);
+    color: var(--text-primary);
     margin: 0 0 20px;
+    position: relative;
+    z-index: 3;
 }
 
-/* Habit info chip */
 .action-confirm-habit {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    background: var(--surface-variant);
+    background: rgba(255, 255, 255, 0.4);
     padding: 8px 16px;
     border-radius: 20px;
     margin-bottom: 18px;
     font-size: 14px;
     font-weight: 700;
     color: var(--text-primary);
+    position: relative;
+    z-index: 3;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
 }
 
-.action-confirm-habit i {
-    color: var(--primary);
-    font-size: 16px;
-}
+.action-confirm-habit i { color: var(--primary); font-size: 16px; }
 
-/* Warning box */
 .action-confirm-warning {
-    background: #FFF3E0;
+    background: rgba(255, 243, 224, 0.65);
     border-right: 4px solid #FF9800;
     padding: 12px 14px;
     border-radius: 10px;
     margin-bottom: 20px;
     text-align: right;
+    position: relative;
+    z-index: 3;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
 }
 
-.action-confirm-warning i {
-    color: #E65100;
-    margin-left: 6px;
-    font-size: 14px;
-}
+.action-confirm-warning i { color: #E65100; margin-left: 6px; font-size: 14px; }
 
 .action-confirm-warning span {
     font-size: 12px;
@@ -1273,35 +1476,27 @@
 }
 
 .action-confirm-card.type-danger .action-confirm-warning {
-    background: #FFEBEE;
+    background: rgba(255, 235, 238, 0.65);
     border-right-color: #F44336;
 }
 
-.action-confirm-card.type-danger .action-confirm-warning i {
-    color: #C62828;
-}
+.action-confirm-card.type-danger .action-confirm-warning i { color: #C62828; }
+.action-confirm-card.type-danger .action-confirm-warning span { color: #B71C1C; }
 
-.action-confirm-card.type-danger .action-confirm-warning span {
-    color: #B71C1C;
-}
-
-/* Actions */
 .action-confirm-actions {
     display: flex;
     gap: 10px;
+    position: relative;
+    z-index: 3;
 }
 
-.action-confirm-actions .btn {
-    flex: 1;
-    min-height: 46px;
-    font-weight: 700;
-}
+.action-confirm-actions .btn { flex: 1; min-height: 46px; font-weight: 700; }
 
 .action-confirm-actions .btn-danger {
     background: linear-gradient(135deg, #F44336, #D32F2F);
     color: white;
-    border: none;
-    box-shadow: 0 4px 12px rgba(244, 67, 54, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 12px rgba(244, 67, 54, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
 .action-confirm-actions .btn-danger:hover {
@@ -1312,8 +1507,8 @@
 .action-confirm-actions .btn-warning {
     background: linear-gradient(135deg, #FF9800, #F57C00);
     color: white;
-    border: none;
-    box-shadow: 0 4px 12px rgba(255, 152, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 12px rgba(255, 152, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
 .action-confirm-actions .btn-warning:hover {
@@ -1324,8 +1519,8 @@
 .action-confirm-actions .btn-primary-action {
     background: var(--primary-gradient);
     color: white;
-    border: none;
-    box-shadow: 0 4px 12px rgba(var(--primary-rgb), 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    box-shadow: 0 4px 12px rgba(13, 107, 110, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
 .action-confirm-actions .btn-outline {
@@ -1333,81 +1528,35 @@
     color: var(--text-secondary);
 }
 
-/* DARK MODE */
-
 .theme-dark .action-confirm-card {
-    background: var(--surface);
+    background: rgba(30, 30, 30, 0.4);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.theme-dark .action-confirm-card::before {
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.45), transparent);
 }
 
 .theme-dark .action-confirm-habit {
-    background: var(--surface-variant);
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
 }
 
-.theme-dark .action-confirm-warning {
-    background: rgba(255, 152, 0, 0.15);
-}
-
-.theme-dark .action-confirm-warning span {
-    color: #FFB74D;
-}
-
-.theme-dark .action-confirm-card.type-danger .action-confirm-warning {
-    background: rgba(244, 67, 54, 0.15);
-}
-
-.theme-dark .action-confirm-card.type-danger .action-confirm-warning span {
-    color: #EF9A9A;
-}
-
-/* RESPONSIVE */
-
-/*
-Button UI in JavaScript
-
-taeafiConfirm({
-    type: '...',           // info | warning | danger | etc...
-    icon: 'fa-...',        // icon
-    title: '...',          // title
-    message: '...',        // text msg
-    confirmText: '...',    // txt btn okay 
-    cancelText: '...'      // txt btn cancal
-}).then(function (ok) {
-    if (!ok) return;
-    
-});
-
-*/
+.theme-dark .action-confirm-warning { background: rgba(255, 152, 0, 0.2); }
+.theme-dark .action-confirm-warning span { color: #FFB74D; }
+.theme-dark .action-confirm-card.type-danger .action-confirm-warning { background: rgba(244, 67, 54, 0.2); }
+.theme-dark .action-confirm-card.type-danger .action-confirm-warning span { color: #EF9A9A; }
 
 @media (max-width: 400px) {
-    .action-confirm-card {
-        padding: 22px 16px 18px;
-        border-radius: 20px;
-    }
-
-    .action-confirm-icon {
-        width: 68px;
-        height: 68px;
-        font-size: 30px;
-        margin-bottom: 14px;
-    }
-
-    .action-confirm-card h2 {
-        font-size: 17px;
-    }
-
-    .action-confirm-card p {
-        font-size: 13px;
-    }
-
-    .action-confirm-actions {
-        flex-direction: column;
-    }
+    .action-confirm-card { padding: 22px 16px 18px; border-radius: 20px; }
+    .action-confirm-icon { width: 68px; height: 68px; font-size: 30px; margin-bottom: 14px; }
+    .action-confirm-card h2 { font-size: 17px; }
+    .action-confirm-card p { font-size: 13px; }
+    .action-confirm-actions { flex-direction: column; }
 }
 
 @media (prefers-reduced-motion: reduce) {
     .action-confirm-icon,
     .action-confirm-icon::before,
-    .action-confirm-card {
-        animation: none !important;
-    }
+    .action-confirm-card { animation: none !important; }
 }

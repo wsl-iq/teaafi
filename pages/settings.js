@@ -15,7 +15,7 @@
  * Default fallback version (must match the current release)
  */
 
-let ApplicationVersion = '3.0.0';
+let ApplicationVersion = '3.0.1';
 
 (function loadAppVersionFromFile() {
     try {
@@ -207,17 +207,43 @@ function renderSettingsPage() {
                     ${ThemesManager.getCurrent() === 'ramadan' ? '<i class="fas fa-check-circle" style="color: var(--primary);"></i>' : '<i class="far fa-circle" style="color: var(--text-disabled);"></i>'}
                 </div>
 
-                <div class="settings-item" onclick="ThemesManager.setTheme('liquid')" style="cursor: pointer;">
+                <div class="settings-item" onclick="confirmLiquidTheme()" style="cursor: pointer;">
                     <div style="display: flex; align-items: center; gap: 12px;">
                         <div style="width: 44px; height: 44px; border-radius: 12px; background: linear-gradient(135deg, rgba(13,107,110,0.8), rgba(38,166,154,0.6), rgba(224,242,241,0.9)); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center; border: 2px solid ${ThemesManager.getCurrent() === 'liquid' ? 'var(--primary)' : 'rgba(255,255,255,0.5)'}; box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);">
                             <i class="fas fa-droplet" style="color: white; font-size: 18px; text-shadow: 0 1px 2px rgba(0,0,0,0.2);"></i>
                         </div>
-                        <div>
+                        <div style="flex: 1;">
                             <span style="font-weight: 600;">الزجاج السائل</span>
-                            <p style="font-size: 11px; color: var(--text-tertiary);">تأثير شفاف بتصميم iOS — يتطلب متصفحاً حديثاً</p>
+                            <p style="font-size: 11px; color: var(--text-tertiary); margin-top: 2px;">تأثير شفاف بتصميم iOS — يتطلب متصفحاً حديثاً</p>
+                            <p style="font-size: 11px; color: #FF9800; margin-top: 4px; display: flex; align-items: flex-start; gap: 4px; line-height: 1.5;">
+                                <i class="fas fa-exclamation-triangle" style="font-size: 10px; margin-top: 2px;"></i>
+                                <span>قد يسبب بطئاً في الأجهزة الضعيفة</span>
+                            </p>
                         </div>
                     </div>
                     ${ThemesManager.getCurrent() === 'liquid' ? '<i class="fas fa-check-circle" style="color: var(--primary);"></i>' : '<i class="far fa-circle" style="color: var(--text-disabled);"></i>'}
+                </div>
+
+                <!-- تحذير تفصيلي أسفل الخيار -->
+                <div style="padding: 14px 18px; background: linear-gradient(135deg, rgba(255,152,0,0.08), rgba(244,67,54,0.05)); border-top: 1px solid rgba(255,152,0,0.2); border-bottom: 1px solid rgba(255,152,0,0.2);">
+                    <div style="display: flex; align-items: flex-start; gap: 10px;">
+                        <i class="fas fa-triangle-exclamation" style="color: #FF9800; font-size: 18px; flex-shrink: 0; margin-top: 2px;"></i>
+                        <div style="flex: 1;">
+                            <p style="font-size: 13px; font-weight: 700; color: var(--text-primary); margin-bottom: 6px;">
+                                تحذير: ثيم الزجاج السائل ثقيل
+                            </p>
+                            <ul style="font-size: 12px; color: var(--text-secondary); line-height: 1.8; padding-right: 16px; margin: 0; list-style: disc;">
+                                <li>قد يسبب <strong>بطئاً ملحوظاً</strong> في الأجهزة متوسطة أو ضعيفة المواصفات.</li>
+                                <li>قد يؤدي إلى <strong>ارتفاع حرارة الجهاز</strong> نتيجة استمرار معالجة GPU.</li>
+                                <li>يزيد من <strong>استهلاك البطارية</strong> بنسبة تتراوح بين 20% و 40%.</li>
+                                <li>يُنصح باستخدامه على <strong>الأجهزة الرائدة (Flagship)</strong> فقط.</li>
+                            </ul>
+                            <p style="font-size: 11px; color: #FF9800; margin-top: 8px; font-weight: 600;">
+                                <i class="fas fa-circle-info" style="margin-left: 4px;"></i>
+                                إذا لاحظت أي بطء أو سخونة، عُد للثيم الأخضر فوراً.
+                            </p>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="settings-item" onclick="openCustomThemeDialog()" style="cursor: pointer; border-bottom: none;">
@@ -648,7 +674,7 @@ function renderSettingsPage() {
                         </div>
                     </div>
                     <div style="display: flex; align-items: center; gap: 8px;">
-                        <span style="font-size: 11px; color: #E91E63; background: #FCE4EC; padding: 4px 10px; border-radius: 20px; font-weight: 500;">18 مميزات من</span>
+                        <span style="font-size: 11px; color: #E91E63; background: #FCE4EC; padding: 4px 10px; border-radius: 20px; font-weight: 500;">20 مميزات من</span>
                         <i class="fas fa-chevron-down" id="changelog-arrow" style="color: var(--text-tertiary); font-size: 14px; transition: transform 0.3s ease;"></i>
                     </div>
                 </div>
@@ -678,6 +704,8 @@ function renderSettingsPage() {
                         <li>16- أعادة بناء محرّك البحث المتقدم</li>
                         <li>17- تحسين واجهة صفحة تحليل الانتكاسات</li>
                         <li>18- أضافة ميزة تتبع التغيرات الهرمونية للرجال والنساء وتحليل مفصل مبني على الاحتمالات الموصوفة من المستخدمين</li>
+                        <li>19- أضافة ثيم Liuid Glass الجديد مع دعم الوضع الداكن و الوضع الفاتح</li>
+                        <li>20- أضافة ميزة تتبع التغيرات الهرمونية للرجال والنساء وتحليل مفصل مبني على الاحتمالات الموصوفة من المستخدمين</li>
 
                     </ul>
 
@@ -2612,8 +2640,6 @@ function resetCustomThemeFromDialog(btn, callback) {
     }
 }
 
-// حول
-
 /**
  * Reset all onboarding tips with a confirmation dialog.
  * After reset, takes the user to the home page where
@@ -2643,7 +2669,7 @@ function handleResetOnboardingTips() {
             showToast('تمت إعادة تعيين التلميحات');
         }
 
-        // خذ المستخدم للصفحة الرئيسية حيث تظهر تلميحات جديدة عند فتح الميزات
+        // Take the user to the home page, where new tips appear when features are opened.
         setTimeout(function () {
             if (typeof navigateTo === 'function') {
                 navigateTo('home');
@@ -2652,4 +2678,84 @@ function handleResetOnboardingTips() {
     });
 }
 
-// الثيمات
+/**
+ * Confirmation dialog before applying the Liquid Glass theme.
+ * Warns about performance impact on low-end devices.
+ */
+function confirmLiquidTheme() {
+    // If already active, just notify
+    if (typeof ThemesManager !== 'undefined' && ThemesManager.getCurrent() === 'liquid') {
+        if (typeof showToast === 'function') {
+            showToast('الزجاج السائل مُطبق بالفعل');
+        }
+        return;
+    }
+
+    var modal = document.createElement('div');
+    modal.className = 'modal-overlay';
+    modal.style.zIndex = '99999';
+    modal.innerHTML = `
+        <div class="modal-container liquid-warning-card">
+
+            <div class="liquid-warning-icon">
+                <i class="fas fa-triangle-exclamation"></i>
+            </div>
+
+            <h3 class="liquid-warning-title">تفعيل الزجاج السائل</h3>
+            <p class="liquid-warning-subtitle">
+                هذا الثيم يستخدم تأثيرات بصرية متقدمة قد تؤثر على أداء جهازك.
+            </p>
+
+            <div class="liquid-warning-effects">
+                <p class="liquid-warning-effects-title">
+                    <i class="fas fa-bolt"></i>
+                    قد يسبب:
+                </p>
+                <ul class="liquid-warning-effects-list">
+                    <li><strong>بطئاً</strong> في الواجهة والتمرير</li>
+                    <li><strong>ارتفاع حرارة</strong> الجهاز عند الاستخدام المطول</li>
+                    <li><strong>استهلاكاً أعلى للبطارية</strong></li>
+                </ul>
+            </div>
+
+            <div class="liquid-warning-recommend">
+                <p>
+                    <i class="fas fa-circle-check"></i>
+                    <span><strong>يُنصح به:</strong> للأجهزة الرائدة (Flagship) أو المتوسطة العليا فقط.</span>
+                </p>
+            </div>
+
+            <div class="liquid-warning-actions">
+                <button class="btn btn-outline" id="liquid-cancel">إلغاء</button>
+                <button class="btn btn-warning" id="liquid-confirm">
+                    <i class="fas fa-check"></i>
+                    موافق، فعّل
+                </button>
+            </div>
+
+            <p class="liquid-warning-note">
+                يمكنك العودة للثيم الأخضر في أي وقت من الإعدادات.
+            </p>
+        </div>
+    `;
+    document.body.appendChild(modal);
+
+    modal.querySelector('#liquid-cancel').addEventListener('click', function () {
+        modal.remove();
+    });
+
+    modal.querySelector('#liquid-confirm').addEventListener('click', function () {
+        modal.remove();
+        if (typeof ThemesManager !== 'undefined') {
+            ThemesManager.setTheme('liquid');
+        }
+    });
+
+    modal.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') modal.remove();
+    });
+
+    modal.addEventListener('click', function (e) {
+        if (e.target === modal) modal.remove();
+    });
+}

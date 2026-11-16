@@ -499,17 +499,22 @@
       End session manually
     */
 
-    function confirmExitForgetfulness() {
+    async function confirmExitForgetfulness() {
         if (!forgetfulnessState) {
             renderForgetfulnessPage();
             return;
         }
 
-        const confirmed = window.confirm(
-            'هل تريد إنهاء جلسة التسجيل الحالية؟\n\nسيتم فقدان التقدم الحالي.'
-        );
+        const confirmed = await taeafiConfirm({
+            type: 'warning',
+            icon: 'fa-triangle-exclamation',
+            title: 'إنهاء الجلسة؟',
+            message: 'سيتم فقدان التقدم الحالي.',
+            confirmText: 'إنهاء الجلسة',
+            cancelText: 'متابعة الصلاة'
+        });
 
-        if (!confirmed) return;
+        if (confirmed !== true) return;
 
         releaseWakeLock();
         forgetfulnessState = null;
